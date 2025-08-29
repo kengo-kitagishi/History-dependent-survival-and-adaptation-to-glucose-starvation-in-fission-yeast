@@ -1,0 +1,82 @@
+\chapter{Experimental setup}
+\section{Preparation of samples}
+
+\section{光学系の設計}
+4f光学系は、2枚のレンズとその間に配置されたフーリエ面から構成される光学システムであり、フーリエ変換および空間フィルタリングを実現するために用いられる。レンズの焦点距離を$f$とした場合、以下のように構成される：
+
+\mynote{図は自分でまた時間を作ってaffinity designerで書きましょう。}
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=1.0]
+
+% Planes
+\draw[thick] (-6,0) -- (-6,2); \node at (-6,-0.4) {物体面};
+\draw[very thick] (-4, -1) -- (-4, 3); \node at (-4,-0.4) {レンズ1};
+\draw[dashed, thick] (-1,0) -- (-1,2); \node at (-1,-0.4) {フーリエ面};
+\draw[very thick] (2, -1) -- (2, 3); \node at (2,-0.4) {レンズ2};
+\draw[thick] (5,0) -- (5,2); \node at (5,-0.4) {カメラ面};
+
+% Optical Axis
+\draw[->] (-6.5,1) -- (5.5,1) node[anchor=west] {光軸};
+
+% Grating diffraction rays
+\foreach \angle/\color in {-15/red, 0/blue, 15/green} {
+  \draw[->, \color, thick] (-6,1) --++ ({cos(\angle)*2},{sin(\angle)*2});
+}
+
+% After lens1 (refracted to focus at Fourier plane)
+\draw[->, red, thick] (-4,-0.5) -- (-1,1); % -1st order
+\draw[->, blue, thick] (-4,1) -- (-1,1);  % 0th order
+\draw[->, green, thick] (-4,2.5) -- (-1,1);  % +1st order
+
+% Filter at Fourier plane
+\draw[fill=white, draw=black] (-1,1) circle (0.2); % Pinhole
+\draw[fill=gray!30, draw=black, thick] (-1,1.5) circle (0.2); % blocks +2nd
+\draw[fill=gray!30, draw=black, thick] (-1,0.5) circle (0.2); % blocks -1st
+
+% After lens2 (0th is blocked, only green goes through)
+\draw[->, green, thick] (2,1) --++ (3,1) node[anchor=south west] {+1次光};
+
+% Show blocked beams
+\draw[dashed, red, thick] (-1,1) -- (2,0.2); % -1st
+\draw[dashed, blue, thick] (-1,1) -- (2,1); % 0th (also blocked)
+\draw[dashed, gray, thick] (-1,1) -- (2,1.8); % +2nd
+
+% Labels
+\node[red] at (-5,2.2) {-1次光};
+\node[blue] at (-4.9,1.2) {0次光};
+\node[green!60!black] at (-5,0.1) {+1次光};
+
+\node at (-1.5,2.5) {ピンホールフィルタ};
+
+\end{tikzpicture}
+\caption{回折格子によって分離された回折光を、4f光学系で空間フィルタリングし、+1次光のみを選択してカメラに導く構成。フーリエ面のピンホールが+1次成分だけを通過させ、角度を持った干渉縞を再構成する。}
+\end{figure}
+
+入力光波を $U_0(x)$ とし、レンズ1の前に置く。この光波は、レンズ1を通過するとフーリエ面上に以下のフーリエ変換された光が形成される：
+\begin{equation}
+U_f(f_x) = \mathcal{F}\{ U_0(x) \}
+\end{equation}
+ここで $\mathcal{F}$ はフーリエ変換、$f_x$ は空間周波数である。
+レンズ2はこのフーリエ成分を再度フーリエ変換するため、出力像は入力像の反転・等倍像として得られる：
+\begin{equation}
+U_{\text{out}}(x) = U_0(-x)
+\end{equation}
+フーリエ面に空間フィルタ $H(f_x)$ を配置することで、任意の周波数成分を選択的に通過・遮断できる。これは以下のような処理を意味する：
+今回はピンホールを0次光に対するローパスフィルターとしても用い、平面波化することで参照光として使えるようにした。
+\begin{equation}
+U_f'(f_x) = H(f_x) \cdot U_f(f_x)
+\end{equation}
+
+\begin{equation}
+U_{\text{out}}(x) = \mathcal{F}^{-1} \{ U_f'(f_x) \}
+\end{equation}
+
+\section{QPIのシークエンスデータの構築}
+\subsection{細胞が入っているMother Machineと細胞が入っていないMother Machine差分の評価}
+このようにして得られたホログラムから、位相画像を取得し差分をとる。その手順をまとめると以下の通り。
+1. サンプルホログラム、バックグラウンドホログラムをFourier 変換する。
+2. それぞれのFourier空間から、vis1, vis2 の干渉項をそれぞれクロップする。
+3. 逆Fourier 変換し、複素振幅画像の偏角をとることで4 枚の位相画像を得る。
+4. vis1, vis2 のそれぞれにおいて、サンプルの位相画像からバックグラウンドの位相画像を引くことで、バックグラウンド位相勾配を除去する。
+5. vis1, vis2 の2枚のバックグラウンド位相勾配のない画像の差分をとる。
