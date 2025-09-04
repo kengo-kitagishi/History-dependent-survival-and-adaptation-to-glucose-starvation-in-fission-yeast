@@ -12,17 +12,16 @@ jobs:
   run:
     runs-on: ubuntu-latest
     env:
-      # ← トークンは OVERLEAF_SYNC_TOKEN を参照
       NOTION_TOKEN: ${{ secrets.OVERLEAF_SYNC_TOKEN }}
-      # ← DB ID は従来どおり DOCS_DB_ID を参照（変えていなければこのまま）
-      NOTION_DATABASE_ID: ${{ secrets.DOCS_DB_ID }}
+      NOTION_DATABASE_ID: ${{ secrets.DOCS_DB_ID }}   # ←DB IDのSecret名はそのまま想定
       TZ: Asia/Tokyo
-      TARGET_BRANCH: main
+      # リポジトリのデフォルトブランチ名を自動で渡す（main/master等）
+      TARGET_BRANCH: ${{ github.event.repository.default_branch }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0    # 履歴すべて取得
 
       - name: Set up Python
         uses: actions/setup-python@v5
