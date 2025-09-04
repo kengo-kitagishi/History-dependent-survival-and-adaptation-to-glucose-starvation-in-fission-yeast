@@ -6,7 +6,7 @@ import pytz
 import requests
 import json
 
-NOTION_TOKEN = os.environ["NOTION_API_KEY"]
+NOTION_TOKEN = os.environ["NOTION_TOKEN"]          # ← YAMLのenvから受け取る
 NOTION_DATABASE_ID = os.environ["NOTION_DATABASE_ID"]
 REPO = os.environ.get("GITHUB_REPOSITORY", "")
 TARGET_BRANCH = os.environ.get("TARGET_BRANCH", "main")
@@ -22,14 +22,13 @@ def jst_midnight_range_of_yesterday(now=None):
 def run(cmd):
     res = subprocess.run(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     if res.returncode != 0:
-      raise RuntimeError(f"Command failed: {cmd}\n{res.stderr}")
+        raise RuntimeError(f"Command failed: {cmd}\n{res.stderr}")
     return res.stdout.strip()
 
 def collect_commits(since_dt, until_dt, branch):
-    # ISO8601（タイムゾーン付き）で指定
     since_iso = since_dt.isoformat()
     until_iso = until_dt.isoformat()
-    fmt = "%h|%an|%ad|%s|%H"  # 短SHA|Author|Date|Subject|FullSHA
+    fmt = "%h|%an|%ad|%s|%H"
     cmd = f'git log {branch} --no-merges --since="{since_iso}" --until="{until_iso}" --pretty=format:{fmt} --date=iso-strict'
     out = run(cmd)
     commits = []
@@ -57,7 +56,6 @@ def collect_numstat(sha):
         cols = line.split("\t")
         if len(cols) == 3:
             add, delete, path = cols
-            # バイナリは "-" が入る
             files.append({
                 "path": path,
                 "added": add,
@@ -68,7 +66,6 @@ def collect_numstat(sha):
 def build_markdown_summary(commits):
     if not commits:
         return "前日分のコミットはありませんでした。"
-
     lines = []
     for c in commits:
         url = f"https://github.com/{REPO}/commit/{c['sha']}" if REPO else ""
@@ -76,17 +73,14 @@ def build_markdown_summary(commits):
         if url:
             header += f" | [commit]({url})"
         lines.append(header)
-
-        # 変更ファイル（簡易numstat）
         files = collect_numstat(c["sha"])
         if files:
             lines.append("  変更ファイル:")
             for f in files:
                 lines.append(f"    - `{f['path']}` (+{f['added']} / -{f['deleted']})")
-        lines.append("")  # 空行
+        lines.append("")
     return "\n".join(lines)
 
-# ---------- Notion ----------
 NOTION_API_BASE = "https://api.notion.com/v1"
 NOTION_HEADERS = {
     "Authorization": f"Bearer {NOTION_TOKEN}",
@@ -95,14 +89,12 @@ NOTION_HEADERS = {
 }
 
 def create_notion_page(database_id, title, date_str, repo, commit_count, markdown):
-    # ページのプロパティ
     props = {
         "Name": {"title": [{"text": {"content": title}}]},
         "Date": {"date": {"start": date_str}},
         "Repo": {"rich_text": [{"text": {"content": repo}}]},
         "Commit Count": {"number": commit_count}
     }
-    # 本文はMarkdownをコードブロックで貼る（崩れにくい）
     children = [
         {
             "object": "block",
@@ -118,12 +110,11 @@ def create_notion_page(database_id, title, date_str, repo, commit_count, markdow
             }
         }
     ]
-    payload = {
+    r = requests.post(f"{NOTION_API_BASE}/pages", headers=NOTION_HEADERS, data=json.dumps({
         "parent": {"database_id": database_id},
         "properties": props,
         "children": children
-    }
-    r = requests.post(f"{NOTION_API_BASE}/pages", headers=NOTION_HEADERS, data=json.dumps(payload))
+    }))
     if r.status_code >= 300:
         raise RuntimeError(f"Notion create page failed: {r.status_code} {r.text}")
 
