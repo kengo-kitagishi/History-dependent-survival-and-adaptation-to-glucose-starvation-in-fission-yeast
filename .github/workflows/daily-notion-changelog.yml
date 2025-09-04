@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NOTION_TOKEN: ${{ secrets.OVERLEAF_SYNC_TOKEN }}
-      NOTION_DATABASE_ID: ${{ secrets.DOCS_DB_ID }}   # ←DB IDのSecret名はそのまま想定
+      NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}   # ←DB IDのSecret名はそのまま想定
       TZ: Asia/Tokyo
       # リポジトリのデフォルトブランチ名を自動で渡す（main/master等）
       TARGET_BRANCH: ${{ github.event.repository.default_branch }}
