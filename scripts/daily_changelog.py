@@ -140,11 +140,6 @@ def create_notion_page(database_id, title, date_str, repo, commit_count, markdow
     children = [
         {
             "object": "block",
-            "type": "paragraph",
-            "paragraph": {"rich_text": [{"type": "text", "text": {"content": "前日分の変更サマリー"}}]}
-        },
-        {
-            "object": "block",
             "type": "code",
             "code": {
                 "language": "markdown",
