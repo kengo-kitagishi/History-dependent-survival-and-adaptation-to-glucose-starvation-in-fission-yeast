@@ -1,28 +1,59 @@
-name: Daily Notion Changelog (JST)
+name: Daily Overleaf Sync & Notion Changelog (JST)
 
 on:
   schedule:
-    - cron: '5 15 * * *'   # JST 00:05
-  workflow_dispatch:
+    # JST 00:03 にOverleaf→GitHub同期 → 続けてNotion投稿
+    - cron: '3 15 * * *'   # UTC 15:03 = JST 00:03
+  workflow_dispatch:        # 手動実行も可能
 
 permissions:
-  contents: read
+  contents: write           # pull後にpushするので write 権限
 
 jobs:
   run:
     runs-on: ubuntu-latest
     env:
-      NOTION_TOKEN: ${{ secrets.OVERLEAF_SYNC_TOKEN }}
-      NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}   # ←DB IDのSecret名はそのまま想定
+      # --- Secrets（あなたの設定に合わせる）---
+      # Overleaf Git連携（記事に準拠）
+      OVERLEAF_TOKEN: ${{ secrets.OVERLEAF_TOKEN }}
+      OVERLEAF_PROJECT_ID: ${{ secrets.OVERLEAF_PROJECT_ID }}
+      # Notion（あなたの設定）
+      NOTION_TOKEN: ${{ secrets.OVERLEAF_SYNC_TOKEN }}         # ← Notion Integrationのトークン
+      NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}    # ← Database ID（ハイフン付き推奨）
+      # --- その他 ---
       TZ: Asia/Tokyo
-      # リポジトリのデフォルトブランチ名を自動で渡す（main/master等）
+      # Overleafは master がデフォルト。GitHub側の既定ブランチは自動解決してログ参照
       TARGET_BRANCH: ${{ github.event.repository.default_branch }}
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0    # 履歴すべて取得
+          fetch-depth: 0     # 履歴も参照するので0
 
+      # --- Overleaf → GitHub を同期（記事のやり方をCI化）---
+      - name: Pull from Overleaf (master)
+        run: |
+          git config pull.rebase false
+          # OverleafのGitは https://git.overleaf.com/<PROJECT_ID> 形式
+          # 認証は https://git:<TOKEN>@git.overleaf.com/<PROJECT_ID>
+          git pull https://git:${OVERLEAF_TOKEN}@git.overleaf.com/${OVERLEAF_PROJECT_ID} master
+
+      - name: Push to GitHub
+        run: |
+          # masterブランチへpush（GitHub側のデフォルトがmainでも、mirrorとしてmasterも持てます）
+          # 既定ブランチがmainでmasterを持たない場合は、初回だけ:
+          #   git branch -M master
+          #   git push -u origin master
+          git push origin master
+
+      # --- ここから Notion 投稿のための環境検証 ---
+      - name: Validate env for Notion
+        run: |
+          [ -n "$NOTION_TOKEN" ] || { echo "NOTION_TOKEN is empty"; exit 1; }
+          [ -n "$NOTION_DATABASE_ID" ] || { echo "NOTION_DATABASE_ID is empty"; exit 1; }
+
+      # --- Python セットアップ & 依存 ---
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -33,6 +64,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests pytz
 
-      - name: Run daily summary
+      # --- Notion へ前日分の変更サマリーを投稿 ---
+      - name: Run daily summary to Notion
         run: |
           python scripts/daily_changelog.py
