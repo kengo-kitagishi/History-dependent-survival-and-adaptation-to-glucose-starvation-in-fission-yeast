@@ -2,9 +2,8 @@ name: Daily Notion Changelog (JST)
 
 on:
   schedule:
-    # JST 00:05 に実行（UTC 15:05）
-    - cron: '5 15 * * *'
-  workflow_dispatch:  # 手動実行もできるように
+    - cron: '5 15 * * *'   # JST 00:05
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -13,16 +12,17 @@ jobs:
   run:
     runs-on: ubuntu-latest
     env:
-      # ← Secrets名は"notion"を含めない版
-      NOTION_TOKEN: ${{ secrets.DOCS_SYNC_TOKEN }}
+      # ← トークンは OVERLEAF_SYNC_TOKEN を参照
+      NOTION_TOKEN: ${{ secrets.OVERLEAF_SYNC_TOKEN }}
+      # ← DB ID は従来どおり DOCS_DB_ID を参照（変えていなければこのまま）
       NOTION_DATABASE_ID: ${{ secrets.DOCS_DB_ID }}
       TZ: Asia/Tokyo
-      TARGET_BRANCH: main  # 必要なら develop 等へ変更
+      TARGET_BRANCH: main
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # 過去コミットまで参照できるように
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
