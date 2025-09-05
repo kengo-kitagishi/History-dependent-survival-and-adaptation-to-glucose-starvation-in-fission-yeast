@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import pytz
 import requests
 import json
+import re
 
 NOTION_TOKEN = os.environ["NOTION_TOKEN"]
 NOTION_DATABASE_ID = os.environ["NOTION_DATABASE_ID"]
@@ -24,90 +25,38 @@ def run(cmd):
     if res.returncode != 0:
         raise RuntimeError(f"Command failed: {cmd}\n{res.stderr}")
     return res.stdout.strip()
-    
-def collect_diff_snippet(sha, max_change_lines=3):
-    """
-    コミットのdiffから、追加/削除行を最大 max_change_lines 件だけ抜粋。
-    （+++/--- のファイルヘッダは除外。hunk見出し(@@)は1つだけ表示）
-    """
-    # コンテキスト無し(-U0)で最小限の変更のみ取得
-    out = run(f'git show --no-color -U0 {sha}')
-    lines = out.splitlines()
-
-    snippet = []
-    change_count = 0
-    seen_hunk_header = False
-
-    for i, line in enumerate(lines):
-        # hunk ヘッダを最初の一つだけ表示
-        if line.startswith('@@ ') and not seen_hunk_header:
-            snippet.append(line)
-            seen_hunk_header = True
-            continue
-
-        # 実変更行（+++ / --- のファイル名行は除外）
-        if line.startswith('+') and not line.startswith('+++'):
-            snippet.append(line)
-            change_count += 1
-        elif line.startswith('-') and not line.startswith('---'):
-            snippet.append(line)
-            change_count += 1
-
-        if change_count >= max_change_lines:
-            break
-
-    if not snippet:
-        return ""  # 何も拾えない場合は空
-    return "\n".join(snippet)
 
 def resolve_branch():
-    """
-    1) 環境変数 TARGET_BRANCH（例: main/master）
-    2) origin/HEAD が指すブランチ（例: origin/main）
-    3) 現在のHEADのブランチ名（デタッチ時は 'HEAD' になるので非推奨）
-    を順に試して、'origin/<branch>' 形式で返す
-    """
-    # まず env を優先
+    # 1) env優先
     if TARGET_BRANCH_ENV:
-        # origin/<branch> が存在するか？
         try:
             run(f"git rev-parse --verify origin/{TARGET_BRANCH_ENV}")
             return f"origin/{TARGET_BRANCH_ENV}"
         except RuntimeError:
             pass
-
-    # origin/HEAD が指すデフォルトブランチを取得（例: origin/main）
+    # 2) origin/HEAD
     try:
-        head = run("git symbolic-ref --short refs/remotes/origin/HEAD")  # => origin/main
+        head = run("git symbolic-ref --short refs/remotes/origin/HEAD")  # e.g., origin/main
         if head.startswith("origin/"):
-            # 念のため verify
             run(f"git rev-parse --verify {head}")
             return head
     except RuntimeError:
         pass
-
-    # 最後のフォールバック：現在のブランチ名（デタッチの可能性あり）
+    # 3) 現在のブランチ
     try:
-        cur = run("git rev-parse --abbrev-ref HEAD")  # e.g., main or HEAD
+        cur = run("git rev-parse --abbrev-ref HEAD")
         if cur != "HEAD":
-            # origin/cur があるならそれを使う
             try:
                 run(f"git rev-parse --verify origin/{cur}")
                 return f"origin/{cur}"
             except RuntimeError:
-                # ローカルカレントブランチだけでも
                 run(f"git rev-parse --verify {cur}")
                 return cur
     except RuntimeError:
         pass
-
-    # それでも無理ならエラー
     raise RuntimeError("Could not resolve a valid branch to run git log against.")
 
 def collect_commits(since_dt, until_dt, branch_ref):
-    """
-    branch_ref は 'origin/main' のような参照名を想定
-    """
     since_iso = since_dt.isoformat()
     until_iso = until_dt.isoformat()
     fmt = "%h|%an|%ad|%s|%H"
@@ -140,39 +89,43 @@ def collect_numstat(sha):
             files.append({"path": path, "added": add, "deleted": delete})
     return files
 
+def collect_patch(sha):
+    """
+    差分本文（@@ 見出し + ±行のみ）を抽出。ファイル見出し(+++/---)やcontextは除外。
+    """
+    out = run(f'git show --format= --unified=0 --no-color {sha}')
+    keep = []
+    for line in out.splitlines():
+        if line.startswith('@@'):
+            keep.append(line)
+        elif line.startswith('+') or line.startswith('-'):
+            if line.startswith('+++') or line.startswith('---'):
+                continue
+            keep.append(line)
+    return "\n".join(keep)
+
 def build_markdown_summary(commits):
     if not commits:
         return "前日分のコミットはありませんでした。"
-
-    # 環境変数で抜粋行数を上書き可能（未指定なら3行）
-    max_lines = int(os.environ.get("NOTION_DIFF_LINES", "3"))
-
-    out_lines = []
+    lines = []
     for c in commits:
-        url = f"https://github.com/{REPO}/commit/{c['sha']}" if REPO else ""
-        header = f"- `{c['short']}` {c['subject']}  \n  Author: {c['author']} | Date: {c['date']}"
-        if url:
-            header += f" | [commit]({url})"
-        out_lines.append(header)
-
-        # 差分の短い抜粋を付ける
-        diff_snip = collect_diff_snippet(c["sha"], max_change_lines=max_lines)
-        if diff_snip:
-            out_lines.append("  変更内容（抜粋）:")
-            out_lines.append("```diff")
-            out_lines.append(diff_snip)
-            out_lines.append("```")
+        files = collect_numstat(c["sha"])
+        if files:
+            lines.append("変更ファイル（+/-）:")
+            for f in files:
+                lines.append(f"  {f['path']} (+{f['added']} / -{f['deleted']})")
         else:
-            # 何も拾えないときは従来の numstat を簡易表示（任意）
-            files = collect_numstat(c["sha"])
+            lines.append("変更ファイル（+/-）: なし")
+
+        patch = collect_patch(c["sha"])
+        if patch:
             if files:
-                out_lines.append("  変更ファイル:")
-                for f in files:
-                    out_lines.append(f"    - `{f['path']}` (+{f['added']} / -{f['deleted']})")
+                lines.append("")
+            lines.append(patch)
+        lines.append("")  # コミット間の区切り
+    return "\n".join(lines).strip()
 
-        out_lines.append("")  # 区切り
-    return "\n".join(out_lines)
-
+# ---------- Notion ----------
 NOTION_API_BASE = "https://api.notion.com/v1"
 NOTION_HEADERS = {
     "Authorization": f"Bearer {NOTION_TOKEN}",
@@ -180,39 +133,88 @@ NOTION_HEADERS = {
     "Content-Type": "application/json"
 }
 
+def fetch_db_schema(database_id):
+    r = requests.get(f"{NOTION_API_BASE}/databases/{database_id}", headers=NOTION_HEADERS)
+    if r.status_code >= 300:
+        raise RuntimeError(f"Failed to fetch DB schema: {r.status_code} {r.text}")
+    return r.json()
+
+def find_title_prop_name(schema):
+    props = schema.get("properties", {})
+    for name, meta in props.items():
+        if meta.get("type") == "title":
+            return name
+    raise RuntimeError("No title property found in the Notion database.")
+
 def create_notion_page(database_id, title, date_str, repo, commit_count, markdown):
-    props = {
-        "Name": {"title": [{"text": {"content": title}}]},
-        "Date": {"date": {"start": date_str}},
-        "Repo": {"rich_text": [{"text": {"content": repo}}]},
-        "Commit Count": {"number": commit_count}
+    # スキーマからタイトル列名を自動検出
+    schema = fetch_db_schema(database_id)
+    title_prop = find_title_prop_name(schema)
+
+    # 存在する場合のみ追加する任意プロパティ名を推測
+    def find_prop(cands):
+        props = schema.get("properties", {})
+        for cand in cands:
+            if cand in props:
+                return cand
+        # 大文字小文字違い吸収
+        lower = {k.lower(): k for k in props.keys()}
+        for cand in cands:
+            if cand.lower() in lower:
+                return lower[cand.lower()]
+        return ""
+
+    date_prop  = find_prop(["Date","日付","date"])
+    repo_prop  = find_prop(["Repo","Repository","リポジトリ","repo"])
+    count_prop = find_prop(["Commit Count","Commits","コミット数","commit count","commits"])
+
+    properties = {
+        title_prop: {"title": [{"text": {"content": title}}]}
     }
-    children = [
-        {
-            "object": "block",
-            "type": "code",
-            "code": {
-                "language": "markdown",
-                "rich_text": [{"type": "text", "text": {"content": markdown}}]
-            }
-        }
-    ]
-    r = requests.post(f"{NOTION_API_BASE}/pages", headers=NOTION_HEADERS, data=json.dumps({
+    if date_prop:
+        properties[date_prop] = {"date": {"start": date_str}}
+    if repo_prop:
+        properties[repo_prop] = {"rich_text": [{"text": {"content": repo}}]}
+    if count_prop:
+        properties[count_prop] = {"number": commit_count}
+
+    payload = {
         "parent": {"database_id": database_id},
-        "properties": props,
-        "children": children
-    }))
+        "properties": properties,
+        "children": [
+            {
+                "object": "block",
+                "type": "paragraph",
+                "paragraph": {
+                    "rich_text": [{"type": "text", "text": {"content": "前日分の変更サマリー"}}]
+                }
+            },
+            {
+                "object": "block",
+                "type": "code",
+                "code": {
+                    "language": "diff",  # 変更点だけが見やすい
+                    "rich_text": [{"type": "text", "text": {"content": markdown}}]
+                }
+            }
+        ]
+    }
+
+    r = requests.post(f"{NOTION_API_BASE}/pages", headers=NOTION_HEADERS, data=json.dumps(payload))
     if r.status_code >= 300:
         raise RuntimeError(f"Notion create page failed: {r.status_code} {r.text}")
 
 def main():
-    # ブランチ参照を解決（origin/main 等）
-    branch_ref = resolve_branch()
+    # Database ID ざっくり検証
+    if not re.match(r'^[0-9a-fA-F-]{32,36}$', NOTION_DATABASE_ID):
+        raise RuntimeError(f"NOTION_DATABASE_ID looks invalid or empty: '{NOTION_DATABASE_ID}'")
 
+    branch_ref = resolve_branch()
     y0, t0 = jst_midnight_range_of_yesterday()
     commits = collect_commits(y0, t0, branch_ref)
     md = build_markdown_summary(commits)
     title = f"{y0.strftime('%Y-%m-%d')} の変更"
+
     create_notion_page(
         NOTION_DATABASE_ID,
         title=title,
