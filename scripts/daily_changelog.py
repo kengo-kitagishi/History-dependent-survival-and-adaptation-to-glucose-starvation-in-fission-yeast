@@ -24,6 +24,41 @@ def run(cmd):
     if res.returncode != 0:
         raise RuntimeError(f"Command failed: {cmd}\n{res.stderr}")
     return res.stdout.strip()
+    
+def collect_diff_snippet(sha, max_change_lines=3):
+    """
+    コミットのdiffから、追加/削除行を最大 max_change_lines 件だけ抜粋。
+    （+++/--- のファイルヘッダは除外。hunk見出し(@@)は1つだけ表示）
+    """
+    # コンテキスト無し(-U0)で最小限の変更のみ取得
+    out = run(f'git show --no-color -U0 {sha}')
+    lines = out.splitlines()
+
+    snippet = []
+    change_count = 0
+    seen_hunk_header = False
+
+    for i, line in enumerate(lines):
+        # hunk ヘッダを最初の一つだけ表示
+        if line.startswith('@@ ') and not seen_hunk_header:
+            snippet.append(line)
+            seen_hunk_header = True
+            continue
+
+        # 実変更行（+++ / --- のファイル名行は除外）
+        if line.startswith('+') and not line.startswith('+++'):
+            snippet.append(line)
+            change_count += 1
+        elif line.startswith('-') and not line.startswith('---'):
+            snippet.append(line)
+            change_count += 1
+
+        if change_count >= max_change_lines:
+            break
+
+    if not snippet:
+        return ""  # 何も拾えない場合は空
+    return "\n".join(snippet)
 
 def resolve_branch():
     """
@@ -108,20 +143,35 @@ def collect_numstat(sha):
 def build_markdown_summary(commits):
     if not commits:
         return "前日分のコミットはありませんでした。"
-    lines = []
+
+    # 環境変数で抜粋行数を上書き可能（未指定なら3行）
+    max_lines = int(os.environ.get("NOTION_DIFF_LINES", "3"))
+
+    out_lines = []
     for c in commits:
         url = f"https://github.com/{REPO}/commit/{c['sha']}" if REPO else ""
         header = f"- `{c['short']}` {c['subject']}  \n  Author: {c['author']} | Date: {c['date']}"
         if url:
             header += f" | [commit]({url})"
-        lines.append(header)
-        files = collect_numstat(c["sha"])
-        if files:
-            lines.append("  変更ファイル:")
-            for f in files:
-                lines.append(f"    - `{f['path']}` (+{f['added']} / -{f['deleted']})")
-        lines.append("")
-    return "\n".join(lines)
+        out_lines.append(header)
+
+        # 差分の短い抜粋を付ける
+        diff_snip = collect_diff_snippet(c["sha"], max_change_lines=max_lines)
+        if diff_snip:
+            out_lines.append("  変更内容（抜粋）:")
+            out_lines.append("```diff")
+            out_lines.append(diff_snip)
+            out_lines.append("```")
+        else:
+            # 何も拾えないときは従来の numstat を簡易表示（任意）
+            files = collect_numstat(c["sha"])
+            if files:
+                out_lines.append("  変更ファイル:")
+                for f in files:
+                    out_lines.append(f"    - `{f['path']}` (+{f['added']} / -{f['deleted']})")
+
+        out_lines.append("")  # 区切り
+    return "\n".join(out_lines)
 
 NOTION_API_BASE = "https://api.notion.com/v1"
 NOTION_HEADERS = {
