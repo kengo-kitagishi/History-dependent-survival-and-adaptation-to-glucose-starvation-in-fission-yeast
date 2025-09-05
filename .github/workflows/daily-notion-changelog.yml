@@ -3,7 +3,7 @@ name: Daily Overleaf Sync & Notion Changelog (JST)
 on:
   schedule:
     # JST 00:03 にOverleaf→GitHub同期 → 続けてNotion投稿
-    - cron: '3 15 * * *'   # UTC 15:03 = JST 00:03
+    - cron: '10 15 * * *'   # UTC 15:03 = JST 00:03
   workflow_dispatch:        # 手動実行も可能
 
 permissions:
