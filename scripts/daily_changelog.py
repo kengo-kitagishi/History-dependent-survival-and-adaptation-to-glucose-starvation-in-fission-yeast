@@ -89,6 +89,9 @@ def collect_numstat(sha):
             files.append({"path": path, "added": add, "deleted": delete})
     return files
 
+def chunk_text(text, size=1800):
+    return [text[i:i+size] for i in range(0, len(text), size)] if text else []
+
 def collect_patch(sha):
     """
     差分本文（@@ 見出し + ±行のみ）を抽出。ファイル見出し(+++/---)やcontextは除外。
@@ -147,27 +150,35 @@ def find_title_prop_name(schema):
     raise RuntimeError("No title property found in the Notion database.")
 
 def create_notion_page(database_id, title, date_str, repo, commit_count, markdown):
-    # スキーマからタイトル列名を自動検出
+    """
+    NotionのDBに1ページ作成。
+    - タイトル列はスキーマから自動検出（type == "title"）
+    - Date / Repo / Commit Count はDBに列がある場合のみ設定
+    - 本文（diffテキスト）は2000字制限を避けるため1800字で分割し、複数のcodeブロックにして送信
+    """
+    # --- スキーマ取得 & タイトル列名の自動検出 ---
     schema = fetch_db_schema(database_id)
     title_prop = find_title_prop_name(schema)
 
-    # 存在する場合のみ追加する任意プロパティ名を推測
+    # 任意プロパティ（存在すれば採用）
     def find_prop(cands):
         props = schema.get("properties", {})
         for cand in cands:
             if cand in props:
                 return cand
-        # 大文字小文字違い吸収
+        # 大文字小文字違いの吸収
         lower = {k.lower(): k for k in props.keys()}
         for cand in cands:
-            if cand.lower() in lower:
-                return lower[cand.lower()]
+            key = lower.get(cand.lower())
+            if key:
+                return key
         return ""
 
-    date_prop  = find_prop(["Date","日付","date"])
-    repo_prop  = find_prop(["Repo","Repository","リポジトリ","repo"])
-    count_prop = find_prop(["Commit Count","Commits","コミット数","commit count","commits"])
+    date_prop  = find_prop(["Date", "日付", "date"])
+    repo_prop  = find_prop(["Repo", "Repository", "リポジトリ", "repo"])
+    count_prop = find_prop(["Commit Count", "Commits", "コミット数", "commit count", "commits"])
 
+    # --- プロパティ構築（存在する列だけ設定）---
     properties = {
         title_prop: {"title": [{"text": {"content": title}}]}
     }
@@ -178,26 +189,34 @@ def create_notion_page(database_id, title, date_str, repo, commit_count, markdow
     if count_prop:
         properties[count_prop] = {"number": commit_count}
 
+    # --- 本文を分割して複数の code(diff) ブロックに ---
+    code_blocks = []
+    for part in chunk_text(markdown, size=1800):  # 2000上限に余裕
+        code_blocks.append({
+            "object": "block",
+            "type": "code",
+            "code": {
+                "language": "diff",
+                "rich_text": [{"type": "text", "text": {"content": part}}]
+            }
+        })
+
+    # 先頭に簡単な見出し段落を1つ
+    children = [
+        {
+            "object": "block",
+            "type": "paragraph",
+            "paragraph": {
+                "rich_text": [{"type": "text", "text": {"content": "前日分の変更サマリー"}}]
+            }
+        },
+        *code_blocks
+    ]
+
     payload = {
         "parent": {"database_id": database_id},
         "properties": properties,
-        "children": [
-            {
-                "object": "block",
-                "type": "paragraph",
-                "paragraph": {
-                    "rich_text": [{"type": "text", "text": {"content": "前日分の変更サマリー"}}]
-                }
-            },
-            {
-                "object": "block",
-                "type": "code",
-                "code": {
-                    "language": "diff",  # 変更点だけが見やすい
-                    "rich_text": [{"type": "text", "text": {"content": markdown}}]
-                }
-            }
-        ]
+        "children": children
     }
 
     r = requests.post(f"{NOTION_API_BASE}/pages", headers=NOTION_HEADERS, data=json.dumps(payload))
