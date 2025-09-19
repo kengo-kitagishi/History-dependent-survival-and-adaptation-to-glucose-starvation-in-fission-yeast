@@ -201,17 +201,7 @@ def create_notion_page(database_id, title, date_str, repo, commit_count, markdow
             }
         })
 
-    # 先頭に簡単な見出し段落を1つ
-    children = [
-        {
-            "object": "block",
-            "type": "paragraph",
-            "paragraph": {
-                "rich_text": [{"type": "text", "text": {"content": "前日分の変更サマリー"}}]
-            }
-        },
-        *code_blocks
-    ]
+    children = code_blocks
 
     payload = {
         "parent": {"database_id": database_id},
