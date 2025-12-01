@@ -1,4 +1,409 @@
 \chapter*{Appendix A}
+\section{QPIにおけるノイズ評価}
+# Temporal Noise評価の詳細説明
+
+## 1. 概要：2種類の感度評価
+
+論文では、位相ノイズを**2つの異なる方法**で評価します：
+
+### **EXP (Experimental Sensitivity)**: 実験的感度
+- **時系列データから直接測定**
+- システム全体のノイズを反映（光源不安定性、振動、空気揺らぎなど）
+- 実際の測定性能
+
+### **ALG (Algorithm Sensitivity)**: アルゴリズム感度
+- **理論計算による予測値**
+- ショットノイズのみを考慮した理論限界
+- **単一ホログラムから計算可能**
+
+### **システム効率 = ALG / EXP × 100%**
+- 95%以上：システムは理論限界に近い（優秀）
+- 90%未満：システムに改善の余地あり（振動、光源不安定性など）
+
+---
+
+## 2. EXP感度の評価方法
+
+### 原理
+同じ条件で何百枚もホログラムを撮影し、各ピクセルの**時間的な標準偏差**を計算します。
+
+### 数式
+```
+σ_φ^EXP(x,y) = std_time[φ(x,y,t)]
+```
+
+位置(x,y)での位相φの時間変動の標準偏差
+
+### コードの流れ
+
+```python
+def calculate_EXP_sensitivity(holograms, params, use_unwrap=True):
+    """
+    holograms: shape (n_frames, height, width)
+    例: (800, 2048, 2048) = 800枚のホログラム
+    """
+    n_frames = holograms.shape[0]
+    phases = []
+    
+    # ステップ1: 各フレームの位相を再構成
+    for i in range(n_frames):
+        # Off-axis DHによる位相再構成
+        field = get_field(holograms[i], params)
+        phase = np.angle(field)  # -π ~ π
+        
+        # 位相アンラップ（±πの飛びを除去）
+        if use_unwrap:
+            phase = unwrap_phase(phase)  # 連続的な位相に変換
+        
+        phases.append(phase)
+    
+    phases = np.array(phases)  # shape: (800, 256, 256)
+    
+    # ステップ2: 各ピクセルの時間方向の標準偏差を計算
+    sigma_exp = np.std(phases, axis=0)  # axis=0は時間軸
+    # 結果: shape (256, 256)
+    # 各ピクセル(x,y)での時間的な位相変動
+    
+    return sigma_exp
+```
+
+### 詳細な処理の説明
+
+#### **位相再構成 `get_field()`**
+```python
+def get_field(hologram, params):
+    # 1. FFT
+    fft = np.fft.fft2(hologram)
+    fft_shifted = np.fft.fftshift(fft)
+    
+    # 2. サイドバンドをフィルタリング
+    mask = make_disk(params.offaxis_center, 
+                     params.aperturesize // 2, 
+                     params.img_shape)
+    filtered = fft_shifted * mask
+    
+    # 3. クロップ（必要な領域のみ抽出）
+    cropped = crop_array(filtered, 
+                         params.offaxis_center, 
+                         params.aperturesize)
+    
+    # 4. 逆FFTで複素振幅を取得
+    field = np.fft.ifft2(np.fft.ifftshift(cropped))
+    
+    return field  # 複素数: field = A*exp(iφ)
+```
+
+#### **位相アンラップ**
+```python
+# アンラップ前: -π ~ π の間で巻き込まれている
+phase_wrapped = np.angle(field)  # 例: [..., 3.1, -3.1, -3.0, ...]
+                                  #     ↑ ここで±πジャンプ
+
+# アンラップ後: 連続的な位相
+phase_unwrapped = unwrap_phase(phase_wrapped)  # [..., 3.1, 3.2, 3.3, ...]
+```
+
+#### **時間方向の標準偏差**
+```python
+# 例: 3ピクセル、5フレームの場合
+phases = np.array([
+    [0.01, 0.02, 0.03],  # フレーム0
+    [0.02, 0.03, 0.04],  # フレーム1
+    [0.00, 0.01, 0.02],  # フレーム2
+    [0.03, 0.04, 0.05],  # フレーム3
+    [0.01, 0.02, 0.03],  # フレーム4
+])
+
+# axis=0（時間方向）で標準偏差
+sigma = np.std(phases, axis=0)
+# 結果: [std([0.01,0.02,0.00,0.03,0.01]), 
+#        std([0.02,0.03,0.01,0.04,0.02]), 
+#        std([0.03,0.04,0.02,0.05,0.03])]
+```
+
+---
+
+## 3. ALG感度の評価方法（論文の核心）
+
+### 原理
+**単一ホログラムから理論的な感度を計算**します。これが論文の主要な貢献です。
+
+### 論文の導出（簡略版）
+
+#### **ホログラムの数式モデル（Eq. 1）**
+```
+I(m,n) = α(m,n) + β(m,n)·exp[i(φ_s(m,n) - k_M·m - k_N·n)] + c.c. + noise
+
+α: DC成分（0次光の強度）
+β: 干渉縞の振幅（1次光の強度）
+φ_s: サンプルの位相
+k_M, k_N: キャリア周波数
+```
+
+#### **ショットノイズモデル（Eq. 9）**
+Poisson統計より、各ピクセルのノイズ分散は：
+```
+Var[noise(m,n)] = I(m,n) / g
+
+g: カメラゲイン [電子/ADU]
+```
+
+#### **位相感度の導出（Eq. 10 → Eq. 12）**
+Fourier変換アルゴリズムを通した誤差伝播により：
+
+```
+σ_φ(m,n) = sqrt(S·α(m,n) / (2·g·M·N·β²(m,n)))
+
+S: フィルタ開口面積（ピクセル数）
+M×N: ホログラム全体のピクセル数
+α, β: 各ピクセルのDC成分と干渉縞振幅
+```
+
+これを**フリンジ視認性 V = 2β/α** で書き直すと：
+```
+σ_φ(m,n) = sqrt(2S / (g·M·N·α(m,n)·V²(m,n)))
+```
+
+### コードの実装
+
+```python
+def calculate_ALG_sensitivity_shot_noise(hologram, params, camera_gain, 
+                                         filter_bandwidth_ratio=0.3):
+    """
+    論文 Eq. (12) の実装
+    """
+    # ステップ1: α（DC成分）とβ（干渉縞振幅）を抽出
+    alpha, beta = extract_alpha_beta(hologram, params)
+    
+    # ステップ2: フィルタ開口面積 S の計算
+    # キャリア周波数までの距離
+    carrier_distance = sqrt(
+        (params.offaxis_center[0] - params.img_center[0])² + 
+        (params.offaxis_center[1] - params.img_center[1])²
+    )
+    
+    # フィルタ半径
+    radius = filter_bandwidth_ratio * carrier_distance
+    
+    # 円形開口の面積
+    S = π * radius²
+    
+    # ステップ3: Eq. (12) の計算
+    M, N = params.img_shape
+    g = camera_gain
+    
+    sigma_phi = sqrt(S * alpha / (2 * g * M * N * beta²))
+    
+    return sigma_phi
+```
+
+### `extract_alpha_beta()` の詳細
+
+```python
+def extract_alpha_beta(hologram, params):
+    """
+    ホログラムからα（DC）とβ（AC）を抽出
+    """
+    # FFT
+    fft_holo = np.fft.fftshift(np.fft.fft2(hologram))
+    
+    # === α（DC成分）の抽出 ===
+    # 中心（0次光）にディスク型フィルタ
+    dc_mask = make_disk(
+        params.img_center,           # 中心座標 (M/2, N/2)
+        params.aperturesize // 2,    # 半径
+        params.img_shape
+    )
+    
+    dc_fft = fft_holo * dc_mask      # フィルタリング
+    dc_cropped = crop_array(dc_fft, params.img_center, params.aperturesize)
+    dc_field = np.fft.ifft2(np.fft.ifftshift(dc_cropped))
+    
+    # スケーリング補正
+    scale = params.aperturesize / params.img_shape[0]
+    alpha = np.abs(dc_field) * scale²
+    
+    # === β（サイドバンド振幅）の抽出 ===
+    # off-axis位置（1次光）にディスク型フィルタ
+    sb_mask = make_disk(
+        params.offaxis_center,       # サイドバンドの中心
+        params.aperturesize // 2,
+        params.img_shape
+    )
+    
+    sb_fft = fft_holo * sb_mask
+    sb_cropped = crop_array(sb_fft, params.offaxis_center, params.aperturesize)
+    sb_field = np.fft.ifft2(np.fft.ifftshift(sb_cropped))
+    
+    beta = np.abs(sb_field) * scale²
+    
+    return alpha, beta
+```
+
+### 視覚的な説明
+
+```
+ホログラムのFFT:
+     
+     ┌─────────────────┐
+     │                 │
+     │    ●            │  ● = DC (0次光) → α
+     │  (中心)         │
+     │                 │
+     │         ◉       │  ◉ = サイドバンド (1次光) → β
+     │    (off-axis)   │
+     │                 │
+     └─────────────────┘
+
+フィルタリング:
+1. DC周りに円形マスク → α
+2. サイドバンド周りに円形マスク → β
+3. 逆FFTして振幅を取得
+```
+
+---
+
+## 4. なぜALGは単一画像から計算できるのか？
+
+### 重要な洞察
+
+EXPは「実際の時間変動を測定」しますが、ALGは「ショットノイズの統計的性質から計算」します。
+
+#### **ショットノイズの性質**
+```
+光子数 N の Poisson 分布:
+- 平均 = N
+- 分散 = N
+- 標準偏差 = √N
+```
+
+カメラで測定される強度 I [ADU] は：
+```
+I = N / g  （g: カメラゲイン [電子/ADU]）
+
+したがって:
+std[I] = √N / g = √(I·g) / g = √(I/g)
+```
+
+つまり、**1枚の画像の強度値から、そのピクセルのノイズレベルが予測できる**！
+
+#### **位相への伝播**
+
+1. ホログラム強度のノイズ → Fourier変換 → 複素振幅のノイズ
+2. 複素振幅のノイズ → 位相抽出 → 位相ノイズ
+
+この誤差伝播を数学的に追跡したのが論文のEq. (1)～(12)です。
+
+---
+
+## 5. フィルタリングの効果
+
+### なぜフィルタサイズ S が重要か？
+
+```python
+σ_φ ∝ √(S / (M·N))
+```
+
+- **S が小さい**: ノイズが減る（フィルタで高周波ノイズ除去）
+- **S が大きい**: 空間分解能が上がる
+
+### 最適なフィルタサイズ
+
+論文 Fig. 2(f) より：
+```
+- 2r/M < 20%: サンプル情報が失われる
+- 2r/M = 25-35%: 最適（Eq. (12)の誤差 < 2%）
+- 2r/M > 40%: 高周波ノイズが除去されず、理論が成立しない
+```
+
+コードでは：
+```python
+filter_bandwidth_ratio = 0.3  # = 30%
+
+radius = 0.3 * carrier_distance
+S = π * radius²
+```
+
+---
+
+## 6. 実際の計算例
+
+### 数値例
+
+仮定：
+- ホログラム: 2048×2048 ピクセル
+- カメラゲイン: g = 34.4 e⁻/ADU
+- キャリア周波数: 中心から512ピクセル離れている
+- フィルタ比率: 30%
+
+計算：
+```python
+# フィルタ半径
+radius = 0.3 * 512 = 153.6 ピクセル
+
+# フィルタ開口面積
+S = π * 153.6² ≈ 74,000 ピクセル
+
+# あるピクセルでの値（例）
+alpha = 1000 ADU
+beta = 400 ADU
+M = N = 2048
+
+# ALG感度
+sigma_phi = sqrt(74000 * 1000 / (2 * 34.4 * 2048 * 2048 * 400²))
+          = sqrt(74000000 / (2 * 34.4 * 4194304 * 160000))
+          ≈ 0.0015 rad
+          ≈ 1.5 mrad
+```
+
+波長663nmでのOPL感度：
+```python
+sigma_L = sigma_phi / (2π/λ)
+        = 0.0015 * 663e-9 / (2π)
+        ≈ 0.16 nm
+```
+
+---
+
+## 7. システム効率の意味
+
+```python
+efficiency = (sigma_alg / sigma_exp) * 100
+```
+
+### 解釈
+
+- **100%**: 理論限界（ショットノイズのみ）
+- **95-100%**: 優秀（システムノイズが最小限）
+- **90-95%**: 良好（わずかな改善余地あり）
+- **< 90%**: 要改善
+  - 光源の強度揺らぎ
+  - 機械的振動
+  - 空気の揺らぎ
+  - 温度ドリフト
+
+### システム改善の指針
+
+効率が低い場合：
+1. 除振台の強化
+2. 光源の安定化（温度制御、電流制御）
+3. エアカーテンで空気揺らぎを低減
+4. 測定時間の短縮
+
+---
+
+## 8. まとめ
+
+| 項目 | EXP | ALG |
+|------|-----|-----|
+| **入力** | 時系列ホログラム（800枚） | 単一ホログラム（1枚） |
+| **計算方法** | 時間方向の標準偏差 | 理論式（Eq. 12） |
+| **反映する要因** | システム全体のノイズ | ショットノイズのみ |
+| **計算コスト** | 高い（全フレーム処理） | 低い（1枚のみ） |
+| **用途** | 実際の性能評価 | 理論限界・システム診断 |
+
+**システム効率 = ALG/EXP** により、ハードウェアの改善余地を定量評価できます。
+\subsection{shot-noise in off-axisDigital Holography}
 \section{人工細胞系における細胞質密度とその粘性制御}
 人工細胞は、生細胞の特定の機能を模倣するように設計された最小限のシステムである。細胞の重要な要素の一つは、生化学反応が進行する細胞質環境である。生きた細胞では、細胞質はタンパク質や核酸などの高分子物質が密集した溶液であり、細胞体積の約20～40\%を占めている。この高い細胞質密度（通常、高分子約0.2～0.3 g/mL）は「高分子混雑」と呼ばれ、粘度のような物理的特性や、酵素反応速度、タンパク質折り畳み、分子拡散などの生物学的プロセスに重大な影響を及ぼす。人工細胞が反応容器として機能するためには、この混雑した内部環境を再現しつつ、流動性のある液体状態を維持することが不可欠である。本節では、細胞質密度と粘度の定量的関係、混雑による粘度が生化学反応や拡散に与える影響について議論する。
 \subsection{Cytoplasmic Density vs. Viscosity: Quantitative Relationships}
