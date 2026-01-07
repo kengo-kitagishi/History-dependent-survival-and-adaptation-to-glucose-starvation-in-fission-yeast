@@ -1,23 +1,21 @@
 \chapter{Experimental setup}
 \section{Preparation of samples}
-\section{Off-Axis QPI principle and the schmatic of QPI}
+
+\section{Off-Axis QPI principle and the schematic of QPI}
 QPI is the optimal method for the quantitative measurement of intracellular molecular distributions. 
 We employ QPI for quantitative measures of the induced phase shift.
 The 632 nm pulses delivered with a single-mode optical fiber are collimated 
-
 The light transmitted through the sample is replicated by a diffraction grating, and the zeroth-order diffracted light is low-pass filtered with a pinhole placed in the Fourier plane, thus converted to a quasi-plane wave that acts as the reference light. 
-
 The first-order diffraction light is used as the object light, which contains information on the optical phase delay induced by the sample. 
-
 Interference fringes between the two lights are captured as an off-axis hologram with an image sensor after relay lenses in a 4f configuration, from which the phase  image is numerically reconstructed. 
-
 The experimentally evaluated spatial resolution of QPI is hoge nm, determined by the NA of the objective lens. 
-
 Our system is resistant to hoge noise due to hoge.
 
-Spatial NoiseはSOSAの論文を参考にする
+\section{Optical system of QPI}
+The light source consisted of a 658 nm, 20 mW single-mode fiber-pigtailed laser diode (LP660-SF20, Thorlabs) mounted in an LDM9LP mount. The laser was controlled by an LDC202C benchtop LD current controller (±200 mA) and a TED200C temperature controller (12 W, Thorlabs), connected via CAB400 and CAB420-15 cables, respectively.
+The output beam was collimated using an FC/PC fiber collimator (CFC2-B, f = 2.0 mm, Thorlabs). The optical path included two achromatic doublet lenses (ACT508-200-A, f = 200 mm, Ø2", Thorlabs) and a Ronchi ruling grating (120 lines per mm, Edmund Optics #66-342) and passed through a 25 μm pinhole (P25K, Thorlabs).
+Images were acquired using a monochrome USB 3.0 CMOS camera (acA2440-75, Basler ace, 2448 × 2048 pixels).
 
-\section{光学系の設計}
 4f光学系は、2枚のレンズとその間に配置されたフーリエ面から構成される光学システムであり、フーリエ変換および空間フィルタリングを実現するために用いられる。レンズの焦点距離を$f$とした場合、以下のように構成される：
 
 \mynote{図は自分でまた時間を作ってaffinity designerで書きましょう。}
@@ -26,44 +24,6 @@ Spatial NoiseはSOSAの論文を参考にする
 \begin{tikzpicture}[scale=1.0]
 
 % Planes
-\draw[thick] (-6,0) -- (-6,2); \node at (-6,-0.4) {物体面};
-\draw[very thick] (-4, -1) -- (-4, 3); \node at (-4,-0.4) {レンズ1};
-\draw[dashed, thick] (-1,0) -- (-1,2); \node at (-1,-0.4) {フーリエ面};
-\draw[very thick] (2, -1) -- (2, 3); \node at (2,-0.4) {レンズ2};
-\draw[thick] (5,0) -- (5,2); \node at (5,-0.4) {カメラ面};
-
-% Optical Axis
-\draw[->] (-6.5,1) -- (5.5,1) node[anchor=west] {光軸};
-
-% Grating diffraction rays
-\foreach \angle/\color in {-15/red, 0/blue, 15/green} {
-  \draw[->, \color, thick] (-6,1) --++ ({cos(\angle)*2},{sin(\angle)*2});
-}
-
-% After lens1 (refracted to focus at Fourier plane)
-\draw[->, red, thick] (-4,-0.5) -- (-1,1); % -1st order
-\draw[->, blue, thick] (-4,1) -- (-1,1);  % 0th order
-\draw[->, green, thick] (-4,2.5) -- (-1,1);  % +1st order
-
-% Filter at Fourier plane
-\draw[fill=white, draw=black] (-1,1) circle (0.2); % Pinhole
-\draw[fill=gray!30, draw=black, thick] (-1,1.5) circle (0.2); % blocks +2nd
-\draw[fill=gray!30, draw=black, thick] (-1,0.5) circle (0.2); % blocks -1st
-
-% After lens2 (0th is blocked, only green goes through)
-\draw[->, green, thick] (2,1) --++ (3,1) node[anchor=south west] {+1次光};
-
-% Show blocked beams
-\draw[dashed, red, thick] (-1,1) -- (2,0.2); % -1st
-\draw[dashed, blue, thick] (-1,1) -- (2,1); % 0th (also blocked)
-\draw[dashed, gray, thick] (-1,1) -- (2,1.8); % +2nd
-
-% Labels
-\node[red] at (-5,2.2) {-1次光};
-\node[blue] at (-4.9,1.2) {0次光};
-\node[green!60!black] at (-5,0.1) {+1次光};
-
-\node at (-1.5,2.5) {ピンホールフィルタ};
 
 \end{tikzpicture}
 \caption{回折格子によって分離された回折光を、4f光学系で空間フィルタリングし、+1次光のみを選択してカメラに導く構成。フーリエ面のピンホールが+1次成分だけを通過させ、角度を持った干渉縞を再構成する。}
@@ -87,15 +47,26 @@ U_f'(f_x) = H(f_x) \cdot U_f(f_x)
 \begin{equation}
 U_{\text{out}}(x) = \mathcal{F}^{-1} \{ U_f'(f_x) \}
 \end{equation}
+\section{Reconstruction Procedure of QPI}
+We describe the image-reconstruction procedure in our QPI. 
+In Fig.??, we use experimental data to explain image-processing workflow.
+まず、サンプル画像とバックグラウンド画像を取得し、2次元高速フーリエ変換(2D-FFT)を適用し、周波数空間における干渉パターンを可視化した。オフ軸ホログラフィーにおいて、周波数空間では0次光と±1次光のピークが分離して観測される。我々は+1次光のピーク位置を特定し、その中心座標 $(y_{\text{off}}, x_{\text{off}})$ を手動で決定した。開口サイズは開口数(NA)と波長($\lambda$)、ピクセルサイズから以下の式で計算される
+$$
+r_{\text{aperture}} = \frac{NA}{\lambda} \cdot \text{pixelsize} \cdot N
+$$
+ここで、$N$は画像サイズである。
+周波数空間において、+1次光のピーク位置を中心とする円形開口フィルタを適用し、空間フィルタリングを実行した。フィルタリング後の周波数データに対して逆フーリエ変換(IFFT)を行い、複素電場 $U(x,y) = A(x,y) \exp[i\phi(x,y)]$ を取得した。ここで、$A(x,y)$は振幅、$\phi(x,y)$は位相を表す。
+位相情報 $\phi(x,y)$ は $-\pi$ から $\pi$ の範囲で折り返されているため、位相アンラッピングアルゴリズムを適用し、連続的な位相分布を復元した。
+サンプル画像とバックグラウンド画像の両方に対して同じ処理を実施し、最終的な位相画像は以下の差分処理によって得られた
+$$
+\phi_{\text{final}}(x,y) = \phi_{\text{sample}}(x,y) - \phi_{\text{bg}}(x,y)
+$$
+さらに、バックグラウンド領域の平均値を差し引くことで、位相画像のオフセットを除去し、絶対位相値を0に規格化した。
+この一連の処理により、サンプルによる光路長差を定量的に可視化した位相画像が得られる。位相値 $\phi$ から光路長差 $\Delta OPL$ への変換は、$\Delta OPL = \phi \lambda / 2\pi$ によって行われる。
 
-\section{QPIのシークエンスデータの構築}
-\subsection{細胞が入っているMother Machineと細胞が入っていないMother Machine差分の評価}
-このようにして得られたホログラムから、位相画像を取得し差分をとる。その手順をまとめると以下の通り。
-1. サンプルホログラム、バックグラウンドホログラムをFourier 変換する。
-2. それぞれのFourier空間から、vis1, vis2 の干渉項をそれぞれクロップする。
-3. 逆Fourier 変換し、複素振幅画像の偏角をとることで4 枚の位相画像を得る。
-4. vis1, vis2 のそれぞれにおいて、サンプルの位相画像からバックグラウンドの位相画像を引くことで、バックグラウンド位相勾配を除去する。
-5. vis1, vis2 の2枚のバックグラウンド位相勾配のない画像の差分をとる。
+\subsection{Fig. ?? Reconstruction of the images angle}
+\section{Image analysis}
+Omniposeによる輪郭線抽出をあのsucjuunの論文くらい詳しく書く。
 
 \section{Microfluidic device fabrication}
 
