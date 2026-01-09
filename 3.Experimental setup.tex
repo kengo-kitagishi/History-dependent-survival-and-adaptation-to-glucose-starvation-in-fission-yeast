@@ -1,22 +1,9 @@
 \chapter{Experimental setup}
 \section{Preparation of samples}
-
-\section{Off-Axis QPI principle and the schematic of QPI}
-QPI is the optimal method for the quantitative measurement of intracellular molecular distributions. 
-We employ QPI for quantitative measures of the induced phase shift.
-The 632 nm pulses delivered with a single-mode optical fiber are collimated 
-The light transmitted through the sample is replicated by a diffraction grating, and the zeroth-order diffracted light is low-pass filtered with a pinhole placed in the Fourier plane, thus converted to a quasi-plane wave that acts as the reference light. 
-The first-order diffraction light is used as the object light, which contains information on the optical phase delay induced by the sample. 
-Interference fringes between the two lights are captured as an off-axis hologram with an image sensor after relay lenses in a 4f configuration, from which the phase  image is numerically reconstructed. 
-The experimentally evaluated spatial resolution of QPI is hoge nm, determined by the NA of the objective lens. 
-Our system is resistant to hoge noise due to hoge.
-
 \section{Optical system of QPI}
-The light source consisted of a 658 nm, 20 mW single-mode fiber-pigtailed laser diode (LP660-SF20, Thorlabs) mounted in an LDM9LP mount. The laser was controlled by an LDC202C benchtop LD current controller (±200 mA) and a TED200C temperature controller (12 W, Thorlabs), connected via CAB400 and CAB420-15 cables, respectively.
-The output beam was collimated using an FC/PC fiber collimator (CFC2-B, f = 2.0 mm, Thorlabs). The optical path included two achromatic doublet lenses (ACT508-200-A, f = 200 mm, Ø2", Thorlabs) and a Ronchi ruling grating (120 lines per mm, Edmund Optics #66-342) and passed through a 25 μm pinhole (P25K, Thorlabs).
-Images were acquired using a monochrome USB 3.0 CMOS camera (acA2440-75, Basler ace, 2448 × 2048 pixels).
 
-4f光学系は、2枚のレンズとその間に配置されたフーリエ面から構成される光学システムであり、フーリエ変換および空間フィルタリングを実現するために用いられる。レンズの焦点距離を$f$とした場合、以下のように構成される：
+The optical system of QPI is described in Fig. ??. The light source consisted of a 658 nm, 20 mW single-mode fiber-pigtailed laser diode (LP660-SF20, Thorlabs) mounted in an LDM9LP mount. The laser was controlled by an LDC202C benchtop LD current controller (±200 mA) and a TED200C temperature controller (12 W, Thorlabs), connected via CAB400 and CAB420-15 cables, respectively. The output beam was collimated using an FC/PC fiber collimator (CFC2-B, $f$ = 2.0 mm, Thorlabs) to illuminate the sample. 
+The optical field transmitted through the sample was magnified with a 40× objective lens (LUCPLFLN40X, Olympus, NA = 0.95) and replicated with a Ronchi ruling grating (120 lines per mm, Edmund Optics \#66-342). We employ diffraction phase microscopy (i.e., common-path off-axis DH) as the QPM. The first-order diffraction light is used as the object light, while the zeroth-order diffraction light low-pass filtered with a 25 μm pinhole (P25K, Thorlabs) placed at the Fourier plane is converted to a quasi-plane wave that acts as the reference light. The interferogram between these states in the off-axis configuration is recorded with a monochrome USB 3.0 CMOS camera (acA2440-75, Basler ace, 2448 × 2048 pixels, pixel size of 3.45 μm, full-well capacity of $\sim$10 ke$^-$) after relay lenses (ACT508-200-A, $f$ = 200 mm, Ø2", Thorlabs) in a 4f configuration. The number of pixels in the raw hologram and reconstructed OPD image are 2048 × 2048 and 507 × 507, respectively. The pixel size of the OPD image is set to the diffraction limit of $\sim$350 nm, determined by the NA of the objective lens.
 
 \mynote{図は自分でまた時間を作ってaffinity designerで書きましょう。}
 \begin{figure}[h]
@@ -29,47 +16,415 @@ Images were acquired using a monochrome USB 3.0 CMOS camera (acA2440-75, Basler 
 \caption{回折格子によって分離された回折光を、4f光学系で空間フィルタリングし、+1次光のみを選択してカメラに導く構成。フーリエ面のピンホールが+1次成分だけを通過させ、角度を持った干渉縞を再構成する。}
 \end{figure}
 
-入力光波を $U_0(x)$ とし、レンズ1の前に置く。この光波は、レンズ1を通過するとフーリエ面上に以下のフーリエ変換された光が形成される：
-\begin{equation}
-U_f(f_x) = \mathcal{F}\{ U_0(x) \}
-\end{equation}
-ここで $\mathcal{F}$ はフーリエ変換、$f_x$ は空間周波数である。
-レンズ2はこのフーリエ成分を再度フーリエ変換するため、出力像は入力像の反転・等倍像として得られる：
-\begin{equation}
-U_{\text{out}}(x) = U_0(-x)
-\end{equation}
-フーリエ面に空間フィルタ $H(f_x)$ を配置することで、任意の周波数成分を選択的に通過・遮断できる。これは以下のような処理を意味する：
-今回はピンホールを0次光に対するローパスフィルターとしても用い、平面波化することで参照光として使えるようにした。
-\begin{equation}
-U_f'(f_x) = H(f_x) \cdot U_f(f_x)
-\end{equation}
-
-\begin{equation}
-U_{\text{out}}(x) = \mathcal{F}^{-1} \{ U_f'(f_x) \}
-\end{equation}
 \section{Reconstruction Procedure of QPI}
-We describe the image-reconstruction procedure in our QPI. 
-In Fig.??, we use experimental data to explain image-processing workflow.
-まず、サンプル画像とバックグラウンド画像を取得し、2次元高速フーリエ変換(2D-FFT)を適用し、周波数空間における干渉パターンを可視化した。オフ軸ホログラフィーにおいて、周波数空間では0次光と±1次光のピークが分離して観測される。我々は+1次光のピーク位置を特定し、その中心座標 $(y_{\text{off}}, x_{\text{off}})$ を手動で決定した。開口サイズは開口数(NA)と波長($\lambda$)、ピクセルサイズから以下の式で計算される
-$$
-r_{\text{aperture}} = \frac{NA}{\lambda} \cdot \text{pixelsize} \cdot N
-$$
-ここで、$N$は画像サイズである。
-周波数空間において、+1次光のピーク位置を中心とする円形開口フィルタを適用し、空間フィルタリングを実行した。フィルタリング後の周波数データに対して逆フーリエ変換(IFFT)を行い、複素電場 $U(x,y) = A(x,y) \exp[i\phi(x,y)]$ を取得した。ここで、$A(x,y)$は振幅、$\phi(x,y)$は位相を表す。
-位相情報 $\phi(x,y)$ は $-\pi$ から $\pi$ の範囲で折り返されているため、位相アンラッピングアルゴリズムを適用し、連続的な位相分布を復元した。
-サンプル画像とバックグラウンド画像の両方に対して同じ処理を実施し、最終的な位相画像は以下の差分処理によって得られた
-$$
-\phi_{\text{final}}(x,y) = \phi_{\text{sample}}(x,y) - \phi_{\text{bg}}(x,y)
-$$
-さらに、バックグラウンド領域の平均値を差し引くことで、位相画像のオフセットを除去し、絶対位相値を0に規格化した。
-この一連の処理により、サンプルによる光路長差を定量的に可視化した位相画像が得られる。位相値 $\phi$ から光路長差 $\Delta OPL$ への変換は、$\Delta OPL = \phi \lambda / 2\pi$ によって行われる。
 
-\subsection{Fig. ?? Reconstruction of the images angle}
+\subsection{Light propagation and angular spectrum method}
+
+The propagation of monochromatic light in a homogeneous medium is governed by the Helmholtz equation:
+\begin{equation}
+\nabla^2 U(\mathbf{r}) + k^2 U(\mathbf{r}) = 0,
+\end{equation}
+where $k = 2\pi n/\lambda$ is the wavenumber, $n$ is the refractive index, $\lambda$ is the wavelength, and $\nabla^2 = \partial^2/\partial x^2 + \partial^2/\partial y^2 + \partial^2/\partial z^2$ is the Laplacian operator. The solution can be expressed as a superposition of plane waves with different spatial frequencies $(f_x, f_y)$:
+\begin{equation}
+U(x,y,z) = \int\int \tilde{U}(f_x, f_y, z) e^{2\pi i(f_x x + f_y y)} df_x df_y,
+\end{equation}
+where $\tilde{U}(f_x, f_y, z)$ is the angular spectrum. Substituting this into the Helmholtz equation yields the dispersion relation:
+\begin{equation}
+k_x^2 + k_y^2 + k_z^2 = k^2,
+\end{equation}
+where $k_x = 2\pi f_x$, $k_y = 2\pi f_y$, and
+\begin{equation}
+k_z = \sqrt{k^2 - k_x^2 - k_y^2} = \sqrt{k^2 - (2\pi f_x)^2 - (2\pi f_y)^2}
+\end{equation}
+is the z-component of the wavevector.
+
+For propagation from $z=0$ to $z=d$, each plane wave component acquires a phase factor $e^{i k_z d}$:
+\begin{equation}
+\tilde{U}(f_x, f_y, d) = \tilde{U}(f_x, f_y, 0) \cdot e^{i k_z d}.
+\end{equation}
+The field at distance $d$ is then obtained by inverse Fourier transformation:
+\begin{equation}
+U(x,y,d) = \mathcal{F}^{-1}\left\{\tilde{U}(f_x, f_y, 0) \cdot e^{i k_z d}\right\}.
+\end{equation}
+
+\subsection{Band-pass limitation by the objective lens}
+
+An objective lens with numerical aperture NA acts as a spatial frequency filter, passing only components with $\sqrt{f_x^2 + f_y^2} \leq \mathrm{NA}/\lambda$. The transmitted field spectrum is
+\begin{equation}
+\tilde{U}_{\mathrm{transmitted}}(f_x, f_y) = \tilde{U}_0(f_x, f_y) \cdot P(f_x, f_y),
+\end{equation}
+where $P(f_x, f_y)$ is the pupil function:
+\begin{equation}
+P(f_x, f_y) = \begin{cases}
+1 & \text{if } \sqrt{f_x^2 + f_y^2} \leq f_{\mathrm{cutoff}} = \mathrm{NA}/\lambda \\
+0 & \text{otherwise}
+\end{cases}.
+\end{equation}
+This band-pass limitation determines the spatial resolution through the Abbe diffraction limit:
+\begin{equation}
+\Delta x_{\mathrm{Abbe}} = \frac{\lambda}{\mathrm{NA}}
+\end{equation}
+for coherent illumination.
+
+\subsection{Phase recovery through interferometry}
+
+Since image sensors can only measure intensity $I = |U|^2$, the phase information $\phi$ in the complex field $U = A e^{i\phi}$ is lost upon detection. To recover the phase, we interfere the object field $U_s = A_s e^{i\phi_s}$ with a known reference field $U_r = A_r e^{i\phi_r}$. The detected intensity is
+\begin{equation}
+I = |U_s + U_r|^2 = |U_s|^2 + |U_r|^2 + U_s \cdot U_r^* + U_s^* \cdot U_r,
+\end{equation}
+which can be expanded as
+\begin{equation}
+I = A_s^2 + A_r^2 + 2A_s A_r \cos(\phi_s - \phi_r).
+\end{equation}
+The phase difference $\phi_s - \phi_r$ modulates the intensity as interference fringes. However, in an on-axis configuration, all four terms in Eq. (3.10) occupy the same region in Fourier space, preventing isolation of the phase-containing term $U_s \cdot U_r^*$.
+
+\subsection{Off-axis configuration}
+
+To separate the interferometric components in Fourier space, we introduce a carrier frequency by giving the reference field an off-axis wavevector $(k_m^{\mathrm{off-axis}}, k_n^{\mathrm{off-axis}})$, where $(m, n)$ denote discrete pixel indices. The reference field is then
+\begin{equation}
+U_r = A_r e^{i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)},
+\end{equation}
+and the interference pattern becomes
+\begin{equation}
+I_{m,n} = |U_s|^2 + |U_r|^2 + U_s \cdot U_r^* e^{-i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)} + U_s^* \cdot U_r e^{i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)}.
+\end{equation}
+
+Taking the 2D Fourier transform with reciprocal coordinates $(p,q)$, we obtain
+\begin{equation}
+\tilde{I}(p,q) = \tilde{I}_{\mathrm{DC}}(p,q) + \mathcal{F}\{U_s \cdot U_r^*\}(p + k_m^{\mathrm{off-axis}}, q + k_n^{\mathrm{off-axis}}) + \mathcal{F}\{U_s^* \cdot U_r\}(p - k_m^{\mathrm{off-axis}}, q - k_n^{\mathrm{off-axis}}).
+\end{equation}
+The three components are now spatially separated in Fourier space. By selecting the +1st-order sideband and applying inverse Fourier transformation, the complex field $U_s$ is isolated and its phase $\phi_s = \arg(U_s)$ is extracted.
+
+\subsection{Off-axis hologram formation}
+
+In off-axis DH, the interference patterns between the object field and reference field are captured with an image sensor. Assuming $z = 0$ as the sample location, the object field at the sensor is
+\begin{equation}
+E'_{m,n} = \frac{1}{M^2} \left(E_0 e^{i(k_m m + k_n n)} O_{m,n}\right),
+\end{equation}
+where $M$ is the magnification, $E_0$ is the incident field amplitude, $(k_m, k_n)$ is the carrier frequency, and $O_{m,n}$ contains the optical phase delay induced by the sample. The reference field is
+\begin{equation}
+R_{m,n} = R_0 e^{i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)}.
+\end{equation}
+
+The recorded hologram intensity at pixel $(m,n)$ is
+\begin{equation}
+I_{m,n}^{\mathrm{DH}} = \left|E'_{m,n} + R_{m,n}\right|^2 = |E'_{m,n}|^2 + |R_{m,n}|^2 + E'_{m,n} \cdot R_{m,n}^* + \mathrm{c.c.}
+\end{equation}
+This can be separated into interferometric terms ($J_{m,n}^{\mathrm{int}} e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}$ and its complex conjugate) and noninterferometric term ($J_{m,n}^{\mathrm{non-int}}$) as
+\begin{equation}
+I_{m,n}^{\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + (J_{m,n}^{\mathrm{int}})^* e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)},
+\end{equation}
+where $J_{m,n}^{\mathrm{non-int}} = |E'_{m,n}|^2 + |R_{m,n}|^2$ and $J_{m,n}^{\mathrm{int}} = E'_{m,n} \cdot R_{m,n}^*$.
+
+\subsection{Reconstruction procedure}
+
+The image-reconstruction procedure comprises (1) 2D discrete FT, (2) sideband centering, (3) low-pass (LP) filtering, and (4) 2D discrete inverse FT (IFT), followed by background subtraction. The 2D FT of the hologram is written as
+\begin{equation}
+i_{p,q}^{\mathrm{DH}} = j_{p,q}^{\mathrm{non-int}} + j_{p+k_m^{\mathrm{off-axis}}, q+k_n^{\mathrm{off-axis}}}^{\mathrm{int}} + j_{p-k_m^{\mathrm{off-axis}}, q-k_n^{\mathrm{off-axis}}}^{\mathrm{int}},
+\end{equation}
+where $(p,q)$ is the reciprocal coordinate of $(m,n)$. The three components are spatially separated in the Fourier space due to the off-axis wavevector.
+
+The interferometric term is extracted by first identifying the +1st-order sideband peak position $(p_{\mathrm{off}}, q_{\mathrm{off}})$ and then shifting the spatial frequency to center the sideband:
+\begin{equation}
+I_{m,n}^{(c)} = I_{m,n}^{\mathrm{DH}} \cdot e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}.
+\end{equation}
+A circular LP filter $H_{p,q}$ with radius
+\begin{equation}
+r_{\mathrm{aperture}} = \frac{2\pi \mathrm{NA}}{\lambda} \cdot N \cdot \Delta p
+\end{equation}
+is applied in the Fourier domain, where $N$ is the hologram size and $\Delta p$ is the pixel pitch at the object plane. This corresponds to the spatial frequency cutoff determined by the NA of the objective lens. After LP filtering, 2D discrete IFT is performed to obtain the phase:
+\begin{equation}
+\phi_{m,n}^{\mathrm{Meas}} = \arg[\mathrm{LP}(I_{m,n}^{(c)})].
+\end{equation}
+
+The OPD is obtained after removing the complex amplitude distribution of the illumination light without the sample (background):
+\begin{equation}
+\phi_{m,n} = \arg\left[\frac{\mathrm{LP}(I_{m,n}^{\mathrm{sample}} \cdot e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}{\mathrm{LP}(I_{m,n}^{\mathrm{bg}} \cdot e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}\right].
+\end{equation}
+The final OPD image is obtained by subtracting the mean value of the background region to remove the offset. The conversion from phase to OPD is performed as
+\begin{equation}
+\mathrm{OPD}(x,y) = \frac{\phi(x,y) \lambda}{2\pi}.
+\end{equation}
+
+\subsection{Spatial resolution and Fourier domain parameters}
+
+The spatial resolution in off-axis DH is determined by the NA of the objective lens and the discrete sampling in the Fourier domain. For coherent illumination, the spatial frequency cutoff imposed by the NA is
+\begin{equation}
+f_{\mathrm{cutoff}} = \frac{\mathrm{NA}}{\lambda},
+\end{equation}
+which corresponds to the Abbe diffraction limit given in Eq. (3.9).
+
+The aperture diameter in pixels is determined by the field of view (FOV) and the spatial frequency cutoff. For a hologram with $N \times N$ pixels and object-plane pixel pitch $\Delta p$, the FOV is $\mathrm{FOV} = N \cdot \Delta p$. The aperture diameter in pixels is
+\begin{equation}
+D_{\mathrm{ap}} = 2 \left\lfloor \frac{\mathrm{NA}}{\lambda} \cdot \mathrm{FOV} \right\rfloor + 1,
+\end{equation}
+where $\lfloor \cdot \rfloor$ denotes the floor function. This aperture size $D_{\mathrm{ap}}$ directly determines the size of the reconstructed OPD image. The reconstructed pixel size is
+\begin{equation}
+\Delta p_{\mathrm{recon}} = \frac{\mathrm{FOV}}{D_{\mathrm{ap}}} \approx \frac{\lambda}{2\mathrm{NA}}.
+\end{equation}
+
+Two stages of sampling must be considered in the system design. First, the raw hologram must satisfy the Nyquist sampling criterion to avoid aliasing:
+\begin{equation}
+\Delta p < \frac{\lambda}{2 \cdot \mathrm{NA}}.
+\end{equation}
+An oversampling factor of 2--4$\times$ is typical for robust hologram acquisition. Second, after Fourier filtering, the reconstructed OPD image pixel size is designed to match the Nyquist requirement, where one resolution element ($\lambda/\mathrm{NA}$) spans approximately two pixels.
+
+For our system with $\lambda = 658$ nm, NA = 0.95, 40$\times$ magnification, and camera pixel size of 3.45 μm, the key parameters are calculated as follows. The object-plane pixel pitch is $\Delta p = 3.45~\mu\mathrm{m}/40 = 86.25$ nm, yielding a FOV of $2048 \times 86.25$ nm = 176.6 μm. The Abbe limit for coherent illumination is $\Delta x_{\mathrm{Abbe}} = 658/0.95 = 692$ nm, and the Nyquist requirement is $\Delta p_{\mathrm{Nyquist}} = 658/(2 \times 0.95) = 346$ nm. The raw hologram sampling achieves an oversampling factor of $346/86.25 = 4.0\times$, ensuring aliasing-free acquisition. The aperture diameter is
+\begin{equation}
+D_{\mathrm{ap}} = 2\left\lfloor \frac{0.95}{658 \times 10^{-9}} \times 176.6 \times 10^{-6} \right\rfloor + 1 = 507~\mathrm{pixels},
+\end{equation}
+and the reconstructed pixel size is $\Delta p_{\mathrm{recon}} = 176.6~\mu\mathrm{m}/507 = 348$ nm, which closely matches the Nyquist requirement.
+
+\subsection{Design of the optical system}
+
+When designing an off-axis DH optical system, two conditions must be satisfied. First, the magnitude of the off-axis wavevector $k^{\mathrm{off-axis}} = \sqrt{(k_m^{\mathrm{off-axis}})^2 + (k_n^{\mathrm{off-axis}})^2}$ must be sufficiently large to avoid overlap of the interferometric and noninterferometric terms in the Fourier space. The radius of the interferometric component in the Fourier space is $2\pi \mathrm{NA}/(\lambda M)$, while that of the noninterferometric component is $2\pi \cdot 2\mathrm{NA}/(\lambda M)$, as the noninterferometric term is expressed by the autocorrelation of the frequency spectrum. Hence, $k^{\mathrm{off-axis}}$ must satisfy
+\begin{equation}
+k^{\mathrm{off-axis}} \geq 3 \left(\frac{2\pi \mathrm{NA}}{\lambda M}\right).
+\end{equation}
+
+Second, the spatial frequency of the interferometric component should not exceed 1/2 of the sensor's pitch (Nyquist criterion):
+\begin{equation}
+k^{\mathrm{off-axis}} + \frac{2\pi \mathrm{NA}}{\lambda M} \leq \frac{2\pi f_{\mathrm{pitch}}}{2},
+\end{equation}
+where $f_{\mathrm{pitch}}$ is the inverse of the sensor's pixel pitch. Combining these two conditions yields
+\begin{equation}
+\frac{2\pi \cdot 3\mathrm{NA}}{\lambda M} \leq k^{\mathrm{off-axis}} \leq 2\pi \left(\frac{f_{\mathrm{pitch}}}{2} - \frac{2\mathrm{NA}}{\lambda M}\right).
+\end{equation}
+
+For our system, the off-axis wavevector is determined by the grating (120 lines per mm) placed at the sample conjugate plane. The grating period of 8.33 μm at the image plane corresponds to 208.3 nm at the object plane (divided by the magnification of 40×), yielding an off-axis wavevector magnitude of
+\begin{equation}
+k^{\mathrm{off-axis}} = \frac{2\pi}{208.3~\mathrm{nm}} = 3.02 \times 10^7~\mathrm{rad/m}.
+\end{equation}
+
+We verify that our system satisfies both design conditions. For the first condition (overlap avoidance):
+\begin{equation}
+k^{\mathrm{off-axis}} = 3.02 \times 10^7 \geq 3 \times \frac{2\pi \times 0.95}{658 \times 10^{-9} \times 40} = 6.78 \times 10^6~\mathrm{rad/m}.
+\end{equation}
+For the second condition (Nyquist criterion), with $f_{\mathrm{pitch}} = 1/86.25~\mathrm{nm} = 1.16 \times 10^7~\mathrm{m}^{-1}$:
+\begin{equation}
+k^{\mathrm{off-axis}} = 3.02 \times 10^7 \leq 2\pi \left(\frac{1.16 \times 10^7}{2} - \frac{2 \times 0.95}{658 \times 10^{-9} \times 40}\right) = 3.42 \times 10^7~\mathrm{rad/m}.
+\end{equation}
+Both conditions are satisfied, confirming that the optical system design is appropriate for aliasing-free hologram acquisition.
+
+\subsection{Verification of the off-axis configuration}
+
+To validate the optical system design, we compare the theoretically calculated off-axis wavevector with the experimentally measured carrier frequency in the Fourier domain. From the grating specifications, the theoretical off-axis wavevector at the object plane is $k_{\mathrm{theory}}^{\mathrm{off-axis}} = 3.02 \times 10^7~\mathrm{rad/m}$ as calculated above.
+
+Experimentally, the off-axis carrier frequency is determined from the position of the +1st-order sideband in the Fourier-transformed hologram. For our system, the measured sideband peak position is $(m_{\mathrm{off}}, n_{\mathrm{off}}) = (1623, 1621)$ in the 2048 × 2048 pixel raw hologram, where the DC component is centered at $(1024, 1024)$. The offset from the center is
+\begin{equation}
+\Delta m = 1623 - 1024 = 599~\mathrm{pixels}, \quad \Delta n = 1621 - 1024 = 597~\mathrm{pixels}.
+\end{equation}
+
+The magnitude of the off-axis wavevector in pixel units is
+\begin{equation}
+k_{\mathrm{pixel}}^{\mathrm{off-axis}} = \sqrt{(\Delta m)^2 + (\Delta n)^2} = \sqrt{599^2 + 597^2} = 845.8~\mathrm{pixels}.
+\end{equation}
+
+To convert this to physical units, we use the spatial frequency resolution in the Fourier domain, which is determined by the field of view:
+\begin{equation}
+\Delta f = \frac{1}{\mathrm{FOV}} = \frac{1}{2048 \times 86.25~\mathrm{nm}} = \frac{1}{176.6~\mu\mathrm{m}} = 5662~\mathrm{m}^{-1}.
+\end{equation}
+
+The spatial frequency of the carrier is
+\begin{equation}
+f_{\mathrm{exp}}^{\mathrm{off-axis}} = 845.8 \times 5662 = 4.79 \times 10^6~\mathrm{cycles/m},
+\end{equation}
+corresponding to a wavevector of
+\begin{equation}
+k_{\mathrm{exp}}^{\mathrm{off-axis}} = 2\pi f_{\mathrm{exp}}^{\mathrm{off-axis}} = 2\pi \times 4.79 \times 10^6 = 3.01 \times 10^7~\mathrm{rad/m}.
+\end{equation}
+
+The relative difference between the theoretical and experimental values is
+\begin{equation}
+\frac{|k_{\mathrm{theory}}^{\mathrm{off-axis}} - k_{\mathrm{exp}}^{\mathrm{off-axis}}|}{k_{\mathrm{theory}}^{\mathrm{off-axis}}} = \frac{|3.02 - 3.01|}{3.02} \times 100\% = 0.3\%.
+\end{equation}
+
+This agreement confirms that the grating-based off-axis configuration is correctly implemented and that the optical magnification and spatial calibration are accurate.
+
+\subsection{Phase sensitivity}
+
+To discuss the phase sensitivity of off-axis DH, we consider the shot-noise-limited regime following the theoretical framework of Chen et al. [XX]. Adding the noise term $z_{m,n}^{\mathrm{DH}}$ to the hologram intensity, the measured phase including noise is represented by
+\begin{equation}
+\phi'_{m,n} = \arg\left[\mathrm{LP}\left(\frac{I_{m,n}^{\mathrm{DH}} e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}}{|J_{m,n}^{\mathrm{int}}|}\right)\right] = \phi_{m,n} + \frac{z_{m,n}^{\mathrm{DH}} \sin(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n}) \ast H_{m,n}}{|J_{m,n}^{\mathrm{int}}|},
+\end{equation}
+where $H_{m,n}$ denotes the IFT of the pupil function for LP filtering, and $\ast$ represents convolution. The temporal OPD standard deviation at each pixel $\sigma_{\phi'}^{\mathrm{DH}}$ is obtained by calculating the square root of the variance:
+\begin{equation}
+\sigma_{\phi'}^{\mathrm{DH}} = \sqrt{\mathrm{Var}(\phi'_{m,n})} = \frac{1}{|J_{m,n}^{\mathrm{int}}|} \sqrt{\left[\mathrm{Var}(z_{m,n}^{\mathrm{DH}}) \frac{1 - \cos 2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})}{2}\right] \ast H_{m,n}^2}.
+\end{equation}
+
+Under the shot-noise-limited regime, $\mathrm{Var}(z_{m,n}^{\mathrm{DH}}) = \alpha_{m,n}/g$, where $\alpha_{m,n} = A_s^2 + A_r^2$ is the mean intensity, and $g$ is the camera gain [e$^-$/ADU]. Using the visibility $V = 2A_sA_r/(A_s^2 + A_r^2)$ and noting that the LP filter eliminates high-frequency terms, the phase sensitivity for a single measurement is
+\begin{equation}
+\sigma_{\phi} = \sqrt{\frac{2S}{gN^2\alpha V^2}},
+\end{equation}
+where $S = \sum_{p,q} |H_{p,q}|^2$ is the filter passband area, and $N \times N$ is the hologram size. 
+
+In common-path off-axis holography with background subtraction, the noise propagates from both sample and background measurements. Since the measurements are independent, the variance becomes $\mathrm{Var}[\Delta I] = 2\sigma_I^2$, yielding the corrected phase sensitivity:
+\begin{equation}
+\sigma_{\phi}^{\mathrm{bg\ sub}} = \sqrt{2} \times \sigma_{\phi} = \sqrt{\frac{4S}{gN^2\alpha V^2}}.
+\end{equation}
+In terms of the number of electrons $N_e = g \cdot \alpha$, this can be written as
+\begin{equation}
+\sigma_{\phi}^{\mathrm{bg\ sub}} = \frac{2}{V\sqrt{N_e}} \sqrt{\frac{S}{N^2}}.
+\end{equation}
+
+The phase sensitivity exhibits a quadratic dependence on visibility ($\sigma_{\phi} \propto V^{-1}$) and a square-root dependence on the number of electrons ($\sigma_{\phi} \propto N_e^{-1/2}$), making visibility optimization critical for achieving high sensitivity.
+
 \section{Image analysis}
 Omniposeによる輪郭線抽出をあのsucjuunの論文くらい詳しく書く。
+\section{一細胞観察のためのデバイス}
+シングルセルレベルで発現状態の時間変化を長期的に取得するため,mother machineと呼ばれるPolydimethylsiloxane(PDMS)製マイクロ流体デバイスを用いて計測を行った.mother machineは,制御された増殖条件下で個々の細菌細胞を長期間にわたって観察・分析するために設計された特殊なマイクロ流体デバイスである\cite{wang2010robust}.2010年にWangらによって大腸菌の一細胞解析のために初めて開発されたこの装置は,単一細胞の動態,細菌の老化,遺伝子発現,およびその他のさまざまな細胞プロセスを,これまでにない時間的・空間的解像度で研究するための非常に貴重なツールとなっている.
+この基本設計は,数百から数千の細長い増殖チャネルが,増殖培地が連続的に流れる大きな主溝に対して垂直に配置されている.各増殖チャネルは通常,細菌細胞の1列分が収まるだけの幅しかなく,一端が閉じられている.チャネルは,ソフトリソグラフィ技術を用いて,透明でガス透過性のポリマーであるポリジメチルシロキサン（PDMS）で製造される.その後,PDMSチップはガラスカバースリップに接着され,顕微鏡観察に適した透明度を維持しながら密閉された流路が形成される(図1).
 
-\section{Microfluidic device fabrication}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=100mm]{MM}
+\caption{\textnormal{\textbf{マザーマシンの構造の概略図} 培地は矢印に沿って流れ,メイン流路に流れる.穴は中央チャネルの入口と出口に穴を開け,新鮮培地（入口）と廃液（出口）用のチューブを接続する.}}
+\end{figure}
 
-\section{Fission yeast strains}
+「マザー・マシン」という名称は,何百世代にもわたって同じ「母細胞」を追跡できる能力に由来する.細胞がこれらの流路で成長し分裂すると,各流路の行き止まりにある細胞はそのまま捕捉された状態が維持されるが,その娘細胞は徐々に主溝に向かって押し出され,最終的には主溝を勢いよく流れる培地によって洗い流される(図2).この閉じ込められた細胞は,その極の1つが常に流路の末端に接しており,世代から世代へと受け継がれるため,「母細胞」と呼ばれる.この設計により,定常状態の増殖条件を維持しながら,何百もの細胞分裂にわたって同じ母細胞を追跡することが可能になる.
+主溝を流れる新鮮な培地の連続的な流れは,成長チャネルへの拡散により,すべての細胞に栄養素を一定に供給する.研究により,栄養素の拡散は数秒単位の時間スケールで起こり,一般的な栄養素の取り込み時間である数分よりもはるかに速いことが示されており,均一な栄養条件が確保されることが分かっている\cite{wang2010robust} \cite{taheri2015cell}.また,主溝を流れる培地により,成長チャネルから出てきた娘細胞が除去されることで過密状態が回避され,均一な成長条件が維持される.さらに,マザーマシンの重要な利点の一つは培地条件の切り替えが容易なことで,培養条件を素早く変化させることができるため,研究者は環境変化に対する細胞の反応を研究することができる.
 
-\section{Long-term time-lapse experients}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=100mm]{Mother_Machine}
+\caption{\textnormal{\textbf{マザーマシンの観察チャネルの概略図} ”母細胞”は成長チャネルの端に捕捉されており, 中央のフローセルに垂直に並んだ成長チャネルは, 新鮮な培地を供給し, 娘細胞をかき出す.}}
+\end{figure}
+
+mother machineは細胞は固定された焦点面に留まり,高開口数対物レンズを使用して簡単に画像化できるため,この装置は蛍光顕微鏡にも適している.また,成長チャネル間の間隔は,チャネル間の蛍光の漏れを最小限に抑えつつ,同時に観察できる細胞の数を最大限に増やすように最適化することができる.典型的な実験では,一定の間隔（通常は数分ごと）で10～12の視野を撮影し,各視野には約100個の細胞が含まれる.その結果,長期間にわたって数千もの細胞系統を観察することができる.こうした利点を活かして,mother machineは老化\cite{wang2010robust}\cite{nakaoka2017aging},飢餓適応\cite{bakshi2021tracking},抗生物質耐性\cite{kaplan2021observation},細胞分化\cite{russell2017noise},細胞壁の成長メカニズム\cite{amir2014bending}など,さまざまな研究分野で活用されている.
+
+本研究で使用したmother machineでは,幅180~$\mu$\text{m}の太い1本の流路に沿って垂直に,幅約6.3~$\mu$\text{m},長さ約40~$\mu$\text{m}の観察用チャンバーが多数配列している.流路の両端にはそれぞれシリンジと廃液に繋がるチューブが接続されており,シリンジポンプにより一定速度で送り出される培地が流路内を一方向に流れることでデバイス中の培養環境がおよそ定常に保たれる.導入された細胞はこのチャンバー内に入り込み,ほぼ一列に限定された状態で増殖するマザーマシンは,メインフロートレンチに沿って多数の流路が並ぶように設計されており,メインフロートレンチ内を流れる培地を変化させることで,細胞の環境条件を精密に制御することが可能である.
+
+\section{細胞株と培養液}
+本研究では,構成的 adh1 プロモーターの制御下で mNeonGreen を発現する \textit{Schizosaccharomyces pombe}株（HN0101）（h- leu1-32::leu1+-Padh1-mNeonGreen）を使用した.分裂酵母のadh1プロモーターは,遺伝子発現のための強力な構成プロモーターとして広く認知されており,様々な発現系や分裂酵母のベクター構築に用いられてきており\cite{verma2014high}\cite{grimm1991strong}\cite{forsburg1993comparison},その恒常的な性質により,誘導性プロモーターとは異なってさまざまな成長条件下で一貫した遺伝子発現が可能である\cite{matsuyama2008series}.HN0101 を作製するために,野生型 FY18675 株のII番染色体上の偽遺伝子座(SPBC1348.11)に KanMX6 選択マーカーを持つ mNeonGreen 発現カセットを組み込んだ(NBRP [National BioResource Project] から提供).細胞は,Morenoの記載に従い,EMM培地で30 ℃で培養した\cite{moreno199156}.EMM培地は,一般的に分裂酵母の培養に使用される合成培地である.主な炭素源としてグルコースを含み,各種アミノ酸,ビタミン,ミネラルも含有する.EMMは,濃度を2倍にしたり緩衝能を向上させたりするなど,特定の実験ニーズに合わせて調整することができる\cite{petersen2016growth}.培地の組成は下表のように調製した.
+
+\section*{50 x salts}
+\begin{longtable}{|l|c|c|c|}
+    \hline
+    試薬 & 濃度 & 分子量 (g/mol) & 重量(計算値) \\
+    \hline
+    MgCl$_2$ & 0.26 M & 203.3 & 5.29 g \\
+    CaCl$_2$ & 4.99 mM & 147.01 & 73.4 mg \\
+    KCl & 0.67 M & 74.55 & 4.99 g \\
+    Na$_2$SO$_4$ & 14.1 mM & 142.04 & 200 mg \\
+    \hline
+    total & & & 100 ml \\
+    \hline
+\end{longtable}
+
+\section*{1000 x vitamins}
+\begin{longtable}{|l|c|c|c|}
+    \hline
+    試薬 & 濃度  & 分子量 (g/mol) & 重量 (mg) \\
+    \hline
+    Calcium D-pentothenate & 4.2 & 476.54 & 100 \\
+    Nicotinic acid & 81.2 & 123.11 & 500 \\
+    Myo-inositol & 55.5 & 180.16 & 500 \\
+    Biotin & 0.0408 & 244.31 & 0.498 \\
+    \hline
+    MiliQ & & & 50 ml \\
+    \hline
+\end{longtable}
+
+\section*{10000 x minerals}
+\begin{longtable}{|l|c|c|c|}
+    \hline
+    試薬 & 濃度 (mM) & 分子量 (g/mol) & 重量 (mg) \\
+    \hline
+    Boric acid & 80.9 & 61.83 & 50 \\
+    MnSO$_4$ & 23.7 & 241.08 & 57.1 \\
+    ZnSO$_4$ & 13.9 & 287.58 & 40.0 \\
+    FeSO$_4$ & 7.4 & 278.01 & 20.6 \\
+    Molybdic acid & 2.47 & 1235.86 & 30.5 \\
+    KI & 6.02 & 166 & 9.99 \\
+    CuSO$_4$ & 1.6 & 249.69 & 4.00 \\
+    Citric acid & 47.6 & 324.41 & 154 \\
+    \hline
+    MiliQ & & & 10 ml \\
+    \hline
+\end{longtable}
+
+\section*{50\% glucose}
+\begin{longtable}{|l|c|c|}
+    \hline
+    試薬 & 濃度 (w/v) & 重量 (g) \\
+    \hline
+    D-glucose & 50\% & 25 \\
+    MiliQ &  & 50 ml (up-to) \\
+    \hline
+\end{longtable}
+
+\section*{25\% NH$_4$Cl}
+\begin{longtable}{|l|c|c|}
+    \hline
+    試薬 & 濃度 (w/v)& 重量 (g)\\
+    \hline
+    NH$_4$Cl & 25\% w/v & 12.5 \\
+    MiliQ &  & 50 ml (up-to) \\
+    \hline
+\end{longtable}
+
+\section*{EMM}
+\begin{longtable}{|l|c|}
+    \hline
+    試薬 & 量 \\
+    \hline
+    50\% Glucose sln. & 40 ml \\
+    25\% NH$_4$Cl & 20 ml \\
+    50 x salts & 20 ml \\
+    1000 x vitamins & 1 ml \\
+    10000 x minerals & 100 $\mu$L \\
+    Potassium hydrogen phtalate & 3 g \\
+    Na$_2$HPO$_4$(anhydride) & 2.2 g \\
+    MiliQ & 920 ml \\
+    \hline
+    total & 1 L \\
+    \hline
+\end{longtable}
+\section{マイクロ流体デバイスの作製}
+マイクロ流体デバイスの設計と作製 
+マイクロ流体デバイスは,観察用チャンバーとフローチャネルで構成されている.フォトマスクは卓上型マスクレス露光装置($\mu$mLA, Heidelberg)を用いてマスクブランクス(Clean SurfaceTechnology)に観察チャネルと流路に分けて現像された既存のフォトマスクを用いた.観察するデバイスはPolydimethylsiloxane (PDMS)を用いて作製し,その鋳型はシリコンウエハー(University Wafers)の基板上に作製した.鋳型は以下の手順で作製した(図3).
+
+観察チャネル層: SU8 2(MicroChem)とSU8 3005(MicroChem)を,適切な割合で混ぜたものをシリコンウエハーに1 mL滴下し,スピンコーター(Mikasa, MS-A150)を使用して,3000 rpm,30秒間の条件で塗布した.その後,65℃で1分間,95℃で2分間ソフトベークを行った.観察チャネル用のマスクをセットし,5.0秒で3回の条件でマスクアライナー(Mikasa, MA-20)を使ってUVを照射した.続いて,65℃で1分間,95℃で3分間ポストエクスポージャーベークを行い,SU8 developer(MicroChem)でUV未照射部分のSU8を取り除き,イソプロパノールでリンスし乾燥させた.
+ドレイン層: 観察チャネル層が完成したシリコンウエハーに,SU8 3010(MicroChem)をスポイトで適量滴下し,スピンコーターを使用して,1500 rpm , 30秒間の条件で塗布した.その後,65℃ で 1分間,95℃で8分間ソフトベークを行い,観察チャネルのアライメントマークに合わせて流路のマスクをセットし,マスクアライナーで30秒間UVを照射した.続いて,65℃で3分間,95℃で10分間ポストエクスポージャーベークを行い,SU8 developer(MicroChem)でUV 未照射部分のSU8を取り除き,イソプロパノールでリンスし乾燥させた.
+PDMSデバイスの作製:
+SYLGARD 184(DOW SILICONES CORPORATION)を主剤と硬化剤を10:1の割合で混合し,真空下で1時間脱気した後,上記で作製したシリコンウエハー基盤上に注いだ. 65℃で少なくとも12時間硬化させた後,PDMSブロックを適切なサイズに切断し,生検トレパン(0.5mm BP-A05F)を用いてインレット/アウトレットの穴を開けた.ブロックを超音波洗浄機でエタノールで洗浄し,65℃で乾燥させた.
+
+カバーガラスの洗浄:
+カバーガラス(松浪 NEO No.1 0.13 mm〜0.17 mm)を超音波洗浄しながら,薄めたContamino LS-II(Wako)溶液,超純水,エタノール,超純水で順次洗浄した.その後,カバーガラスを 0.1 M水酸化ナトリウム溶液で処理し超純水で洗浄後,140 ℃で乾燥させた.
+
+PDMSブロックとカバーガラスの接着:
+PDMSブロックと洗浄処理済みのカバーガラスは,コンパクトエッチャー（FA-1,SAMCO）で10秒表面処理し,PDMSブロックとカバーガラスを接着させた.このとき,気泡やゴミが入らないように注意した.
+
+エポキシレプリカの作製:
+まず,オリジナルのシリコンウエハー鋳型からPDMS鋳型を作製する.シルガード184の主剤と硬化剤を,10:1の割合で混ぜ,真空下で1時間脱気する.その後,この混合物をシリコンウエハー基板に注ぎ,65℃で少なくとも12時間硬化させる.硬化後,PDMS型を慎重に取り外すと,シリコン型で盛り上がっていた部分が凹んだ元の形状の陰刻がPDMSに形成される.
+次に,このPDMS鋳型を使ってエポキシのレプリカを作製した.2液混合タイプの硬質エポキシ(LOCTITE,EA E-30CL)を,気泡が入らないように注意しながら,プラスチックプレートに設置したPDMS鋳型に流し込み,エポキシが完全に硬化するまで,少なくとも24時間放置した.
+このエポキシレプリカは,オリジナルのシリコンウエハー鋳型と同様に,PDMSデバイスを作るために使用した.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=150mm]{fablication.pdf}
+\caption{\textnormal{\textbf{マイクロ流体デバイスの作製} SU-8マスターモールドの作製,モールド上へのポリジメチルシロキサン（PDMS）のキャスティング,プラズマ処理によるスライドガラスへの接着過程の模式図を表している.}}
+\end{figure}
+
+\section{顕微鏡観察のための細胞培養と手順}
+EMM(2\% glc.)で30℃で増殖させた増殖期（exponential phase）の分裂酵母培養液20 mLを,遠心機(HITACHI himac CT6E)を用いて3700 rpmで5分間遠心するにより100倍に濃縮した細胞懸濁液を作成した.濃縮した培養液を,1 mLのシリンジ（Terumo）を使ってマイクロ流体デバイスに注入した.
+細胞を観察チャネルに挿入するため,デバイスを1200 rpmで5分間の遠心処理を,180°回転させて2回行った.顕微鏡で観察チャネル内に細胞がトラップされていることを確認した後EMM(2\% glc.)を2 mL/hの流速で流した.この段階で,ドレイン内の余分な細胞がすべて排除されるまで待機した.ポジションを登録後,タイムラプス計測を開始した.
+
+培地交換の手順では,EMM(low\% glc.)やEMM(0\% glc.)培地に切り替える際,デバイスに接続されているチューブ全体をコネクターごと交換した.コネクター内に含まれる気泡が顕微鏡のライブ画像に映ったタイミングを基準に,次のフレームが培地が交換された時点と設定した.
+デバイス内を流れる培地は,シリンジポンプ(Harvard,ULTRA-P)で制御し,実験中は2 mL/hの一定流量を維持することで細胞の環境条件を安定させた.
+
+\section{タイムラプス計測と画像の取得}
+タイムラプス計測には,温度を正確に制御するためのサーモスタットチャンバー（TIZHB,TokaiHit）を備えた電動倒立顕微鏡（Nikon,Ti-E）を使用した.デジタルCMOSカメラ（ORCA C14440 ,浜松ホトニクス）,LED光源（Thorlabs）を組み合わせ,対物レンズはPlan Apo $\lambda$D 40x / 0.95(MRD70470,Nikon)を,GFP蛍光のフィルターキューブにはGFP-B(EX 460-500, DM 505, EM 510-560)を使用した.撮影はMicromanagerソフトウェア（https://micro-manager.org/）で制御し,5分間隔で画像を取得した.明視野画像の露光時間は50ミリ秒,GFP蛍光画像の露光時間は500ミリ秒とした.観察期間は実験条件によって異なり,192時間から240時間であった.長期間のタイムラプス撮影中には,焦点面の安定性を保つためにパーフェクト・フォーカス・システム（PFS）を使用した.すべての観察は30℃で実施した.
+
+
+\section{画像解析}
+明視野（BF）画像のセグメンテーションは,顕微鏡における細胞セグメンテーションに一般的に使用される深層学習ベースのアルゴリズムであるOmnipose\cite{cutler2022omnipose}の半自動ワークフローを用いてセグメンテーションした.Omnipose は,大規模なパラメータチューニングをすることなく,様々なタイプの画像を正確にセグメントできることで知られている.BF画像のセグメンテーションを容易にするために,Omniposeモデルは,パラメータ調整なしで,GFP蛍光画像から得られたマスク画像からなるグランドトゥルースデータを用いて学習された.得られた学習済みモデルをBF画像に適用した(図4). 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=50mm]{Omnipose.pdf}
+\caption{\textnormal{\textbf{Omniposeインターフェース}Omniposeではリアルタイムのフィードバックデータのインタラクティブな解析を可能にする.表示されている生データはBF画像に訓練済みのモデルを用いて,セグメンテーションを行ったマスクを重ね合わせた図}}
+\end{figure}
+
+\section{グルコース濃度測定}
+本実験で用いられた濃度の異なる EMM2 培地のグルコース濃度の測定には,LabAssay™ Glucose（富士フイルム和光純薬株式会社, 製品コード: 291-94001）を使用した.測定はキット付属 のプロトコルに従って行い,サンプルの吸光度は 505 nmで測定した.
+
