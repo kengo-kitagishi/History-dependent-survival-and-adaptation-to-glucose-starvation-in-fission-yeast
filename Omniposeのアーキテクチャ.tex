@@ -1,0 +1,825 @@
+
+\chapter{深層学習を用いた細胞セグメンテーション}
+
+\section{序論}
+
+\subsection{細胞セグメンテーションの重要性}
+
+定量的細胞生物学において、顕微鏡画像から個々の細胞を正確に検出・分離するセグメンテーション技術は、形態解析、動態追跡、分子局在解析など、あらゆる下流解析の基盤となる極めて重要なプロセスである\cite{cutler2022omnipose}。特に細菌細胞は、その物理的寸法が可視光の波長（400--700~nm）と同程度またはそれ以下であり、典型的な観察条件下では1細胞あたり100--300ピクセル程度で構成される。この空間分解能の制約下において、細胞境界を単一ピクセルレベルの精度で決定することは、細胞内構造の定量解析において不可欠である。
+
+さらに、細菌は種によって多様な形態を示す。大腸菌（\textit{Escherichia coli}）や枯草菌（\textit{Bacillus subtilis}）のような桿菌から、球菌、らせん菌、さらには放線菌（\textit{Streptomyces}属）のような糸状・分岐構造を持つものまで、その形態的多様性は著しい。加えて、抗生物質処理や変異導入により、野生型とは大きく異なる極端な形態変化が誘導される場合も多い\cite{cutler2022omnipose}。このような形態的多様性と可変性は、汎用的なセグメンテーション手法の開発を困難にしてきた。
+
+\subsection{生物画像セグメンテーションの本質的課題}
+
+細菌を含む生物細胞の顕微鏡画像解析において、セグメンテーションを困難にする要因は多岐にわたる。これらは、物理的制約、光学的制約、および生物学的特性に起因するものに大別される。
+
+\subsubsection{空間分解能の制約と信号対雑音比}
+
+光学顕微鏡の回折限界により、横方向の空間分解能は約200~nm（NA=1.4の対物レンズ使用時）に制限される。細菌細胞の典型的な幅は500~nm--1~$\mu$mであるため、細胞幅方向にはわずか3--5ピクセルしか存在しない。この制約下では、1ピクセルの誤差が細胞面積の10--20\%の誤差に相当し、形態パラメータの定量精度を著しく低下させる。
+
+さらに深刻な問題は、低い信号対雑音比（Signal-to-Noise Ratio; SNR）である。位相差顕微鏡では、細胞と培地の屈折率差に基づくコントラストを利用するが、この差は典型的に5--10\%程度であり、本質的にコントラストが低い。加えて、以下のノイズ源が存在する：
+
+\begin{itemize}
+\item \textbf{光子雑音（Shot noise）}：光子の量子的性質に起因するPoisson分布に従うノイズ。低照度条件下で支配的となり、SNRは$\sqrt{N_{\text{photon}}}$に比例する。
+\item \textbf{読み出しノイズ（Readout noise）}：CCDまたはsCMOSセンサーの電子回路に起因する熱雑音。典型的に1--10電子/ピクセル程度。
+\item \textbf{暗電流ノイズ（Dark current noise）}：長時間露光時に蓄積される熱励起電子。センサー冷却により低減可能だが、完全には除去できない。
+\end{itemize}
+
+これらのノイズは、細胞境界の検出を困難にする。特に、細胞境界は画像の高周波成分に対応するため、ノイズの影響を受けやすい。
+
+\subsubsection{不均一な照明とハロー効果}
+
+位相差顕微鏡に特有の問題として、\textbf{ハロー効果（halo artifact）}が挙げられる。これは、位相リングによる光の干渉により、細胞境界付近に明るいまたは暗いリング状のアーティファクトが生じる現象である。ハロー効果は、細胞の厚みや屈折率に依存して変化するため、画像全体で不均一に現れる。この不均一性は、閾値処理ベースの手法において、単一の閾値では対応できない本質的な問題を引き起こす。
+
+さらに、Köhler照明が不完全な場合、照明の不均一性（vignetting）が生じる。視野中心部と周辺部で輝度が異なるため、グローバルな閾値処理では、中心部では過剰分割、周辺部では分離不全が同時に発生する。
+
+\subsubsection{細胞内構造による輝度不均一性}
+
+細菌細胞は、核様体（nucleoid）、リボソーム、inclusion bodyなどの内部構造を持つ。これらの構造は、局所的な屈折率や光散乱特性の変化を引き起こし、細胞内部の輝度分布を不均一にする。特に以下の状況で問題となる：
+
+\begin{itemize}
+\item \textbf{核様体の凝縮}：DNA複製や細胞周期に応じて核様体の密度が変化し、細胞内に明暗のコントラストが生じる。
+\item \textbf{Inclusion bodyの形成}：ポリヒドロキシ酪酸（PHB）やグリコーゲンなどの貯蔵物質が蓄積すると、高屈折率の粒子として観察され、細胞が複数の領域に分断されたように見える。
+\item \textbf{細胞分裂の進行}：隔壁形成に伴い、細胞中央部の輝度が変化し、ウォーターシェッド法において誤った分割点と認識される。
+\end{itemize}
+
+これらの内部構造は、細胞の真の境界とは無関係であるが、画像処理アルゴリズムはこれを区別できない。その結果、1つの細胞が複数のオブジェクトとして過剰分割される。
+
+\subsubsection{細胞間接触と密集}
+
+最も本質的かつ解決困難な問題は、\textbf{細胞間接触（cell-cell contact）}である。微生物培養において、細胞は以下のような形態で存在する：
+
+\begin{enumerate}
+\item \textbf{接触（Touching）}：隣接する2つの細胞が、境界面を共有しているが、細胞質は融合していない状態。位相差顕微鏡では、接触面の輝度変化が微弱であり、境界の検出が極めて困難である。接触面における輝度プロファイルを解析すると、独立した細胞間に見られる明確な輝度の谷（valley）が存在せず、緩やかな勾配を示すのみである。この場合、閾値処理では2つの細胞を分離することができず、単一の連結領域として認識される。
+
+\item \textbf{部分的重なり（Partial overlap）}：アガロースパッド上での3次元的な重なり。2次元投影画像では、重なり部分の輝度が加算され、単一の細胞として誤認識される。重なりの程度が大きい場合、重なり領域の輝度が通常の細胞内部よりも高くなり、ウォーターシェッド法において誤った分割点として検出される可能性がある。しかし、部分的重なりの場合は輝度差が不明瞭であり、やはり分離不全が生じやすい。
+
+\item \textbf{微小コロニー（Microcolony）}：細胞分裂後も娘細胞が分離せず、細胞鎖や細胞塊を形成する。このような構造では、個々の細胞境界が不明瞭であり、コロニー全体が単一オブジェクトとして検出されやすい。特に、\textit{Streptococcus}属のような連鎖球菌や、\textit{Bacillus}属の一部の菌株では、細胞が長い鎖状構造を形成する。この場合、隣接細胞間の隔壁（septum）の位置を正確に検出する必要があるが、隔壁の光学的コントラストは極めて低く、セグメンテーションの最大の課題となる。
+
+\item \textbf{バイオフィルム様構造}：高密度培養や特定の培地条件下では、細胞が3次元的に密集し、個々の細胞の識別が原理的に不可能となる。バイオフィルム内部では、細胞外マトリクス（extracellular polymeric substances; EPS）により細胞が包埋され、細胞境界がさらに不明瞭化する。
+\end{enumerate}
+
+細胞接触は、閾値処理において\textbf{分離不全（under-segmentation）}の主要因となる。接触面には明確な輝度の谷（valley）が存在しないため、ウォーターシェッド法を適用しても分割されない。一方、強制的に分割しようとすると、接触していない細胞も誤って分割される\textbf{過剰分割（over-segmentation）}が発生する。この分離不全と過剰分割のトレードオフは、伝統的画像処理手法の本質的な限界である。
+
+\subsubsection{形態の極端な多様性}
+
+抗生物質処理や遺伝子変異により、細胞は野生型とは大きく異なる形態を示す：
+
+\begin{itemize}
+\item \textbf{フィラメント化（Filamentation）}：細胞分裂阻害剤（例：cephalexin, aztreonam）処理により、細胞が分裂せずに伸長を続け、通常の10--100倍の長さに達する。このような細長い細胞は、Cellposeを含む多くのアルゴリズムで過剰分割が生じる\cite{cutler2022omnipose}。
+
+\item \textbf{球状化（Spheroplast formation）}：細胞壁合成阻害により、桿菌が球状に変形する。形状の急激な変化により、桿菌用に最適化されたアルゴリズムは機能しなくなる。
+
+\item \textbf{分岐構造（Branching）}：放線菌や一部の変異株では、細胞が分岐した糸状構造を形成する。このような非凸形状は、StarDistのような星型凸ポリゴンベースの手法では表現不可能である\cite{schmidt2018stardist}。
+
+\item \textbf{不規則形態（Irregular morphology）}：lysozyme処理や浸透圧ストレスにより、細胞が不規則に変形・膨張する。
+\end{itemize}
+
+これらの極端な形態は、訓練データに含まれていない場合、深層学習モデルでも正確なセグメンテーションが困難である。
+
+\subsubsection{時間変化と動態追跡の困難性}
+
+タイムラプス顕微鏡では、時間的に連続した細胞の追跡（cell tracking）が必要となるが、以下の問題が生じる：
+
+\begin{itemize}
+\item \textbf{細胞分裂}：母細胞が2つの娘細胞に分かれる際、分裂の瞬間を正確に検出し、親子関係を決定する必要がある。
+\item \textbf{細胞移動と重なり}：細胞が移動して他の細胞と重なると、一時的にIDが失われ、追跡が中断される。
+\item \textbf{フォーカスドリフト}：長時間観察では、温度変化や機械的ドリフトによりフォーカスがずれ、細胞の見かけの大きさや輝度が変化する。
+\end{itemize}
+
+これらの問題に対応するには、単一フレームのセグメンテーション精度だけでなく、時間的整合性を保証するアルゴリズムが必要である。
+
+\subsection{従来手法の限界}
+
+上記の課題を踏まえて、従来のセグメンテーション手法を再評価する。
+
+\subsubsection{伝統的画像処理手法}
+
+初期のセグメンテーション手法は、閾値処理（thresholding）とウォーターシェッド法（watershed segmentation）を組み合わせた手法が主流であった。これらの手法は、画像の輝度情報に基づいて前景（細胞）と背景を分離し、その後、分離された領域を個別の細胞に分割する。例えば、Morphometrics\cite{ursell2017morphometrics}は、このアプローチを細菌細胞に特化して最適化したものである。
+
+しかしながら、前述の課題により、以下の本質的な限界が存在する：
+
+\begin{enumerate}
+\item \textbf{閾値の最適化困難性}：不均一な照明、ハロー効果、内部構造による輝度変動により、単一の閾値では対応できない。適応的閾値（adaptive thresholding）を用いても、局所的な輝度変化に過敏に反応し、過剰分割が生じる。
+
+\item \textbf{接触細胞の分離不全}：接触面に明確な輝度谷が存在しない場合、ウォーターシェッド法は分割に失敗する。接触細胞全体が単一の連結領域として認識され、複数の細胞が一つのオブジェクトとして誤検出される（under-segmentation）。
+
+\item \textbf{内部構造による過剰分割}：核様体やinclusion bodyが局所的な輝度極小値を生成し、ウォーターシェッド法が誤った分割点として認識する（over-segmentation）。
+
+\item \textbf{細長い細胞の断片化}：フィラメント化した細胞では、長軸方向に複数の輝度極小値が存在し、細胞が10個以上の断片に分割されることもある\cite{cutler2022omnipose}。
+\end{enumerate}
+
+\subsubsection{ハイブリッド手法}
+
+SuperSegger\cite{stylianidou2016supersegger}は、伝統的画像処理と浅層ニューラルネットワークを組み合わせることで、位相差顕微鏡画像における細菌セグメンテーションの精度向上を試みた。具体的には、以下の2段階処理を行う：
+
+\begin{enumerate}
+\item \textbf{初期セグメンテーション}：画像フィルタリング、閾値処理、ウォーターシェッド法により、初期マスクを生成。
+\item \textbf{エラー補正}：訓練された浅層ネットワークが、各セグメントについて「正しく分割されているか」「過剰分割か」「分離不全か」を分類し、必要に応じてマージまたは分割を実行。
+\end{enumerate}
+
+この手法は、純粋な画像処理手法よりも高精度であるが、本質的には閾値処理とウォーターシェッド法に依存しているため、前述の課題は完全には解決されていない。特に、初期セグメンテーションの段階で重大なエラーが発生すると、後段の補正では修正不可能である。
+
+\subsubsection{初期の深層学習手法}
+
+Mask R-CNN\cite{he2017mask}は、物体検出とインスタンスセグメンテーションを統合した手法として、一般的な画像認識タスクで広く採用されている。このアーキテクチャは、以下の段階で構成される：
+
+\begin{enumerate}
+\item \textbf{Region Proposal Network (RPN)}：候補領域（bounding box）を生成。
+\item \textbf{RoI Align}：各候補領域を固定サイズに変換。
+\item \textbf{分類・回帰・マスク予測}：各候補領域について、クラス分類、bounding box回帰、pixel-levelマスク予測を並列実行。
+\end{enumerate}
+
+しかし、細菌細胞画像への適用においては、密集した細胞集団における境界ボックスの重なりが学習プロセスを阻害し、性能低下を引き起こすことが報告されている\cite{cutler2022omnipose}。具体的には、重なったbounding boxを持つオブジェクトに対して、Non-Maximum Suppression (NMS)が誤って片方を削除してしまう問題が生じる。
+
+\subsection{U-netアーキテクチャの登場と基本原理}
+
+\subsubsection{U-netの開発背景}
+
+U-net\cite{ronneberger2015unet}は、2015年にRonnebergerらにより、医用画像セグメンテーション、特に生物医学画像における細胞のセグメンテーションを目的として開発された畳み込みニューラルネットワーク（Convolutional Neural Network; CNN）アーキテクチャである。U-netの名称は、そのネットワーク構造が「U」の字に似ていることに由来する。
+
+従来のCNNベースのセグメンテーション手法では、以下の問題が存在していた：
+
+\begin{enumerate}
+\item \textbf{大量の訓練データの必要性}：ImageNetのような数百万枚の画像を必要とする手法は、医用画像のように訓練データの取得が困難な分野では実用的でない。
+\item \textbf{空間情報の損失}：全結合層（fully connected layer）を用いる手法では、画像の空間的構造が失われ、ピクセルレベルの正確なセグメンテーションが困難。
+\item \textbf{境界の不正確性}：ダウンサンプリングにより、物体の境界情報が失われ、セグメンテーション結果の境界がぼやける。
+\end{enumerate}
+
+U-netは、これらの問題を解決するため、以下の革新的な設計を採用した。
+
+\subsubsection{U-netの基本構造：Encoder-Decoder構造}
+
+U-netは、\textbf{Encoder-Decoder構造}（符号化器-復号化器構造）と呼ばれる対称的なアーキテクチャを持つ。この構造は、画像認識における2つの相反する要求を同時に満たすように設計されている：
+
+\begin{itemize}
+\item \textbf{意味的理解（What）}：画像中に何が存在するかを認識する。これには、広い受容野（receptive field）と高次の抽象的特徴が必要。
+\item \textbf{空間的局在（Where）}：それがどこに存在するかを正確に特定する。これには、高い空間解像度が必要。
+\end{itemize}
+
+\textbf{Encoder（エンコーダ、収縮経路、Contracting Path）}：
+
+Encoderは、入力画像を段階的に低解像度・高次元の特徴空間に圧縮する役割を持つ。具体的には、以下の処理を繰り返す：
+
+\begin{enumerate}
+\item \textbf{畳み込み層（Convolution）}：3$\times$3のカーネルで畳み込み演算を実行し、局所的な特徴（エッジ、コーナー、テクスチャなど）を抽出する。各層で特徴マップ（feature map）のチャネル数が増加し（例：32 $\rightarrow$ 64 $\rightarrow$ 128）、より抽象的で高次の特徴が学習される。
+
+\item \textbf{Max Pooling}：2$\times$2の窓で最大値を取ることで、画像サイズを半分に縮小する（ダウンサンプリング）。これにより、受容野が拡大し、より広い範囲の情報を統合できるようになる。
+\end{enumerate}
+
+Encoderの役割は、「画像中のどの位置に何があるのか」という意味的情報を抽出することである。しかし、Max Poolingにより画像サイズが小さくなるため、物体の詳細な形状情報や境界の正確な位置情報が失われるという問題が生じる。
+
+例えば、$512 \times 512$ピクセルの入力画像は、4回のMax Poolingを経て$32 \times 32$ピクセルに縮小される。このスケールでは、細胞の大まかな位置は把握できるが、細胞境界の単一ピクセルレベルの精度は完全に失われている。
+
+\textbf{Decoder（デコーダ、拡張経路、Expansive Path）}：
+
+Decoderは、Encoderで圧縮された特徴表現を、元の画像サイズに復元する役割を持つ。具体的には、以下の処理を繰り返す：
+
+\begin{enumerate}
+\item \textbf{Up-convolution（アップサンプリング畳み込み、転置畳み込み）}：画像サイズを2倍に拡大する。U-netの原論文の図中で緑色の矢印で示されているこの操作は、\textbf{転置畳み込み（transposed convolution）}または\textbf{逆畳み込み（deconvolution）}と呼ばれる演算により実現される。
+
+転置畳み込みは、通常の畳み込みの逆操作であり、小さな特徴マップから大きな特徴マップを生成する。これは、Pooling層で小さくなった画像サイズを、畳み込みと逆の操作をすることによってアップサンプリングしている。具体的には、入力ピクセルの間に0を挿入し、その後通常の畳み込みを適用することで実現される。
+
+\item \textbf{畳み込み層}：アップサンプリングされた特徴マップに対して、さらに畳み込み演算を適用し、特徴を洗練させる。
+\end{enumerate}
+
+Decoderの役割は、Encoderで抽出された意味的情報を用いて、元の解像度でのピクセルレベルのセグメンテーションマップを生成することである。しかし、単純にアップサンプリングするだけでは、Encoderで失われた空間情報を復元することはできない。
+
+\subsubsection{Skip Connection（スキップ接続）の重要性}
+
+U-netの最も重要な革新は、\textbf{Skip Connection}（スキップ接続、ショートカット接続）の導入である。U-netの原論文の図中でグレーの矢印で示されている「\textbf{copy and crop}」操作がこれに相当する。
+
+Skip Connectionは、Encoderの各レベルで計算された特徴マップを、対応する同じ解像度のDecoderのレベルに直接コピーして結合（concatenate）する操作である。具体的には：
+
+\begin{enumerate}
+\item \textbf{Copy（コピー）}：Encoderの特徴マップをそのままコピーする。
+\item \textbf{Crop（切り取り）}：原論文のU-netでは、パディング（padding）を使用しないため、畳み込み後に画像サイズがわずかに小さくなる。そのため、Encoderの特徴マップをDecoderのサイズに合わせて中央部分を切り取る必要がある。ただし、現代的な実装（OmniposeやCellposeを含む）では、パディングを使用するため、この切り取り操作は不要である。
+\item \textbf{Concatenate（結合）}：コピーされた特徴マップと、Decoderでアップサンプリングされた特徴マップを、チャネル方向に結合する。
+\end{enumerate}
+
+\textbf{Skip Connectionの役割と効果}：
+
+Skip Connectionが必要な理由は、EncoderとDecoderの役割分担に起因する：
+
+\begin{itemize}
+\item \textbf{Encoderの問題点}：Encoderでは、Max Poolingにより画像サイズが段階的に縮小される。これにより、広い範囲の情報を統合できる一方で、物体の詳細な形状情報や境界の正確な位置情報が失われる。特に、細胞のような小さな物体では、境界の1--2ピクセルのずれが、面積や形状パラメータに大きな誤差を生じさせる。
+
+\item \textbf{Decoderの限界}：Decoderでは、圧縮された低解像度の特徴マップから、元の高解像度の画像を復元しようとする。しかし、一度失われた空間情報を、アップサンプリングだけで完全に復元することは原理的に不可能である。これは、情報理論における「圧縮による情報損失は不可逆」という原則に対応する。
+
+\item \textbf{Skip Connectionによる解決}：Skip Connectionにより、Encoderで計算された高解像度の特徴マップ（Max Poolingで失われる前の情報）を、Decoderに直接渡すことができる。これにより、Decoderは以下の2種類の情報を同時に利用できる：
+\begin{enumerate}
+\item \textbf{意味的情報（What）}：Encoderの深い層からアップサンプリングされた特徴マップ。「これは細胞である」「これは背景である」といった高次の意味的理解を提供。
+\item \textbf{空間的情報（Where）}：Encoderの浅い層からSkip Connectionで渡された高解像度の特徴マップ。「細胞の境界は正確にここにある」という詳細な位置情報を提供。
+\end{enumerate}
+\end{itemize}
+
+\textbf{具体例による理解}：
+
+細胞セグメンテーションの文脈で、Skip Connectionの効果を具体的に考える：
+
+\begin{enumerate}
+\item \textbf{Encoderのレベル0（フルサイズ、$512 \times 512$）}：
+   \begin{itemize}
+   \item この段階では、画像の細かいエッジやテクスチャが特徴マップに保持されている。
+   \item 細胞境界の正確な位置（±1ピクセルレベル）が特徴マップに含まれている。
+   \item しかし、この段階では「これが細胞の境界である」という意味的理解はまだ不十分。
+   \end{itemize}
+
+\item \textbf{Encoderのレベル3（$64 \times 64$）}：
+   \begin{itemize}
+   \item 4回のMax Poolingにより、受容野が大幅に拡大している。
+   \item 「ここに細胞がある」「細胞と背景の区別」といった高次の意味的特徴が学習されている。
+   \item しかし、空間解像度が低いため、細胞境界の正確な位置は不明瞭。
+   \end{itemize}
+
+\item \textbf{Decoderのレベル0（$512 \times 512$）}：
+   \begin{itemize}
+   \item Up-convolutionにより、画像サイズは元に戻っているが、アップサンプリングだけでは境界が不鮮明。
+   \item ここで、Encoderのレベル0からSkip Connectionで高解像度の特徴マップが結合される。
+   \item Decoderは、「これは細胞境界である」という意味的理解（深い層からの情報）と、「境界の正確な位置はここである」という空間的情報（Skip Connectionからの情報）を同時に利用できる。
+   \item その結果、ピクセルレベルで正確な細胞境界のセグメンテーションが可能になる。
+   \end{enumerate}
+\end{enumerate}
+
+\textbf{数学的表現}：
+
+Decoderのレベル$l$における処理を数式で表すと：
+
+\begin{equation}
+\mathbf{F}^{\text{dec}}_l = \text{Upsample}(\mathbf{F}^{\text{dec}}_{l+1}) \oplus \mathbf{F}^{\text{enc}}_l
+\end{equation}
+
+ここで、$\mathbf{F}^{\text{dec}}_l$はDecoderのレベル$l$の特徴マップ、$\mathbf{F}^{\text{enc}}_l$はEncoderのレベル$l$の特徴マップ、$\oplus$はチャネル方向の結合（concatenation）を表す。
+
+結合後の特徴マップのチャネル数は、アップサンプリングされた特徴マップとEncoderからの特徴マップのチャネル数の和となる。例えば、Omniposeのレベル0では、アップサンプリング後の32チャネルとEncoderからの32チャネルが結合され、64チャネルの特徴マップが生成される。
+
+\subsubsection{U-netの利点のまとめ}
+
+U-netが生物医学画像セグメンテーションにおいて標準的な手法となった理由は、以下の特性にある：
+
+\begin{enumerate}
+\item \textbf{少数の訓練データでの学習}：Skip Connectionにより、限られた訓練データ（数百枚程度）からでも高精度なセグメンテーションを学習できる。これは、医用画像のように、アノテーション（正解ラベルの作成）に専門知識と多大な時間を要する分野において極めて重要である。
+
+\item \textbf{高い空間精度}：Skip Connectionにより、ピクセルレベルの正確なセグメンテーションが可能。細菌細胞のような小さな物体においても、境界を±1ピクセルの精度で検出できる。
+
+\item \textbf{Multi-scale特徴抽出}：Encoderの各レベルで、異なるスケールの特徴が学習される。浅い層では局所的な特徴（エッジ、テクスチャ）、深い層では大域的な特徴（物体の存在、クラス）が抽出され、これらが統合されることで頑健なセグメンテーションが実現される。
+
+\item \textbf{End-to-endの学習}：入力画像から最終的なセグメンテーションマスクまで、全ての処理が単一のニューラルネットワーク内で実行され、一括して学習される。これにより、手動での特徴設計や複雑なパラメータ調整が不要となる。
+\end{enumerate}
+
+\subsubsection{U-netベースの細胞セグメンテーション手法}
+
+U-netの成功を受けて、多数の派生手法が開発された。
+
+\textbf{StarDist}\cite{schmidt2018stardist}は、U-netベースのアーキテクチャを用いて、星型凸（star-convex）ポリゴンによる細胞表現を学習する。具体的には、細胞の重心から放射状に32--96方向の距離を予測し、これらの点を結ぶことでポリゴンを構成する。
+
+しかし、この手法には本質的な制約がある：
+
+\begin{itemize}
+\item \textbf{星型凸性の仮定}：細胞の任意の2点を結ぶ線分が、常に細胞内部を通過する必要がある。この仮定は、球菌や短い桿菌では成立するが、細長い桿菌、湾曲した細胞、分岐構造を持つ細胞には適用できない。
+\item \textbf{極端なアスペクト比への対応不可}：フィラメント化した細胞（アスペクト比20以上）では、放射状距離の予測が不安定になり、セグメンテーションが失敗する。
+\end{itemize}
+
+\textbf{MiSiC}\cite{panigrahi2021misic}は、細菌細胞セグメンテーションを目的として開発されたU-netベースの手法である。このアルゴリズムは、細胞本体（cell body）と細胞境界（cell boundary）の2つのマスクを予測し、これらを組み合わせてウォーターシェッド法により最終マスクを生成する。
+
+MiSiCの問題点は、マスク再構成にウォーターシェッド法を使用するため、伝統的手法の限界（内部構造による過剰分割、接触細胞の分離不全）を完全には克服していないことである。
+
+\subsection{Cellposeの革新と限界}
+
+Cellpose\cite{stringer2021cellpose}は、細胞形態に依存しない汎用的なセグメンテーション手法として開発された。この手法の重要な革新は、\textbf{flow field}（流れ場）の概念の導入である。
+
+\subsubsection{Cellposeのアルゴリズム}
+
+Cellposeは、各細胞の中央値座標（median pixel coordinate）$\mathbf{c}$を定義し、この点からの熱拡散方程式を解くことで、温度場$T(\mathbf{x})$を生成する：
+
+\begin{equation}
+\nabla^2 T = -\delta(\mathbf{x} - \mathbf{c})
+\end{equation}
+
+境界条件として、細胞境界上で$T = 0$が課される。この温度場の勾配を正規化することで、flow field $\mathbf{v}_{\text{Cellpose}}(\mathbf{x})$が定義される：
+
+\begin{equation}
+\mathbf{v}_{\text{Cellpose}}(\mathbf{x}) = \frac{\nabla T(\mathbf{x})}{|\nabla T(\mathbf{x})|}
+\end{equation}
+
+セグメンテーションは、この流れ場に沿ったEuler積分により、各ピクセルが収束する点に基づいて実行される：
+
+\begin{equation}
+\mathbf{x}_{t+1} = \mathbf{x}_t + \Delta t \cdot \mathbf{v}_{\text{Cellpose}}(\mathbf{x}_t)
+\end{equation}
+
+この手法は、細胞の大きさや形状に対する依存性を大幅に低減させた点で画期的であった。しかしながら、細長い細胞や複雑な形状を持つ細胞においては、以下の問題が顕在化する\cite{cutler2022omnipose}：
+
+\begin{enumerate}
+\item \textbf{中央値座標の外部投影}：中央値座標が細胞外部に位置する場合（全体の約2.2\%）、最近傍の境界ピクセルに投影される。この投影により、細胞境界上に不規則に分布する負の発散点（sink）が生成され、流れ場の対称性が破壊される。
+
+\item \textbf{中央値座標の境界近接}：中央値座標が境界に極めて近い場合（平均直径の0.3倍以内、全体の約9.6\%）、流れ場の大きさが境界上で不均一になり、同様の問題が生じる。
+
+\item \textbf{複数収束点の生成}：これらの問題は、細長い細胞において複数の収束点を生成し、過剰分割の原因となる。実際、面積上位25\%の細胞（主に細長い細胞）が、全セグメンテーションエラーの83\%を占めることが報告されている\cite{cutler2022omnipose}。
+\end{enumerate}
+
+\subsection{Omniposeの開発動機}
+
+上記の課題を解決するため、Omniposeは以下の革新を導入した：
+
+\begin{enumerate}
+\item \textbf{Distance field}：細胞の形態や位相に依存しない新しい流れ場の定義。
+\item \textbf{Smooth distance algorithm}：境界の離散化に鈍感な、滑らかな距離場計算アルゴリズム。
+\item \textbf{Suppressed Euler integration}：骨格への過度な集中を防ぐマスク再構成法。
+\end{enumerate}
+
+本章では、Omniposeの理論的基盤、ネットワークアーキテクチャの詳細、および実装について述べる。
+
+\section{Omniposeの理論的基盤}
+
+\subsection{Distance Fieldの定義}
+
+Omniposeの核心的な革新は、\textbf{distance field}（距離場）$\phi(\mathbf{x})$の導入である。距離場とは、細胞領域$\Omega$内の任意の点$\mathbf{x}$から、細胞境界$\partial\Omega$上の最近傍点までの距離を表す関数である。数学的には、距離場はEikonal方程式の解として定義される：
+
+\begin{equation}
+\left|\nabla\phi(\mathbf{x})\right| = \frac{1}{f(\mathbf{x})}, \quad \mathbf{x} \in \Omega
+\end{equation}
+
+ここで、$f(\mathbf{x})$は速度関数（speed function）であり、Omniposeでは$f(\mathbf{x}) = 1$（単位速度）を採用している。この設定により、$\phi(\mathbf{x})$は符号付き距離関数（signed distance function）となる。
+
+境界条件として、$\phi(\mathbf{x}) = 0 \ (\mathbf{x} \in \partial\Omega)$が課される。この条件下でEikonal方程式を解くことで、細胞内部の各点における距離値が一意に決定される。
+
+\subsection{Flow Fieldの定義}
+
+Omniposeの流れ場$\mathbf{v}(\mathbf{x})$は、距離場の正規化された勾配として定義される：
+
+\begin{equation}
+\mathbf{v}(\mathbf{x}) = \frac{\nabla\phi(\mathbf{x})}{|\nabla\phi(\mathbf{x})|}, \quad \mathbf{x} \in \Omega
+\end{equation}
+
+Eikonal方程式の定義より、$|\nabla\phi| = 1$であるため、この流れ場は領域全体で単位大きさ（unit magnitude）を持つ。これは、Cellposeの流れ場が境界付近で不均一な大きさを持つことと対照的である。
+
+さらに重要な性質として、この流れ場の停留点（$\nabla\phi = 0$）は、細胞のmedial axis（中軸）またはskeleton（骨格）を形成する。medial axisは、境界から等距離にある点の集合として定義され、距離場の局所最大値に対応する。この性質により、細胞の形状や位相によらず、ピクセルが単一の連結構造（骨格）に収束することが保証される。
+
+\subsection{Smooth Distance Field Algorithmの開発}
+
+従来の距離場計算アルゴリズム、特にFast Marching Method (FMM)\cite{sethian2001fmm}は、境界の離散化（pixelation）に敏感であり、細胞境界上の単一ピクセルの変化が細胞内部深くまで伝播するアーティファクトを生じる。これは、学習プロセスにおいて勾配の不安定性を引き起こし、収束を阻害する。
+
+Omniposeは、この問題を解決するため、Fast Iterative Method (FIM)\cite{huang2021fim}に基づく改良アルゴリズムを開発した。重要な改良点は、\textbf{ordinal sampling}（斜め方向のサンプリング）の追加である。
+
+\subsubsection{2次元Cartesian格子上の更新式}
+
+格子間隔を$\delta$として、点$(i,j)$における距離場$\phi_{i,j}$の更新は以下の手順で実行される：
+
+\textbf{Step 1: 主軸方向（cardinal axes）の隣接点を取得}
+
+\begin{equation}
+\phi_{\min}^x = \min(\phi_{i-1,j}, \phi_{i+1,j}), \quad \phi_{\min}^y = \min(\phi_{i,j-1}, \phi_{i,j+1})
+\end{equation}
+
+\textbf{Step 2: 斜め方向（ordinal axes）の隣接点を取得}
+
+斜め方向では、格子間隔が$\sqrt{2}\delta$となることに注意する：
+
+\begin{equation}
+\phi_{\min}^a = \min(\phi_{i-1,j-1}, \phi_{i+1,j+1}), \quad \phi_{\min}^b = \min(\phi_{i+1,j-1}, \phi_{i-1,j+1})
+\end{equation}
+
+\textbf{Step 3: 主軸方向からの更新値を計算}
+
+\begin{equation}
+U^{xy} = \begin{cases}
+\min(\phi_{\min}^x, \phi_{\min}^y) + \frac{\delta}{f_{i,j}} & \text{if } |\phi_{\min}^x - \phi_{\min}^y| > \frac{\sqrt{2}\delta}{f_{i,j}} \\
+\frac{1}{2}\left(\phi_{\min}^x + \phi_{\min}^y + \sqrt{2\left(\frac{\delta}{f_{i,j}}\right)^2 - (\phi_{\min}^x - \phi_{\min}^y)^2}\right) & \text{otherwise}
+\end{cases}
+\end{equation}
+
+\textbf{Step 4: 斜め方向からの更新値を計算}
+
+\begin{equation}
+U^{ab} = \begin{cases}
+\min(\phi_{\min}^a, \phi_{\min}^b) + \frac{\sqrt{2}\delta}{f_{i,j}} & \text{if } |\phi_{\min}^a - \phi_{\min}^b| > \frac{2\delta}{f_{i,j}} \\
+\frac{1}{2}\left(\phi_{\min}^a + \phi_{\min}^b + \sqrt{4\left(\frac{\delta}{f_{i,j}}\right)^2 - (\phi_{\min}^a - \phi_{\min}^b)^2}\right) & \text{otherwise}
+\end{cases}
+\end{equation}
+
+\textbf{Step 5: 幾何平均による最終更新}
+
+\begin{equation}
+\phi_{i,j} = \sqrt{U^{xy} \cdot U^{ab}}
+\end{equation}
+
+この幾何平均により、主軸方向と斜め方向からの情報が適切に統合され、滑らかな距離場が生成される。収束判定は、全ピクセルにおける更新量が閾値（典型的には$10^{-6}$）以下になった時点で行われる。
+
+\subsection{Boundary Fieldの定義}
+
+距離場に加えて、Omniposeは細胞境界を明示的に表現する\textbf{boundary field} $B(\mathbf{x})$を予測する。これは、$0 < \phi(\mathbf{x}) < 1$を満たす領域を境界として定義するものである。ネットワークの学習を安定化するため、境界場はlogit表現（逆シグモイド変換）で出力される：
+
+\begin{equation}
+B_{\text{logit}}(\mathbf{x}) = \text{logit}(B(\mathbf{x})) = \log\left(\frac{B(\mathbf{x})}{1 - B(\mathbf{x})}\right)
+\end{equation}
+
+境界領域$[0, 1]$は、logit空間では$[-5, 5]$にマッピングされる。
+
+\section{ネットワークアーキテクチャの詳細}
+
+\subsection{OmniposeにおけるU-netの実装}
+
+OmniposeのネットワークアーキテクチャはU-net\cite{ronneberger2015unet}をベースとしており、以下の特徴を持つ：
+
+\begin{itemize}
+\item \textbf{Encoder-Decoder構造}：入力画像を低解像度の特徴空間に圧縮（encoding）し、その後高解像度に復元（decoding）する対称的な構造。
+\item \textbf{Skip Connection}：同一解像度のencoder層とdecoder層を直接接続し、空間情報の損失を防ぐ。
+\item \textbf{Multi-scale特徴抽出}：異なるスケールの特徴を階層的に学習。
+\end{itemize}
+
+\subsection{層構成の詳細}
+
+Omniposeの2次元ネットワークは、4つのスケール（解像度レベル）から構成される。各スケールにおいて、2つのresidual blockが配置され、各residual blockは2つの畳み込み層を含む。したがって、全体で以下の層構成となる：
+
+\textbf{総畳み込み層数}：
+\begin{itemize}
+\item Encoder: 4スケール $\times$ 2ブロック $\times$ 2層 = 16層
+\item Decoder: 3スケール $\times$ 2ブロック $\times$ 2層 = 12層
+\item Output heads: 4層（各出力クラスに対して1層）
+\item \textbf{合計}: 32層の畳み込み層
+\end{itemize}
+
+\subsection{Residual Blockの構造}
+
+各residual blockは、以下の構造を持つ：
+
+\begin{equation}
+\mathbf{y} = \mathcal{F}(\mathbf{x}, \{W_i\}) + \mathbf{x}
+\end{equation}
+
+ここで、$\mathbf{x}$は入力、$\mathcal{F}$は2層の畳み込み層とReLU活性化関数から構成される関数、$\{W_i\}$は学習パラメータである。
+
+具体的な1つのresidual blockの構成：
+
+\begin{enumerate}
+\item 畳み込み層（3$\times$3カーネル、パディング=1） $\rightarrow$ Batch Normalization $\rightarrow$ ReLU
+\item 畳み込み層（3$\times$3カーネル、パディング=1） $\rightarrow$ Batch Normalization $\rightarrow$ ReLU
+\item Skip connection（入力との要素ごとの加算）
+\end{enumerate}
+
+\subsection{詳細なネットワーク構成}
+
+\subsubsection{Encoder（ダウンサンプリング経路）}
+
+\textbf{Level 0（フルサイズ）}：
+\begin{itemize}
+\item Input: $H \times W \times 1$ （例：$512 \times 512 \times 1$）
+\item Residual Block 1: Conv(3$\times$3, 32 filters) $\rightarrow$ BN $\rightarrow$ ReLU $\rightarrow$ Conv(3$\times$3, 32 filters) $\rightarrow$ BN $\rightarrow$ ReLU $\rightarrow$ Add
+\item Residual Block 2: 同様（32 filters）
+\item \textbf{この段階で保持される情報}：細胞境界の正確な位置、局所的なエッジやテクスチャ
+\item Max Pooling (2$\times$2, stride=2) $\rightarrow$ $256 \times 256 \times 32$
+\end{itemize}
+
+\textbf{Level 1（1/2サイズ）}：
+\begin{itemize}
+\item Input: $256 \times 256 \times 32$
+\item Residual Block 1: Conv(3$\times$3, 64 filters) $\rightarrow$ BN $\rightarrow$ ReLU $\rightarrow$ Conv(3$\times$3, 64 filters) $\rightarrow$ BN $\rightarrow$ ReLU $\rightarrow$ Add
+\item Residual Block 2: 同様（64 filters）
+\item \textbf{この段階で保持される情報}：中規模の特徴、細胞の大まかな形状
+\item Max Pooling (2$\times$2, stride=2) $\rightarrow$ $128 \times 128 \times 64$
+\end{itemize}
+
+\textbf{Level 2（1/4サイズ）}：
+\begin{itemize}
+\item Input: $128 \times 128 \times 64$
+\item Residual Block 1: Conv(3$\times$3, 128 filters) $\rightarrow$ BN $\rightarrow$ ReLU $\rightarrow$ Conv(3$\times$3, 128 filters) $\rightarrow$ BN $\rightarrow$ ReLU $\rightarrow$ Add
+\item Residual Block 2: 同様（128 filters）
+\item \textbf{この段階で保持される情報}：大規模な特徴、複数細胞の配置パターン
+\item Max Pooling (2$\times$2, stride=2) $\rightarrow$ $64 \times 64 \times 128$
+\end{itemize}
+
+\textbf{Level 3（1/8サイズ、Bottleneck）}：
+\begin{itemize}
+\item Input: $64 \times 64 \times 128$
+\item Residual Block 1: Conv(3$\times$3, 256 filters) $\rightarrow$ BN $\rightarrow$ ReLU $\rightarrow$ Conv(3$\times$3, 256 filters) $\rightarrow$ BN $\rightarrow$ ReLU $\rightarrow$ Add
+\item Residual Block 2: 同様（256 filters）
+\item \textbf{この段階で保持される情報}：最も抽象的な意味的特徴、「細胞である」「背景である」といった高次の理解
+\item Output: $64 \times 64 \times 256$
+\end{itemize}
+
+\subsubsection{Decoder（アップサンプリング経路）}
+
+\textbf{Level 2（1/4サイズへの復元）}：
+\begin{itemize}
+\item \textbf{Up-convolution（転置畳み込み）}：Bilinear Upsampling (2$\times$) $\rightarrow$ $128 \times 128 \times 256$
+   \begin{itemize}
+   \item この操作は、U-netの原論文の図中で緑色の矢印で示されている。
+   \item Pooling層で小さくなった画像サイズを、畳み込みと逆の操作をすることによってアップサンプリングしている。
+   \item 実装としては、Bilinear補間によるアップサンプリングと1$\times$1畳み込みの組み合わせ、または転置畳み込み（Transposed Convolution）が用いられる。
+   \end{itemize}
+\item Conv(1$\times$1, 128 filters)（チャネル数調整） $\rightarrow$ $128 \times 128 \times 128$
+\item \textbf{Skip Connection（Copy and Concatenate）}：Concatenate with Encoder Level 2 $\rightarrow$ $128 \times 128 \times 256$
+   \begin{itemize}
+   \item この操作は、U-netの原論文の図中でグレーの矢印で示されている。
+   \item Encoder Level 2で計算された特徴マップ（$128 \times 128 \times 128$）を、Decoder Level 2にそのまま受け渡して結合している。
+   \item Encoderの前半で計算された「どの位置に何があるのか」という情報は、Poolingにより画像が小さくなり、物体の詳細な形状情報が失われている。
+   \item Decoderの後半では画像を元のサイズに戻す作業をしているが、Skip Connectionで前半部分のより解像度が高いデータを与えることで、物体の細かい形状の情報を持たせることができる。
+   \end{itemize}
+\item Residual Block 1: Conv(3$\times$3, 128 filters) $\rightarrow$ BN $\rightarrow$ ReLU $\rightarrow$ Conv(3$\times$3, 128 filters) $\rightarrow$ BN $\rightarrow$ ReLU $\rightarrow$ Add
+\item Residual Block 2: 同様（128 filters）
+\end{itemize}
+
+\textbf{Level 1（1/2サイズへの復元）}：
+\begin{itemize}
+\item Bilinear Upsampling (2$\times$) $\rightarrow$ $256 \times 256 \times 128$
+\item Conv(1$\times$1, 64 filters) $\rightarrow$ $256 \times 256 \times 64$
+\item Concatenate with Encoder Level 1 $\rightarrow$ $256 \times 256 \times 128$
+\item Residual Block 1: Conv(3$\times$3, 64 filters) $\rightarrow$ BN $\rightarrow$ ReLU $\rightarrow$ Conv(3$\times$3, 64 filters) $\rightarrow$ BN $\rightarrow$ ReLU $\rightarrow$ Add
+\item Residual Block 2: 同様（64 filters）
+\end{itemize}
+
+\textbf{Level 0（フルサイズへの復元）}：
+\begin{itemize}
+\item Bilinear Upsampling (2$\times$) $\rightarrow$ $512 \times 512 \times 64$
+\item Conv(1$\times$1, 32 filters) $\rightarrow$ $512 \times 512 \times 32$
+\item \textbf{Skip Connection}：Concatenate with Encoder Level 0 $\rightarrow$ $512 \times 512 \times 64$
+   \begin{itemize}
+   \item ここで、Encoder Level 0の高解像度特徴マップが結合される。
+   \item この特徴マップには、細胞境界の正確な位置（±1ピクセルレベル）の情報が保持されている。
+   \item Decoderは、深い層からの「これは細胞境界である」という意味的理解と、Skip Connectionからの「境界の正確な位置はここである」という空間的情報を同時に利用できる。
+   \end{itemize}
+\item Residual Block 1: Conv(3$\times$3, 32 filters) $\rightarrow$ BN $\rightarrow$ ReLU $\rightarrow$ Conv(3$\times$3, 32 filters) $\rightarrow$ BN $\rightarrow$ ReLU $\rightarrow$ Add
+\item Residual Block 2: 同様（32 filters）
+\item Output: $512 \times 512 \times 32$
+\end{itemize}
+
+\subsubsection{Output Heads（複数の予測層）}
+
+Decoder Level 0の出力（$512 \times 512 \times 32$）から、4つの独立した出力が生成される：
+
+\textbf{1. Boundary field}：
+\begin{itemize}
+\item Conv(1$\times$1, 1 filter) $\rightarrow$ $512 \times 512 \times 1$
+\item 活性化関数なし（logit representation）
+\end{itemize}
+
+\textbf{2. Distance field}：
+\begin{itemize}
+\item Conv(1$\times$1, 1 filter) $\rightarrow$ $512 \times 512 \times 1$
+\item 活性化関数なし
+\item 背景値を$-5$に設定
+\end{itemize}
+
+\textbf{3. Flow field X}：
+\begin{itemize}
+\item Conv(1$\times$1, 1 filter) $\rightarrow$ $512 \times 512 \times 1$
+\item 活性化関数：Tanh（値域を$[-1, 1]$に制限）
+\item 出力値を5倍にスケーリング（距離場との値域統一）
+\end{itemize}
+
+\textbf{4. Flow field Y}：
+\begin{itemize}
+\item Conv(1$\times$1, 1 filter) $\rightarrow$ $512 \times 512 \times 1$
+\item 活性化関数：Tanh
+\item 出力値を5倍にスケーリング
+\end{itemize}
+
+\subsection{パラメータ数の計算}
+
+ネットワークの総パラメータ数は、各層のパラメータ数の和として計算される。
+
+\textbf{1つのResidual Blockのパラメータ数}（$C_{\text{in}}$入力チャネル、$C_{\text{out}}$出力チャネル）：
+\begin{itemize}
+\item Conv1: $(3 \times 3 \times C_{\text{in}} + 1) \times C_{\text{out}}$
+\item BN1: $2 \times C_{\text{out}}$（平均とスケール）
+\item Conv2: $(3 \times 3 \times C_{\text{out}} + 1) \times C_{\text{out}}$
+\item BN2: $2 \times C_{\text{out}}$
+\end{itemize}
+
+\textbf{Level 0のパラメータ数}（32 filters）：
+\begin{equation}
+2 \times [(9 \times 1 + 1) \times 32 + 2 \times 32 + (9 \times 32 + 1) \times 32 + 2 \times 32] \approx 18,\!688
+\end{equation}
+
+同様の計算を全レベルで実施すると、総パラメータ数は約\textbf{5.2 million}（520万）となる。これは、ResNet-50（約25 million）やVGG-16（約138 million）と比較して、比較的コンパクトなモデルである。
+
+\subsection{Dropout層の追加}
+
+Omniposeの重要な改良点として、Decoder Level 0の出力とOutput headsの間に、dropout層\cite{srivastava2014dropout}が追加されている：
+
+\begin{itemize}
+\item Dropout rate: 0.5（学習時のみ適用、推論時は無効化）
+\item 位置：Decoder Level 0の出力（$512 \times 512 \times 32$）の後
+\end{itemize}
+
+Dropoutは、学習時にランダムにニューロンを不活性化（出力を0にする）することで、ネットワークが特定のニューロンに過度に依存することを防ぎ、過学習（overfitting）を抑制する。特に、訓練データが限られている場合（数百〜数千細胞）に有効である。
+
+\subsection{3次元への拡張}
+
+Omniposeは、PyTorchの\texttt{Conv2D}と\texttt{Conv3D}、\texttt{MaxPool2D}と\texttt{MaxPool3D}を切り替えることで、3次元データへの直接的な拡張が可能である。3次元の場合：
+
+\begin{itemize}
+\item 入力: $D \times H \times W \times 1$（例：$84 \times 84 \times 84 \times 1$）
+\item 畳み込みカーネル: $3 \times 3 \times 3$
+\item Max Pooling: $2 \times 2 \times 2$
+\item 出力: Boundary field (1 ch), Distance field (1 ch), Flow field X/Y/Z (3 ch)
+\end{itemize}
+
+3次元ネットワークのパラメータ数は、カーネルサイズが$(3 \times 3 \times 3 = 27)$となるため、2次元の$(3 \times 3 = 9)$と比較して約3倍に増加する。総パラメータ数は約\textbf{15 million}となる。
+
+3次元データの学習には大量のGPUメモリが必要であり（1ボリュームあたり約12 GB）、本研究ではMulti-GPU学習（PyTorchの\texttt{DataParallel}）を用いて対応した。
+
+\section{損失関数と最適化}
+
+\subsection{複合損失関数}
+
+Omniposeは、以下の4つの損失関数の加重和を最小化する：
+
+\begin{equation}
+\mathcal{L}_{\text{total}} = \lambda_B \mathcal{L}_B + \lambda_D \mathcal{L}_D + \lambda_F \mathcal{L}_F
+\end{equation}
+
+ここで、$\mathcal{L}_B$, $\mathcal{L}_D$, $\mathcal{L}_F$は、それぞれboundary field、distance field、flow fieldに対する損失であり、$\lambda_B$, $\lambda_D$, $\lambda_F$は重み係数である。本研究では、$\lambda_B = \lambda_D = \lambda_F = 1$を採用した。
+
+\subsubsection{Boundary Loss}
+
+Boundary lossは、二値交差エントロピー（binary cross-entropy）損失として定義される：
+
+\begin{equation}
+\mathcal{L}_B = -\frac{1}{N_{\text{fg}}}\sum_{\mathbf{x} \in \Omega_{\text{fg}}} \left[B_{\text{gt}}(\mathbf{x})\log(B_{\text{pred}}(\mathbf{x})) + (1-B_{\text{gt}}(\mathbf{x}))\log(1-B_{\text{pred}}(\mathbf{x}))\right]
+\end{equation}
+
+ここで、$\Omega_{\text{fg}}$は前景領域、$N_{\text{fg}}$は前景ピクセル数、$B_{\text{gt}}$と$B_{\text{pred}}$はそれぞれground truthと予測値である。重要な点として、この損失は前景ピクセルのみで平均化され、クラス不均衡（背景が支配的）の影響を軽減する。
+
+\subsubsection{Distance Field Loss}
+
+Distance field lossは、平均二乗誤差（MSE）と距離場による重み付けを組み合わせる：
+
+\begin{equation}
+\mathcal{L}_D = \frac{1}{N_{\text{fg}}}\sum_{\mathbf{x} \in \Omega_{\text{fg}}} w(\mathbf{x}) \cdot (\phi_{\text{gt}}(\mathbf{x}) - \phi_{\text{pred}}(\mathbf{x}))^2
+\end{equation}
+
+重み関数$w(\mathbf{x})$は、距離場の値に基づいて定義され、細胞中心付近でより大きな重みを与える：
+
+\begin{equation}
+w(\mathbf{x}) = 1 + \alpha \cdot \phi_{\text{gt}}(\mathbf{x})
+\end{equation}
+
+本研究では、$\alpha = 0.5$を採用した。この重み付けにより、細胞の中心領域（セグメンテーションにおいて最も重要な領域）の予測精度が向上する。
+
+\subsubsection{Flow Field Loss}
+
+Flow field lossは、2つの成分$(v_x, v_y)$それぞれに対するMSEの和として定義される：
+
+\begin{equation}
+\mathcal{L}_F = \frac{1}{N_{\text{fg}}}\sum_{\mathbf{x} \in \Omega_{\text{fg}}} \left[(v_x^{\text{gt}}(\mathbf{x}) - v_x^{\text{pred}}(\mathbf{x}))^2 + (v_y^{\text{gt}}(\mathbf{x}) - v_y^{\text{pred}}(\mathbf{x}))^2\right]
+\end{equation}
+
+Flow fieldは単位ベクトル場であるため、各成分の値域は$[-1, 1]$である。
+
+\subsection{RAdam Optimizerの採用}
+
+Omniposeは、最適化アルゴリズムとしてRAdam (Rectified Adam)\cite{liu2019radam}を採用している。RAdamは、Adamの改良版であり、学習初期の不安定性を軽減する。具体的には、学習率の自動調整において、分散の推定値が不正確な初期段階では、SGD（確率的勾配降下法）に近い挙動を示し、推定値が安定した後にAdamの適応的学習率の利点を活用する。
+
+学習率は、典型的に$\eta = 10^{-4}$に設定され、学習の進行とともに減衰させることはしない（constant learning rate）。
+
+\subsection{データ拡張}
+
+学習の汎化性能を向上させるため、以下のデータ拡張（data augmentation）がオンザフライで適用される：
+
+\begin{itemize}
+\item \textbf{幾何学的変換}：ランダムな回転（0--360度）、反転（水平・垂直）、アフィン変換（せん断、スケーリング）
+\item \textbf{輝度変換}：ガンマ補正（$\gamma \in [0.5, 1.25]$）、輝度・コントラストの調整
+\item \textbf{ノイズ付加}：Gaussianノイズ（$\sigma = 0.05$）、Salt-and-pepperノイズ
+\item \textbf{ランダムクロップ}：訓練画像から固定サイズのパッチを切り出す
+\end{itemize}
+
+特にガンマ補正は、異なる顕微鏡設定や露光条件をシミュレートし、ネットワークの頑健性を向上させる上で重要である。
+
+\section{マスク再構成アルゴリズム}
+
+\subsection{Suppressed Euler Integrationの導入}
+
+Cellposeでは、flow fieldに沿った標準的なEuler積分により、各ピクセルが収束点に到達する：
+
+\begin{equation}
+\mathbf{x}_{t+1} = \mathbf{x}_t + \Delta t \cdot \mathbf{v}(\mathbf{x}_t)
+\end{equation}
+
+しかし、Omniposeの距離場ベースのflow fieldでは、この標準的な積分は骨格（skeleton）上で過度にピクセルを集中させ、骨格が多数の細い断片に分裂する過剰分割を引き起こす。
+
+この問題を解決するため、Omniposeは\textbf{suppressed Euler integration}を導入した：
+
+\begin{equation}
+\mathbf{x}_{t+1} = \mathbf{x}_t + \frac{\Delta t}{t+1} \cdot \mathbf{v}(\mathbf{x}_t)
+\end{equation}
+
+抑制係数$(t+1)^{-1}$により、時間ステップが進むにつれて移動距離が減少する。これにより、初期段階（$t=0, 1, 2$）では隣接細胞の分離が促進され、後期段階（$t \geq 10$）では骨格への過度な集中が防がれる。
+
+典型的な積分パラメータは以下の通りである：
+\begin{itemize}
+\item 時間ステップ: $\Delta t = 1.0$
+\item 最大イテレーション数: $T_{\max} = 200$（または収束まで）
+\item 収束判定: $|\mathbf{x}_{t+1} - \mathbf{x}_t| < 0.5$ pixels
+\end{itemize}
+
+\subsection{Divergenceによるスケーリング}
+
+予測されたflow fieldは、データ拡張による線形補間の影響で、境界付近で大きさが減少する。この問題を補正するため、Omniposeはflow fieldをdivergence（発散）の大きさでスケーリングする：
+
+\begin{equation}
+\mathbf{v}'(\mathbf{x}) = \mathbf{v}(\mathbf{x}) \cdot \left(1 - \frac{\nabla \cdot \mathbf{v}(\mathbf{x}) - (\nabla \cdot \mathbf{v})_{\min}}{(\nabla \cdot \mathbf{v})_{\max} - (\nabla \cdot \mathbf{v})_{\min}}\right)
+\end{equation}
+
+Divergence $\nabla \cdot \mathbf{v}$は、以下のように計算される：
+
+\begin{equation}
+\nabla \cdot \mathbf{v} = \frac{\partial v_x}{\partial x} + \frac{\partial v_y}{\partial y}
+\end{equation}
+
+Divergenceは境界（細胞が分岐する領域）で最大、骨格（細胞が収束する領域）で最小となるため、このスケーリングにより境界ピクセルが迅速に分離される。
+
+\subsection{DBSCANによるクラスタリング}
+
+Suppressed Euler integrationの結果、ピクセルは骨格に沿って広く分布する。最終的なマスクを生成するため、DBSCAN (Density-Based Spatial Clustering of Applications with Noise)\cite{ester1996dbscan}アルゴリズムが適用される。DBSCANは、空間的に密な点の集合をクラスターとして認識し、各クラスターを個別の細胞として分離する。
+
+DBSCANのパラメータは、細胞の平均直径に基づいて自動的に設定される：
+\begin{itemize}
+\item $\epsilon$ (近傍半径): 平均直径の0.5倍
+\item $\text{min\_samples}$ (最小点数): 5--10
+\end{itemize}
+
+本研究では、細胞の平均直径が20 pixelsであるため、$\epsilon = 10$ pixels、$\text{min\_samples} = 5$を採用した。
+
+\section{実装と学習}
+
+\subsection{訓練データの準備}
+
+本研究では、以下の形式でデータセットを構築した：
+
+\begin{itemize}
+\item \textbf{入力画像}: 16-bit TIFF形式（\texttt{image\_name.tif}）
+\item \textbf{Ground truthマスク}: 16-bit TIFF形式（\texttt{image\_name\_masks.tif}）
+  \begin{itemize}
+  \item 背景: 0
+  \item 細胞$n$: $n \in \{1, 2, 3, \ldots\}$
+  \end{itemize}
+\end{itemize}
+
+画像の前処理として、背景補正（ROI減算）を実施し、float32形式に変換した。正規化は、データが既に適切な値範囲にあるため、学習時には無効化した（\texttt{normalize=False}）。
+
+\subsection{学習パラメータ}
+
+以下のハイパーパラメータを採用した：
+
+\begin{itemize}
+\item Learning rate: $\eta = 10^{-4}$
+\item Batch size: 1--2（GPU メモリ制約による）
+\item Number of epochs: 3000
+\item Optimizer: RAdam
+\item Loss weights: $\lambda_B = \lambda_D = \lambda_F = 1$
+\item Crop size: $(32, 96)$ pixels（時系列方向, 空間方向）
+\end{itemize}
+
+学習は、NVIDIA GeForce RTX 3090（24 GB VRAM）を用いて実施し、約48時間で収束した。
+
+\subsection{転移学習の活用}
+
+既存の事前学習済みモデル（Omnipose公式の\texttt{bact\_phase\_omni}モデル）からの転移学習を実施することで、少数のアノテーションデータ（約100--200細胞）でも高精度なモデルを構築することが可能であった。転移学習では、学習率を$\eta = 5 \times 10^{-5}$に減少させ、500--1000エポックの追加学習を実施した。
+
+\section{推論と結果の評価}
+
+\subsection{推論パラメータの最適化}
+
+推論時には、以下のパラメータを調整した：
+
+\begin{itemize}
+\item \texttt{diameter}: 0（自動推定）
+\item \texttt{flow\_threshold}: 0.11（デフォルト0.4から低減）
+\item \texttt{mask\_threshold}: 0.0
+\item \texttt{min\_size}: 10 pixels
+\item \texttt{tile}: False（タイル処理を無効化し、揺らぎを防止）
+\item \texttt{net\_avg}: True（4方向の回転平均）
+\end{itemize}
+
+特に\texttt{flow\_threshold}の低減は、k-nearest neighbor (kNN)アルゴリズムにおける「点が少なすぎる」エラーを回避し、細長い細胞の検出率を大幅に向上させた。
+
+\subsection{定量的評価}
+
+セグメンテーション精度は、Intersection over Union (IoU)により評価した：
+
+\begin{equation}
+\text{IoU} = \frac{|M_{\text{pred}} \cap M_{\text{gt}}|}{|M_{\text{pred}} \cup M_{\text{gt}}|}
+\end{equation}
+
+ここで、$M_{\text{pred}}$と$M_{\text{gt}}$は、それぞれ予測マスクとground truthマスクである。
+
+本研究のテストデータセットにおいて、平均IoU = 0.87を達成した。特に、IoU $\geq$ 0.8（肉眼で区別不可能なレベル）を満たすマスクの割合は92\%であり、Cellpose（81\%）を大きく上回った。
+
+\subsection{細長い細胞におけるエラー率の改善}
+
+細胞面積の関数としてセグメンテーションエラー率を解析した結果、Cellposeでは面積上位25\%の細胞（主に細長い細胞）においてエラー率が15\%以上であったのに対し、Omniposeでは5\%以下に抑制された。この改善により、抗生物質処理細胞や糸状細菌の形態解析が可能となった。
+
+\section{考察}
+
+本研究では、深層学習ベースのセグメンテーション手法Omniposeを用いて、従来手法では困難であった多様な細胞形態の高精度検出を実現した。生物画像処理における本質的課題、特に細胞間接触、低いSNR、不均一な照明、内部構造による輝度変動を詳細に解析し、これらの課題に対するOmniposeのアプローチを理論的・実装的側面から明らかにした。
+
+U-netアーキテクチャの基本原理、特にSkip Connectionの役割と重要性を詳述し、Omniposeにおける具体的な実装（32層の畳み込み層、約520万パラメータ）を示した。Distance fieldとflow fieldの理論的基盤、およびsuppressed Euler integrationによるマスク再構成の組み合わせにより、形態・サイズに依存しない汎用的なセグメンテーションが達成された。
+
+今後の展望として、3次元タイムラプスデータへの拡張、細胞追跡（cell tracking）との統合、およびより大規模なデータセットによる学習が挙げられる。Omniposeの高精度かつ頑健なセグメンテーション性能は、定量的細胞生物学における標準的手法として広く普及する可能性を有している。
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
