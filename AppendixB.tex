@@ -1,76 +1,17 @@
 \chapter*{Appendix B}
-\section{QPI}\subsection{4f光学系}
+\section{QPI}
+\subsection{4f光学系}
 空間周波数フィルタリング
-\subsection{}
-\section{高分子の粘弾性測定}
-高分子に力学的な加重を加えた場合の挙動は明らかに金属やセラミックなどの物質とは異なっており、他方単純液体とも異なっている。高分子は\mynote{なんのパラメータ?}広い範囲にわたって弾性的な性質と粘性的な性質の両方を併せ持っており、これらの性質は粘弾性(viscoelasticity)と呼ばれる。粘弾性は単に粘性的な性質と弾性的な性質の重ね合わせではない。擬弾性(anelasticity)として知られている性質が出現するのが特徴であり、そこでは粘性力と弾性力が強く相関しあっている。\mynote{金属の場合、弾性力と粘性力は異なる種類の応答を示す。金属は通常、弾性変形を主に支配する結晶構造を持っており、その応力応答は弾性挙動が支配的である。金属の粘性（例えば、せん断応力に対する反応）は通常非常に小さく、温度や変形速度によって依存するが、弾性挙動とは直接的に関連しない。金属の変形は弾性限度を超えると塑性変形に移行するが、これは粘性とは異なるメカニズムである。
-単純液体（例えば、水やアルコール）の場合、粘性は分子間力（例えば、分子間引力や衝突頻度）に起因する。液体の弾性力（例えば、音速や圧縮特性）は、分子間力が液体の圧縮にどのように応答するかに関連しています。これらの特性はおおむね独立しており、粘性と弾性の強い相関は示さない。単純液体では、弾性力はほとんどの場合、圧力変化に対する応答に関連し、粘性は流動性に関与する。
-したがって、金属や単純液体では、粘性と弾性の関係は非常に弱いか、ほとんど相関がないと考えられる。}ある種の変形はそれが可逆的で外力を取り除けば消えるものであったとしても外力の変化に応答するのにある有限な時間が必要となってくる。また、力学的な性質が物質によって異なると言うだけでなく
-、温度の関数としても驚くほど変化を示すと言うことが高分子にとってはよく知られた性質である。高分子を代表とする粘弾性体の変形挙動は実験的にはどのように特徴づけられるのであろうか。高分子を一定の横領区下に置いた際の時間に依存した変形挙動を調べる実験はクリープ実験(creep experiment)と呼ばれており、一軸応力やずり応力などの様々な種類の荷重に対して行うことができる。この実験においては時刻$t=0$で力を素早く印加し、その結果生じる変形を時間の関数として追跡する。ある決まった伸びが一瞬で達成されるHooke弾性体とは異なって高分子の場合は通常複雑な時間依存性を示す伸びの曲線が観測される。この際3つのことなった寄与を考慮しなければならないが、それは瞬時の弾性的な応答、ある時間遅れの後に初めて有効になる外場への応答過程として擬弾性成分が存在するのがわかる。その後塑性流動(plastic flow)が観測される。はじめの二つの変形過程は可逆的であり、力を除くと変形は完全に無くなるのに対して粘性流動は不可逆的な変化をもたらす。これらは歪み回復として一般的に知られている。伸長クリープ実験により時間に依存する伸びの曲線$E_{zz}(t)$が得られ、これらは物質固有なものである。この際、荷重が大きすぎない場合には$E(t)$は印加した応力に$\sigma_{zz}^0$に比例している。したがって。線型粘弾性領域(linear viscoelastic region)では印加応力とは独立はある関数$D_t(t)$を用いて伸長クリープ実験の結果を
-\begin{equation}
-e_{zz}(t) = D_t(t)\sigma_{zz}^0
-\end{equation}
-と言う形で表現することができる。この関数Dt(t)は、物質に依存する量であり、伸長クリープコンプライアンス(creep comliance)と呼ばれる。
-一定の応力下においての測定ではなく、試料を固定することによって一定の変形を与えた状態でその結果生じる応力の時間変化を追跡した場合、変形を加えた直後に応力は高い値を示し、その後遅れて生じる応答、および不可逆的な塑性流動によって応力の低下が引き起こされる
-。また応力緩和実験では結果として生じる時間に依存する張力はある範囲内では変形$e_{zz}^0$に比例することがわかる、この場合の比例定数は時間に依存するYoung率(time-dependent Young's modulus) $E_t(t)$と呼ばれ
-\begin{equation}
-  \sigma_{zz}(t) = E_t(t)e_{zz}^0  
-\end{equation}
-の関係を満たす。
-次に周期的に変動する伸長応力を試料に加える場合を考える。
-\begin{equation}
-    \sigma_{zz}(t) = \sigma_{zz}^0\mathrm{exp}(-i \omega t)
-\end{equation}
-この場合、
-\begin{equation}
-    e_{zz}(t) = e_{zz}^0\mathrm{exp}(-i \omega t)
-\end{equation}
-という周期的な変動する歪みが得られる。この測定のおいて試料の粘性に起因する歪み$e_{zz}(t)$の時間遅れ、すなわち$\sigma_{zz}(t)$に相対的な位相のずれが存在する。この場合、二つの関数の関係は複素数表示を用いて
-\begin{equation}
-    D_t(\omega) = \frac{e_{zz}(t)}{\sigma_{zz}(t)} = \frac{e_{zz}^0}{\sigma_{zz}^0}  = D'_t(\omega) + iD''_t(\omega)
-\end{equation}
-と言う関係式で表される。ここで$D_t(\omega)$は動的伸長コンプライアンス(dynamic tensile compliance)と呼ばれる。この時、位相差$\delta$は
-\begin{equation}
-    \tan\delta(\omega) = \frac{D''_t(\omega)}{D'_t(\omega)}
-\end{equation}
-という関係で与えられる。
-動的Young率(dynamic Young's modulus)は
-\begin{equation}
-    E_t(\omega) = \frac{\sigma_{zz}^0}{e_{zz}^0}  = E'_t(\omega) - iE''_t(\omega)
-\end{equation}
-によって定義され、動的コンプライアンスの逆数
-\begin{equation}
-    E_t(\omega) = \frac{1}{D_t(\omega)}
-\end{equation}
-に相当する。
-伸長応力に対する応答同様にずり変形に対して、時間に依存するずりコンプライアンス$J(t)$、時間に依存するずり弾性率$G(t)$およびこれら二つに対応した周波数に依存する複素関数$J(\omega)$、$G(\omega)$という標識が存在する。動的力学測定は時間依存測定と比較して特別な物理的洞察を可能にするという利点がある。変形が生じている間は外力は試料に仕事を行う。この仕事により一方ではポテンシャルエネルギーの増加、他方ではネルの発生が生じる。動的コンプライアンスの実部と虚部はこのふたtの効果を分離することに対応する。外力により供給される仕事率について計算すると、単位体積あたりの仕事率は
-\begin{equation}
-    \frac{dw}{dt}  = \mathfrak{R}(\sigma_{zz}(t))\frac{d\mathfrak{R}(e_{zz}(t))}{dt}
-\end{equation}
-により与えられる。時間に依存するのびは
-\begin{equation}
-    e_{zz}(t) =D_t(\omega)\sigma_{zz}^0\mathrm{exp}(-i \omega t ) = D'(t)+iD''(t)\sigma_{zz}^0\mathrm{cos(\omega t) - i\mathrm{sin}(\omega t)}
-\end{equation}
-によって与えられるのでその実部は
-\begin{equation}
-    \mathfrak{R}(e_{zz}(t)) = D'_t\sigma_{zz}^0\mathrm{cos}(\omega t) + D''_t\sigma_{zz}^0
-\mathrm{sin}(\omega t)
-\end{equation}
-となるので仕事率は、
-\begin{equation}
-    \frac{dw}{dt} = \sigma_{zz}^0\mathrm{cos}(\omega t)[-\omega\sigma_{zz}^0D'_t\mathrm{sin}(\omega t) + \omega\sigma_{zz}^0D''_t\mathrm{cos}^2(\omega t)]
-    = -\frac{(\sigma_{zz}^0)^2}{2}\omega D'_t\mathrm{sin}(2\omega t) + (\sigma_{zz}^0)^2\omega D''_t\mathrm{cos}^2(\omega t)
-\end{equation}
-第一項は応力の変動の2倍の周波数で正負の値の間を振動する。このことは1/4周期の間に試料に蓄えられたエネルギーが次の1/4z周期の間に仕事として消費されるというエネルギーの交換を表している。この項は弾性エネルギーの貯蔵と解放を表しており、その大きさは動的コンプライアンスの実部によってのみ与えられる。虚部に比例している第二項は常に正で時間平均が
-\begin{equation}
-    \overline{\frac{dw}{dt}} = \frac{1}{2}(\sigma_{zz}^0)^2\omega D''_t
-\end{equation}
-で与えられる仕事率の消費を表す。一般に仕事がなされて熱が交換されると試料の内部エネルギー$d\mathcal{U} = \mathcal{V}dw+d\mathrm{Q}$
-に従って変化する。等温条件下で行われる通常の測定の場合、試料の内部エネルギーは変化しない。それゆえ、与えられた仕事は
-\begin{equation}
-    \mathcal{V}\overline{\frac{dw}{dt}} = - \overline{\frac{d\mathcal{Q}}{dt}}
-\end{equation}
-に従って完全に熱として解放されなければならない。
-\subsection{応答関数間の関係式}
-\subsection{感受率の一般的な性質}
-\subsubsection{Kramers-Kronig関係式}
+\subsection{Optical damage to biological samples }
+Optical damage could occur in the biological samples
+exposed to the illumination in ADRIFT-QPM, which is dozens of times stronger than that in conventional
+QPM. However, as the illumination intensity in QPM is generally much lower than that in
+other live-cell imaging techniques, such as fluorescence [142] and Raman microscopy [30], the strong
+illumination in the ADRIFT method does not create a significant negative effect. For example, the
+illumination intensity in our demonstration is 1 nW/μm2, which is 2 and 6-8 orders of magnitude
+lower than that in fluorescence and Raman imaging, respectively. Note that imaging based on light
+scattering generally results in less optical damage than that based on light absorption even with
+the same intensity. In fact, even with the application of a high-speed image sensor at !kHz, the
+illumination intensity is 4-6 orders of magnitude lower than that in Raman imaging. Furthermore,
+the optical throughput of our system becomes !5 times higher than the current condition by placing
+the SLM before a sample, thereby reducing the illumination intensity to the sample.
