@@ -4,18 +4,12 @@
 
 The optical system of QPI is described in Fig. ??. The light source consisted of a 658 nm, 20 mW single-mode fiber-pigtailed laser diode (LP660-SF20, Thorlabs) mounted in an LDM9LP mount. The laser was controlled by an LDC202C benchtop LD current controller (±200 mA) and a TED200C temperature controller (12 W, Thorlabs), connected via CAB400 and CAB420-15 cables, respectively. The output beam was collimated using an FC/PC fiber collimator (CFC2-B, $f$ = 2.0 mm, Thorlabs) to illuminate the sample. 
 The optical field transmitted through the sample was magnified with a 40× objective lens (LUCPLFLN40X, Olympus, NA = 0.95) and replicated with a Ronchi ruling grating (120 lines per mm, Edmund Optics \#66-342). We employ diffraction phase microscopy (i.e., common-path off-axis DH) as the QPM. The first-order diffraction light is used as the object light, while the zeroth-order diffraction light low-pass filtered with a 25 μm pinhole (P25K, Thorlabs) placed at the Fourier plane is converted to a quasi-plane wave that acts as the reference light. The interferogram between these states in the off-axis configuration is recorded with a monochrome USB 3.0 CMOS camera (acA2440-75, Basler ace, 2448 × 2048 pixels, pixel size of 3.45 μm, full-well capacity of $\sim$10 ke$^-$) after relay lenses (ACT508-200-A, $f$ = 200 mm, Ø2", Thorlabs) in a 4f configuration. The number of pixels in the raw hologram and reconstructed OPD image are 2048 × 2048 and 507 × 507, respectively. The pixel size of the OPD image is set to the diffraction limit of $\sim$350 nm, determined by the NA of the objective lens.
-
-\mynote{図は自分でまた時間を作ってaffinity designerで書きましょう。}
-\begin{figure}[h]
-\centering
-\begin{tikzpicture}[scale=1.0]
-
-% Planes
-
-\end{tikzpicture}
-\caption{回折格子によって分離された回折光を、4f光学系で空間フィルタリングし、+1次光のみを選択してカメラに導く構成。フーリエ面のピンホールが+1次成分だけを通過させ、角度を持った干渉縞を再構成する。}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{figure/QPI optical systems.pdf}
+    \caption{Enter Caption}
+    \label{fig:placeholder}
 \end{figure}
-
 \section{Reconstruction Procedure of QPI}
 
 \subsection{Light propagation and angular spectrum method}
@@ -234,11 +228,6 @@ corresponding to a wavevector of
 k_{\mathrm{exp}}^{\mathrm{off-axis}} = 2\pi f_{\mathrm{exp}}^{\mathrm{off-axis}} = 2\pi \times 4.79 \times 10^6 = 3.01 \times 10^7~\mathrm{rad/m}.
 \end{equation}
 
-The relative difference between the theoretical and experimental values is
-\begin{equation}
-\frac{|k_{\mathrm{theory}}^{\mathrm{off-axis}} - k_{\mathrm{exp}}^{\mathrm{off-axis}}|}{k_{\mathrm{theory}}^{\mathrm{off-axis}}} = \frac{|3.02 - 3.01|}{3.02} \times 100\% = 0.3\%.
-\end{equation}
-
 This agreement confirms that the grating-based off-axis configuration is correctly implemented and that the optical magnification and spatial calibration are accurate.
 
 \subsection{Phase sensitivity}
@@ -268,9 +257,24 @@ In terms of the number of electrons $N_e = g \cdot \alpha$, this can be written 
 \end{equation}
 
 The phase sensitivity exhibits a quadratic dependence on visibility ($\sigma_{\phi} \propto V^{-1}$) and a square-root dependence on the number of electrons ($\sigma_{\phi} \propto N_e^{-1/2}$), making visibility optimization critical for achieving high sensitivity.
+\section{Microscope and imaging setup}
+Microscopy was conducted on an inverted Nikon Ti microscope (Nikon Instruments Inc.) fitted with a 40×/0.95 NA air objective. Samples were maintained at 30 °C with a stage-top incubator (Tokai Hit model ). The microscope hardware including motorized stage, shutters, Perfect Focus System (PFS) autofocus and image acquisition were controlled using Micro-Manager (v) open-source software.
+\section{Biological replicates}
+S.pombe were streakrd from frozen stock on an YE plate and grown for 24 hours at 30℃. Single colonies(biological replicates) were then picked and grown in 10 ml of EMM at 30℃ with shaking for 24 hours.
 
-\section{Image analysis}
-Omniposeによる輪郭線抽出をあのsucjuunの論文くらい詳しく書く。
+\section{Image analysis to retrieve phase shifts}
+To reduce post-processing time, each z-stack was cropped to a square region containing the cell(s) of interest and a border of at least 40 pixels, and the focal plane was identified. This cropping was accomplished first using FIJI v. 1.53c to identify regions of interest (ROIs) within a thresholded standard deviation z-projection image of each brightfield z-stack. Using custom Matlab R2019a (Mathworks) scripts, images were cropped to the ROIs and the standard deviation of the pixels in each ROI was computed. The focal plane was defined based on the image in the stack with the lowest standard deviation. Three images above and three images below the focal plane separated by 500 nm were used to quantify cytoplasmic density. Based on these images, the phase information was calculated using a custom Matlab script implementing a previously published algorithm (Bostan et al., 2016). In brief, this method relates the phase information of the cell to bright-field image intensity changes along the z-direction. Equidistant, out-of-focus images above and below the focal plane are used to estimate intensity changes at various defocus distances. A phase-shift map is reconstructed in a non-linear, iterative fashion to solve the transport-of-intensity equation.[from variational]
+
+\section{Cytoplasmic density quantification}
+Using Matlab, images were background-corrected by fitting a Gaussian to the highest peak of the histogram (corresponding to the background pixels) of the phase-shift map and shifting every pixel so that the background intensity peak corresponded to zero phase shift. These background-corrected phase-shift maps were converted into binary images using watershedding for cell segmentation; where necessary, binary images were corrected manually to ensure accurate segmentation. Binary images were segmented using Morphometrics (Ursell et al., 2017) to generate subpixel-resolved cell outlines.
+
+Each cell outline was skeletonized using custom Matlab code as follows. First, the closest-fitting rectangle around each cell was used to define the long axis of the cell. Perpendicular to the long axis, sectioning lines at 250 nm intervals and their intersection with the cell contour were computed. The centerline was then updated to run through the midpoint of each sectioning line between the two contour-intersection points. The slope of each sectioning line was updated to be perpendicular to the slope of the centerline around the midpoint. Sectioning lines that crossed a neighboring line were removed. Cell volume and surface area were calculated by summing the volume or area of each section, assuming rotational symmetry. Volume and area of the poles were calculated assuming a regular spherical cap.
+
+To convert the mean intensity of the phase-shift within each cell into absolute concentration (in units of mg/mL), the mean of all cells across all time points was first calculated. Then, the decrease in phase shift induced by a prescribed concentration of BSA (typically 100 mg/mL) was defined as the difference between the mean of the phase shifts before and after the BSA imaging time point and the phase shift during the BSA time point. This difference in intensity established the calibration scaling between phase shift intensity and the concentration of BSA (Figure 1B). The cytoplasmic density of each cell was then calculated by dividing the mean phase shift of the cell by the aforementioned scaling factor. The mass of each cell was inferred from its mean density and volume.[from variational]
+
+\section{Volume estimation}
+戸田さんの哺乳類細胞の体積推定や他のrod shape近似の書き方を調べる
+
 \section{一細胞観察のためのデバイス}
 シングルセルレベルで発現状態の時間変化を長期的に取得するため,mother machineと呼ばれるPolydimethylsiloxane(PDMS)製マイクロ流体デバイスを用いて計測を行った.mother machineは,制御された増殖条件下で個々の細菌細胞を長期間にわたって観察・分析するために設計された特殊なマイクロ流体デバイスである\cite{wang2010robust}.2010年にWangらによって大腸菌の一細胞解析のために初めて開発されたこの装置は,単一細胞の動態,細菌の老化,遺伝子発現,およびその他のさまざまな細胞プロセスを,これまでにない時間的・空間的解像度で研究するための非常に貴重なツールとなっている.
 この基本設計は,数百から数千の細長い増殖チャネルが,増殖培地が連続的に流れる大きな主溝に対して垂直に配置されている.各増殖チャネルは通常,細菌細胞の1列分が収まるだけの幅しかなく,一端が閉じられている.チャネルは,ソフトリソグラフィ技術を用いて,透明でガス透過性のポリマーであるポリジメチルシロキサン（PDMS）で製造される.その後,PDMSチップはガラスカバースリップに接着され,顕微鏡観察に適した透明度を維持しながら密閉された流路が形成される(図1).
@@ -296,6 +300,7 @@ mother machineは細胞は固定された焦点面に留まり,高開口数対�
 
 \section{細胞株と培養液}
 本研究では,構成的 adh1 プロモーターの制御下で mNeonGreen を発現する \textit{Schizosaccharomyces pombe}株（HN0101）（h- leu1-32::leu1+-Padh1-mNeonGreen）を使用した.分裂酵母のadh1プロモーターは,遺伝子発現のための強力な構成プロモーターとして広く認知されており,様々な発現系や分裂酵母のベクター構築に用いられてきており\cite{verma2014high}\cite{grimm1991strong}\cite{forsburg1993comparison},その恒常的な性質により,誘導性プロモーターとは異なってさまざまな成長条件下で一貫した遺伝子発現が可能である\cite{matsuyama2008series}.HN0101 を作製するために,野生型 FY18675 株のII番染色体上の偽遺伝子座(SPBC1348.11)に KanMX6 選択マーカーを持つ mNeonGreen 発現カセットを組み込んだ(NBRP [National BioResource Project] から提供).細胞は,Morenoの記載に従い,EMM培地で30 ℃で培養した\cite{moreno199156}.EMM培地は,一般的に分裂酵母の培養に使用される合成培地である.主な炭素源としてグルコースを含み,各種アミノ酸,ビタミン,ミネラルも含有する.EMMは,濃度を2倍にしたり緩衝能を向上させたりするなど,特定の実験ニーズに合わせて調整することができる\cite{petersen2016growth}.培地の組成は下表のように調製した.
+
 
 \section*{50 x salts}
 \begin{longtable}{|l|c|c|c|}
