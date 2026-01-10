@@ -298,112 +298,18 @@ mother machineは細胞は固定された焦点面に留まり,高開口数対�
 
 本研究で使用したmother machineでは,幅180~$\mu$\text{m}の太い1本の流路に沿って垂直に,幅約6.3~$\mu$\text{m},長さ約40~$\mu$\text{m}の観察用チャンバーが多数配列している.流路の両端にはそれぞれシリンジと廃液に繋がるチューブが接続されており,シリンジポンプにより一定速度で送り出される培地が流路内を一方向に流れることでデバイス中の培養環境がおよそ定常に保たれる.導入された細胞はこのチャンバー内に入り込み,ほぼ一列に限定された状態で増殖するマザーマシンは,メインフロートレンチに沿って多数の流路が並ぶように設計されており,メインフロートレンチ内を流れる培地を変化させることで,細胞の環境条件を精密に制御することが可能である.
 
-\section{細胞株と培養液}
-本研究では,構成的 adh1 プロモーターの制御下で mNeonGreen を発現する \textit{Schizosaccharomyces pombe}株（HN0101）（h- leu1-32::leu1+-Padh1-mNeonGreen）を使用した.分裂酵母のadh1プロモーターは,遺伝子発現のための強力な構成プロモーターとして広く認知されており,様々な発現系や分裂酵母のベクター構築に用いられてきており\cite{verma2014high}\cite{grimm1991strong}\cite{forsburg1993comparison},その恒常的な性質により,誘導性プロモーターとは異なってさまざまな成長条件下で一貫した遺伝子発現が可能である\cite{matsuyama2008series}.HN0101 を作製するために,野生型 FY18675 株のII番染色体上の偽遺伝子座(SPBC1348.11)に KanMX6 選択マーカーを持つ mNeonGreen 発現カセットを組み込んだ(NBRP [National BioResource Project] から提供).細胞は,Morenoの記載に従い,EMM培地で30 ℃で培養した\cite{moreno199156}.EMM培地は,一般的に分裂酵母の培養に使用される合成培地である.主な炭素源としてグルコースを含み,各種アミノ酸,ビタミン,ミネラルも含有する.EMMは,濃度を2倍にしたり緩衝能を向上させたりするなど,特定の実験ニーズに合わせて調整することができる\cite{petersen2016growth}.培地の組成は下表のように調製した.
+\section{Yeast Strain and Culture Conditions}
+We used a Schizosaccharomyces pombe strain (HN0101; h\^- leu1-32::leu1\^+-Padh1-mNeonGreen) expressing mNeonGreen under the control of the constitutive adh1 promoter. The S. pombe adh1 promoter is widely recognized as a strong constitutive promoter and has been extensively used for gene expression systems and vector construction in fission yeast \cite{verma2014high, grimm1991strong, forsburg1993comparison}. Unlike inducible promoters, its constitutive nature enables consistent gene expression across diverse growth conditions \cite{matsuyama2008series}.
+To generate strain HN0101, an mNeonGreen expression cassette with a KanMX6 selection marker was integrated at the pseudogene locus (SPBC1348.11) on chromosome II of the wild-type FY18675 strain (provided by the National BioResource Project, NBRP). Cells were cultured in Edinburgh Minimal Medium (EMM) at 30°C as previously described \cite{moreno199156}. EMM is a synthetic medium commonly used for fission yeast culture, containing glucose as the primary carbon source along with amino acids, vitamins, and minerals. EMM can be adapted to specific experimental needs, such as adjusting nutrient concentrations or enhancing buffering capacity \cite{petersen2016growth}. The medium composition is detailed in Table S??.
 
-
-\section*{50 x salts}
-\begin{longtable}{|l|c|c|c|}
-    \hline
-    試薬 & 濃度 & 分子量 (g/mol) & 重量(計算値) \\
-    \hline
-    MgCl$_2$ & 0.26 M & 203.3 & 5.29 g \\
-    CaCl$_2$ & 4.99 mM & 147.01 & 73.4 mg \\
-    KCl & 0.67 M & 74.55 & 4.99 g \\
-    Na$_2$SO$_4$ & 14.1 mM & 142.04 & 200 mg \\
-    \hline
-    total & & & 100 ml \\
-    \hline
-\end{longtable}
-
-\section*{1000 x vitamins}
-\begin{longtable}{|l|c|c|c|}
-    \hline
-    試薬 & 濃度  & 分子量 (g/mol) & 重量 (mg) \\
-    \hline
-    Calcium D-pentothenate & 4.2 & 476.54 & 100 \\
-    Nicotinic acid & 81.2 & 123.11 & 500 \\
-    Myo-inositol & 55.5 & 180.16 & 500 \\
-    Biotin & 0.0408 & 244.31 & 0.498 \\
-    \hline
-    MiliQ & & & 50 ml \\
-    \hline
-\end{longtable}
-
-\section*{10000 x minerals}
-\begin{longtable}{|l|c|c|c|}
-    \hline
-    試薬 & 濃度 (mM) & 分子量 (g/mol) & 重量 (mg) \\
-    \hline
-    Boric acid & 80.9 & 61.83 & 50 \\
-    MnSO$_4$ & 23.7 & 241.08 & 57.1 \\
-    ZnSO$_4$ & 13.9 & 287.58 & 40.0 \\
-    FeSO$_4$ & 7.4 & 278.01 & 20.6 \\
-    Molybdic acid & 2.47 & 1235.86 & 30.5 \\
-    KI & 6.02 & 166 & 9.99 \\
-    CuSO$_4$ & 1.6 & 249.69 & 4.00 \\
-    Citric acid & 47.6 & 324.41 & 154 \\
-    \hline
-    MiliQ & & & 10 ml \\
-    \hline
-\end{longtable}
-
-\section*{50\% glucose}
-\begin{longtable}{|l|c|c|}
-    \hline
-    試薬 & 濃度 (w/v) & 重量 (g) \\
-    \hline
-    D-glucose & 50\% & 25 \\
-    MiliQ &  & 50 ml (up-to) \\
-    \hline
-\end{longtable}
-
-\section*{25\% NH$_4$Cl}
-\begin{longtable}{|l|c|c|}
-    \hline
-    試薬 & 濃度 (w/v)& 重量 (g)\\
-    \hline
-    NH$_4$Cl & 25\% w/v & 12.5 \\
-    MiliQ &  & 50 ml (up-to) \\
-    \hline
-\end{longtable}
-
-\section*{EMM}
-\begin{longtable}{|l|c|}
-    \hline
-    試薬 & 量 \\
-    \hline
-    50\% Glucose sln. & 40 ml \\
-    25\% NH$_4$Cl & 20 ml \\
-    50 x salts & 20 ml \\
-    1000 x vitamins & 1 ml \\
-    10000 x minerals & 100 $\mu$L \\
-    Potassium hydrogen phtalate & 3 g \\
-    Na$_2$HPO$_4$(anhydride) & 2.2 g \\
-    MiliQ & 920 ml \\
-    \hline
-    total & 1 L \\
-    \hline
-\end{longtable}
-\section{マイクロ流体デバイスの作製}
-マイクロ流体デバイスの設計と作製 
-マイクロ流体デバイスは,観察用チャンバーとフローチャネルで構成されている.フォトマスクは卓上型マスクレス露光装置($\mu$mLA, Heidelberg)を用いてマスクブランクス(Clean SurfaceTechnology)に観察チャネルと流路に分けて現像された既存のフォトマスクを用いた.観察するデバイスはPolydimethylsiloxane (PDMS)を用いて作製し,その鋳型はシリコンウエハー(University Wafers)の基板上に作製した.鋳型は以下の手順で作製した(図3).
-
-観察チャネル層: SU8 2(MicroChem)とSU8 3005(MicroChem)を,適切な割合で混ぜたものをシリコンウエハーに1 mL滴下し,スピンコーター(Mikasa, MS-A150)を使用して,3000 rpm,30秒間の条件で塗布した.その後,65℃で1分間,95℃で2分間ソフトベークを行った.観察チャネル用のマスクをセットし,5.0秒で3回の条件でマスクアライナー(Mikasa, MA-20)を使ってUVを照射した.続いて,65℃で1分間,95℃で3分間ポストエクスポージャーベークを行い,SU8 developer(MicroChem)でUV未照射部分のSU8を取り除き,イソプロパノールでリンスし乾燥させた.
-ドレイン層: 観察チャネル層が完成したシリコンウエハーに,SU8 3010(MicroChem)をスポイトで適量滴下し,スピンコーターを使用して,1500 rpm , 30秒間の条件で塗布した.その後,65℃ で 1分間,95℃で8分間ソフトベークを行い,観察チャネルのアライメントマークに合わせて流路のマスクをセットし,マスクアライナーで30秒間UVを照射した.続いて,65℃で3分間,95℃で10分間ポストエクスポージャーベークを行い,SU8 developer(MicroChem)でUV 未照射部分のSU8を取り除き,イソプロパノールでリンスし乾燥させた.
-PDMSデバイスの作製:
-SYLGARD 184(DOW SILICONES CORPORATION)を主剤と硬化剤を10:1の割合で混合し,真空下で1時間脱気した後,上記で作製したシリコンウエハー基盤上に注いだ. 65℃で少なくとも12時間硬化させた後,PDMSブロックを適切なサイズに切断し,生検トレパン(0.5mm BP-A05F)を用いてインレット/アウトレットの穴を開けた.ブロックを超音波洗浄機でエタノールで洗浄し,65℃で乾燥させた.
-
-カバーガラスの洗浄:
-カバーガラス(松浪 NEO No.1 0.13 mm〜0.17 mm)を超音波洗浄しながら,薄めたContamino LS-II(Wako)溶液,超純水,エタノール,超純水で順次洗浄した.その後,カバーガラスを 0.1 M水酸化ナトリウム溶液で処理し超純水で洗浄後,140 ℃で乾燥させた.
-
-PDMSブロックとカバーガラスの接着:
-PDMSブロックと洗浄処理済みのカバーガラスは,コンパクトエッチャー（FA-1,SAMCO）で10秒表面処理し,PDMSブロックとカバーガラスを接着させた.このとき,気泡やゴミが入らないように注意した.
-
-エポキシレプリカの作製:
-まず,オリジナルのシリコンウエハー鋳型からPDMS鋳型を作製する.シルガード184の主剤と硬化剤を,10:1の割合で混ぜ,真空下で1時間脱気する.その後,この混合物をシリコンウエハー基板に注ぎ,65℃で少なくとも12時間硬化させる.硬化後,PDMS型を慎重に取り外すと,シリコン型で盛り上がっていた部分が凹んだ元の形状の陰刻がPDMSに形成される.
-次に,このPDMS鋳型を使ってエポキシのレプリカを作製した.2液混合タイプの硬質エポキシ(LOCTITE,EA E-30CL)を,気泡が入らないように注意しながら,プラスチックプレートに設置したPDMS鋳型に流し込み,エポキシが完全に硬化するまで,少なくとも24時間放置した.
-このエポキシレプリカは,オリジナルのシリコンウエハー鋳型と同様に,PDMSデバイスを作るために使用した.
+\section{Microfluidic Device Fabrication}
+The microfluidic device consisted of observation chambers and flow channels. Photomasks were developed on mask blanks (Clean Surface Technology) using a maskless lithography system (μmLA, Heidelberg Instruments). Devices were fabricated from polydimethylsiloxane (PDMS) using molds prepared on silicon wafers (University Wafers) as follows (Figure 3):
+Observation channel layer: SU-8 2 (MicroChem) and SU-8 3005 (MicroChem) were mixed at the appropriate ratio, and 1 mL was dispensed onto a silicon wafer and spin-coated at 3,000 rpm for 30 s (Mikasa MS-A150). The wafer was soft-baked at 65°C for 1 min and 95°C for 2 min. The observation channel mask was aligned, and the wafer was exposed to UV light using a mask aligner (Mikasa MA-20) with three exposures of 5.0 s each. Post-exposure baking was performed at 65°C for 1 min and 95°C for 3 min, followed by development in SU-8 developer (MicroChem), rinsing with isopropanol, and drying.
+Drain layer: SU-8 3010 (MicroChem) was dispensed onto the wafer with the completed observation channel layer and spin-coated at 1,500 rpm for 30 s. After soft-baking at 65°C for 1 min and 95°C for 8 min, the drain channel mask was aligned to the observation channel alignment marks and exposed to UV light for 30 s. Post-exposure baking was performed at 65°C for 3 min and 95°C for 10 min, followed by development, rinsing, and drying as described above.
+PDMS device assembly: SYLGARD 184 (Dow Silicones Corporation) base and curing agent were mixed at a 10:1 ratio, degassed under vacuum for 1 h, and poured onto the silicon wafer mold. After curing at 65°C for at least 12 h, PDMS blocks were cut to size, and inlet/outlet ports were punched using a 0.5-mm biopsy punch (BP-A05F). Blocks were sonicated in ethanol and dried at 65°C.
+Cover glass preparation: Cover glasses (Matsunami NEO No.1, 0.13–0.17 mm) were sonicated sequentially in diluted Contaminon LS-II (Wako), ultrapure water, ethanol, and ultrapure water. Cover glasses were then treated with 0.1 M sodium hydroxide, rinsed with ultrapure water, and dried at 140°C.
+Bonding: PDMS blocks and cleaned cover glasses were treated with a plasma etcher (FA-1, SAMCO) for 10 s and immediately bonded, taking care to avoid air bubbles and debris.
+Epoxy replica fabrication: A PDMS negative mold was first generated from the original silicon wafer master by casting SYLGARD 184 (10:1 ratio, degassed for 1 h) and curing at 65°C for at least 12 h. The PDMS mold was then used to cast epoxy replicas using two-part rigid epoxy (LOCTITE EA E-30CL) on plastic plates, allowing complete curing for at least 24 h. These epoxy replicas served as reusable masters for subsequent PDMS device fabrication.
 
 \begin{figure}[htbp]
 \centering
@@ -411,12 +317,11 @@ PDMSブロックと洗浄処理済みのカバーガラスは,コンパクトエ
 \caption{\textnormal{\textbf{マイクロ流体デバイスの作製} SU-8マスターモールドの作製,モールド上へのポリジメチルシロキサン（PDMS）のキャスティング,プラズマ処理によるスライドガラスへの接着過程の模式図を表している.}}
 \end{figure}
 
-\section{顕微鏡観察のための細胞培養と手順}
-EMM(2\% glc.)で30℃で増殖させた増殖期（exponential phase）の分裂酵母培養液20 mLを,遠心機(HITACHI himac CT6E)を用いて3700 rpmで5分間遠心するにより100倍に濃縮した細胞懸濁液を作成した.濃縮した培養液を,1 mLのシリンジ（Terumo）を使ってマイクロ流体デバイスに注入した.
-細胞を観察チャネルに挿入するため,デバイスを1200 rpmで5分間の遠心処理を,180°回転させて2回行った.顕微鏡で観察チャネル内に細胞がトラップされていることを確認した後EMM(2\% glc.)を2 mL/hの流速で流した.この段階で,ドレイン内の余分な細胞がすべて排除されるまで待機した.ポジションを登録後,タイムラプス計測を開始した.
-
-培地交換の手順では,EMM(low\% glc.)やEMM(0\% glc.)培地に切り替える際,デバイスに接続されているチューブ全体をコネクターごと交換した.コネクター内に含まれる気泡が顕微鏡のライブ画像に映ったタイミングを基準に,次のフレームが培地が交換された時点と設定した.
-デバイス内を流れる培地は,シリンジポンプ(Harvard,ULTRA-P)で制御し,実験中は2 mL/hの一定流量を維持することで細胞の環境条件を安定させた.
+\section{Time-Lapse Imaging}
+Exponential-phase S. pombe cells cultured in EMM (2\% glucose) at 30°C were harvested from 20 mL cultures by centrifugation at 3,700 rpm for 5 min (HITACHI himac CT6E) to generate a 100-fold concentrated cell suspension. The concentrated suspension was loaded into the microfluidic device using a 1-mL syringe (Terumo).
+To insert cells into the observation channels, the device was centrifuged at 1,200 rpm for 5 min, rotated 180°, and centrifuged again for 5 min. After confirming cell trapping within the observation channels by microscopy, EMM (2\% glucose) was perfused at 2 mL/h. Cells were allowed to settle until excess cells were completely flushed from the drain channels. Time-lapse imaging was then initiated after registering cell positions.
+For media exchanges to EMM (low\% glucose) or EMM (0\% glucose), the entire tubing system, including the connector, was replaced. The appearance of air bubbles in the connector, visualized by live microscopy, was used as the reference point to define the next frame as the time of media exchange.
+Media perfusion was controlled by a syringe pump (Harvard ULTRA-P), maintaining a constant flow rate of 2 mL/h throughout the experiments to ensure stable environmental conditions.
 
 \section{タイムラプス計測と画像の取得}
 タイムラプス計測には,温度を正確に制御するためのサーモスタットチャンバー（TIZHB,TokaiHit）を備えた電動倒立顕微鏡（Nikon,Ti-E）を使用した.デジタルCMOSカメラ（ORCA C14440 ,浜松ホトニクス）,LED光源（Thorlabs）を組み合わせ,対物レンズはPlan Apo $\lambda$D 40x / 0.95(MRD70470,Nikon)を,GFP蛍光のフィルターキューブにはGFP-B(EX 460-500, DM 505, EM 510-560)を使用した.撮影はMicromanagerソフトウェア（https://micro-manager.org/）で制御し,5分間隔で画像を取得した.明視野画像の露光時間は50ミリ秒,GFP蛍光画像の露光時間は500ミリ秒とした.観察期間は実験条件によって異なり,192時間から240時間であった.長期間のタイムラプス撮影中には,焦点面の安定性を保つためにパーフェクト・フォーカス・システム（PFS）を使用した.すべての観察は30℃で実施した.
@@ -430,6 +335,11 @@ EMM(2\% glc.)で30℃で増殖させた増殖期（exponential phase）の分裂
 \caption{\textnormal{\textbf{Omniposeインターフェース}Omniposeではリアルタイムのフィードバックデータのインタラクティブな解析を可能にする.表示されている生データはBF画像に訓練済みのモデルを用いて,セグメンテーションを行ったマスクを重ね合わせた図}}
 \end{figure}
 
-\section{グルコース濃度測定}
-本実験で用いられた濃度の異なる EMM2 培地のグルコース濃度の測定には,LabAssay™ Glucose（富士フイルム和光純薬株式会社, 製品コード: 291-94001）を使用した.測定はキット付属 のプロトコルに従って行い,サンプルの吸光度は 505 nmで測定した.
+To correct for sample drift during time-lapse imaging, we calculated alignment transformations using the Enhanced Correlation Coefficient (ECC) algorithm \cite\{evangelidis2008parametric\}. Alignment transformations were computed using images from empty channels (no cells present) to register against immobile channel structures. The resulting transformation matrices were stored and subsequently applied to cell-containing channel images using affine transformation. To isolate cellular phase signals from residual channel structures, the empty channel was subtracted from all subsequent frames, yielding differential phase images Δφ(\textit{x,y,t}) representing only cellular refractive index contributions.
+
+\section{Cell Segmentation}
+Cell boundaries were detected using Omnipose \cite{cutler2022omnipose}, a deep learning-based segmentation method optimized for bacterial morphology. We trained a custom Omnipose model on approximately 3000 manually annotated S. pombe cells. Training images were first manually annotated using the Omnipose GUI to generate ground truth segmentation masks. Segmentation masks were converted to binary outlines by detecting pixel discontinuities at cell boundaries using morphological operations. Specifically, boundaries were identified where mask values differed from their four-connected neighbors, generating single-pixel-width contours.
+
+\section{Glucose Concentration Measurement}
+Glucose concentrations in EMM2 media were determined using the LabAssay™ Glucose kit (FUJIFILM Wako Pure Chemical Corporation, product code 291-94001) according to the manufacturer's protocol. Absorbance was measured at 505 nm.
 
