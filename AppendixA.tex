@@ -1,4 +1,48 @@
 \chapter*{Appendix A}
+\subsection{precision of QPM system}
+Here, we demonstrate the temporal OPD noise reduction with high-intensity visible light and an
+ultrahigh full-well capacity CMOS image sensor (2 Me−/pixel, Q-2HFW, Adimec), capable of detecting 200 times more photons than a standard CMOS sensor (10 ke−/pixel, e.g., acA2440-75μm,
+Basler). Optical shot-noise-limited measurement (i.e., not limited by mechanical noise) is deemed
+feasible by stabilizing the DH system, indicating that the greater the number of photons reaching
+the image sensor, the higher the OPD precision.
+We measure the dependence of temporal OPD noise on the number of electrons that contribute to
+the reconstruction of the OPD images per sensor’s pixel (= Nelectron), corresponding to the number
+of electrons in the noninterferometric term of the hologram shown in (2.4.2), i.e., Jnon−int. The
+maximum Nelectron is limited to half of the full-well capacity of the image sensor. We note that
+Nelectron is equal to the number of incident photons multiplied by the quantum efficiency of the
+sensor. We record 100 holograms without a sample and calculate the OPD difference between
+adjacent frames, producing 50 differential OPD images for the high-full-well-capacity 2M-e− image
+sensor and conventional 10k-e− image sensor. We then obtain the temporal standard deviation
+(STD) at each pixel and plot the average of 80 pixels × 80 pixels in the temporal STD map as the
+temporal OPD noise in Fig. 3.6.
+We next compare the measurement values and theoretical values derived from
+
+where v represents the visibility of the hologram, denoted as 2Jint/Jnon−int (see Appendix A1 for
+more details). In (3.2.1), the OPD noise in (2.4.16) is multiplied by 2 because the temporal OPD
+noises are plotted from the differential OPD images. Asensor and Aaperture, representing the number
+of pixels in the total and cropped areas of the spatial-frequency space (see Fig. 7.1(a)) are 2,073,600
+(1,440 pixels × 1,440 pixels) and 47,144 ("/4 × 245 pixels × 245 pixels) for the 2 M-e− sensor,
+and 1,046,529 (1,023 pixels × 1,023 pixels) and 31,731 ("/4 × 201 pixels × 201 pixels) for the 10
+k-e− sensor, respectively. Nelectron and the visibility are calculated based on the amplitude images
+of the non-interferometric and interferometric terms shown in Appendix A1 Fig. 7.1. Note that the
+sensor’s digital output values are converted to the number of electrons with the sensor’s parameters
+of full-well capacity, bit depth (2 M-e− sensor: 11 bit, 10 k-e− sensor: 16 bit), and gain (2 M-e−
+sensor: 1.73, 10 k-e− sensor: 1).
+
+\subsection{Optical damage to biological samples }
+Optical damage could occur in the biological samples
+exposed to the illumination in ADRIFT-QPM, which is dozens of times stronger than that in conventional
+QPM. However, as the illumination intensity in QPM is generally much lower than that in
+other live-cell imaging techniques, such as fluorescence [142] and Raman microscopy [30], the strong
+illumination in the ADRIFT method does not create a significant negative effect. For example, the
+illumination intensity in our demonstration is 1 nW/μm2, which is 2 and 6-8 orders of magnitude
+lower than that in fluorescence and Raman imaging, respectively. Note that imaging based on light
+scattering generally results in less optical damage than that based on light absorption even with
+the same intensity. In fact, even with the application of a high-speed image sensor at !kHz, the
+illumination intensity is 4-6 orders of magnitude lower than that in Raman imaging. Furthermore,
+the optical throughput of our system becomes !5 times higher than the current condition by placing
+the SLM before a sample, thereby reducing the illumination intensity to the sample.
+
 \section*{Derivation of the Helmholtz Equation}
 
 The Helmholtz equation describes the spatial part of a monochromatic electromagnetic wave. Here we derive it from Maxwell's equations.
@@ -67,13 +111,16 @@ For a scalar field $U(\mathbf{r})$ representing any component of the electric fi
 \nabla^2 U(\mathbf{r}) + k^2 U(\mathbf{r}) = 0,
 \end{equation}
 where $\nabla^2 = \partial^2/\partial x^2 + \partial^2/\partial y^2 + \partial^2/\partial z^2$ is the Laplacian operator. This is the fundamental equation governing the spatial distribution of monochromatic light fields.
+\subsection{4f光学系}
+空間周波数フィルタリング
+\subsection{Deep learning baseのsegmentation}
 
-\section{人工細胞系における細胞質密度とその粘性制御}
-人工細胞は、生細胞の特定の機能を模倣するように設計された最小限のシステムである。細胞の重要な要素の一つは、生化学反応が進行する細胞質環境である。生きた細胞では、細胞質はタンパク質や核酸などの高分子物質が密集した溶液であり、細胞体積の約20～40\%を占めている。この高い細胞質密度（通常、高分子約0.2～0.3 g/mL）は「高分子混雑」と呼ばれ、粘度のような物理的特性や、酵素反応速度、タンパク質折り畳み、分子拡散などの生物学的プロセスに重大な影響を及ぼす。人工細胞が反応容器として機能するためには、この混雑した内部環境を再現しつつ、流動性のある液体状態を維持することが不可欠である。本節では、細胞質密度と粘度の定量的関係、混雑による粘度が生化学反応や拡散に与える影響について議論する。
+tracking
+\subsection{人工細胞系における細胞質密度とその粘性制御}
 
 \subsection{Cytoplasmic Density vs. Viscosity: Quantitative Relationships}
 
-\sunsubsection{Viscosity rises nonlinearly with macromolecular density}
+\subsection{Viscosity rises nonlinearly with macromolecular density}
 
 \subsection{Effects of Crowding and Viscosity on Biochemical Reactions}
 
