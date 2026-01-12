@@ -1,19 +1,32 @@
 \chapter{Experimental setup}
-\section{Preparation of samples}
-\section{Optical system of QPI}
 
-The optical system of QPI is described in Fig. ??. The light source consisted of a 658 nm, 20 mW single-mode fiber-pigtailed laser diode (LP660-SF20, Thorlabs) mounted in an LDM9LP mount. The laser was controlled by an LDC202C benchtop LD current controller (±200 mA) and a TED200C temperature controller (12 W, Thorlabs), connected via CAB400 and CAB420-15 cables, respectively. The output beam was collimated using an FC/PC fiber collimator (CFC2-B, $f$ = 2.0 mm, Thorlabs) to illuminate the sample. 
-The optical field transmitted through the sample was magnified with a 40× objective lens (LUCPLFLN40X, Olympus, NA = 0.95) and replicated with a Ronchi ruling grating (120 lines per mm, Edmund Optics \#66-342). We employ diffraction phase microscopy (i.e., common-path off-axis DH) as the QPM. The first-order diffraction light is used as the object light, while the zeroth-order diffraction light low-pass filtered with a 25 μm pinhole (P25K, Thorlabs) placed at the Fourier plane is converted to a quasi-plane wave that acts as the reference light. The interferogram between these states in the off-axis configuration is recorded with a monochrome USB 3.0 CMOS camera (acA2440-75, Basler ace, 2448 × 2048 pixels, pixel size of 3.45 μm, full-well capacity of $\sim$10 ke$^-$) after relay lenses (ACT508-200-A, $f$ = 200 mm, Ø2", Thorlabs) in a 4f configuration. The number of pixels in the raw hologram and reconstructed OPD image are 2048 × 2048 and 507 × 507, respectively. The pixel size of the OPD image is set to the diffraction limit of $\sim$350 nm, determined by the NA of the objective lens.
+\section{Measurement methods for molecular crowding}
+なんで他の密度測定方法ではなく、QPIを用いたのかまで書きたかったら、generalな測定方法を挙げていって、この方法が良かったみたいなことを書けばよくて、その際には
+\cite{nguyen2022quantitative}
+non invasive way of 
+
+
+
+It has been found that, for most biological molecules, including proteins and nucleic acids, the values of γ are close to 0.19 mL/g (\href{https://www.sciencedirect.com/science/chapter/bookseries/pii/S1063582318300024\#bib244}{Theisen, Johann, Deacon, \& Harding, 2000}), and the linearity is maintained for a wide range of concentrations \cite{zangle2014live}
+(\href{https://www.sciencedirect.com/science/chapter/bookseries/pii/S1063582318300024\#bib12}{Barer and Tkaczyk, 1954}, \href{https://www.sciencedirect.com/science/chapter/bookseries/pii/S1063582318300024\#bib278}{Zangle and Teitell, 2014}, \href{https://www.sciencedirect.com/science/chapter/bookseries/pii/S1063582318300024\#bib282}{Zhao et al., 2011}). Therefore, refractive index measurement is a rather direct approach to determination of concentration of molecules in cell.
+\section{Principle of QPI}
+Differences in refractive index between a cell and its environment are imprinted upon light as different delays to the phase of light oscillations. Because frequencies of visible light are very high (400–800 THz), its oscillations cannot be directly recorded by imaging sensors. To become detectable, phase delay must be converted into measurable intensity. This is done in standard phase contrast and differential interference contrast microscopes. Quantification of the phase is accomplished by a group of methods known as quantitative phase imaging (QPI)
+QPI is based on transmitted illumination that crosses a refractive sample (Fig. 1). When the cell's refractive index varies both across the sample and in depth, the relative phase accrued by light passing through the cell at horizontal position x is
+\begin{equation}
+    \Delta \phi(x)= \frac{2\pi}{\lambda} \int_0^{h(x)}[n_{cell}(x,z) - n_0]dz
+\end{equation}
+where z denotes depth within the sample, h(x) is the cell thickness profile, ncell is the cell's refractive index (which may vary depending on the position), n0 is a constant refractive index of the medium, and λ is the wavelength of light. Scattering is assumed insignificant in this model. 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\linewidth]{figure/QPI optical systems.pdf}
-    \caption{Enter Caption}
+    \includegraphics[width=0.5\linewidth]{}
+    \caption{A diagram showing accumulation of phase delay of light passing through a cell}
     \label{fig:placeholder}
 \end{figure}
-\section{Reconstruction Procedure of QPI}
+\subsection{Common-path Methods}
+common path QPI methods implement a considerably more compact interferometer after the sample. In this geometry, the two interfering light beams propagate through many of the same optical components, increasing robustness to vibrations and misalignments of the system as well as generally reducing the system's footprint. Because they can be placed after the sample, common-path systems can also be easily implemented at the output port of a microscope.
+だから長期のタイムラプスに最適。
 
 \subsection{Light propagation and angular spectrum method}
-
 The propagation of monochromatic light in a homogeneous medium is governed by the Helmholtz equation:
 \begin{equation}
 \nabla^2 U(\mathbf{r}) + k^2 U(\mathbf{r}) = 0,
@@ -110,7 +123,7 @@ I_{m,n}^{\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-
 \end{equation}
 where $J_{m,n}^{\mathrm{non-int}} = |E'_{m,n}|^2 + |R_{m,n}|^2$ and $J_{m,n}^{\mathrm{int}} = E'_{m,n} \cdot R_{m,n}^*$.
 
-\subsection{Reconstruction procedure}
+\section{Reconstruction procedure}
 
 The image-reconstruction procedure comprises (1) 2D discrete FT, (2) sideband centering, (3) low-pass (LP) filtering, and (4) 2D discrete inverse FT (IFT), followed by background subtraction. The 2D FT of the hologram is written as
 \begin{equation}
@@ -140,6 +153,13 @@ The final OPD image is obtained by subtracting the mean value of the background 
 \mathrm{OPD}(x,y) = \frac{\phi(x,y) \lambda}{2\pi}.
 \end{equation}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{}
+    \caption{Reconstruction procedure of off-axis DH}
+    \label{fig:placeholder}
+\end{figure}
+
 \subsection{Spatial resolution and Fourier domain parameters}
 
 The spatial resolution in off-axis DH is determined by the NA of the objective lens and the discrete sampling in the Fourier domain. For coherent illumination, the spatial frequency cutoff imposed by the NA is
@@ -168,8 +188,17 @@ For our system with $\lambda = 658$ nm, NA = 0.95, 40$\times$ magnification, and
 D_{\mathrm{ap}} = 2\left\lfloor \frac{0.95}{658 \times 10^{-9}} \times 176.6 \times 10^{-6} \right\rfloor + 1 = 507~\mathrm{pixels},
 \end{equation}
 and the reconstructed pixel size is $\Delta p_{\mathrm{recon}} = 176.6~\mu\mathrm{m}/507 = 348$ nm, which closely matches the Nyquist requirement.
+\section{Optical system of QPI}
 
-\subsection{Design of the optical system}
+The optical system of QPI is described in Fig. ??. The light source consisted of a 658 nm, 20 mW single-mode fiber-pigtailed laser diode (LP660-SF20, Thorlabs) mounted in an LDM9LP mount. The laser was controlled by an LDC202C benchtop LD current controller (±200 mA) and a TED200C temperature controller (12 W, Thorlabs), connected via CAB400 and CAB420-15 cables, respectively. The output beam was collimated using an FC/PC fiber collimator (CFC2-B, $f$ = 2.0 mm, Thorlabs) to illuminate the sample. 
+The optical field transmitted through the sample was magnified with a 40× objective lens (LUCPLFLN40X, Olympus, NA = 0.95) and replicated with a Ronchi ruling grating (120 lines per mm, Edmund Optics \#66-342). We employ diffraction phase microscopy (i.e., common-path off-axis DH) as the QPM. The first-order diffraction light is used as the object light, while the zeroth-order diffraction light low-pass filtered with a 25 μm pinhole (P25K, Thorlabs) placed at the Fourier plane is converted to a quasi-plane wave that acts as the reference light. The interferogram between these states in the off-axis configuration is recorded with a monochrome USB 3.0 CMOS camera (acA2440-75, Basler ace, 2448 × 2048 pixels, pixel size of 3.45 μm, full-well capacity of $\sim$10 ke$^-$) after relay lenses (ACT508-200-A, $f$ = 200 mm, Ø2", Thorlabs) in a 4f configuration. The number of pixels in the raw hologram and reconstructed OPD image are 2048 × 2048 and 507 × 507, respectively. The pixel size of the OPD image is set to the diffraction limit of $\sim$350 nm, determined by the NA of the objective lens.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{figure/QPI optical systems.pdf}
+    \caption{Optical System ofQPI}
+    \label{fig:placeholder}
+\end{figure}
+\section{Design of the optical system}
 
 When designing an off-axis DH optical system, two conditions must be satisfied. First, the magnitude of the off-axis wavevector $k^{\mathrm{off-axis}} = \sqrt{(k_m^{\mathrm{off-axis}})^2 + (k_n^{\mathrm{off-axis}})^2}$ must be sufficiently large to avoid overlap of the interferometric and noninterferometric terms in the Fourier space. The radius of the interferometric component in the Fourier space is $2\pi \mathrm{NA}/(\lambda M)$, while that of the noninterferometric component is $2\pi \cdot 2\mathrm{NA}/(\lambda M)$, as the noninterferometric term is expressed by the autocorrelation of the frequency spectrum. Hence, $k^{\mathrm{off-axis}}$ must satisfy
 \begin{equation}
@@ -230,7 +259,7 @@ k_{\mathrm{exp}}^{\mathrm{off-axis}} = 2\pi f_{\mathrm{exp}}^{\mathrm{off-axis}}
 
 This agreement confirms that the grating-based off-axis configuration is correctly implemented and that the optical magnification and spatial calibration are accurate.
 
-\subsection{Phase sensitivity}
+\section{Phase sensitivity}
 
 To discuss the phase sensitivity of off-axis DH, we consider the shot-noise-limited regime following the theoretical framework of Chen et al. [XX]. Adding the noise term $z_{m,n}^{\mathrm{DH}}$ to the hologram intensity, the measured phase including noise is represented by
 \begin{equation}
@@ -260,12 +289,12 @@ The phase sensitivity exhibits a quadratic dependence on visibility ($\sigma_{\p
 \section{Microscope and imaging setup}
 Microscopy was conducted on an inverted Nikon Ti microscope (Nikon Instruments Inc.) fitted with a 40×/0.95 NA air objective. Samples were maintained at 30 °C with a stage-top incubator (Tokai Hit model ). The microscope hardware including motorized stage, shutters, Perfect Focus System (PFS) autofocus and image acquisition were controlled using Micro-Manager (v) open-source software.
 \section{Biological replicates}
-S.pombe were streakrd from frozen stock on an YE plate and grown for 24 hours at 30℃. Single colonies(biological replicates) were then picked and grown in 10 ml of EMM at 30℃ with shaking for 24 hours.
+S.pombe were streakrd from frozen stock on an YE plate and grown for 24 hours at 30℃. Single colonies were then picked and grown in 10 ml of EMM at 30℃ with shaking for 24 hours.
 
 \section{Image analysis to retrieve phase shifts}
 To reduce post-processing time, each z-stack was cropped to a square region containing the cell(s) of interest and a border of at least 40 pixels, and the focal plane was identified. This cropping was accomplished first using FIJI v. 1.53c to identify regions of interest (ROIs) within a thresholded standard deviation z-projection image of each brightfield z-stack. Using custom Matlab R2019a (Mathworks) scripts, images were cropped to the ROIs and the standard deviation of the pixels in each ROI was computed. The focal plane was defined based on the image in the stack with the lowest standard deviation. Three images above and three images below the focal plane separated by 500 nm were used to quantify cytoplasmic density. Based on these images, the phase information was calculated using a custom Matlab script implementing a previously published algorithm (Bostan et al., 2016). In brief, this method relates the phase information of the cell to bright-field image intensity changes along the z-direction. Equidistant, out-of-focus images above and below the focal plane are used to estimate intensity changes at various defocus distances. A phase-shift map is reconstructed in a non-linear, iterative fashion to solve the transport-of-intensity equation.[from variational]
 
-\section{Cytoplasmic density quantification}
+\section{Image Preprocessing}
 Using Matlab, images were background-corrected by fitting a Gaussian to the highest peak of the histogram (corresponding to the background pixels) of the phase-shift map and shifting every pixel so that the background intensity peak corresponded to zero phase shift. These background-corrected phase-shift maps were converted into binary images using watershedding for cell segmentation; where necessary, binary images were corrected manually to ensure accurate segmentation. Binary images were segmented using Morphometrics (Ursell et al., 2017) to generate subpixel-resolved cell outlines.
 
 Each cell outline was skeletonized using custom Matlab code as follows. First, the closest-fitting rectangle around each cell was used to define the long axis of the cell. Perpendicular to the long axis, sectioning lines at 250 nm intervals and their intersection with the cell contour were computed. The centerline was then updated to run through the midpoint of each sectioning line between the two contour-intersection points. The slope of each sectioning line was updated to be perpendicular to the slope of the centerline around the midpoint. Sectioning lines that crossed a neighboring line were removed. Cell volume and surface area were calculated by summing the volume or area of each section, assuming rotational symmetry. Volume and area of the poles were calculated assuming a regular spherical cap.
