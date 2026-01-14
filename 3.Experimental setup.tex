@@ -73,6 +73,65 @@ This band-pass limitation determines the spatial resolution through the Abbe dif
 \end{equation}
 for coherent illumination.
 
+subsection{Light propagation in 4f optical systems}
+
+A 4f optical system consists of two lenses with focal length $f$ arranged such that the object plane, Fourier plane, and image plane are separated by distances $f$ as shown in Fig.~\ref{fig:4f_system}. This configuration performs spatial Fourier transformation and imaging, and is widely used in spatial light modulation, optical filtering, and holographic imaging systems.
+
+\subsection{Light propagation in 4f optical systems}
+
+A 4f optical system consists of two lenses with focal length $f$ arranged such that the object plane, Fourier plane, and image plane are separated by distances $f$. This configuration performs spatial Fourier transformation and imaging, and is widely used in spatial light modulation, optical filtering, and holographic imaging systems \cite{goodman2005}.
+
+\subsubsection{System configuration}
+
+The 4f system comprises the following elements (Fig.~\ref{fig:4f_system}):
+\begin{itemize}
+\item Object plane at $z = 0$
+\item First lens (L1) with focal length $f$ at $z = f$
+\item Fourier plane at $z = 2f$
+\item Second lens (L2) with focal length $f$ at $z = 3f$
+\item Image plane at $z = 4f$
+\end{itemize}
+
+\subsubsection{Fourier transformation by a single lens}
+
+When an object is placed at the front focal plane of a lens with focal length $f$, the field at the back focal plane (Fourier plane) is proportional to the spatial Fourier transform of the object field \cite{goodman2005}:
+\begin{equation}
+U_F(x_F, y_F) = \frac{e^{ikf}}{i\lambda f} e^{i\frac{k}{2f}(x_F^2 + y_F^2)} \mathcal{F}\{U_0(x_0, y_0)\}\bigg|_{f_x = \frac{x_F}{\lambda f}, f_y = \frac{y_F}{\lambda f}}
+\end{equation}
+where $U_0$ is the object field, and the quadratic phase factor $\exp[ik(x_F^2 + y_F^2)/(2f)]$ represents the spherical wavefront curvature at the Fourier plane.
+
+The spatial frequency components $(f_x, f_y)$ are mapped to coordinates in the Fourier plane according to:
+\begin{equation}
+f_x = \frac{x_F}{\lambda f}, \quad f_y = \frac{y_F}{\lambda f}
+\end{equation}
+
+\subsubsection{Spatial filtering in the 4f system}
+
+A spatial filter (e.g., pinhole, amplitude mask) placed at the Fourier plane modifies the spatial frequency spectrum. The filter function $P(x_F, y_F)$ multiplies the Fourier-domain field:
+\begin{equation}
+U_F^+(x_F, y_F) = U_F(x_F, y_F) \cdot P(x_F, y_F)
+\end{equation}
+
+The second lens performs an inverse Fourier transformation, yielding the filtered image at $z = 4f$. For a symmetric 4f system without filtering ($P = 1$), the output is an inverted image of the input:
+\begin{equation}
+U_i(x_i, y_i) = -U_0(-x_i, -y_i) \cdot e^{i4kf}
+\end{equation}
+where the negative sign indicates spatial inversion in both transverse directions.
+
+\subsubsection{Defocus and numerical refocusing}
+
+Small deviations from ideal 4f geometry (e.g., misalignment of the Fourier plane or image plane) introduce defocus aberrations. The defocus-induced phase error in the spatial frequency domain is given by:
+\begin{equation}
+\phi_{\mathrm{defocus}}(f_x, f_y) = -\pi \lambda (f_x^2 + f_y^2) \Delta z
+\end{equation}
+where $\Delta z$ is the axial displacement from the ideal focal position. 
+
+Numerical refocusing can be performed by compensating for this phase error during hologram reconstruction using the angular spectrum propagation method (Section 3.4):
+\begin{equation}
+U(x,y,z_{\mathrm{focus}}) = \mathcal{F}^{-1}\left\{\tilde{U}(f_x, f_y) \cdot \exp\left[i\sqrt{k^2 - (2\pi f_x)^2 - (2\pi f_y)^2} \cdot \Delta z\right]\right\}
+\end{equation}
+
+For detailed mathematical derivations including the treatment of quadratic phase factors, ABCD matrix formalism, and point spread function analysis, see Appendix~\ref{appendix:4f_detailed}.
 \subsection{Phase recovery through interferometry}
 
 Since image sensors can only measure intensity $I = |U|^2$, the phase information $\phi$ in the complex field $U = A e^{i\phi}$ is lost upon detection. To recover the phase, we interfere the object field $U_s = A_s e^{i\phi_s}$ with a known reference field $U_r = A_r e^{i\phi_r}$. The detected intensity is
@@ -87,18 +146,22 @@ The phase difference $\phi_s - \phi_r$ modulates the intensity as interference f
 
 \subsection{Off-axis configuration}
 
-To separate the interferometric components in Fourier space, we introduce a carrier frequency by giving the reference field an off-axis wavevector $(k_m^{\mathrm{off-axis}}, k_n^{\mathrm{off-axis}})$, where $(m, n)$ denote discrete pixel indices. The reference field is then
+To separate the interferometric components in Fourier space, we introduce a carrier frequency by giving the object field an off-axis wavevector $(k_m^{\mathrm{off-axis}}, k_n^{\mathrm{off-axis}})$, where $(m, n)$ denote discrete pixel indices. In our common-path system, the reference field is spatially filtered by a pinhole at the Fourier plane to produce a quasi-plane wave:
 \begin{equation}
-U_r = A_r e^{i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)},
+U_r = A_r,
 \end{equation}
-and the interference pattern becomes
+while the object field carries the off-axis wavevector introduced by the Ronchi ruling grating:
 \begin{equation}
-I_{m,n} = |U_s|^2 + |U_r|^2 + U_s \cdot U_r^* e^{-i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)} + U_s^* \cdot U_r e^{i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)}.
+U_s = A_s e^{i\phi_s} e^{i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)}.
+\end{equation}
+The interference pattern then becomes
+\begin{equation}
+I_{m,n} = |U_s|^2 + |U_r|^2 + U_s \cdot U_r^* + U_s^* \cdot U_r = A_s^2 + A_r^2 + 2A_r A_s \cos[\phi_s + k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n].
 \end{equation}
 
 Taking the 2D Fourier transform with reciprocal coordinates $(p,q)$, we obtain
 \begin{equation}
-\tilde{I}(p,q) = \tilde{I}_{\mathrm{DC}}(p,q) + \mathcal{F}\{U_s \cdot U_r^*\}(p + k_m^{\mathrm{off-axis}}, q + k_n^{\mathrm{off-axis}}) + \mathcal{F}\{U_s^* \cdot U_r\}(p - k_m^{\mathrm{off-axis}}, q - k_n^{\mathrm{off-axis}}).
+\tilde{I}(p,q) = \tilde{I}_{\mathrm{DC}}(p,q) + \mathcal{F}\{U_s \cdot U_r^*\}(p - k_m^{\mathrm{off-axis}}, q - k_n^{\mathrm{off-axis}}) + \mathcal{F}\{U_s^* \cdot U_r\}(p + k_m^{\mathrm{off-axis}}, q + k_n^{\mathrm{off-axis}}).
 \end{equation}
 The three components are now spatially separated in Fourier space. By selecting the +1st-order sideband and applying inverse Fourier transformation, the complex field $U_s$ is isolated and its phase $\phi_s = \arg(U_s)$ is extracted.
 
@@ -106,20 +169,21 @@ The three components are now spatially separated in Fourier space. By selecting 
 
 In off-axis DH, the interference patterns between the object field and reference field are captured with an image sensor. Assuming $z = 0$ as the sample location, the object field at the sensor is
 \begin{equation}
-E'_{m,n} = \frac{1}{M^2} \left(E_0 e^{i(k_m m + k_n n)} O_{m,n}\right),
+E'_{m,n} = \frac{1}{M^2} E_0 \exp[i\phi_{m,n}] \exp[i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)],
 \end{equation}
-where $M$ is the magnification, $E_0$ is the incident field amplitude, $(k_m, k_n)$ is the carrier frequency, and $O_{m,n}$ contains the optical phase delay induced by the sample. The reference field is
+where $M$ is the magnification, $E_0$ is the incident field amplitude, $(k_m^{\mathrm{off-axis}}, k_n^{\mathrm{off-axis}})$ is the off-axis carrier frequency introduced by the Ronchi ruling grating, and $\phi_{m,n}$ contains the optical phase delay induced by the sample. The reference field is
 \begin{equation}
-R_{m,n} = R_0 e^{i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)}.
+R_{m,n} = R_0,
 \end{equation}
+which is approximately constant across the field of view after spatial filtering by the pinhole at the Fourier plane.
 
 The recorded hologram intensity at pixel $(m,n)$ is
 \begin{equation}
 I_{m,n}^{\mathrm{DH}} = \left|E'_{m,n} + R_{m,n}\right|^2 = |E'_{m,n}|^2 + |R_{m,n}|^2 + E'_{m,n} \cdot R_{m,n}^* + \mathrm{c.c.}
 \end{equation}
-This can be separated into interferometric terms ($J_{m,n}^{\mathrm{int}} e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}$ and its complex conjugate) and noninterferometric term ($J_{m,n}^{\mathrm{non-int}}$) as
+This can be separated into interferometric terms ($J_{m,n}^{\mathrm{int}} e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}$ and its complex conjugate) and noninterferometric term ($J_{m,n}^{\mathrm{non-int}}$) as
 \begin{equation}
-I_{m,n}^{\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + (J_{m,n}^{\mathrm{int}})^* e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)},
+I_{m,n}^{\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + (J_{m,n}^{\mathrm{int}})^* e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)},
 \end{equation}
 where $J_{m,n}^{\mathrm{non-int}} = |E'_{m,n}|^2 + |R_{m,n}|^2$ and $J_{m,n}^{\mathrm{int}} = E'_{m,n} \cdot R_{m,n}^*$.
 
@@ -127,13 +191,13 @@ where $J_{m,n}^{\mathrm{non-int}} = |E'_{m,n}|^2 + |R_{m,n}|^2$ and $J_{m,n}^{\m
 
 The image-reconstruction procedure comprises (1) 2D discrete FT, (2) sideband centering, (3) low-pass (LP) filtering, and (4) 2D discrete inverse FT (IFT), followed by background subtraction. The 2D FT of the hologram is written as
 \begin{equation}
-i_{p,q}^{\mathrm{DH}} = j_{p,q}^{\mathrm{non-int}} + j_{p+k_m^{\mathrm{off-axis}}, q+k_n^{\mathrm{off-axis}}}^{\mathrm{int}} + j_{p-k_m^{\mathrm{off-axis}}, q-k_n^{\mathrm{off-axis}}}^{\mathrm{int}},
+i_{p,q}^{\mathrm{DH}} = j_{p,q}^{\mathrm{non-int}} + j_{p-k_m^{\mathrm{off-axis}}, q-k_n^{\mathrm{off-axis}}}^{\mathrm{int}} + j_{p+k_m^{\mathrm{off-axis}}, q+k_n^{\mathrm{off-axis}}}^{\mathrm{int}*},
 \end{equation}
 where $(p,q)$ is the reciprocal coordinate of $(m,n)$. The three components are spatially separated in the Fourier space due to the off-axis wavevector.
 
 The interferometric term is extracted by first identifying the +1st-order sideband peak position $(p_{\mathrm{off}}, q_{\mathrm{off}})$ and then shifting the spatial frequency to center the sideband:
 \begin{equation}
-I_{m,n}^{(c)} = I_{m,n}^{\mathrm{DH}} \cdot e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}.
+I_{m,n}^{(c)} = I_{m,n}^{\mathrm{DH}} \cdot e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}.
 \end{equation}
 A circular LP filter $H_{p,q}$ with radius
 \begin{equation}
@@ -146,13 +210,12 @@ is applied in the Fourier domain, where $N$ is the hologram size and $\Delta p$ 
 
 The OPD is obtained after removing the complex amplitude distribution of the illumination light without the sample (background):
 \begin{equation}
-\phi_{m,n} = \arg\left[\frac{\mathrm{LP}(I_{m,n}^{\mathrm{sample}} \cdot e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}{\mathrm{LP}(I_{m,n}^{\mathrm{bg}} \cdot e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}\right].
+\phi_{m,n} = \arg\left[\frac{\mathrm{LP}(I_{m,n}^{\mathrm{sample}} \cdot e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}{\mathrm{LP}(I_{m,n}^{\mathrm{bg}} \cdot e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}\right].
 \end{equation}
 The final OPD image is obtained by subtracting the mean value of the background region to remove the offset. The conversion from phase to OPD is performed as
 \begin{equation}
 \mathrm{OPD}(x,y) = \frac{\phi(x,y) \lambda}{2\pi}.
 \end{equation}
-
 \begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{}
