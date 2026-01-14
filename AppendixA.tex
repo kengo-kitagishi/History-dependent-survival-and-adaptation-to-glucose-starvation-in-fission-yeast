@@ -28,20 +28,442 @@ of the non-interferometric and interferometric terms shown in Appendix A1 Fig. 7
 sensor’s digital output values are converted to the number of electrons with the sensor’s parameters
 of full-well capacity, bit depth (2 M-e− sensor: 11 bit, 10 k-e− sensor: 16 bit), and gain (2 M-e−
 sensor: 1.73, 10 k-e− sensor: 1).
+\chapter{Theory of the 4f Common-Path Off-Axis Digital Holography System}
+\label{appendix:4f_theory}
 
-\subsection{Optical damage to biological samples }
-Optical damage could occur in the biological samples
-exposed to the illumination in ADRIFT-QPM, which is dozens of times stronger than that in conventional
-QPM. However, as the illumination intensity in QPM is generally much lower than that in
-other live-cell imaging techniques, such as fluorescence [142] and Raman microscopy [30], the strong
-illumination in the ADRIFT method does not create a significant negative effect. For example, the
-illumination intensity in our demonstration is 1 nW/μm2, which is 2 and 6-8 orders of magnitude
-lower than that in fluorescence and Raman imaging, respectively. Note that imaging based on light
-scattering generally results in less optical damage than that based on light absorption even with
-the same intensity. In fact, even with the application of a high-speed image sensor at !kHz, the
-illumination intensity is 4-6 orders of magnitude lower than that in Raman imaging. Furthermore,
-the optical throughput of our system becomes !5 times higher than the current condition by placing
-the SLM before a sample, thereby reducing the illumination intensity to the sample.
+This appendix provides a comprehensive theoretical foundation for the 4f common-path off-axis digital holography system employed in this work. We begin with Goodman's rigorous derivation of Fourier transformation by a single lens, then apply this formalism to analyze light propagation through the complete 4f relay system. Particular attention is given to the angular properties of beam propagation, the effects of defocus on hologram quality and fringe visibility, and the tolerance analysis for non-ideal optical configurations.
+
+\section{Goodman's Derivation of Single-Lens Fourier Transformation}
+\label{sec:goodman_derivation}
+
+The foundation of 4f optical systems is the ability of a thin lens to perform an optical Fourier transform. We derive this relationship rigorously following Goodman \cite{goodman2005}.
+
+\subsection{Fresnel Diffraction and Paraxial Approximation}
+
+Consider monochromatic light with wavelength $\lambda$ and wavenumber $k = 2\pi/\lambda$ propagating in free space. Under the paraxial approximation, the scalar field $U(\mathbf{r})$ satisfies the paraxial Helmholtz equation:
+
+\begin{equation}
+\frac{\partial^2 U}{\partial x^2} + \frac{\partial^2 U}{\partial y^2} + 2ik\frac{\partial U}{\partial z} = 0
+\end{equation}
+
+The field at distance $d$ from a source plane can be expressed through the Fresnel diffraction integral:
+
+\begin{equation}
+U(x, y, d) = \frac{e^{ikd}}{i\lambda d} \iint U_0(x_0, y_0) \exp\left[\frac{ik}{2d}[(x-x_0)^2 + (y-y_0)^2]\right] dx_0 dy_0
+\end{equation}
+
+Expanding the quadratic phase term:
+
+\begin{equation}
+(x-x_0)^2 + (y-y_0)^2 = x^2 + y^2 - 2(xx_0 + yy_0) + x_0^2 + y_0^2
+\end{equation}
+
+we can rewrite Eq. (2) as:
+
+\begin{equation}
+U(x, y, d) = \frac{e^{ikd}}{i\lambda d} e^{i\frac{k}{2d}(x^2+y^2)} \iint U_0(x_0, y_0) e^{i\frac{k}{2d}(x_0^2+y_0^2)} e^{-i\frac{2\pi}{\lambda d}(x_0 x + y_0 y)} dx_0 dy_0
+\end{equation}
+
+\subsection{Thin Lens Phase Transformation}
+
+An ideal thin lens with focal length $f$ introduces a quadratic phase modulation to the transmitted field. For a lens of infinite extent, the transmission function is:
+
+\begin{equation}
+t_{\text{lens}}(x, y) = \exp\left[-i\frac{k}{2f}(x^2 + y^2)\right]
+\end{equation}
+
+This phase profile corresponds to the optical path difference introduced by the lens's varying thickness, following from Fermat's principle and the requirement that all rays from a point source at distance $f$ converge to a single point at distance $f$ on the opposite side.
+
+\subsection{Configuration 1: Object at Front Focal Plane, Observation at Back Focal Plane}
+
+Consider an object placed at the front focal plane of a lens (distance $f$ before the lens) and an observation plane at the back focal plane (distance $f$ after the lens).
+
+\subsubsection{Step 1: Propagation from Object to Lens}
+
+Using the Fresnel integral (Eq. 4), the field immediately before the lens is:
+
+\begin{equation}
+U_L^-(x_L, y_L) = \frac{e^{ikf}}{i\lambda f} e^{i\frac{k}{2f}(x_L^2+y_L^2)} \iint U_0(x_0, y_0) e^{i\frac{k}{2f}(x_0^2+y_0^2)} e^{-i\frac{2\pi}{\lambda f}(x_0 x_L + y_0 y_L)} dx_0 dy_0
+\end{equation}
+
+\subsubsection{Step 2: Transmission Through the Lens}
+
+The field immediately after the lens is:
+
+\begin{equation}
+U_L^+(x_L, y_L) = U_L^-(x_L, y_L) \cdot t_{\text{lens}}(x_L, y_L)
+\end{equation}
+
+Substituting Eq. (5) and (6):
+
+\begin{equation}
+U_L^+(x_L, y_L) = \frac{e^{ikf}}{i\lambda f} e^{i\frac{k}{2f}(x_L^2+y_L^2)} \cdot e^{-i\frac{k}{2f}(x_L^2+y_L^2)} \cdot [\text{integral}]
+\end{equation}
+
+The quadratic phase factors cancel:
+
+\begin{equation}
+U_L^+(x_L, y_L) = \frac{e^{ikf}}{i\lambda f} \iint U_0(x_0, y_0) e^{i\frac{k}{2f}(x_0^2+y_0^2)} e^{-i\frac{2\pi}{\lambda f}(x_0 x_L + y_0 y_L)} dx_0 dy_0
+\end{equation}
+
+\subsubsection{Step 3: Propagation from Lens to Back Focal Plane}
+
+Applying the Fresnel integral again for distance $f$:
+
+\begin{equation}
+U_F(x_F, y_F) = \frac{e^{ikf}}{i\lambda f} e^{i\frac{k}{2f}(x_F^2+y_F^2)} \iint U_L^+(x_L, y_L) e^{i\frac{k}{2f}(x_L^2+y_L^2)} e^{-i\frac{2\pi}{\lambda f}(x_L x_F + y_L y_F)} dx_L dy_L
+\end{equation}
+
+Substituting Eq. (9):
+
+\begin{equation}
+\begin{split}
+U_F(x_F, y_F) = &\left(\frac{e^{ikf}}{i\lambda f}\right)^2 e^{i\frac{k}{2f}(x_F^2+y_F^2)} \\
+&\times \iint dx_L dy_L \, e^{i\frac{k}{2f}(x_L^2+y_L^2)} e^{-i\frac{2\pi}{\lambda f}(x_L x_F + y_L y_F)} \\
+&\quad \times \iint dx_0 dy_0 \, U_0(x_0, y_0) e^{i\frac{k}{2f}(x_0^2+y_0^2)} e^{-i\frac{2\pi}{\lambda f}(x_0 x_L + y_0 y_L)}
+\end{split}
+\end{equation}
+
+The integral over $(x_L, y_L)$ can be evaluated using the identity:
+
+\begin{equation}
+\int_{-\infty}^{\infty} e^{i\frac{k}{2f}x_L^2} e^{-i\frac{2\pi}{\lambda f}(x_0 + x_F)x_L} dx_L = \sqrt{\frac{i\lambda f}{k}} e^{-i\frac{k}{2f}(x_0 + x_F)^2} = \sqrt{i\lambda f} e^{-i\frac{k}{2f}(x_0 + x_F)^2}
+\end{equation}
+
+Applying this to both $x$ and $y$ directions:
+
+\begin{equation}
+U_F(x_F, y_F) = \frac{e^{i2kf}}{i\lambda f} e^{i\frac{k}{2f}(x_F^2+y_F^2)} \iint U_0(x_0, y_0) e^{i\frac{k}{2f}(x_0^2+y_0^2)} e^{-i\frac{2\pi}{\lambda f}(x_0 x_F + y_0 y_F)} dx_0 dy_0
+\end{equation}
+
+\subsection{Fourier Transform Interpretation}
+
+The integral in Eq. (13) is recognized as a two-dimensional Fourier transform evaluated at spatial frequencies:
+
+\begin{equation}
+f_x = \frac{x_F}{\lambda f}, \quad f_y = \frac{y_F}{\lambda f}
+\end{equation}
+
+Therefore:
+
+\begin{equation}
+\boxed{
+U_F(x_F, y_F) = \frac{e^{i2kf}}{i\lambda f} e^{i\frac{k}{2f}(x_F^2+y_F^2)} \cdot \mathcal{F}\left\{U_0(x_0, y_0) e^{i\frac{k}{2f}(x_0^2+y_0^2)}\right\}_{f_x = x_F/(\lambda f), f_y = y_F/(\lambda f)}
+}
+\end{equation}
+
+This is \textbf{Goodman's fundamental result}: a thin lens performs an optical Fourier transform of the input field (multiplied by a quadratic phase factor), with the output also carrying a quadratic phase curvature. The spatial frequency coordinates in the Fourier plane are linearly related to the transverse coordinates: a spatial frequency $f_x$ is mapped to position $x_F = \lambda f \cdot f_x$.
+
+\subsection{Physical Interpretation: Angle-to-Position Mapping}
+
+The relationship $x_F = \lambda f \cdot f_x$ has a direct physical interpretation. A plane wave incident at angle $\theta_x$ to the optical axis has a transverse wavevector $k_x = k\sin\theta_x \approx k\theta_x$ (paraxial), corresponding to spatial frequency $f_x = \sin\theta_x/\lambda \approx \theta_x/\lambda$. This plane wave is focused by the lens to a spot at:
+
+\begin{equation}
+x_F = \lambda f \cdot f_x = f\theta_x
+\end{equation}
+
+Conversely, a point source at position $x_F$ in the Fourier plane generates a collimated beam propagating at angle $\theta_x = x_F/f$ toward the next optical element. This angle-to-position correspondence is fundamental to understanding the 4f system's operation.
+
+\section{Light Propagation in the 4f Common-Path System}
+
+We now apply Goodman's formalism to analyze the complete 4f relay system used in our off-axis digital holography setup.
+
+\subsection{System Configuration}
+
+The optical system consists of:
+\begin{itemize}
+\item Objective lens (40×, NA = 0.95): Images the sample onto the conjugate plane
+\item Ronchi ruling grating (120 lines/mm, period $d_g = 8.33$ μm): Positioned at the sample conjugate plane
+\item First relay lens L1 (focal length $f = 200$ mm): At $z = 0$ (reference position)
+\item Fourier plane: At $z = f$
+\item Second relay lens L2 (focal length $f = 200$ mm): At $z = 2f$
+\item Image plane (camera): At $z = 3f$
+\end{itemize}
+
+Key spatial filtering elements at the Fourier plane:
+\begin{itemize}
+\item 25 μm diameter pinhole: Positioned on-axis to filter the 0th-order diffraction
+\item Unobstructed aperture: At the +1st-order diffraction position ($\sim$15.8 mm off-axis)
+\end{itemize}
+
+\subsection{Grating Diffraction and Beam Splitting}
+
+After magnification by the objective lens, the field at the grating plane is:
+
+\begin{equation}
+U_g(x_g, y_g) = \frac{1}{M_{\text{obj}}^2} U_0(x_0, y_0) \exp[i\phi_{\text{sample}}(x_0, y_0)]
+\end{equation}
+
+where $M_{\text{obj}} = 40$ is the objective magnification and $\phi_{\text{sample}}$ is the sample-induced phase delay.
+
+The Ronchi grating with transmission function $T_g(x_g) = \sum_m c_m \exp(im \cdot 2\pi x_g/d_g)$ splits this field into multiple diffraction orders. For a binary grating with 50\% duty cycle, the key Fourier coefficients are $c_0 = 1/2$ (0th order) and $c_{\pm 1} = \pm 1/(i\pi)$ (±1st orders).
+
+The 0th and +1st order fields entering the 4f system are:
+
+\begin{equation}
+U_g^{(0)}(x_g, y_g) = \frac{c_0}{M_{\text{obj}}^2} U_0 e^{i\phi_{\text{sample}}}
+\end{equation}
+
+\begin{equation}
+U_g^{(+1)}(x_g, y_g) = \frac{c_1}{M_{\text{obj}}^2} U_0 e^{i\phi_{\text{sample}}} \exp\left[i\frac{2\pi}{d_g}x_g\right]
+\end{equation}
+
+\subsection{Angular Propagation and Spatial Separation}
+
+The grating equation determines the diffraction angle for each order:
+
+\begin{equation}
+\sin\theta_m = \frac{m\lambda}{d_g}
+\end{equation}
+
+For the +1st order at $\lambda = 658$ nm and $d_g = 8.33$ μm:
+
+\begin{equation}
+\theta_1 = \arcsin\left(\frac{658 \times 10^{-9}}{8.33 \times 10^{-6}}\right) \approx 0.079 \text{ rad} = 4.5°
+\end{equation}
+
+
+After passing through L1, the 0th and +1st order beams propagate as \textit{collimated} (parallel) beams:
+\begin{itemize}
+\item 0th order: Propagates along the optical axis ($\theta = 0$), arriving at $x_F = 0$ (center of Fourier plane)
+\item +1st order: Propagates at angle $\theta_1$, arriving at $x_F = f\theta_1 \approx 15.8$ mm off-axis
+\end{itemize}
+
+This spatial separation of 15.8 mm allows independent filtering of each beam at the Fourier plane.
+
+\subsection{Spatial Filtering and Reference Beam Formation}
+
+\subsubsection{0th-Order Beam: Pinhole Filtering}
+
+The 0th-order beam, centered on the optical axis at the Fourier plane, passes through a circular pinhole with diameter $D_{\text{pinhole}} = 25$ μm. Using Goodman's result (Eq. 15), the 0th-order field at the Fourier plane is:
+
+\begin{equation}
+U_F^{(0)}(x_F, y_F) = \frac{c_0 e^{i2kf}}{i\lambda f M_{\text{obj}}^2} e^{i\frac{k}{2f}(x_F^2+y_F^2)} \mathcal{F}\{U_0 e^{i\phi_{\text{sample}}} e^{i\frac{k}{2f}(x_g^2+y_g^2)}\}
+\end{equation}
+
+The pinhole acts as a spatial low-pass filter with pupil function:
+
+\begin{equation}
+P_0(x_F, y_F) = \begin{cases} 1 & \sqrt{x_F^2 + y_F^2} \leq r_{\text{pinhole}} = 12.5~\mu\text{m} \\ 0 & \text{otherwise} \end{cases}
+\end{equation}
+
+The spatial frequency cutoff imposed by the pinhole is:
+
+\begin{equation}
+f_{\text{cutoff}}^{\text{pinhole}} = \frac{r_{\text{pinhole}}}{\lambda f} = \frac{12.5 \times 10^{-6}}{658 \times 10^{-9} \times 0.2} = 94.8 \text{ mm}^{-1}
+\end{equation}
+
+This is vastly smaller than the NA-limited cutoff of the objective lens:
+
+\begin{equation}
+f_{\text{cutoff}}^{\text{NA}} = \frac{\text{NA}}{\lambda M_{\text{obj}}} = \frac{0.95}{658 \times 10^{-9} \times 40} = 3.61 \times 10^7 \text{ m}^{-1}
+\end{equation}
+
+The pinhole therefore removes essentially all sample-induced spatial frequency content from the 0th-order beam, converting it into a quasi-uniform field.
+
+After filtering, the field propagates through the second half of the 4f system (inverse Fourier transformation). The pinhole-filtered beam produces an Airy diffraction pattern at the image plane:
+
+\begin{equation}
+U_I^{(0)}(\rho) \propto \frac{2J_1(kr_{\text{pinhole}}\rho/f)}{kr_{\text{pinhole}}\rho/f}
+\end{equation}
+
+where $\rho = \sqrt{x_I^2 + y_I^2}$ is the radial coordinate at the image plane, and $J_1$ is the first-order Bessel function. The width of the central Airy disk is:
+
+\begin{equation}
+w_{\text{Airy}} = 1.22\frac{\lambda f}{2r_{\text{pinhole}}} = 1.22 \times \frac{658 \times 10^{-9} \times 0.2}{2 \times 12.5 \times 10^{-6}} \approx 6.4 \text{ mm}
+\end{equation}
+
+Since $w_{\text{Airy}} \gg \text{FOV} \approx 176$ μm (after accounting for the 40× objective demagnification), the 0th-order beam appears as a quasi-plane wave with uniform amplitude across the entire camera sensor:
+
+\begin{equation}
+\boxed{U_{\text{ref}}(x_I, y_I) \approx R_0 = \text{constant}}
+\end{equation}
+
+This is the \textbf{reference beam}.
+
+\subsubsection{+1st-Order Beam: Unfiltered Propagation}
+
+The +1st-order beam passes through the Fourier plane at position $x_F \approx 15.8$ mm without encountering any spatial filter. It retains the full spatial frequency spectrum of the sample's phase information.
+
+From the Fourier plane, this beam propagates as a collimated beam at angle $\theta_1$ toward L2. After inverse Fourier transformation by the second half of the 4f system, the +1st-order field at the image plane is:
+
+\begin{equation}
+U_{\text{obj}}(x_I, y_I) = -\frac{c_1}{M_{\text{obj}}^2} U_0(-x_I, -y_I) e^{i\phi_{\text{sample}}(-x_I, -y_I)} \exp[ik_x^{\text{off}}x_I] \cdot e^{i\Phi_0}
+\end{equation}
+
+where:
+\begin{itemize}
+\item The negative sign and coordinate inversion arise from the $M = -1$ magnification of the symmetric 4f system
+\item $\Phi_0 = 4kf$ is the accumulated propagation phase through the system
+\item The exponential carrier term $\exp[ik_x^{\text{off}}x_I]$ represents the tilted wavefront arriving at the image plane
+\end{itemize}
+
+\subsection{Angular Reciprocity and Carrier Frequency}
+
+A fundamental property of the symmetric 4f system is \textbf{angular reciprocity}: a collimated beam entering L1 at angle $\theta$ to the optical axis will exit L2 at the same angle $\theta$ (measured from the optical axis).
+
+For the +1st-order beam:
+\begin{itemize}
+\item Enters L1 at angle $\theta_1 = \lambda/d_g$ (from grating diffraction)
+\item Propagates as parallel beam at angle $\theta_1$ between L1 and Fourier plane
+\item Continues as parallel beam at angle $\theta_1$ between Fourier plane and L2
+\item Exits L2 at angle $\theta_1$, impinging obliquely on the camera
+\end{itemize}
+
+This oblique incidence introduces a spatial phase gradient (carrier frequency). The off-axis wavevector is:
+
+\begin{equation}
+k_x^{\text{off}} = k\sin\theta_1 \approx k\theta_1 = k \frac{\lambda}{d_g} = \frac{2\pi}{d_g}
+\end{equation}
+
+Accounting for the objective lens magnification, the effective carrier at the object plane is:
+
+\begin{equation}
+\boxed{k_x^{\text{off}} = \frac{2\pi M_{\text{obj}}}{d_g} = \frac{2\pi \times 40}{8.33 \times 10^{-6}} = 3.02 \times 10^7 \text{ rad/m}}
+\end{equation}
+
+This corresponds to an effective grating period at the sample plane of $d_g^{\text{obj}} = d_g/M_{\text{obj}} = 208$ nm.
+
+\subsection{Interference and Hologram Formation}
+
+At the camera sensor, the reference and object beams interfere coherently:
+
+\begin{equation}
+U_{\text{total}}(x_I, y_I) = U_{\text{ref}} + U_{\text{obj}} = R_0 + E_0(x_I, y_I) e^{i\phi_s(x_I, y_I)} e^{ik_x^{\text{off}}x_I}
+\end{equation}
+
+where $E_0$ is the effective object beam amplitude and $\phi_s$ is the sample-induced phase at the image plane.
+
+The detected intensity is:
+
+\begin{equation}
+I(x_I, y_I) = |U_{\text{total}}|^2 = R_0^2 + E_0^2 + 2R_0 E_0 \cos[\phi_s(x_I, y_I) + k_x^{\text{off}}x_I]
+\end{equation}
+
+In discrete pixel coordinates $(m, n)$ with camera pixel pitch $\Delta p_{\text{cam}} = 3.45$ μm:
+
+\begin{equation}
+I_{m,n} = R_0^2 + E_{m,n}^2 + 2R_0 E_{m,n} \cos[\phi_{m,n} + k_m^{\text{off}} m]
+\end{equation}
+
+where $k_m^{\text{off}} = k_x^{\text{off}} \cdot \Delta p_{\text{obj}}$ with $\Delta p_{\text{obj}} = \Delta p_{\text{cam}}/M_{\text{obj}} = 86.25$ nm, giving:
+
+\begin{equation}
+k_m^{\text{off}} = 3.02 \times 10^7 \times 86.25 \times 10^{-9} = 2.60 \text{ rad/pixel}
+\end{equation}
+
+\section{Effects of Defocus on System Performance}
+
+Mechanical alignment errors can cause deviations from ideal focal positions, affecting hologram quality. We analyze two principal defocus modes.
+
+\subsection{Fourier Plane Displacement}
+
+When the pinhole is displaced by $\Delta z_F$ from the ideal Fourier plane at $z = f$, the reference beam acquires a quadratic phase curvature:
+
+\begin{equation}
+\phi_{\text{ref,curvature}} \approx \frac{k|\Delta z_F|}{2f^2}(x_I^2 + y_I^2)
+\end{equation}
+
+However, the pinhole-filtered beam has a large depth of focus:
+
+\begin{equation}
+\text{DOF} = 2\lambda\left(\frac{f}{D_{\text{pinhole}}}\right)^2 = 2 \times 658 \times 10^{-9} \times \left(\frac{0.2}{25 \times 10^{-6}}\right)^2 \approx 84 \text{ mm}
+\end{equation}
+
+For $|\Delta z_F| \ll 84$ mm, the reference beam remains sufficiently uniform across the field of view. The Airy disk width changes by:
+
+\begin{equation}
+\delta w_{\text{Airy}} \approx w_{\text{Airy}} \cdot \frac{\Delta z_F}{f}
+\end{equation}
+
+\textbf{Practical tolerance:} $|\Delta z_F| < 10$ mm causes $<5\%$ variation in reference amplitude, which has negligible effect on visibility.
+
+\subsection{Image Plane Displacement and Visibility Degradation}
+
+Image plane displacement $\Delta z_I$ (camera defocus) is far more critical. Each spatial frequency component acquires a phase shift:
+
+\begin{equation}
+\Delta\phi(f_x, f_y) = k_z \cdot \Delta z_I \approx k\Delta z_I - \pi\lambda(f_x^2 + f_y^2)\Delta z_I
+\end{equation}
+
+The second term represents defocus aberration—a quadratic phase error in spatial frequency. Different frequency components accumulate different phases, causing destructive interference when integrated over the NA bandwidth.
+
+For the carrier frequency $f_x^{\text{carrier}} = k_x^{\text{off}}/(2\pi) = 4.8 \times 10^6$ m$^{-1}$, the phase shift is:
+
+\begin{equation}
+\Delta\phi_{\text{carrier}} = -\pi\lambda (f_x^{\text{carrier}})^2 \Delta z_I \approx -4.7 \times 10^4 \cdot \Delta z_I \quad (\Delta z_I \text{ in meters})
+\end{equation}
+
+For $\Delta z_I = 100$ μm, this gives $\Delta\phi_{\text{carrier}} \approx 4.7$ rad $\approx 0.75 \times 2\pi$.
+
+\subsubsection{Visibility Reduction}
+
+For a sample with spatial frequency content extending to the NA-limited cutoff, the effective visibility after defocus is:
+
+\begin{equation}
+V_{\text{eff}} \approx V_0 \cdot \left|\frac{\sin(\pi\lambda f_{\text{cutoff}}^2 \Delta z_I)}{\pi\lambda f_{\text{cutoff}}^2 \Delta z_I}\right|
+\end{equation}
+
+The visibility drops to zero when:
+
+\begin{equation}
+|\Delta z_I|_{\text{critical}} = \frac{1}{\lambda f_{\text{cutoff}}^2} = \frac{\lambda}{(\text{NA})^2} = \frac{658 \times 10^{-9}}{(0.95)^2} \approx 730 \text{ nm}
+\end{equation}
+
+\section{Tolerance for Non-Ideal Lens Spacing}
+
+A critical practical question is: how sensitive is the system to deviations in the L1-L2 spacing from the ideal $2f$?
+
+\subsection{ABCD Matrix Analysis}
+
+For a modified configuration with L1-L2 separation $= 2f + \Delta z_L$, the ray transfer matrix becomes:
+
+\begin{equation}
+\mathbf{M}_{\text{modified}} = \begin{pmatrix} -1 - \frac{\Delta z_L}{f} & -\frac{\Delta z_L^2}{2f} \\ -\frac{\Delta z_L}{f^2} & -1 - \frac{\Delta z_L}{f} \end{pmatrix}
+\end{equation}
+
+\paragraph{Magnification Error}
+The transverse magnification changes to:
+
+\begin{equation}
+|M| = 1 + \frac{\Delta z_L}{f}
+\end{equation}
+
+For $\Delta z_L = 2$ mm and $f = 200$ mm: $|M| = 1.01$ (1\% error).
+
+\paragraph{Fourier Plane Shift}
+The true Fourier plane moves to $z = f + \Delta z_L/2$. If the pinhole remains at $z = f$, it is displaced by $\Delta z_F = -\Delta z_L/2$ from the true Fourier plane.
+
+\paragraph{Carrier Frequency Preservation}
+Importantly, the carrier frequency is determined by the grating:
+
+\begin{equation}
+k_x^{\text{off}} = \frac{2\pi M_{\text{obj}}}{d_g}
+\end{equation}
+
+This is a property of the grating geometry and is **independent of the 4f relay configuration**. The carrier frequency is therefore preserved regardless of $\Delta z_L$.
+
+\subsection{Impact on Visibility}
+
+For small L1-L2 spacing errors, the impact on visibility is minimal because:
+
+\begin{enumerate}
+\item \textbf{Reference beam uniformity:} The pinhole DOF (84 mm) far exceeds typical spacing errors. For $|\Delta z_L| = 5$ mm, the pinhole displacement from the true Fourier plane is only $\Delta z_L/2 = 2.5$ mm $\ll$ 84 mm, causing $<1\%$ amplitude variation.
+
+\item \textbf{Magnification error:} A 2.5\% magnification change (for $\Delta z_L = 5$ mm) is easily calibrated and does not affect fringe visibility.
+
+\item \textbf{Phase aberrations:} The quadratic phase curvature introduced is small and affects both beams similarly, minimally impacting their relative phase.
+\end{enumerate}
+
+\subsection{Optimal Pinhole Placement}
+
+For a system with known L1-L2 spacing $2f + \Delta z_L$, the pinhole should ideally be placed at the true Fourier plane position:
+
+\begin{equation}
+z_{\text{pinhole}} = f + \frac{\Delta z_L}{2}
+\end{equation}
+
+However, for $|\Delta z_L| < 5$ mm, maintaining the pinhole at the nominal position $z = f$ causes negligible performance degradation due to the large depth of focus.
 
 \section*{Derivation of the Helmholtz Equation}
 
