@@ -118,20 +118,6 @@ U_i(x_i, y_i) = -U_0(-x_i, -y_i) \cdot e^{i4kf}
 \end{equation}
 where the negative sign indicates spatial inversion in both transverse directions.
 
-\subsubsection{Defocus and numerical refocusing}
-
-Small deviations from ideal 4f geometry (e.g., misalignment of the Fourier plane or image plane) introduce defocus aberrations. The defocus-induced phase error in the spatial frequency domain is given by:
-\begin{equation}
-\phi_{\mathrm{defocus}}(f_x, f_y) = -\pi \lambda (f_x^2 + f_y^2) \Delta z
-\end{equation}
-where $\Delta z$ is the axial displacement from the ideal focal position. 
-
-Numerical refocusing can be performed by compensating for this phase error during hologram reconstruction using the angular spectrum propagation method (Section 3.4):
-\begin{equation}
-U(x,y,z_{\mathrm{focus}}) = \mathcal{F}^{-1}\left\{\tilde{U}(f_x, f_y) \cdot \exp\left[i\sqrt{k^2 - (2\pi f_x)^2 - (2\pi f_y)^2} \cdot \Delta z\right]\right\}
-\end{equation}
-
-For detailed mathematical derivations including the treatment of quadratic phase factors, ABCD matrix formalism, and point spread function analysis, see Appendix~\ref{appendix:4f_detailed}.
 \subsection{Phase recovery through interferometry}
 
 Since image sensors can only measure intensity $I = |U|^2$, the phase information $\phi$ in the complex field $U = A e^{i\phi}$ is lost upon detection. To recover the phase, we interfere the object field $U_s = A_s e^{i\phi_s}$ with a known reference field $U_r = A_r e^{i\phi_r}$. The detected intensity is
@@ -433,5 +419,5 @@ To correct for sample drift during time-lapse imaging, we calculated alignment t
 Cell boundaries were detected using Omnipose \cite{cutler2022omnipose}, a deep learning-based segmentation method optimized for bacterial morphology. We trained a custom Omnipose model on approximately 3000 manually annotated S. pombe cells. Training images were first manually annotated using the Omnipose GUI to generate ground truth segmentation masks. Segmentation masks were converted to binary outlines by detecting pixel discontinuities at cell boundaries using morphological operations. Specifically, boundaries were identified where mask values differed from their four-connected neighbors, generating single-pixel-width contours.
 
 \section{Glucose Concentration Measurement}
-Glucose concentrations in EMM2 media were determined using the LabAssay™ Glucose kit (FUJIFILM Wako Pure Chemical Corporation, product code 291-94001) according to the manufacturer's protocol. Absorbance was measured at 505 nm.
+Glucose concentrations in EMM media were determined using the LabAssay™ Glucose kit (FUJIFILM Wako Pure Chemical Corporation, product code 291-94001) according to the manufacturer's protocol. Absorbance was measured at 505 nm.
 
