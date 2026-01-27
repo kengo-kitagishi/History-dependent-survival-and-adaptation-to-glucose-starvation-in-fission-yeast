@@ -605,20 +605,6 @@ Omniposeの重要な改良点として、Decoder Level 0の出力とOutput heads
 
 Dropoutは、学習時にランダムにニューロンを不活性化（出力を0にする）することで、ネットワークが特定のニューロンに過度に依存することを防ぎ、過学習（overfitting）を抑制する。特に、訓練データが限られている場合（数百〜数千細胞）に有効である。
 
-\subsection{3次元への拡張}
-
-Omniposeは、PyTorchの\texttt{Conv2D}と\texttt{Conv3D}、\texttt{MaxPool2D}と\texttt{MaxPool3D}を切り替えることで、3次元データへの直接的な拡張が可能である。3次元の場合：
-
-\begin{itemize}
-\item 入力: $D \times H \times W \times 1$（例：$84 \times 84 \times 84 \times 1$）
-\item 畳み込みカーネル: $3 \times 3 \times 3$
-\item Max Pooling: $2 \times 2 \times 2$
-\item 出力: Boundary field (1 ch), Distance field (1 ch), Flow field X/Y/Z (3 ch)
-\end{itemize}
-
-3次元ネットワークのパラメータ数は、カーネルサイズが$(3 \times 3 \times 3 = 27)$となるため、2次元の$(3 \times 3 = 9)$と比較して約3倍に増加する。総パラメータ数は約\textbf{15 million}となる。
-
-3次元データの学習には大量のGPUメモリが必要であり（1ボリュームあたり約12 GB）、本研究ではMulti-GPU学習（PyTorchの\texttt{DataParallel}）を用いて対応した。
 
 \section{損失関数と最適化}
 

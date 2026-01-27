@@ -256,31 +256,53 @@ k^{\mathrm{off-axis}} \geq 3 \left(\frac{2\pi \mathrm{NA}}{\lambda M}\right).
 
 Second, the spatial frequency of the interferometric component should not exceed 1/2 of the sensor's pitch (Nyquist criterion):
 \begin{equation}
-k^{\mathrm{off-axis}} + \frac{2\pi \mathrm{NA}}{\lambda M} \leq \frac{2\pi f_{\mathrm{pitch}}}{2},
+\frac{k^{\mathrm{off-axis}}}{\sqrt{2}} + \frac{2\pi \mathrm{NA}}{\lambda M} \leq \frac{2\pi f_{\mathrm{pitch}}}{2},
 \end{equation}
 where $f_{\mathrm{pitch}}$ is the inverse of the sensor's pixel pitch. Combining these two conditions yields
 \begin{equation}
-\frac{2\pi \cdot 3\mathrm{NA}}{\lambda M} \leq k^{\mathrm{off-axis}} \leq 2\pi \left(\frac{f_{\mathrm{pitch}}}{2} - \frac{2\mathrm{NA}}{\lambda M}\right).
+\frac{2\pi \cdot 3\mathrm{NA}}{\lambda M} \leq k^{\mathrm{off-axis}} \leq  \frac{2\pi f_{\mathrm{pitch}}}{\sqrt{2}}- \frac{2\sqrt{2}\pi\mathrm{NA}}{\lambda M}.
 \end{equation}
 
-For our system, the off-axis wavevector is determined by the grating (120 lines per mm) placed at the sample conjugate plane. The grating period of 8.33 μm at the image plane corresponds to 208.3 nm at the object plane (divided by the magnification of 40×), yielding an off-axis wavevector magnitude of
+For our system with $\lambda = 658$ nm, NA = 0.95, 40$\times$ magnification, and camera pixel size of 3.45 μm, the key parameters are calculated as follows. The object-plane pixel pitch is $\Delta p = 3.45~\mu\mathrm{m}/40 = 86.25$ nm, yielding a FOV of $2048 \times 86.25$ nm = 176.6 μm. The Abbe limit for coherent illumination is $\Delta x_{\mathrm{Abbe}} = 658/0.95 = 692$ nm, and the Nyquist requirement is $\Delta p_{\mathrm{Nyquist}} = 658/(2 \times 0.95) = 346$ nm. The raw hologram sampling achieves an oversampling factor of $346/86.25 = 4.0\times$, ensuring aliasing-free acquisition. The aperture diameter is
 \begin{equation}
-k^{\mathrm{off-axis}} = \frac{2\pi}{208.3~\mathrm{nm}} = 3.02 \times 10^7~\mathrm{rad/m}.
+D_{\mathrm{ap}} = 2\left\lfloor \frac{0.95}{658 \times 10^{-9}} \times 176.6 \times 10^{-6} \right\rfloor + 1 = 507~\mathrm{pixels},
+\end{equation}
+and the reconstructed pixel size is $\Delta p_{\mathrm{recon}} = 176.6~\mu\mathrm{m}/507 = 348$ nm, which closely matches the Nyquist requirement.
+
+\subsection{Design of the optical system}
+
+When designing an off-axis DH optical system, two conditions must be satisfied. First, the magnitude of the off-axis wavevector $k^{\mathrm{off-axis}} = \sqrt{(k_m^{\mathrm{off-axis}})^2 + (k_n^{\mathrm{off-axis}})^2}$ must be sufficiently large to avoid overlap of the interferometric and noninterferometric terms in the Fourier space. The radius of the interferometric component in the Fourier space is $2\pi \mathrm{NA}/(\lambda M)$, while that of the noninterferometric component is $2\pi \cdot 2\mathrm{NA}/(\lambda M)$, as the noninterferometric term is expressed by the autocorrelation of the frequency spectrum. Hence, $k^{\mathrm{off-axis}}$ must satisfy
+\begin{equation}
+k^{\mathrm{off-axis}} \geq 3 \left(\frac{2\pi \mathrm{NA}}{\lambda M}\right).
 \end{equation}
 
-We verify that our system satisfies both design conditions. For the first condition (overlap avoidance):
+Second, the spatial frequency of the interferometric component should not exceed 1/2 of the sensor's pitch (Nyquist criterion). For a wavevector in an arbitrary direction, the worst case occurs along the diagonal direction, requiring:
 \begin{equation}
-k^{\mathrm{off-axis}} = 3.02 \times 10^7 \geq 3 \times \frac{2\pi \times 0.95}{658 \times 10^{-9} \times 40} = 6.78 \times 10^6~\mathrm{rad/m}.
+\frac{k^{\mathrm{off-axis}}}{\sqrt{2}} + \frac{2\pi \mathrm{NA}}{\lambda M} \leq \frac{2\pi f_{\mathrm{pitch}}}{2},
 \end{equation}
-For the second condition (Nyquist criterion), with $f_{\mathrm{pitch}} = 1/86.25~\mathrm{nm} = 1.16 \times 10^7~\mathrm{m}^{-1}$:
+where $f_{\mathrm{pitch}}$ is the inverse of the sensor's pixel pitch. Combining these two conditions yields
 \begin{equation}
-k^{\mathrm{off-axis}} = 3.02 \times 10^7 \leq 2\pi \left(\frac{1.16 \times 10^7}{2} - \frac{2 \times 0.95}{658 \times 10^{-9} \times 40}\right) = 3.42 \times 10^7~\mathrm{rad/m}.
+\frac{2\pi \cdot 3\mathrm{NA}}{\lambda M} \leq k^{\mathrm{off-axis}} \leq \sqrt{2}\pi \left(f_{\mathrm{pitch}} - \frac{2\mathrm{NA}}{\lambda M}\right).
+\end{equation}
+
+For our system, the off-axis wavevector is determined by the grating (120 lines per mm) placed at the sample conjugate plane. At the sensor plane (image plane), the grating period is 8.33 μm, yielding an off-axis wavevector magnitude of
+\begin{equation}
+k^{\mathrm{off-axis}} = \frac{2\pi}{8.33~\mu\mathrm{m}} = 7.54 \times 10^5~\mathrm{rad/m}.
+\end{equation}
+
+We verify that our system satisfies both design conditions at the sensor plane. For the first condition (overlap avoidance):
+\begin{equation}
+k^{\mathrm{off-axis}} = 7.54 \times 10^5 \geq 3 \times \frac{2\pi \times 0.95}{658 \times 10^{-9} \times 40} = 6.80 \times 10^5~\mathrm{rad/m}.
+\end{equation}
+For the second condition (Nyquist criterion), with sensor pixel pitch of 3.45 μm giving $f_{\mathrm{pitch}} = 1/3.45~\mu\mathrm{m} = 2.90 \times 10^5~\mathrm{m}^{-1}$:
+\begin{equation}
+k^{\mathrm{off-axis}} = 7.54 \times 10^5 \leq \sqrt{2}\pi \left(2.90 \times 10^5 - \frac{2 \times 0.95}{658 \times 10^{-9} \times 40}\right) = 9.68 \times 10^5~\mathrm{rad/m}.
 \end{equation}
 Both conditions are satisfied, confirming that the optical system design is appropriate for aliasing-free hologram acquisition.
 
 \subsection{Verification of the off-axis configuration}
 
-To validate the optical system design, we compare the theoretically calculated off-axis wavevector with the experimentally measured carrier frequency in the Fourier domain. From the grating specifications, the theoretical off-axis wavevector at the object plane is $k_{\mathrm{theory}}^{\mathrm{off-axis}} = 3.02 \times 10^7~\mathrm{rad/m}$ as calculated above.
+To validate the optical system design, we compare the theoretically calculated off-axis wavevector with the experimentally measured carrier frequency in the Fourier domain. From the grating specifications, the theoretical off-axis wavevector at the sensor plane (image plane) is $k_{\mathrm{theory}}^{\mathrm{off-axis}} = 7.54 \times 10^5~\mathrm{rad/m}$ as calculated above.
 
 Experimentally, the off-axis carrier frequency is determined from the position of the +1st-order sideband in the Fourier-transformed hologram. For our system, the measured sideband peak position is $(m_{\mathrm{off}}, n_{\mathrm{off}}) = (1623, 1621)$ in the 2048 × 2048 pixel raw hologram, where the DC component is centered at $(1024, 1024)$. The offset from the center is
 \begin{equation}
@@ -292,49 +314,73 @@ The magnitude of the off-axis wavevector in pixel units is
 k_{\mathrm{pixel}}^{\mathrm{off-axis}} = \sqrt{(\Delta m)^2 + (\Delta n)^2} = \sqrt{599^2 + 597^2} = 845.8~\mathrm{pixels}.
 \end{equation}
 
-To convert this to physical units, we use the spatial frequency resolution in the Fourier domain, which is determined by the field of view:
+To convert this to physical units at the sensor plane, we use the spatial frequency resolution determined by the sensor FOV:
 \begin{equation}
-\Delta f = \frac{1}{\mathrm{FOV}} = \frac{1}{2048 \times 86.25~\mathrm{nm}} = \frac{1}{176.6~\mu\mathrm{m}} = 5662~\mathrm{m}^{-1}.
+\Delta f_{\mathrm{sensor}} = \frac{1}{\mathrm{FOV}_{\mathrm{sensor}}} = \frac{1}{2048 \times 3.45~\mu\mathrm{m}} = \frac{1}{7.07~\mathrm{mm}} = 141.5~\mathrm{m}^{-1}.
 \end{equation}
 
-The spatial frequency of the carrier is
+The spatial frequency of the carrier at the sensor plane is
 \begin{equation}
-f_{\mathrm{exp}}^{\mathrm{off-axis}} = 845.8 \times 5662 = 4.79 \times 10^6~\mathrm{cycles/m},
+f_{\mathrm{exp}}^{\mathrm{off-axis}} = 845.8 \times 141.5 = 1.20 \times 10^5~\mathrm{cycles/m},
 \end{equation}
 corresponding to a wavevector of
 \begin{equation}
-k_{\mathrm{exp}}^{\mathrm{off-axis}} = 2\pi f_{\mathrm{exp}}^{\mathrm{off-axis}} = 2\pi \times 4.79 \times 10^6 = 3.01 \times 10^7~\mathrm{rad/m}.
+k_{\mathrm{exp}}^{\mathrm{off-axis}} = 2\pi f_{\mathrm{exp}}^{\mathrm{off-axis}} = 2\pi \times 1.20 \times 10^5 = 7.53 \times 10^5~\mathrm{rad/m}.
 \end{equation}
 
-This agreement confirms that the grating-based off-axis configuration is correctly implemented and that the optical magnification and spatial calibration are accurate.
+This excellent agreement confirms that the grating-based off-axis configuration is correctly implemented and that the optical system operates as designed.
+
 
 \section{Phase sensitivity}
 
-To discuss the phase sensitivity of off-axis DH, we consider the shot-noise-limited regime following the theoretical framework of Chen et al. [XX]. Adding the noise term $z_{m,n}^{\mathrm{DH}}$ to the hologram intensity, the measured phase including noise is represented by
+To discuss the OPD precision of off-axis DH, determined by the temporal OPD noise, we first add the noise term $z_{m,n}^{\mathrm{DH}}$ to Eq. (3.18), such that
 \begin{equation}
-\phi'_{m,n} = \arg\left[\mathrm{LP}\left(\frac{I_{m,n}^{\mathrm{DH}} e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}}{|J_{m,n}^{\mathrm{int}}|}\right)\right] = \phi_{m,n} + \frac{z_{m,n}^{\mathrm{DH}} \sin(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n}) \ast H_{m,n}}{|J_{m,n}^{\mathrm{int}}|},
+I_{m,n}^{'\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + (J_{m,n}^{\mathrm{int}})^* e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + z_{m,n}^{\mathrm{DH}}.
 \end{equation}
-where $H_{m,n}$ denotes the IFT of the pupil function for LP filtering, and $\ast$ represents convolution. The temporal OPD standard deviation at each pixel $\sigma_{\phi'}^{\mathrm{DH}}$ is obtained by calculating the square root of the variance:
+The OPD image containing noise is represented by
+\begin{align}
+\phi'_{m,n} &= \arg\left[\mathrm{LP}\left(\frac{I_{m,n}^{'\mathrm{DH}} e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}}{|J_{m,n}^{\mathrm{int}}|}\right)\right] \nonumber \\
+&= \arg\left[e^{i\phi_{m,n}}\left(1 + \frac{\mathrm{LP}(z_{m,n}^{\mathrm{DH}} e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}{|J_{m,n}^{\mathrm{int}}| e^{i\phi_{m,n}}}\right)\right] \nonumber \\
+&= \phi_{m,n} + \frac{z_{m,n}^{\mathrm{DH}} \sin(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n}) \ast H_{m,n}}{|J_{m,n}^{\mathrm{int}}|},
+\end{align}
+where $H_{m,n}$ denotes the IFT of the pupil function $h_{k,l}$ for LP filtering, and $\ast$ represents convolution. The temporal OPD standard deviation at each spatial pixel $\sigma_{\phi'}^{\mathrm{DH}}$ can be obtained by calculating the square root of the variance of $\phi'_{m,n}$ as
+\begin{align}
+\sigma_{\phi'}^{\mathrm{DH}} &= \sqrt{\mathrm{Var}(\phi'_{m,n})} = \frac{1}{|J_{m,n}^{\mathrm{int}}|} \sqrt{[\mathrm{Var}(z_{m,n}^{\mathrm{DH}}) \sin^2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})] \ast H_{m,n}^2} \nonumber \\
+&= \frac{1}{|J_{m,n}^{\mathrm{int}}|} \sqrt{\left[\mathrm{Var}(z_{m,n}^{\mathrm{DH}}) \frac{1 - \cos 2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})}{2}\right] \ast H_{m,n}^2}.
+\end{align}
+
+In the case of optical shot-noise-limited detection, $\mathrm{Var}(z_{m,n}^{\mathrm{DH,shot}})$ is given by
 \begin{equation}
-\sigma_{\phi'}^{\mathrm{DH}} = \sqrt{\mathrm{Var}(\phi'_{m,n})} = \frac{1}{|J_{m,n}^{\mathrm{int}}|} \sqrt{\left[\mathrm{Var}(z_{m,n}^{\mathrm{DH}}) \frac{1 - \cos 2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})}{2}\right] \ast H_{m,n}^2}.
+\mathrm{Var}(z_{m,n}^{\mathrm{DH,shot}}) = \mathrm{Mean}(I_{m,n}^{\mathrm{DH}}) = J_{m,n}^{\mathrm{non-int}} + 2|J_{m,n}^{\mathrm{int}}| \cos(\phi_{m,n} - k_m^{\mathrm{off-axis}}m - k_n^{\mathrm{off-axis}}n).
+\end{equation}
+All terms outside the LP bandwidth, such as $\cos 2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})$ in Eq. (3.43) and $\cos(\phi_{m,n} - k_m^{\mathrm{off-axis}}m - k_n^{\mathrm{off-axis}}n)$ in Eq. (3.44), are removed by the LP-filtering operation $\ast H_{m,n}$. Because $h_{k,l}$ is unity within its passband and zero elsewhere, $H_{m,n}^2$ can be approximated by the delta function $\delta_{m,n}$, and the summation of its amplitude over the entire pixel range is expressed as
+\begin{equation}
+\sum_{m,n} H_{m,n}^2 = \sum_{k,l} h_{k,l}^2 \cdot \frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}},
+\end{equation}
+where $A_{\mathrm{sensor}}$ is the total number of sensor pixels and $A_{\mathrm{aperture}}$ is the number of pixels inside the LP bandwidth. By substituting Eq. (3.45) into Eq. (3.43), we obtain the optical shot-noise-limited OPD precision as
+\begin{equation}
+\sigma_{\phi'}^{\mathrm{DH,shot}} = \frac{\sqrt{|J_{m,n}^{\mathrm{non-int}}| \ast H_{m,n}^2}}{\sqrt{2}|J_{m,n}^{\mathrm{int}}|} = \sqrt{\frac{|J_{m,n}^{\mathrm{non-int}}|}{2|J_{m,n}^{\mathrm{int}}|^2}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}}.
 \end{equation}
 
-Under the shot-noise-limited regime, $\mathrm{Var}(z_{m,n}^{\mathrm{DH}}) = \alpha_{m,n}/g$, where $\alpha_{m,n} = A_s^2 + A_r^2$ is the mean intensity, and $g$ is the camera gain [e$^-$/ADU]. Using the visibility $V = 2A_sA_r/(A_s^2 + A_r^2)$ and noting that the LP filter eliminates high-frequency terms, the phase sensitivity for a single measurement is
+Equation (3.46) can be extended to obtain the OPD precision including both the optical shot noise and the sensor's read-out noise as
 \begin{equation}
-\sigma_{\phi} = \sqrt{\frac{2S}{gN^2\alpha V^2}},
+\sigma_{\phi'}^{\mathrm{DH,shot+sensor}} = \sqrt{\frac{|J_{m,n}^{\mathrm{non-int}}| + \mathrm{Var}(z_{m,n}^{\mathrm{sensor}})}{2|J_{m,n}^{\mathrm{int}}|^2}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}},
 \end{equation}
-where $S = \sum_{p,q} |H_{p,q}|^2$ is the filter passband area, and $N \times N$ is the hologram size. 
+where $\mathrm{Var}(z_{m,n}^{\mathrm{sensor}})$ is the variance of the sensor read-out noise.
 
-In common-path off-axis holography with background subtraction, the noise propagates from both sample and background measurements. Since the measurements are independent, the variance becomes $\mathrm{Var}[\Delta I] = 2\sigma_I^2$, yielding the corrected phase sensitivity:
+Using the visibility $V = 2|J_{m,n}^{\mathrm{int}}|/J_{m,n}^{\mathrm{non-int}}$ and noting that $J_{m,n}^{\mathrm{non-int}} = A_s^2 + A_r^2$ is the mean intensity (in units of electrons), the shot-noise-limited phase sensitivity can be written as
 \begin{equation}
-\sigma_{\phi}^{\mathrm{bg\ sub}} = \sqrt{2} \times \sigma_{\phi} = \sqrt{\frac{4S}{gN^2\alpha V^2}}.
+\sigma_{\phi}^{\mathrm{shot}} = \frac{1}{V} \sqrt{\frac{2}{J_{m,n}^{\mathrm{non-int}}}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}} = \frac{1}{V\sqrt{N_e}} \sqrt{\frac{2A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}},
 \end{equation}
-In terms of the number of electrons $N_e = g \cdot \alpha$, this can be written as
+where $N_e = J_{m,n}^{\mathrm{non-int}}$ is the total number of electrons.
+
+In common-path off-axis holography with background subtraction, the noise propagates from both sample and background measurements. Since the measurements are independent, the variance becomes $\mathrm{Var}[\Delta I] = 2\sigma_I^2$, yielding
 \begin{equation}
-\sigma_{\phi}^{\mathrm{bg\ sub}} = \frac{2}{V\sqrt{N_e}} \sqrt{\frac{S}{N^2}}.
+\sigma_{\phi}^{\mathrm{bg\ sub}} = \sqrt{2} \times \sigma_{\phi}^{\mathrm{shot}} = \frac{\sqrt{2}}{V\sqrt{N_e}} \sqrt{\frac{2A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}} = \frac{2}{V\sqrt{N_e}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}}.
 \end{equation}
 
 The phase sensitivity exhibits a quadratic dependence on visibility ($\sigma_{\phi} \propto V^{-1}$) and a square-root dependence on the number of electrons ($\sigma_{\phi} \propto N_e^{-1/2}$), making visibility optimization critical for achieving high sensitivity.
+
 \section{Microscope and imaging setup}
 Microscopy was conducted on an inverted Nikon Ti microscope (Nikon Instruments Inc.) fitted with a 40×/0.95 NA air objective. Samples were maintained at 30 °C with a stage-top incubator (Tokai Hit model ). The microscope hardware including motorized stage, shutters, Perfect Focus System (PFS) autofocus and image acquisition were controlled using Micro-Manager (v) open-source software.
 \section{Biological replicates}
