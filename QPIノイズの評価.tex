@@ -1,0 +1,371 @@
+\section{Principle of QPI}
+Differences in refractive index between a cell and its environment are imprinted upon light as different delays to the phase of light oscillations. Because frequencies of visible light are very high (400–800 THz), its oscillations cannot be directly recorded by imaging sensors. To become detectable, phase delay must be converted into measurable intensity. This is done in standard phase contrast and differential interference contrast microscopes. Quantification of the phase is accomplished by a group of methods known as quantitative phase imaging (QPI)
+QPI is based on transmitted illumination that crosses a refractive sample (Fig. 1). When the cell's refractive index varies both across the sample and in depth, the relative phase accrued by light passing through the cell at horizontal position x is
+\begin{equation}
+    \Delta \phi(x)= \frac{2\pi}{\lambda} \int_0^{h(x)}[n_{cell}(x,z) - n_0]dz
+\end{equation}
+where z denotes depth within the sample, h(x) is the cell thickness profile, ncell is the cell's refractive index (which may vary depending on the position), n0 is a constant refractive index of the medium, and λ is the wavelength of light. Scattering is assumed insignificant in this model. 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{}
+    \caption{A diagram showing accumulation of phase delay of light passing through a cell}
+    \label{fig:placeholder}
+\end{figure}
+\subsection{Common-path Methods}
+common path QPI methods implement a considerably more compact interferometer after the sample. In this geometry, the two interfering light beams propagate through many of the same optical components, increasing robustness to vibrations and misalignments of the system as well as generally reducing the system's footprint. Because they can be placed after the sample, common-path systems can also be easily implemented at the output port of a microscope.
+だから長期のタイムラプスに最適。
+
+\subsection{Light propagation and angular spectrum method}
+The propagation of monochromatic light in a homogeneous medium is governed by the Helmholtz equation:
+\begin{equation}
+\nabla^2 U(\mathbf{r}) + k^2 U(\mathbf{r}) = 0,
+\end{equation}
+where $k = 2\pi n/\lambda$ is the wavenumber, $n$ is the refractive index, $\lambda$ is the wavelength, and $\nabla^2 = \partial^2/\partial x^2 + \partial^2/\partial y^2 + \partial^2/\partial z^2$ is the Laplacian operator. The solution can be expressed as a superposition of plane waves with different spatial frequencies $(f_x, f_y)$:
+\begin{equation}
+U(x,y,z) = \int\int \tilde{U}(f_x, f_y, z) e^{2\pi i(f_x x + f_y y)} df_x df_y,
+\end{equation}
+where $\tilde{U}(f_x, f_y, z)$ is the angular spectrum. Substituting this into the Helmholtz equation yields the dispersion relation:
+\begin{equation}
+k_x^2 + k_y^2 + k_z^2 = k^2,
+\end{equation}
+where $k_x = 2\pi f_x$, $k_y = 2\pi f_y$, and
+\begin{equation}
+k_z = \sqrt{k^2 - k_x^2 - k_y^2} = \sqrt{k^2 - (2\pi f_x)^2 - (2\pi f_y)^2}
+\end{equation}
+is the z-component of the wavevector.
+
+For propagation from $z=0$ to $z=d$, each plane wave component acquires a phase factor $e^{i k_z d}$:
+\begin{equation}
+\tilde{U}(f_x, f_y, d) = \tilde{U}(f_x, f_y, 0) \cdot e^{i k_z d}.
+\end{equation}
+The field at distance $d$ is then obtained by inverse Fourier transformation:
+\begin{equation}
+U(x,y,d) = \mathcal{F}^{-1}\left\{\tilde{U}(f_x, f_y, 0) \cdot e^{i k_z d}\right\}.
+\end{equation}
+
+\subsection{Band-pass limitation by the objective lens}
+
+An objective lens with numerical aperture NA acts as a spatial frequency filter, passing only components with $\sqrt{f_x^2 + f_y^2} \leq \mathrm{NA}/\lambda$. The transmitted field spectrum is
+\begin{equation}
+\tilde{U}_{\mathrm{transmitted}}(f_x, f_y) = \tilde{U}_0(f_x, f_y) \cdot P(f_x, f_y),
+\end{equation}
+where $P(f_x, f_y)$ is the pupil function:
+\begin{equation}
+P(f_x, f_y) = \begin{cases}
+1 & \text{if } \sqrt{f_x^2 + f_y^2} \leq f_{\mathrm{cutoff}} = \mathrm{NA}/\lambda \\
+0 & \text{otherwise}
+\end{cases}.
+\end{equation}
+This band-pass limitation determines the spatial resolution through the Abbe diffraction limit:
+\begin{equation}
+\Delta x_{\mathrm{Abbe}} = \frac{\lambda}{\mathrm{NA}}
+\end{equation}
+for coherent illumination.
+
+subsection{Light propagation in 4f optical systems}
+
+A 4f optical system consists of two lenses with focal length $f$ arranged such that the object plane, Fourier plane, and image plane are separated by distances $f$ as shown in Fig.~\ref{fig:4f_system}. This configuration performs spatial Fourier transformation and imaging, and is widely used in spatial light modulation, optical filtering, and holographic imaging systems.
+
+\subsection{Light propagation in 4f optical systems}
+
+A 4f optical system consists of two lenses with focal length $f$ arranged such that the object plane, Fourier plane, and image plane are separated by distances $f$. This configuration performs spatial Fourier transformation and imaging, and is widely used in spatial light modulation, optical filtering, and holographic imaging systems \cite{goodman2005}.
+
+\subsubsection{System configuration}
+
+The 4f system comprises the following elements (Fig.~\ref{fig:4f_system}):
+\begin{itemize}
+\item Object plane at $z = 0$
+\item First lens (L1) with focal length $f$ at $z = f$
+\item Fourier plane at $z = 2f$
+\item Second lens (L2) with focal length $f$ at $z = 3f$
+\item Image plane at $z = 4f$
+\end{itemize}
+
+\subsubsection{Fourier transformation by a single lens}
+
+When an object is placed at the front focal plane of a lens with focal length $f$, the field at the back focal plane (Fourier plane) is proportional to the spatial Fourier transform of the object field \cite{goodman2005}:
+\begin{equation}
+U_F(x_F, y_F) = \frac{e^{ikf}}{i\lambda f} e^{i\frac{k}{2f}(x_F^2 + y_F^2)} \mathcal{F}\{U_0(x_0, y_0)\}\bigg|_{f_x = \frac{x_F}{\lambda f}, f_y = \frac{y_F}{\lambda f}}
+\end{equation}
+where $U_0$ is the object field, and the quadratic phase factor $\exp[ik(x_F^2 + y_F^2)/(2f)]$ represents the spherical wavefront curvature at the Fourier plane.
+
+The spatial frequency components $(f_x, f_y)$ are mapped to coordinates in the Fourier plane according to:
+\begin{equation}
+f_x = \frac{x_F}{\lambda f}, \quad f_y = \frac{y_F}{\lambda f}
+\end{equation}
+
+\subsubsection{Spatial filtering in the 4f system}
+
+A spatial filter (e.g., pinhole, amplitude mask) placed at the Fourier plane modifies the spatial frequency spectrum. The filter function $P(x_F, y_F)$ multiplies the Fourier-domain field:
+\begin{equation}
+U_F^+(x_F, y_F) = U_F(x_F, y_F) \cdot P(x_F, y_F)
+\end{equation}
+
+The second lens performs an inverse Fourier transformation, yielding the filtered image at $z = 4f$. For a symmetric 4f system without filtering ($P = 1$), the output is an inverted image of the input:
+\begin{equation}
+U_i(x_i, y_i) = -U_0(-x_i, -y_i) \cdot e^{i4kf}
+\end{equation}
+where the negative sign indicates spatial inversion in both transverse directions.
+
+\subsection{Phase recovery through interferometry}
+
+Since image sensors can only measure intensity $I = |U|^2$, the phase information $\phi$ in the complex field $U = A e^{i\phi}$ is lost upon detection. To recover the phase, we interfere the object field $U_s = A_s e^{i\phi_s}$ with a known reference field $U_r = A_r e^{i\phi_r}$. The detected intensity is
+\begin{equation}
+I = |U_s + U_r|^2 = |U_s|^2 + |U_r|^2 + U_s \cdot U_r^* + U_s^* \cdot U_r,
+\end{equation}
+which can be expanded as
+\begin{equation}
+I = A_s^2 + A_r^2 + 2A_s A_r \cos(\phi_s - \phi_r).
+\end{equation}
+The phase difference $\phi_s - \phi_r$ modulates the intensity as interference fringes. However, in an on-axis configuration, all four terms in Eq. (3.10) occupy the same region in Fourier space, preventing isolation of the phase-containing term $U_s \cdot U_r^*$.
+
+\subsection{Off-axis configuration}
+
+To separate the interferometric components in Fourier space, we introduce a carrier frequency by giving the object field an off-axis wavevector $(k_m^{\mathrm{off-axis}}, k_n^{\mathrm{off-axis}})$, where $(m, n)$ denote discrete pixel indices. In our common-path system, the reference field is spatially filtered by a pinhole at the Fourier plane to produce a quasi-plane wave:
+\begin{equation}
+U_r = A_r,
+\end{equation}
+while the object field carries the off-axis wavevector introduced by the Ronchi ruling grating:
+\begin{equation}
+U_s = A_s e^{i\phi_s} e^{i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)}.
+\end{equation}
+The interference pattern then becomes
+\begin{equation}
+I_{m,n} = |U_s|^2 + |U_r|^2 + U_s \cdot U_r^* + U_s^* \cdot U_r = A_s^2 + A_r^2 + 2A_r A_s \cos[\phi_s + k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n].
+\end{equation}
+
+Taking the 2D Fourier transform with reciprocal coordinates $(p,q)$, we obtain
+\begin{equation}
+\tilde{I}(p,q) = \tilde{I}_{\mathrm{DC}}(p,q) + \mathcal{F}\{U_s \cdot U_r^*\}(p - k_m^{\mathrm{off-axis}}, q - k_n^{\mathrm{off-axis}}) + \mathcal{F}\{U_s^* \cdot U_r\}(p + k_m^{\mathrm{off-axis}}, q + k_n^{\mathrm{off-axis}}).
+\end{equation}
+The three components are now spatially separated in Fourier space. By selecting the +1st-order sideband and applying inverse Fourier transformation, the complex field $U_s$ is isolated and its phase $\phi_s = \arg(U_s)$ is extracted.
+
+\subsection{Off-axis hologram formation}
+
+In off-axis DH, the interference patterns between the object field and reference field are captured with an image sensor. Assuming $z = 0$ as the sample location, the object field at the sensor is
+\begin{equation}
+E'_{m,n} = \frac{1}{M^2} E_0 \exp[i\phi_{m,n}] \exp[i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)],
+\end{equation}
+where $M$ is the magnification, $E_0$ is the incident field amplitude, $(k_m^{\mathrm{off-axis}}, k_n^{\mathrm{off-axis}})$ is the off-axis carrier frequency introduced by the Ronchi ruling grating, and $\phi_{m,n}$ contains the optical phase delay induced by the sample. The reference field is
+\begin{equation}
+R_{m,n} = R_0,
+\end{equation}
+which is approximately constant across the field of view after spatial filtering by the pinhole at the Fourier plane.
+
+The recorded hologram intensity at pixel $(m,n)$ is
+\begin{equation}
+I_{m,n}^{\mathrm{DH}} = \left|E'_{m,n} + R_{m,n}\right|^2 = |E'_{m,n}|^2 + |R_{m,n}|^2 + E'_{m,n} \cdot R_{m,n}^* + \mathrm{c.c.}
+\end{equation}
+This can be separated into interferometric terms ($J_{m,n}^{\mathrm{int}} e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}$ and its complex conjugate) and noninterferometric term ($J_{m,n}^{\mathrm{non-int}}$) as
+\begin{equation}
+I_{m,n}^{\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + (J_{m,n}^{\mathrm{int}})^* e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)},
+\end{equation}
+where $J_{m,n}^{\mathrm{non-int}} = |E'_{m,n}|^2 + |R_{m,n}|^2$ and $J_{m,n}^{\mathrm{int}} = E'_{m,n} \cdot R_{m,n}^*$.
+
+\section{Reconstruction procedure}
+
+The image-reconstruction procedure comprises (1) 2D discrete FT, (2) sideband centering, (3) low-pass (LP) filtering, and (4) 2D discrete inverse FT (IFT), followed by background subtraction. The 2D FT of the hologram is written as
+\begin{equation}
+i_{p,q}^{\mathrm{DH}} = j_{p,q}^{\mathrm{non-int}} + j_{p-k_m^{\mathrm{off-axis}}, q-k_n^{\mathrm{off-axis}}}^{\mathrm{int}} + j_{p+k_m^{\mathrm{off-axis}}, q+k_n^{\mathrm{off-axis}}}^{\mathrm{int}*},
+\end{equation}
+where $(p,q)$ is the reciprocal coordinate of $(m,n)$. The three components are spatially separated in the Fourier space due to the off-axis wavevector.
+
+The interferometric term is extracted by first identifying the +1st-order sideband peak position $(p_{\mathrm{off}}, q_{\mathrm{off}})$ and then shifting the spatial frequency to center the sideband:
+\begin{equation}
+I_{m,n}^{(c)} = I_{m,n}^{\mathrm{DH}} \cdot e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}.
+\end{equation}
+A circular LP filter $H_{p,q}$ with radius
+\begin{equation}
+r_{\mathrm{aperture}} = \frac{2\pi \mathrm{NA}}{\lambda} \cdot N \cdot \Delta p
+\end{equation}
+is applied in the Fourier domain, where $N$ is the hologram size and $\Delta p$ is the pixel pitch at the object plane. This corresponds to the spatial frequency cutoff determined by the NA of the objective lens. After LP filtering, 2D discrete IFT is performed to obtain the phase:
+\begin{equation}
+\phi_{m,n}^{\mathrm{Meas}} = \arg[\mathrm{LP}(I_{m,n}^{(c)})].
+\end{equation}
+
+The OPD is obtained after removing the complex amplitude distribution of the illumination light without the sample (background):
+\begin{equation}
+\phi_{m,n} = \arg\left[\frac{\mathrm{LP}(I_{m,n}^{\mathrm{sample}} \cdot e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}{\mathrm{LP}(I_{m,n}^{\mathrm{bg}} \cdot e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}\right].
+\end{equation}
+The final OPD image is obtained by subtracting the mean value of the background region to remove the offset. The conversion from phase to OPD is performed as
+\begin{equation}
+\mathrm{OPD}(x,y) = \frac{\phi(x,y) \lambda}{2\pi}.
+\end{equation}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{}
+    \caption{Reconstruction procedure of off-axis DH}
+    \label{fig:placeholder}
+\end{figure}
+
+\subsection{Spatial resolution and Fourier domain parameters}
+
+The spatial resolution in off-axis DH is determined by the NA of the objective lens and the discrete sampling in the Fourier domain. For coherent illumination, the spatial frequency cutoff imposed by the NA is
+\begin{equation}
+f_{\mathrm{cutoff}} = \frac{\mathrm{NA}}{\lambda},
+\end{equation}
+which corresponds to the Abbe diffraction limit given in Eq. (3.9).
+
+The aperture diameter in pixels is determined by the field of view (FOV) and the spatial frequency cutoff. For a hologram with $N \times N$ pixels and object-plane pixel pitch $\Delta p$, the FOV is $\mathrm{FOV} = N \cdot \Delta p$. The aperture diameter in pixels is
+\begin{equation}
+D_{\mathrm{ap}} = 2 \left\lfloor \frac{\mathrm{NA}}{\lambda} \cdot \mathrm{FOV} \right\rfloor + 1,
+\end{equation}
+where $\lfloor \cdot \rfloor$ denotes the floor function. This aperture size $D_{\mathrm{ap}}$ directly determines the size of the reconstructed OPD image. The reconstructed pixel size is
+\begin{equation}
+\Delta p_{\mathrm{recon}} = \frac{\mathrm{FOV}}{D_{\mathrm{ap}}} \approx \frac{\lambda}{2\mathrm{NA}}.
+\end{equation}
+
+Two stages of sampling must be considered in the system design. First, the raw hologram must satisfy the Nyquist sampling criterion to avoid aliasing:
+\begin{equation}
+\Delta p < \frac{\lambda}{2 \cdot \mathrm{NA}}.
+\end{equation}
+An oversampling factor of 2--4$\times$ is typical for robust hologram acquisition. Second, after Fourier filtering, the reconstructed OPD image pixel size is designed to match the Nyquist requirement, where one resolution element ($\lambda/\mathrm{NA}$) spans approximately two pixels.
+
+For our system with $\lambda = 658$ nm, NA = 0.95, 40$\times$ magnification, and camera pixel size of 3.45 μm, the key parameters are calculated as follows. The object-plane pixel pitch is $\Delta p = 3.45~\mu\mathrm{m}/40 = 86.25$ nm, yielding a FOV of $2048 \times 86.25$ nm = 176.6 μm. The Abbe limit for coherent illumination is $\Delta x_{\mathrm{Abbe}} = 658/0.95 = 692$ nm, and the Nyquist requirement is $\Delta p_{\mathrm{Nyquist}} = 658/(2 \times 0.95) = 346$ nm. The raw hologram sampling achieves an oversampling factor of $346/86.25 = 4.0\times$, ensuring aliasing-free acquisition. The aperture diameter is
+\begin{equation}
+D_{\mathrm{ap}} = 2\left\lfloor \frac{0.95}{658 \times 10^{-9}} \times 176.6 \times 10^{-6} \right\rfloor + 1 = 507~\mathrm{pixels},
+\end{equation}
+and the reconstructed pixel size is $\Delta p_{\mathrm{recon}} = 176.6~\mu\mathrm{m}/507 = 348$ nm, which closely matches the Nyquist requirement.
+\section{Optical system of QPI}
+
+The optical system of QPI is described in Fig. ??. The light source consisted of a 658 nm, 20 mW single-mode fiber-pigtailed laser diode (LP660-SF20, Thorlabs) mounted in an LDM9LP mount. The laser was controlled by an LDC202C benchtop LD current controller (±200 mA) and a TED200C temperature controller (12 W, Thorlabs), connected via CAB400 and CAB420-15 cables, respectively. The output beam was collimated using an FC/PC fiber collimator (CFC2-B, $f$ = 2.0 mm, Thorlabs) to illuminate the sample. 
+The optical field transmitted through the sample was magnified with a 40× objective lens (Nicon, NA = 0.95) and replicated with a Ronchi ruling grating (120 lines per mm, Edmund Optics \#66-342). We employ diffraction phase microscopy (i.e., common-path off-axis DH) as the QPM. The first-order diffraction light is used as the object light, while the zeroth-order diffraction light low-pass filtered with a 25 μm pinhole (P25K, Thorlabs) placed at the Fourier plane is converted to a quasi-plane wave that acts as the reference light. The interferogram between these states in the off-axis configuration is recorded with a monochrome USB 3.0 CMOS camera (acA2440-75, Basler ace, 2448 × 2048 pixels, pixel size of 3.45 μm, full-well capacity of $\sim$10 ke$^-$) after relay lenses (ACT508-200-A, $f$ = 200 mm, Ø2", Thorlabs) in a 4f configuration. The number of pixels in the raw hologram and reconstructed OPD image are 2048 × 2048 and 507 × 507, respectively. The pixel size of the OPD image is set to the diffraction limit of $\sim$350 nm, determined by the NA of the objective lens.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{figure/QPI optical systems.pdf}
+    \caption{Optical System ofQPI}
+    \label{fig:placeholder}
+\end{figure}
+\section{Design of the optical system}
+
+When designing an off-axis DH optical system, two conditions must be satisfied. First, the magnitude of the off-axis wavevector $k^{\mathrm{off-axis}} = \sqrt{(k_m^{\mathrm{off-axis}})^2 + (k_n^{\mathrm{off-axis}})^2}$ must be sufficiently large to avoid overlap of the interferometric and noninterferometric terms in the Fourier space. The radius of the interferometric component in the Fourier space is $2\pi \mathrm{NA}/(\lambda M)$, while that of the noninterferometric component is $2\pi \cdot 2\mathrm{NA}/(\lambda M)$, as the noninterferometric term is expressed by the autocorrelation of the frequency spectrum. Hence, $k^{\mathrm{off-axis}}$ must satisfy
+\begin{equation}
+k^{\mathrm{off-axis}} \geq 3 \left(\frac{2\pi \mathrm{NA}}{\lambda M}\right).
+\end{equation}
+
+Second, the spatial frequency of the interferometric component should not exceed 1/2 of the sensor's pitch (Nyquist criterion):
+\begin{equation}
+\frac{k^{\mathrm{off-axis}}}{\sqrt{2}} + \frac{2\pi \mathrm{NA}}{\lambda M} \leq \frac{2\pi f_{\mathrm{pitch}}}{2},
+\end{equation}
+where $f_{\mathrm{pitch}}$ is the inverse of the sensor's pixel pitch. Combining these two conditions yields
+\begin{equation}
+\frac{2\pi \cdot 3\mathrm{NA}}{\lambda M} \leq k^{\mathrm{off-axis}} \leq  \frac{2\pi f_{\mathrm{pitch}}}{\sqrt{2}}- \frac{2\sqrt{2}\pi\mathrm{NA}}{\lambda M}.
+\end{equation}
+
+For our system with $\lambda = 658$ nm, NA = 0.95, 40$\times$ magnification, and camera pixel size of 3.45 μm, the key parameters are calculated as follows. The object-plane pixel pitch is $\Delta p = 3.45~\mu\mathrm{m}/40 = 86.25$ nm, yielding a FOV of $2048 \times 86.25$ nm = 176.6 μm. The Abbe limit for coherent illumination is $\Delta x_{\mathrm{Abbe}} = 658/0.95 = 692$ nm, and the Nyquist requirement is $\Delta p_{\mathrm{Nyquist}} = 658/(2 \times 0.95) = 346$ nm. The raw hologram sampling achieves an oversampling factor of $346/86.25 = 4.0\times$, ensuring aliasing-free acquisition. The aperture diameter is
+\begin{equation}
+D_{\mathrm{ap}} = 2\left\lfloor \frac{0.95}{658 \times 10^{-9}} \times 176.6 \times 10^{-6} \right\rfloor + 1 = 511~\mathrm{pixels},
+\end{equation}
+and the reconstructed pixel size is $\Delta p_{\mathrm{recon}} = 176.6~\mu\mathrm{m}/511 = 346$ nm, which closely matches the Nyquist requirement.
+
+\subsection{Design of the optical system}
+
+When designing an off-axis DH optical system, two conditions must be satisfied. First, the magnitude of the off-axis wavevector $k^{\mathrm{off-axis}} = \sqrt{(k_m^{\mathrm{off-axis}})^2 + (k_n^{\mathrm{off-axis}})^2}$ must be sufficiently large to avoid overlap of the interferometric and noninterferometric terms in the Fourier space. The radius of the interferometric component in the Fourier space is $2\pi \mathrm{NA}/(\lambda M)$, while that of the noninterferometric component is $2\pi \cdot 2\mathrm{NA}/(\lambda M)$, as the noninterferometric term is expressed by the autocorrelation of the frequency spectrum. Hence, $k^{\mathrm{off-axis}}$ must satisfy
+\begin{equation}
+k^{\mathrm{off-axis}} \geq 3 \left(\frac{2\pi \mathrm{NA}}{\lambda M}\right).
+\end{equation}
+
+Second, the spatial frequency of the interferometric component should not exceed 1/2 of the sensor's pitch (Nyquist criterion). For a wavevector in an arbitrary direction, the worst case occurs along the diagonal direction, requiring:
+\begin{equation}
+\frac{k^{\mathrm{off-axis}}}{\sqrt{2}} + \frac{2\pi \mathrm{NA}}{\lambda M} \leq \frac{2\pi f_{\mathrm{pitch}}}{2},
+\end{equation}
+where $f_{\mathrm{pitch}}$ is the inverse of the sensor's pixel pitch. Combining these two conditions yields
+\begin{equation}
+\frac{2\pi \cdot 3\mathrm{NA}}{\lambda M} \leq k^{\mathrm{off-axis}} \leq \sqrt{2}\pi \left(f_{\mathrm{pitch}} - \frac{2\mathrm{NA}}{\lambda M}\right).
+\end{equation}
+
+For our system, the off-axis wavevector is determined by the grating (120 lines per mm) placed at the sample conjugate plane. At the sensor plane (image plane), the grating period is 8.33 μm, yielding an off-axis wavevector magnitude of
+\begin{equation}
+k^{\mathrm{off-axis}} = \frac{2\pi}{8.33~\mu\mathrm{m}} = 7.54 \times 10^5~\mathrm{rad/m}.
+\end{equation}
+
+We verify that our system satisfies both design conditions at the sensor plane. For the first condition (overlap avoidance):
+\begin{equation}
+k^{\mathrm{off-axis}} = 7.54 \times 10^5 \geq 3 \times \frac{2\pi \times 0.95}{658 \times 10^{-9} \times 40} = 6.80 \times 10^5~\mathrm{rad/m}.
+\end{equation}
+For the second condition (Nyquist criterion), with sensor pixel pitch of 3.45 μm giving $f_{\mathrm{pitch}} = 1/3.45~\mu\mathrm{m} = 2.90 \times 10^5~\mathrm{m}^{-1}$:
+\begin{equation}
+k^{\mathrm{off-axis}} = 7.54 \times 10^5 \leq \sqrt{2}\pi \left(2.90 \times 10^5 - \frac{2 \times 0.95}{658 \times 10^{-9} \times 40}\right) = 9.68 \times 10^5~\mathrm{rad/m}.
+\end{equation}
+Both conditions are satisfied, confirming that the optical system design is appropriate for aliasing-free hologram acquisition.
+
+\subsection{Verification of the off-axis configuration}
+
+To validate the optical system design, we compare the theoretically calculated off-axis wavevector with the experimentally measured carrier frequency in the Fourier domain. From the grating specifications, the theoretical off-axis wavevector at the sensor plane (image plane) is $k_{\mathrm{theory}}^{\mathrm{off-axis}} = 7.54 \times 10^5~\mathrm{rad/m}$ as calculated above.
+
+Experimentally, the off-axis carrier frequency is determined from the position of the +1st-order sideband in the Fourier-transformed hologram. For our system, the measured sideband peak position is $(m_{\mathrm{off}}, n_{\mathrm{off}}) = (1623, 1621)$ in the 2048 × 2048 pixel raw hologram, where the DC component is centered at $(1024, 1024)$. The offset from the center is
+\begin{equation}
+\Delta m = 1623 - 1024 = 599~\mathrm{pixels}, \quad \Delta n = 1621 - 1024 = 597~\mathrm{pixels}.
+\end{equation}
+
+The magnitude of the off-axis wavevector in pixel units is
+\begin{equation}
+k_{\mathrm{pixel}}^{\mathrm{off-axis}} = \sqrt{(\Delta m)^2 + (\Delta n)^2} = \sqrt{599^2 + 597^2} = 845.8~\mathrm{pixels}.
+\end{equation}
+
+To convert this to physical units at the sensor plane, we use the spatial frequency resolution determined by the sensor FOV:
+\begin{equation}
+\Delta f_{\mathrm{sensor}} = \frac{1}{\mathrm{FOV}_{\mathrm{sensor}}} = \frac{1}{2048 \times 3.45~\mu\mathrm{m}} = \frac{1}{7.07~\mathrm{mm}} = 141.5~\mathrm{m}^{-1}.
+\end{equation}
+
+The spatial frequency of the carrier at the sensor plane is
+\begin{equation}
+f_{\mathrm{exp}}^{\mathrm{off-axis}} = 845.8 \times 141.5 = 1.20 \times 10^5~\mathrm{cycles/m},
+\end{equation}
+corresponding to a wavevector of
+\begin{equation}
+k_{\mathrm{exp}}^{\mathrm{off-axis}} = 2\pi f_{\mathrm{exp}}^{\mathrm{off-axis}} = 2\pi \times 1.20 \times 10^5 = 7.53 \times 10^5~\mathrm{rad/m}.
+\end{equation}
+
+This excellent agreement confirms that the grating-based off-axis configuration is correctly implemented and that the optical system operates as designed.
+
+
+\section{Phase sensitivity}
+
+To discuss the OPD precision of off-axis DH, determined by the temporal OPD noise, we first add the noise term $z_{m,n}^{\mathrm{DH}}$ to Eq. (3.18), such that
+\begin{equation}
+I_{m,n}^{'\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + (J_{m,n}^{\mathrm{int}})^* e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + z_{m,n}^{\mathrm{DH}}.
+\end{equation}
+The OPD image containing noise is represented by
+\begin{align}
+\phi'_{m,n} &= \arg\left[\mathrm{LP}\left(\frac{I_{m,n}^{'\mathrm{DH}} e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}}{|J_{m,n}^{\mathrm{int}}|}\right)\right] \nonumber \\
+&= \arg\left[e^{i\phi_{m,n}}\left(1 + \frac{\mathrm{LP}(z_{m,n}^{\mathrm{DH}} e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}{|J_{m,n}^{\mathrm{int}}| e^{i\phi_{m,n}}}\right)\right] \nonumber \\
+&= \phi_{m,n} + \frac{z_{m,n}^{\mathrm{DH}} \sin(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n}) \ast H_{m,n}}{|J_{m,n}^{\mathrm{int}}|},
+\end{align}
+where $H_{m,n}$ denotes the IFT of the pupil function $h_{k,l}$ for LP filtering, and $\ast$ represents convolution. The temporal OPD standard deviation at each spatial pixel $\sigma_{\phi'}^{\mathrm{DH}}$ can be obtained by calculating the square root of the variance of $\phi'_{m,n}$ as
+\begin{align}
+\sigma_{\phi'}^{\mathrm{DH}} &= \sqrt{\mathrm{Var}(\phi'_{m,n})} = \frac{1}{|J_{m,n}^{\mathrm{int}}|} \sqrt{[\mathrm{Var}(z_{m,n}^{\mathrm{DH}}) \sin^2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})] \ast H_{m,n}^2} \nonumber \\
+&= \frac{1}{|J_{m,n}^{\mathrm{int}}|} \sqrt{\left[\mathrm{Var}(z_{m,n}^{\mathrm{DH}}) \frac{1 - \cos 2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})}{2}\right] \ast H_{m,n}^2}.
+\end{align}
+
+In the case of optical shot-noise-limited detection, $\mathrm{Var}(z_{m,n}^{\mathrm{DH,shot}})$ is given by
+\begin{equation}
+\mathrm{Var}(z_{m,n}^{\mathrm{DH,shot}}) = \mathrm{Mean}(I_{m,n}^{\mathrm{DH}}) = J_{m,n}^{\mathrm{non-int}} + 2|J_{m,n}^{\mathrm{int}}| \cos(\phi_{m,n} - k_m^{\mathrm{off-axis}}m - k_n^{\mathrm{off-axis}}n).
+\end{equation}
+All terms outside the LP bandwidth, such as $\cos 2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})$ in Eq. (3.43) and $\cos(\phi_{m,n} - k_m^{\mathrm{off-axis}}m - k_n^{\mathrm{off-axis}}n)$ in Eq. (3.44), are removed by the LP-filtering operation $\ast H_{m,n}$. Because $h_{k,l}$ is unity within its passband and zero elsewhere, $H_{m,n}^2$ can be approximated by the delta function $\delta_{m,n}$, and the summation of its amplitude over the entire pixel range is expressed as
+\begin{equation}
+\sum_{m,n} H_{m,n}^2 = \sum_{k,l} h_{k,l}^2 \cdot \frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}},
+\end{equation}
+where $A_{\mathrm{sensor}}$ is the total number of sensor pixels and $A_{\mathrm{aperture}}$ is the number of pixels inside the LP bandwidth. By substituting Eq. (3.45) into Eq. (3.43), we obtain the optical shot-noise-limited OPD precision as
+\begin{equation}
+\sigma_{\phi'}^{\mathrm{DH,shot}} = \frac{\sqrt{|J_{m,n}^{\mathrm{non-int}}| \ast H_{m,n}^2}}{\sqrt{2}|J_{m,n}^{\mathrm{int}}|} = \sqrt{\frac{|J_{m,n}^{\mathrm{non-int}}|}{2|J_{m,n}^{\mathrm{int}}|^2}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}}.
+\end{equation}
+
+Equation (3.46) can be extended to obtain the OPD precision including both the optical shot noise and the sensor's read-out noise as
+\begin{equation}
+\sigma_{\phi'}^{\mathrm{DH,shot+sensor}} = \sqrt{\frac{|J_{m,n}^{\mathrm{non-int}}| + \mathrm{Var}(z_{m,n}^{\mathrm{sensor}})}{2|J_{m,n}^{\mathrm{int}}|^2}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}},
+\end{equation}
+where $\mathrm{Var}(z_{m,n}^{\mathrm{sensor}})$ is the variance of the sensor read-out noise.
+
+Using the visibility $V = 2|J_{m,n}^{\mathrm{int}}|/J_{m,n}^{\mathrm{non-int}}$ and noting that $J_{m,n}^{\mathrm{non-int}} = A_s^2 + A_r^2$ is the mean intensity (in units of electrons), the shot-noise-limited phase sensitivity can be written as
+\begin{equation}
+\sigma_{\phi}^{\mathrm{shot}} = \frac{1}{V} \sqrt{\frac{2}{J_{m,n}^{\mathrm{non-int}}}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}} = \frac{1}{V\sqrt{N_e}} \sqrt{\frac{2A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}},
+\end{equation}
+where $N_e = J_{m,n}^{\mathrm{non-int}}$ is the total number of electrons.
+
+In common-path off-axis holography with background subtraction, the noise propagates from both sample and background measurements. Since the measurements are independent, the variance becomes $\mathrm{Var}[\Delta I] = 2\sigma_I^2$, yielding
+\begin{equation}
+\sigma_{\phi}^{\mathrm{bg\ sub}} = \sqrt{2} \times \sigma_{\phi}^{\mathrm{shot}} = \frac{\sqrt{2}}{V\sqrt{N_e}} \sqrt{\frac{2A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}} = \frac{2}{V\sqrt{N_e}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}}.
+\end{equation}
+
+The phase sensitivity exhibits a quadratic dependence on visibility ($\sigma_{\phi} \propto V^{-1}$) and a square-root dependence on the number of electrons ($\sigma_{\phi} \propto N_e^{-1/2}$), making visibility optimization critical for achieving high sensitivity.
