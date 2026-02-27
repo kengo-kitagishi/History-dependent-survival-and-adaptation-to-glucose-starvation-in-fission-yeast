@@ -263,14 +263,6 @@ where $f_{\mathrm{pitch}}$ is the inverse of the sensor's pixel pitch. Combining
 \frac{2\pi \cdot 3\mathrm{NA}}{\lambda M} \leq k^{\mathrm{off-axis}} \leq  \frac{2\pi f_{\mathrm{pitch}}}{\sqrt{2}}- \frac{2\sqrt{2}\pi\mathrm{NA}}{\lambda M}.
 \end{equation}
 
-For our system with $\lambda = 658$ nm, NA = 0.95, 40$\times$ magnification, and camera pixel size of 3.45 μm, the key parameters are calculated as follows. The object-plane pixel pitch is $\Delta p = 3.45~\mu\mathrm{m}/40 = 86.25$ nm, yielding a FOV of $2048 \times 86.25$ nm = 176.6 μm. The Abbe limit for coherent illumination is $\Delta x_{\mathrm{Abbe}} = 658/0.95 = 692$ nm, and the Nyquist requirement is $\Delta p_{\mathrm{Nyquist}} = 658/(2 \times 0.95) = 346$ nm. The raw hologram sampling achieves an oversampling factor of $346/86.25 = 4.0\times$, ensuring aliasing-free acquisition. The aperture diameter is
-\begin{equation}
-D_{\mathrm{ap}} = 2\left\lfloor \frac{0.95}{658 \times 10^{-9}} \times 176.6 \times 10^{-6} \right\rfloor + 1 = 511~\mathrm{pixels},
-\end{equation}
-and the reconstructed pixel size is $\Delta p_{\mathrm{recon}} = 176.6~\mu\mathrm{m}/511 = 346$ nm, which closely matches the Nyquist requirement.
-
-\subsection{Design of the optical system}
-
 When designing an off-axis DH optical system, two conditions must be satisfied. First, the magnitude of the off-axis wavevector $k^{\mathrm{off-axis}} = \sqrt{(k_m^{\mathrm{off-axis}})^2 + (k_n^{\mathrm{off-axis}})^2}$ must be sufficiently large to avoid overlap of the interferometric and noninterferometric terms in the Fourier space. The radius of the interferometric component in the Fourier space is $2\pi \mathrm{NA}/(\lambda M)$, while that of the noninterferometric component is $2\pi \cdot 2\mathrm{NA}/(\lambda M)$, as the noninterferometric term is expressed by the autocorrelation of the frequency spectrum. Hence, $k^{\mathrm{off-axis}}$ must satisfy
 \begin{equation}
 k^{\mathrm{off-axis}} \geq 3 \left(\frac{2\pi \mathrm{NA}}{\lambda M}\right).
@@ -299,6 +291,12 @@ For the second condition (Nyquist criterion), with sensor pixel pitch of 3.45 μ
 k^{\mathrm{off-axis}} = 7.54 \times 10^5 \leq \sqrt{2}\pi \left(2.90 \times 10^5 - \frac{2 \times 0.95}{658 \times 10^{-9} \times 40}\right) = 9.68 \times 10^5~\mathrm{rad/m}.
 \end{equation}
 Both conditions are satisfied, confirming that the optical system design is appropriate for aliasing-free hologram acquisition.
+
+For our system with $\lambda = 658$ nm, NA = 0.95, 40$\times$ magnification, and camera pixel size of 3.45 μm, the key parameters are calculated as follows. The object-plane pixel pitch is $\Delta p = 3.45~\mu\mathrm{m}/40 = 86.25$ nm, yielding a FOV of $2048 \times 86.25$ nm = 176.6 μm. The Abbe limit for coherent illumination is $\Delta x_{\mathrm{Abbe}} = 658/0.95 = 692$ nm, and the Nyquist requirement is $\Delta p_{\mathrm{Nyquist}} = 658/(2 \times 0.95) = 346$ nm. The raw hologram sampling achieves an oversampling factor of $346/86.25 = 4.0\times$, ensuring aliasing-free acquisition. The aperture diameter is
+\begin{equation}
+D_{\mathrm{ap}} = 2\left\lfloor \frac{0.95}{658 \times 10^{-9}} \times 176.6 \times 10^{-6} \right\rfloor + 1 = 511~\mathrm{pixels},
+\end{equation}
+and the reconstructed pixel size is $\Delta p_{\mathrm{recon}} = 176.6~\mu\mathrm{m}/511 = 346$ nm, which closely matches the Nyquist requirement.
 
 \subsection{Verification of the off-axis configuration}
 
@@ -380,6 +378,8 @@ In common-path off-axis holography with background subtraction, the noise propag
 \end{equation}
 
 The phase sensitivity exhibits a quadratic dependence on visibility ($\sigma_{\phi} \propto V^{-1}$) and a square-root dependence on the number of electrons ($\sigma_{\phi} \propto N_e^{-1/2}$), making visibility optimization critical for achieving high sensitivity.
+
+
 \newpage
 \section{Microscope and imaging setup}
 Microscopy was conducted on an inverted Nikon Ti microscope (Nikon Instruments Inc.) fitted with a 40×/0.95 NA air objective. Samples were maintained at 30 °C with a stage-top incubator (Tokai Hit model ). The microscope hardware including motorized stage, shutters, Perfect Focus System (PFS) autofocus and image acquisition were controlled using Micro-Manager (v) open-source software.
