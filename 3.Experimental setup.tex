@@ -18,7 +18,7 @@ QPI is based on transmitted illumination that crosses a refractive sample (Fig. 
 where z denotes depth within the sample, h(x) is the cell thickness profile, ncell is the cell's refractive index (which may vary depending on the position), n0 is a constant refractive index of the medium, and λ is the wavelength of light. Scattering is assumed insignificant in this model. 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\linewidth]{}
+    \includegraphics[width=0.5\linewidth]{example-image}
     \caption{A diagram showing accumulation of phase delay of light passing through a cell}
     \label{fig:placeholder}
 \end{figure}
@@ -204,7 +204,7 @@ The final OPD image is obtained by subtracting the mean value of the background 
 \end{equation}
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\linewidth]{}
+    \includegraphics[width=0.5\linewidth]{example-image}
     \caption{Reconstruction procedure of off-axis DH}
     \label{fig:placeholder}
 \end{figure}
@@ -239,13 +239,13 @@ D_{\mathrm{ap}} = 2\left\lfloor \frac{0.95}{658 \times 10^{-9}} \times 176.6 \ti
 and the reconstructed pixel size is $\Delta p_{\mathrm{recon}} = 176.6~\mu\mathrm{m}/507 = 348$ nm, which closely matches the Nyquist requirement.
 \section{Optical system of QPI}
 
-The optical system of QPI is described in Fig. ??. The light source consisted of a 658 nm, 20 mW single-mode fiber-pigtailed laser diode (LP660-SF20, Thorlabs) mounted in an LDM9LP mount. The laser was controlled by an LDC202C benchtop LD current controller (±200 mA) and a TED200C temperature controller (12 W, Thorlabs), connected via CAB400 and CAB420-15 cables, respectively. The output beam was collimated using an FC/PC fiber collimator (CFC2-B, $f$ = 2.0 mm, Thorlabs) to illuminate the sample. 
+The optical system of QPI is described in Fig. \ref{fig:qpi_optical_system}. The light source consisted of a 658 nm, 20 mW single-mode fiber-pigtailed laser diode (LP660-SF20, Thorlabs) mounted in an LDM9LP mount. The laser was controlled by an LDC202C benchtop LD current controller (±200 mA) and a TED200C temperature controller (12 W, Thorlabs), connected via CAB400 and CAB420-15 cables, respectively. The output beam was collimated using an FC/PC fiber collimator (CFC2-B, $f$ = 2.0 mm, Thorlabs) to illuminate the sample. 
 The optical field transmitted through the sample was magnified with a 40× objective lens (Nicon, NA = 0.95) and replicated with a Ronchi ruling grating (120 lines per mm, Edmund Optics \#66-342). We employ diffraction phase microscopy (i.e., common-path off-axis DH) as the QPM. The first-order diffraction light is used as the object light, while the zeroth-order diffraction light low-pass filtered with a 25 μm pinhole (P25K, Thorlabs) placed at the Fourier plane is converted to a quasi-plane wave that acts as the reference light. The interferogram between these states in the off-axis configuration is recorded with a monochrome USB 3.0 CMOS camera (acA2440-75, Basler ace, 2448 × 2048 pixels, pixel size of 3.45 μm, full-well capacity of $\sim$10 ke$^-$) after relay lenses (ACT508-200-A, $f$ = 200 mm, Ø2", Thorlabs) in a 4f configuration. The number of pixels in the raw hologram and reconstructed OPD image are 2048 × 2048 and 507 × 507, respectively. The pixel size of the OPD image is set to the diffraction limit of $\sim$350 nm, determined by the NA of the objective lens.
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{figure/QPI optical systems.pdf}
-    \caption{Optical System ofQPI}
-    \label{fig:placeholder}
+    \caption{Schematic of the QPI optical system based on common-path off-axis digital holography. The first-order diffraction beam from a Ronchi ruling grating serves as the object light, and the zeroth-order beam spatially filtered at the Fourier plane serves as the reference light.}
+    \label{fig:qpi_optical_system}
 \end{figure}
 \section{Design of the optical system}
 
@@ -405,7 +405,7 @@ To convert the mean intensity of the phase-shift within each cell into absolute 
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=100mm]{MM}
+\includegraphics[width=100mm]{example-image}
 \caption{\textnormal{\textbf{マザーマシンの構造の概略図} 培地は矢印に沿って流れ,メイン流路に流れる.穴は中央チャネルの入口と出口に穴を開け,新鮮培地（入口）と廃液（出口）用のチューブを接続する.}}
 \end{figure}
 
@@ -414,7 +414,7 @@ To convert the mean intensity of the phase-shift within each cell into absolute 
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=100mm]{Mother_Machine}
+\includegraphics[width=100mm]{example-image}
 \caption{\textnormal{\textbf{マザーマシンの観察チャネルの概略図} ”母細胞”は成長チャネルの端に捕捉されており, 中央のフローセルに垂直に並んだ成長チャネルは, 新鮮な培地を供給し, 娘細胞をかき出す.}}
 \end{figure}
 
@@ -437,7 +437,7 @@ Epoxy replica fabrication: A PDMS negative mold was first generated from the ori
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=150mm]{fablication.pdf}
+\includegraphics[width=150mm]{example-image}
 \caption{\textnormal{\textbf{マイクロ流体デバイスの作製} SU-8マスターモールドの作製,モールド上へのポリジメチルシロキサン（PDMS）のキャスティング,プラズマ処理によるスライドガラスへの接着過程の模式図を表している.}}
 \end{figure}
 
@@ -455,11 +455,11 @@ Media perfusion was controlled by a syringe pump (Harvard ULTRA-P), maintaining 
 明視野（BF）画像のセグメンテーションは,顕微鏡における細胞セグメンテーションに一般的に使用される深層学習ベースのアルゴリズムであるOmnipose\cite{cutler2022omnipose}の半自動ワークフローを用いてセグメンテーションした.Omnipose は,大規模なパラメータチューニングをすることなく,様々なタイプの画像を正確にセグメントできることで知られている.BF画像のセグメンテーションを容易にするために,Omniposeモデルは,パラメータ調整なしで,GFP蛍光画像から得られたマスク画像からなるグランドトゥルースデータを用いて学習された.得られた学習済みモデルをBF画像に適用した(図4). 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=50mm]{Omnipose.pdf}
+\includegraphics[width=50mm]{example-image}
 \caption{\textnormal{\textbf{Omniposeインターフェース}Omniposeではリアルタイムのフィードバックデータのインタラクティブな解析を可能にする.表示されている生データはBF画像に訓練済みのモデルを用いて,セグメンテーションを行ったマスクを重ね合わせた図}}
 \end{figure}
 
-To correct for sample drift during time-lapse imaging, we calculated alignment transformations using the Enhanced Correlation Coefficient (ECC) algorithm \cite\{evangelidis2008parametric\}. Alignment transformations were computed using images from empty channels (no cells present) to register against immobile channel structures. The resulting transformation matrices were stored and subsequently applied to cell-containing channel images using affine transformation. To isolate cellular phase signals from residual channel structures, the empty channel was subtracted from all subsequent frames, yielding differential phase images Δφ(\textit{x,y,t}) representing only cellular refractive index contributions.
+To correct for sample drift during time-lapse imaging, we calculated alignment transformations using the Enhanced Correlation Coefficient (ECC) algorithm \cite{evangelidis2008parametric}. Alignment transformations were computed using images from empty channels (no cells present) to register against immobile channel structures. The resulting transformation matrices were stored and subsequently applied to cell-containing channel images using affine transformation. To isolate cellular phase signals from residual channel structures, the empty channel was subtracted from all subsequent frames, yielding differential phase images Δφ(\textit{x,y,t}) representing only cellular refractive index contributions.
 
 \section{Cell Segmentation}
 Cell boundaries were detected using Omnipose \cite{cutler2022omnipose}, a deep learning-based segmentation method optimized for bacterial morphology. We trained a custom Omnipose model on approximately 3000 manually annotated S. pombe cells. Training images were first manually annotated using the Omnipose GUI to generate ground truth segmentation masks. Segmentation masks were converted to binary outlines by detecting pixel discontinuities at cell boundaries using morphological operations. Specifically, boundaries were identified where mask values differed from their four-connected neighbors, generating single-pixel-width contours.
