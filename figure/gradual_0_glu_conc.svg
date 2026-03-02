@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="335" viewBox="170 680 960 335" version="1.1" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1.5;">
+  <path d="M261.641948,969.345963L261.641948,707.083958L263.725037,707.083958L263.725037,969.345963Z" />
+  <path d="M261.640971,968.78331L261.642322,966.698707L1105.723901,967.260396L1105.723901,969.344999L261.640971,968.78331Z" />
+  <path d="M267.378424,752.641995L348.05419,752.641995" style="fill:none;" />
+  <path d="M263.725037,750.558261L350.137403,750.558261L350.137403,754.724877L263.725037,754.724877Z" style="fill:rgb(255,26,0);" />
+  <path d="M525.824469,967.874282L857.544464,967.617239" style="fill:none;" />
+  <path d="M523.74295,969.959631L523.739809,965.792162L859.625983,965.531891L859.629124,969.699359L523.74295,969.959631Z" style="fill:rgb(255,26,0);" />
+  <path d="M863.809655,752.641995L1032.19197,752.641995" style="fill:none;" />
+  <path d="M861.72628,750.558261L1034.275345,750.558261L1034.275345,754.724877L861.72628,754.724877Z" style="fill:rgb(255,26,0);" />
+  <path d="M354.31681,890.170359L519.569009,890.170359" style="fill:none;" />
+  <path d="M352.232951,888.086625L521.651467,888.086625L521.651467,892.253241L352.232951,892.253241Z" style="fill:rgb(255,26,0);" />
+  <path d="M522.696784,890.171348L522.696784,967.743052" style="fill:none;stroke:black;stroke-width:2.065874px;stroke-linecap:butt;stroke-dasharray:6,4;" />
+  <path d="M351.184443,752.640277L351.184443,890.16821" style="fill:none;stroke:black;stroke-width:2.472788px;stroke-dasharray:3.205283,3.205283,3.205283,3.205283,3.205283,3.205283;" />
+  <path d="M860.677024,752.641314L860.677024,967.740951" style="fill:none;stroke:black;stroke-width:2.065874px;stroke-linecap:butt;stroke-dasharray:6,4;" />
+
+  <path d="M1105.723901,963.260396L1118.223901,968.022396L1105.723901,972.784396Z" style="fill:black;" />
+
+  <path d="M354.0,872.0L520.0,872.0" style="fill:none;stroke:black;stroke-width:1.8px;stroke-linecap:butt;" />
+  <path d="M354.0,872.0L364.0,867.0L364.0,877.0Z" style="fill:black;" />
+  <path d="M520.0,872.0L510.0,867.0L510.0,877.0Z" style="fill:black;" />
+  <text x="437.0" y="858.0" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:34px;fill:black;">24 h</text>
+
+  <path d="M523.0,952.0L860.0,952.0" style="fill:none;stroke:black;stroke-width:1.8px;stroke-linecap:butt;" />
+  <path d="M523.0,952.0L533.0,947.0L533.0,957.0Z" style="fill:black;" />
+  <path d="M860.0,952.0L850.0,947.0L850.0,957.0Z" style="fill:black;" />
+  <text x="691.5" y="938.0" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:34px;fill:black;">24 h</text>
+
+  <text x="985.0" y="1008.0" style="font-family:Arial,sans-serif;font-size:42px;fill:black;">Time(h)</text>
+  <text x="186.0" y="850.0" transform="rotate(-90 186.0 850.0)" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:42px;fill:black;">Glucose conc. (%)</text>
+
+  <text x="240.0" y="761.0" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:34px;fill:black;">2</text>
+  <text x="240.0" y="977.0" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:34px;fill:black;">0</text>
+  <text x="238.0" y="900.0" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:28px;fill:black;">0.02</text>
+</svg>
