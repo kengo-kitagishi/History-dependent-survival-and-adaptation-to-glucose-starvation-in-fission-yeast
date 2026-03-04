@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="335" viewBox="170 680 960 335" version="1.1" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1.5;">
+<svg xmlns="http://www.w3.org/2000/svg" width="1020" height="375" viewBox="120 660 1020 375" version="1.1" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1.5;">
   <path d="M261.641948,969.345963L261.641948,707.083958L263.725037,707.083958L263.725037,969.345963Z" />
   <path d="M261.640971,968.78331L261.642322,966.698707L1105.723901,967.260396L1105.723901,969.344999L261.640971,968.78331Z" />
   <path d="M267.378424,752.641995L348.05419,752.641995" style="fill:none;" />
@@ -28,7 +28,7 @@
   <text x="691.5" y="938.0" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:34px;fill:black;">24 h</text>
 
   <text x="985.0" y="1008.0" style="font-family:Arial,sans-serif;font-size:42px;fill:black;">Time(h)</text>
-  <text x="186.0" y="850.0" transform="rotate(-90 186.0 850.0)" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:42px;fill:black;">Glucose conc. (%)</text>
+  <text x="210.0" y="850.0" transform="rotate(-90 210.0 850.0)" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:42px;fill:black;">Glucose conc. (%)</text>
 
   <text x="240.0" y="761.0" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:34px;fill:black;">2</text>
   <text x="240.0" y="977.0" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:34px;fill:black;">0</text>

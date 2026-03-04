@@ -155,23 +155,23 @@ The three components are now spatially separated in Fourier space. By selecting 
 
 In off-axis DH, the interference patterns between the object field and reference field are captured with an image sensor. Assuming $z = 0$ as the sample location, the object field at the sensor is
 \begin{equation}
-E'_{m,n} = \frac{1}{M^2} E_0 \exp[i\phi_{m,n}] \exp[i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)],
+U_{s,m,n} = \frac{1}{M^2} A_s \exp[i\phi_{m,n}] \exp[i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)],
 \end{equation}
-where $M$ is the magnification, $E_0$ is the incident field amplitude, $(k_m^{\mathrm{off-axis}}, k_n^{\mathrm{off-axis}})$ is the off-axis carrier frequency introduced by the Ronchi ruling grating, and $\phi_{m,n}$ contains the optical phase delay induced by the sample. The reference field is
+where $M$ is the magnification, $A_s$ is the object-field amplitude, $(k_m^{\mathrm{off-axis}}, k_n^{\mathrm{off-axis}})$ is the off-axis carrier frequency introduced by the Ronchi ruling grating, and $\phi_{m,n}$ contains the optical phase delay induced by the sample. The reference field is
 \begin{equation}
-R_{m,n} = R_0,
+U_{r,m,n} = A_r,
 \end{equation}
 which is approximately constant across the field of view after spatial filtering by the pinhole at the Fourier plane.
 
 The recorded hologram intensity at pixel $(m,n)$ is
 \begin{equation}
-I_{m,n}^{\mathrm{DH}} = \left|E'_{m,n} + R_{m,n}\right|^2 = |E'_{m,n}|^2 + |R_{m,n}|^2 + E'_{m,n} \cdot R_{m,n}^* + \mathrm{c.c.}
+I_{m,n}^{\mathrm{DH}} = \left|U_{s,m,n} + U_{r,m,n}\right|^2 = |U_{s,m,n}|^2 + |U_{r,m,n}|^2 + U_{s,m,n} \cdot U_{r,m,n}^* + \mathrm{c.c.}
 \end{equation}
 This can be separated into interferometric terms ($J_{m,n}^{\mathrm{int}} e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}$ and its complex conjugate) and noninterferometric term ($J_{m,n}^{\mathrm{non-int}}$) as
 \begin{equation}
 I_{m,n}^{\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + (J_{m,n}^{\mathrm{int}})^* e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)},
 \end{equation}
-where $J_{m,n}^{\mathrm{non-int}} = |E'_{m,n}|^2 + |R_{m,n}|^2$ and $J_{m,n}^{\mathrm{int}} = E'_{m,n} \cdot R_{m,n}^*$.
+where $J_{m,n}^{\mathrm{non-int}} = |U_{s,m,n}|^2 + |U_{r,m,n}|^2$ and $J_{m,n}^{\mathrm{int}} = U_{s,m,n} \cdot U_{r,m,n}^*$.
 
 \section{Reconstruction procedure}
 
@@ -366,7 +366,7 @@ Equation (3.46) can be extended to obtain the OPD precision including both the o
 \end{equation}
 where $\mathrm{Var}(z_{m,n}^{\mathrm{sensor}})$ is the variance of the sensor read-out noise.
 
-Using the visibility $V = 2|J_{m,n}^{\mathrm{int}}|/J_{m,n}^{\mathrm{non-int}}$ and noting that $J_{m,n}^{\mathrm{non-int}} = A_s^2 + A_r^2$ is the mean intensity (in units of electrons), the shot-noise-limited phase sensitivity can be written as
+Using the visibility $V = 2|J_{m,n}^{\mathrm{int}}|/J_{m,n}^{\mathrm{non-int}}$ and noting that $J_{m,n}^{\mathrm{non-int}} = |U_{s,m,n}|^2 + |U_{r,m,n}|^2$ is the mean intensity (in units of electrons), the shot-noise-limited phase sensitivity can be written as
 \begin{equation}
 \sigma_{\phi}^{\mathrm{shot}} = \frac{1}{V} \sqrt{\frac{2}{J_{m,n}^{\mathrm{non-int}}}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}} = \frac{1}{V\sqrt{N_e}} \sqrt{\frac{2A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}},
 \end{equation}
@@ -466,4 +466,3 @@ Cell boundaries were detected using Omnipose \cite{cutler2022omnipose}, a deep l
 
 \section{Glucose Concentration Measurement}
 Glucose concentrations in EMM media were determined using the LabAssay™ Glucose kit (FUJIFILM Wako Pure Chemical Corporation, product code 291-94001) according to the manufacturer's protocol. Absorbance was measured at 505 nm.
-
