@@ -1,0 +1,237 @@
+\chapter*{Appendix C}
+\label{appendix:microfluidic_protocol}
+
+\section{Detailed protocol for microfluidic device fabrication}
+
+\subsection{Scope and device revision}
+This appendix describes the fabrication workflow for the two-layer SU-8 master, PDMS casting, glass bonding, and epoxy replica master generation used in this thesis. The protocol is intended to be reproducible by users with prior cleanroom and soft-lithography experience.
+
+\textbf{Device name:} Mother machine for \textit{S. pombe} long-term imaging \\
+\textbf{Revision ID used in this thesis:} [fill: e.g., MM-SP-v3.2] \\
+\textbf{Date range used:} [fill: e.g., 2024-10 to 2026-01] \\
+\textbf{Minimum critical feature size:} [fill] \\
+\textbf{Critical dimensions:} observation chamber width and chamber-to-main-channel alignment
+
+\subsection{Design files and critical dimensions}
+Store design files with explicit versioning and archive the exact version used in each experiment batch.
+
+\textbf{Required archived files}
+\begin{itemize}
+  \item CAD layout file (native format)
+  \item Mask export (GDSII or writer-native format)
+  \item Dimensioned PDF drawing
+  \item This protocol text (same revision as mask)
+\end{itemize}
+
+\textbf{Geometry used in this work}
+\begin{table}[H]
+\centering
+\caption{Device geometry and tolerance priorities}
+\label{tab:device_geometry}
+\begin{tabular}{lll}
+\hline
+\textbf{Feature} & \textbf{Nominal value} & \textbf{Priority} \\
+\hline
+Main channel width & 180 $\mu$m & Critical \\
+Observation chamber width & 6.3 $\mu$m & Critical \\
+Observation chamber length & 40 $\mu$m & Critical \\
+Port diameter & 0.5 mm punch & Moderate \\
+Chip outer outline & [fill] & Non-critical \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Photomask and alignment specification}
+\begin{itemize}
+  \item Mask fabrication: maskless lithography system (\textmu mLA, Heidelberg Instruments) on mask blanks (Clean Surface Technology).
+  \item Tone convention: SU-8 is negative-tone resist; exposed regions define raised master features.
+  \item Alignment marks: Layer 2 (drain layer) is aligned to Layer 1 marks.
+  \item Alignment acceptance: overlay error $\leq$ [fill] $\mu$m at three representative mark pairs.
+\end{itemize}
+
+\subsection{Reagents and equipment}
+\begin{table}[H]
+\centering
+\caption{Core materials and instruments}
+\label{tab:fab_materials}
+\begin{tabular}{ll}
+\hline
+\textbf{Category} & \textbf{Item} \\
+\hline
+Photoresists & SU-8 2, SU-8 3005, SU-8 3010 (MicroChem) \\
+Developer & SU-8 developer (MicroChem) \\
+Elastomer & SYLGARD 184 (Dow Silicones) \\
+Replica material & LOCTITE EA E-30CL (2-part epoxy) \\
+Substrate & Silicon wafer (University Wafers) \\
+Cover glass & Matsunami NEO No.1 (0.13--0.17 mm) \\
+Spin coater & Mikasa MS-A150 \\
+Mask aligner & Mikasa MA-20 \\
+Plasma system & FA-1 (SAMCO) \\
+Punch & 0.5-mm biopsy punch (BP-A05F) \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Master mold fabrication (two-layer SU-8)}
+
+\subsubsection{General notes}
+\begin{itemize}
+  \item Run process on dehydrated wafers and stable room humidity.
+  \item Record resist lot number and room temperature for each batch.
+  \item Measure final layer thickness by profilometer at 3--5 positions.
+\end{itemize}
+
+\subsubsection{Layer 1: observation channel layer}
+\textbf{Action}
+\begin{enumerate}
+  \item Prepare mixed resist from SU-8 2 and SU-8 3005 at \textbf{explicit ratio} [fill: weight ratio or volume ratio].
+  \item Dispense 1 mL resist on silicon wafer.
+  \item Spin-coat at 3000 rpm for 30 s (Mikasa MS-A150).
+  \item Soft-bake at 65$^{\circ}$C for 1 min, then 95$^{\circ}$C for 2 min.
+  \item Align observation-channel mask and expose using MA-20 (3 exposures, 5.0 s each).
+  \item Post-exposure bake at 65$^{\circ}$C for 1 min, then 95$^{\circ}$C for 3 min.
+  \item Develop in SU-8 developer for [fill] min with [fill: gentle/manual] agitation.
+  \item Rinse with isopropanol and dry with nitrogen.
+\end{enumerate}
+
+\textbf{Critical notes}
+\begin{itemize}
+  \item Report exposure as dose (mJ/cm$^2$) if intensity calibration is available.
+  \item If only exposure time is available, record aligner model and most recent calibration date.
+  \item If edge bead appears, remove before alignment of Layer 2.
+\end{itemize}
+
+\textbf{Expected result}
+\begin{itemize}
+  \item Target thickness: [fill] $\mu$m
+  \item Measured thickness: [fill] $\mu$m (mean $\pm$ SD, n = [fill])
+  \item No collapsed features or residual resist in observation channels
+\end{itemize}
+
+\subsubsection{Layer 2: drain layer}
+\textbf{Action}
+\begin{enumerate}
+  \item Dispense SU-8 3010 on wafer containing completed Layer 1.
+  \item Spin-coat at 1500 rpm for 30 s.
+  \item Soft-bake at 65$^{\circ}$C for 1 min, then 95$^{\circ}$C for 8 min.
+  \item Align drain mask to Layer 1 alignment marks.
+  \item Expose for 30 s (record intensity/dose if available).
+  \item Post-exposure bake at 65$^{\circ}$C for 3 min, then 95$^{\circ}$C for 10 min.
+  \item Develop, rinse, and dry as in Layer 1.
+\end{enumerate}
+
+\textbf{Expected result}
+\begin{itemize}
+  \item Target thickness: [fill] $\mu$m
+  \item Overlay error: $\leq$ [fill] $\mu$m
+  \item Continuous drain features without residual scum
+\end{itemize}
+
+\subsection{PDMS casting, porting, and bonding}
+
+\subsubsection{PDMS casting and demolding}
+\begin{enumerate}
+  \item Mix SYLGARD 184 base and curing agent at 10:1 ratio (recommended: by weight).
+  \item Degas under vacuum for 1 h (or until no visible bubbles $>$ [fill] mm).
+  \item Pour over SU-8 master and cure at 65$^{\circ}$C for at least 12 h.
+  \item Cut cured PDMS blocks and punch inlet/outlet ports using 0.5-mm punch.
+  \item Sonicate PDMS blocks in ethanol and dry at 65$^{\circ}$C.
+\end{enumerate}
+
+\subsubsection{Cover glass cleaning}
+\begin{enumerate}
+  \item Sonicate cover glasses sequentially in diluted Contaminon LS-II, ultrapure water, ethanol, and ultrapure water.
+  \item Treat with 0.1 M NaOH.
+  \item Rinse with ultrapure water and dry at 140$^{\circ}$C.
+\end{enumerate}
+
+\subsubsection{Plasma bonding}
+\begin{enumerate}
+  \item Treat PDMS and cleaned cover glass with plasma etcher (FA-1, SAMCO) for 10 s.
+  \item Bring surfaces into conformal contact immediately after activation.
+  \item Apply gentle uniform pressure to avoid trapped air.
+\end{enumerate}
+
+\textbf{Critical notes}
+\begin{itemize}
+  \item Record gas type, RF power, chamber pressure, and flow rate when available.
+  \item Define a strict activation-to-contact window (recommended: within 60 s).
+\end{itemize}
+
+\textbf{Expected result}
+\begin{itemize}
+  \item No visible interfacial voids at channel region
+  \item Bond survives tubing connection and initial perfusion without delamination
+\end{itemize}
+
+\subsection{Epoxy replica master fabrication}
+\begin{enumerate}
+  \item Cast PDMS negative from silicon master (10:1 SYLGARD 184, degas 1 h, cure 65$^{\circ}$C for $\geq$12 h).
+  \item Cast two-part epoxy (LOCTITE EA E-30CL) on flat plastic plate using PDMS negative mold.
+  \item Cure for at least 24 h.
+  \item Use cured epoxy as reusable master for subsequent PDMS casting.
+\end{enumerate}
+
+\textbf{Process controls}
+\begin{itemize}
+  \item Keep curing surface level to minimize warp.
+  \item Record casts per epoxy master and retire master when defects appear.
+  \item Store masters in dust-free closed containers.
+\end{itemize}
+
+\subsection{Quality control and acceptance criteria}
+\begin{table}[H]
+\centering
+\caption{Batch-level quality control checks}
+\label{tab:fab_qc}
+\begin{tabular}{lll}
+\hline
+\textbf{Check} & \textbf{Method} & \textbf{Pass criterion} \\
+\hline
+Layer thickness & Profilometer (3--5 points) & Within $\pm$[fill]\% of target \\
+Feature integrity & Brightfield microscope & No blocked or collapsed channels \\
+Alignment & Mark-to-mark overlay & $\leq$ [fill] $\mu$m \\
+Bond quality & Visual interface scan & No voids near channels \\
+Leak test & Perfusion test & No leakage at 2 mL/h for [fill] min \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Troubleshooting guide}
+\begin{table}[H]
+\centering
+\caption{Common failure modes and corrective actions}
+\label{tab:fab_troubleshooting}
+\begin{tabular}{p{0.23\linewidth} p{0.33\linewidth} p{0.33\linewidth}}
+\hline
+\textbf{Symptom} & \textbf{Likely cause} & \textbf{Corrective action} \\
+\hline
+Channels partially blocked & Underdevelopment or resist residue & Extend develop time; refresh developer; verify agitation \\
+Poor Layer 1/2 overlay & Edge bead or mark contrast failure & Remove edge bead; improve mark visibility; reduce handling delay \\
+PDMS tears at ports & Dull punch or excessive force & Replace punch; punch on hard backing; clean debris after punching \\
+Bonding voids or leaks & Particles, delay after plasma, low activation & Improve cleaning; contact within defined time window; optimize plasma settings \\
+Difficulty demolding PDMS & Master surface adhesion too strong & Apply compatible anti-stiction treatment; reduce peeling angle \\
+Warped epoxy master & Non-level curing surface or uneven stress & Use leveled base; apply uniform support during cure \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Document control and version history}
+Track all process changes that affect dimensions, yield, or bond quality.
+
+\begin{table}[H]
+\centering
+\caption{Protocol revision history}
+\label{tab:fab_revision_history}
+\begin{tabular}{llll}
+\hline
+\textbf{Revision} & \textbf{Date} & \textbf{Change summary} & \textbf{Author} \\
+\hline
+v1.0 & [fill] & Initial protocol used in thesis & [fill] \\
+v1.1 & [fill] & [fill] & [fill] \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Safety note}
+All steps involving SU-8 resists, SU-8 developer, NaOH, ethanol, plasma equipment, and epoxy components must follow institutional chemical safety rules and relevant SDS documents. PPE, waste segregation, and local ventilation requirements should be applied according to facility policy.

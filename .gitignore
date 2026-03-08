@@ -1,0 +1,35 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.synctex\(busy\)
+*.toc
+*.lof
+*.lot
+*.idx
+*.ind
+*.ilg
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+missfont.log
+
+# Claude Code
+.claude/worktrees/
+
+# Thesis compiled output and logs
+thesis.pdf
+thesis_log.md
