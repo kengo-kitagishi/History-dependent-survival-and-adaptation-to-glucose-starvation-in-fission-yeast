@@ -73,10 +73,6 @@ This band-pass limitation determines the spatial resolution through the Abbe dif
 \end{equation}
 for coherent illumination.
 
-subsection{Light propagation in 4f optical systems}
-
-A 4f optical system consists of two lenses with focal length $f$ arranged such that the object plane, Fourier plane, and image plane are separated by distances $f$ as shown in Fig.~\ref{fig:4f_system}. This configuration performs spatial Fourier transformation and imaging, and is widely used in spatial light modulation, optical filtering, and holographic imaging systems.
-
 \subsection{Light propagation in 4f optical systems}
 
 A 4f optical system consists of two lenses with focal length $f$ arranged such that the object plane, Fourier plane, and image plane are separated by distances $f$. This configuration performs spatial Fourier transformation and imaging, and is widely used in spatial light modulation, optical filtering, and holographic imaging systems \cite{goodman2005}.
@@ -277,12 +273,6 @@ For the second condition (Nyquist criterion), with sensor pixel pitch of 3.45 μ
 k^{\mathrm{off-axis}} = 7.54 \times 10^5 \leq \sqrt{2}\pi \left(2.90 \times 10^5 - \frac{2 \times 0.95}{658 \times 10^{-9} \times 40}\right) = 9.68 \times 10^5~\mathrm{rad/m}.
 \end{equation}
 Both conditions are satisfied, confirming that the optical system design is appropriate for aliasing-free hologram acquisition.
-
-For our system with $\lambda = 658$ nm, NA = 0.95, 40$\times$ magnification, and camera pixel size of 3.45 μm, the key parameters are calculated as follows. The object-plane pixel pitch is $\Delta p = 3.45~\mu\mathrm{m}/40 = 86.25$ nm, yielding a FOV of $2048 \times 86.25$ nm = 176.6 μm. The Abbe limit for coherent illumination is $\Delta x_{\mathrm{Abbe}} = 658/0.95 = 692$ nm, and the Nyquist requirement is $\Delta p_{\mathrm{Nyquist}} = 658/(2 \times 0.95) = 346$ nm. The raw hologram sampling achieves an oversampling factor of $346/86.25 = 4.0\times$, ensuring aliasing-free acquisition. The aperture diameter is
-\begin{equation}
-D_{\mathrm{ap}} = 2\left\lfloor \frac{0.95}{658 \times 10^{-9}} \times 176.6 \times 10^{-6} \right\rfloor + 1 = 511~\mathrm{pixels},
-\end{equation}
-and the reconstructed pixel size is $\Delta p_{\mathrm{recon}} = 176.6~\mu\mathrm{m}/511 = 346$ nm, which closely matches the Nyquist requirement.
 
 \subsection{Verification of the off-axis configuration}
 
