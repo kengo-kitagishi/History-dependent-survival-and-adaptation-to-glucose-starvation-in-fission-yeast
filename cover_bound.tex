@@ -1,0 +1,67 @@
+% =====================================================================
+% 製本用 修士学位論文 表紙（相関基礎科学系）
+%
+% 出典: 「相関基礎科学系製本用修士学位論文作成要領」
+%       ~/Desktop/thesis/master thesis/製本用修士論文作成要領.pdf
+%
+% 要領の指定:
+%   (1) 原則として A4 版。日本語・欧文いずれもパソコンを使用
+%   (2) 表紙には次を記載する
+%       - 論文題目（題目が外国語の場合は ( ) 書きで日本語訳を必ずつける）
+%       - 専攻・系名
+%       - 学生証番号
+%       - 氏名
+%
+% 使い方: thesis.tex の \begin{document} 直後で
+%     \input{cover_bound}
+%     \clearpage
+% とする（既存の \maketitle 版の表紙とは別物。審査用と製本用で使い分ける）
+%
+% ★ 提出前に確認すること
+%   - \thesisTitleJa に実際の論文題目を入れる（現在プレースホルダ）
+%   - 題目を英語にする場合は \thesisTitleEn を使い、日本語訳を ( ) で必ず併記
+%   - \studentID が正しいか学生証で確認する（下の値は過去のファイル名からの推定）
+%   - \academicYear は提出年度。2027年3月修了なら「2026年度」
+% =====================================================================
+
+\newcommand{\thesisTitleJa}{ここに論文題目を日本語で書く}
+% 題目を外国語にする場合はこちらを使い、日本語訳を必ず () で添える:
+% \newcommand{\thesisTitleEn}{English Thesis Title}
+
+\newcommand{\academicYear}{2026 年度}
+\newcommand{\departmentLine}{広域科学専攻\quad 相関基礎科学系}
+\newcommand{\studentID}{31256921}
+\newcommand{\authorNameJa}{北岸\quad 健吾}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\centering
+\vspace*{4cm}
+
+{\Large 修士学位論文}
+
+\vspace{3cm}
+
+% --- 論文題目 ---
+{\LARGE \thesisTitleJa}
+
+% 題目が外国語のときは上をコメントアウトして次の2行を使う:
+% {\LARGE \thesisTitleEn}\\[0.6cm]
+% {\large （\thesisTitleJa）}
+
+\vfill
+
+% --- 提出年度・専攻/系・学生証番号・氏名 ---
+{\large \academicYear}
+
+\vspace{0.6cm}
+{\large \departmentLine}
+
+\vspace{0.6cm}
+{\large \studentID}
+
+\vspace{0.6cm}
+{\large \authorNameJa}
+
+\vspace{3cm}
+\end{titlepage}

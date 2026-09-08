@@ -33,3 +33,6 @@ missfont.log
 # Thesis compiled output and logs
 thesis.pdf
 thesis_log.md
+
+# エディタ設定（Overleaf に送らない）
+.vscode/

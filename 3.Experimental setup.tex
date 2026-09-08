@@ -15,7 +15,7 @@ QPI is based on transmitted illumination that crosses a refractive sample (Fig. 
 \begin{equation}
     \Delta \phi(x)= \frac{2\pi}{\lambda} \int_0^{h(x)}[n_{cell}(x,z) - n_0]dz
 \end{equation}
-where z denotes depth within the sample, h(x) is the cell thickness profile, ncell is the cell's refractive index (which may vary depending on the position), n0 is a constant refractive index of the medium, and λ is the wavelength of light. Scattering is assumed insignificant in this model. 
+where $z$ denotes depth within the sample, $h(x)$ is the cell thickness profile, $n_{\text{cell}}$ is the cell's refractive index (which may vary depending on the position), $n_0$ is a constant refractive index of the medium, and $\lambda$ is the wavelength of light. Scattering is assumed insignificant in this model. 
 \begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{example-image}
@@ -69,6 +69,7 @@ P(f_x, f_y) = \begin{cases}
 \end{equation}
 This band-pass limitation determines the spatial resolution through the Abbe diffraction limit:
 \begin{equation}
+\label{eq:abbe}
 \Delta x_{\mathrm{Abbe}} = \frac{\lambda}{\mathrm{NA}}
 \end{equation}
 for coherent illumination.
@@ -118,13 +119,14 @@ where the negative sign indicates spatial inversion in both transverse direction
 
 Since image sensors can only measure intensity $I = |U|^2$, the phase information $\phi$ in the complex field $U = A e^{i\phi}$ is lost upon detection. To recover the phase, we interfere the object field $U_s = A_s e^{i\phi_s}$ with a known reference field $U_r = A_r e^{i\phi_r}$. The detected intensity is
 \begin{equation}
+\label{eq:interference}
 I = |U_s + U_r|^2 = |U_s|^2 + |U_r|^2 + U_s \cdot U_r^* + U_s^* \cdot U_r,
 \end{equation}
 which can be expanded as
 \begin{equation}
 I = A_s^2 + A_r^2 + 2A_s A_r \cos(\phi_s - \phi_r).
 \end{equation}
-The phase difference $\phi_s - \phi_r$ modulates the intensity as interference fringes. However, in an on-axis configuration, all four terms in Eq. (3.10) occupy the same region in Fourier space, preventing isolation of the phase-containing term $U_s \cdot U_r^*$.
+The phase difference $\phi_s - \phi_r$ modulates the intensity as interference fringes. However, in an on-axis configuration, all four terms in \eqref{eq:interference} occupy the same region in Fourier space, preventing isolation of the phase-containing term $U_s \cdot U_r^*$.
 
 \subsection{Off-axis configuration}
 
@@ -134,16 +136,16 @@ U_r = A_r,
 \end{equation}
 while the object field carries the off-axis wavevector introduced by the Ronchi ruling grating:
 \begin{equation}
-U_s = A_s e^{i\phi_s} e^{i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)}.
+U_s = A_s e^{i\phi_s} e^{-i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)}.
 \end{equation}
 The interference pattern then becomes
 \begin{equation}
-I_{m,n} = |U_s|^2 + |U_r|^2 + U_s \cdot U_r^* + U_s^* \cdot U_r = A_s^2 + A_r^2 + 2A_r A_s \cos[\phi_s + k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n].
+I_{m,n} = |U_s|^2 + |U_r|^2 + U_s \cdot U_r^* + U_s^* \cdot U_r = A_s^2 + A_r^2 + 2A_r A_s \cos[\phi_s - k_m^{\mathrm{off-axis}} m - k_n^{\mathrm{off-axis}} n].
 \end{equation}
 
 Taking the 2D Fourier transform with reciprocal coordinates $(p,q)$, we obtain
 \begin{equation}
-\tilde{I}(p,q) = \tilde{I}_{\mathrm{DC}}(p,q) + \mathcal{F}\{U_s \cdot U_r^*\}(p - k_m^{\mathrm{off-axis}}, q - k_n^{\mathrm{off-axis}}) + \mathcal{F}\{U_s^* \cdot U_r\}(p + k_m^{\mathrm{off-axis}}, q + k_n^{\mathrm{off-axis}}).
+\tilde{I}(p,q) = \tilde{I}_{\mathrm{DC}}(p,q) + \mathcal{F}\{U_s \cdot U_r^*\}(p + k_m^{\mathrm{off-axis}}, q + k_n^{\mathrm{off-axis}}) + \mathcal{F}\{U_s^* \cdot U_r\}(p - k_m^{\mathrm{off-axis}}, q - k_n^{\mathrm{off-axis}}).
 \end{equation}
 The three components are now spatially separated in Fourier space. By selecting the +1st-order sideband and applying inverse Fourier transformation, the complex field $U_s$ is isolated and its phase $\phi_s = \arg(U_s)$ is extracted.
 
@@ -151,7 +153,7 @@ The three components are now spatially separated in Fourier space. By selecting 
 
 In off-axis DH, the interference patterns between the object field and reference field are captured with an image sensor. Assuming $z = 0$ as the sample location, the object field at the sensor is
 \begin{equation}
-U_{s,m,n} = \frac{1}{M^2} A_s \exp[i\phi_{m,n}] \exp[i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)],
+U_{s,m,n} = \frac{1}{M^2} A_s \exp[i\phi_{m,n}] \exp[-i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)],
 \end{equation}
 where $M$ is the magnification, $A_s$ is the object-field amplitude, $(k_m^{\mathrm{off-axis}}, k_n^{\mathrm{off-axis}})$ is the off-axis carrier frequency introduced by the Ronchi ruling grating, and $\phi_{m,n}$ contains the optical phase delay induced by the sample. The reference field is
 \begin{equation}
@@ -163,9 +165,10 @@ The recorded hologram intensity at pixel $(m,n)$ is
 \begin{equation}
 I_{m,n}^{\mathrm{DH}} = \left|U_{s,m,n} + U_{r,m,n}\right|^2 = |U_{s,m,n}|^2 + |U_{r,m,n}|^2 + U_{s,m,n} \cdot U_{r,m,n}^* + \mathrm{c.c.}
 \end{equation}
-This can be separated into interferometric terms ($J_{m,n}^{\mathrm{int}} e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}$ and its complex conjugate) and noninterferometric term ($J_{m,n}^{\mathrm{non-int}}$) as
+This can be separated into interferometric terms ($J_{m,n}^{\mathrm{int}} e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}$ and its complex conjugate) and noninterferometric term ($J_{m,n}^{\mathrm{non-int}}$) as
 \begin{equation}
-I_{m,n}^{\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + (J_{m,n}^{\mathrm{int}})^* e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)},
+\label{eq:hologram_DH}
+I_{m,n}^{\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + (J_{m,n}^{\mathrm{int}})^* e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)},
 \end{equation}
 where $J_{m,n}^{\mathrm{non-int}} = |U_{s,m,n}|^2 + |U_{r,m,n}|^2$ and $J_{m,n}^{\mathrm{int}} = U_{s,m,n} \cdot U_{r,m,n}^*$.
 
@@ -173,13 +176,13 @@ where $J_{m,n}^{\mathrm{non-int}} = |U_{s,m,n}|^2 + |U_{r,m,n}|^2$ and $J_{m,n}^
 
 The image-reconstruction procedure comprises (1) 2D discrete FT, (2) sideband centering, (3) low-pass (LP) filtering, and (4) 2D discrete inverse FT (IFT), followed by background subtraction. The 2D FT of the hologram is written as
 \begin{equation}
-i_{p,q}^{\mathrm{DH}} = j_{p,q}^{\mathrm{non-int}} + j_{p-k_m^{\mathrm{off-axis}}, q-k_n^{\mathrm{off-axis}}}^{\mathrm{int}} + j_{p+k_m^{\mathrm{off-axis}}, q+k_n^{\mathrm{off-axis}}}^{\mathrm{int}*},
+i_{p,q}^{\mathrm{DH}} = j_{p,q}^{\mathrm{non-int}} + j_{p+k_m^{\mathrm{off-axis}}, q+k_n^{\mathrm{off-axis}}}^{\mathrm{int}} + j_{p-k_m^{\mathrm{off-axis}}, q-k_n^{\mathrm{off-axis}}}^{\mathrm{int}*},
 \end{equation}
 where $(p,q)$ is the reciprocal coordinate of $(m,n)$. The three components are spatially separated in the Fourier space due to the off-axis wavevector.
 
 The interferometric term is extracted by first identifying the +1st-order sideband peak position $(p_{\mathrm{off}}, q_{\mathrm{off}})$ and then shifting the spatial frequency to center the sideband:
 \begin{equation}
-I_{m,n}^{(c)} = I_{m,n}^{\mathrm{DH}} \cdot e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}.
+I_{m,n}^{(c)} = I_{m,n}^{\mathrm{DH}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}.
 \end{equation}
 A circular LP filter $H_{p,q}$ with radius
 \begin{equation}
@@ -192,7 +195,7 @@ r_{\mathrm{aperture}} = \frac{2\pi \mathrm{NA}}{\lambda} \cdot N \cdot \Delta p
 
 The OPD is obtained after removing the complex amplitude distribution of the illumination light without the sample (background):
 \begin{equation}
-\phi_{m,n} = \arg\left[\frac{\mathrm{LP}(I_{m,n}^{\mathrm{sample}} \cdot e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}{\mathrm{LP}(I_{m,n}^{\mathrm{bg}} \cdot e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}\right].
+\phi_{m,n} = \arg\left[\frac{\mathrm{LP}(I_{m,n}^{\mathrm{sample}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}{\mathrm{LP}(I_{m,n}^{\mathrm{bg}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}\right].
 \end{equation}
 The final OPD image is obtained by subtracting the mean value of the background region to remove the offset. The conversion from phase to OPD is performed as
 \begin{equation}
@@ -211,7 +214,7 @@ The spatial resolution in off-axis DH is determined by the NA of the objective l
 \begin{equation}
 f_{\mathrm{cutoff}} = \frac{\mathrm{NA}}{\lambda},
 \end{equation}
-which corresponds to the Abbe diffraction limit given in Eq. (3.9).
+which corresponds to the Abbe diffraction limit given in \eqref{eq:abbe}.
 
 The aperture diameter in pixels is determined by the field of view (FOV) and the spatial frequency cutoff. For a hologram with $N \times N$ pixels and object-plane pixel pitch $\Delta p$, the FOV is $\mathrm{FOV} = N \cdot \Delta p$. The aperture diameter in pixels is
 \begin{equation}
@@ -236,7 +239,7 @@ and the reconstructed pixel size is $\Delta p_{\mathrm{recon}} = 176.6~\mu\mathr
 \section{Optical system of QPI}
 
 The optical system of QPI is described in Fig. \ref{fig:qpi_optical_system}. The light source consisted of a 658 nm, 20 mW single-mode fiber-pigtailed laser diode (LP660-SF20, Thorlabs) mounted in an LDM9LP mount. The laser was controlled by an LDC202C benchtop LD current controller (±200 mA) and a TED200C temperature controller (12 W, Thorlabs), connected via CAB400 and CAB420-15 cables, respectively. The output beam was collimated using an FC/PC fiber collimator (CFC2-B, $f$ = 2.0 mm, Thorlabs) to illuminate the sample. 
-The optical field transmitted through the sample was magnified with a 40× objective lens (Nikon, NA = 0.95) and replicated with a Ronchi ruling grating (120 lines per mm, Edmund Optics \#66-342). We employ diffraction phase microscopy (i.e., common-path off-axis DH) as the QPM. The first-order diffraction light is used as the object light, while the zeroth-order diffraction light low-pass filtered with a 25 μm pinhole (P25K, Thorlabs) placed at the Fourier plane is converted to a quasi-plane wave that acts as the reference light. The interferogram between these states in the off-axis configuration is recorded with a monochrome USB 3.0 CMOS camera (acA2440-75, Basler ace, 2448 × 2048 pixels, pixel size of 3.45 μm, full-well capacity of $\sim$10 ke$^-$) after relay lenses (ACT508-200-A, $f$ = 200 mm, Ø2", Thorlabs) in a 4f configuration. The number of pixels in the raw hologram and reconstructed OPD image are 2048 × 2048 and 511 × 511, respectively. The pixel size of the OPD image is set to the diffraction limit of $\sim$350 nm, determined by the NA of the objective lens.
+The optical field transmitted through the sample was magnified with a 40× objective lens (Nikon, NA = 0.95) and replicated with a Ronchi ruling grating (120 lines per mm, Edmund Optics \#66-342). We employ diffraction phase microscopy (i.e., common-path off-axis DH) as the QPI method. The first-order diffraction light is used as the object light, while the zeroth-order diffraction light low-pass filtered with a 25 μm pinhole (P25K, Thorlabs) placed at the Fourier plane is converted to a quasi-plane wave that acts as the reference light. The interferogram between these states in the off-axis configuration is recorded with a monochrome USB 3.0 CMOS camera (acA2440-75, Basler ace, 2448 × 2048 pixels, pixel size of 3.45 μm, full-well capacity of $\sim$10 ke$^-$) after relay lenses (ACT508-200-A, $f$ = 200 mm, Ø2", Thorlabs) in a 4f configuration. The number of pixels in the raw hologram and reconstructed OPD image are 2048 × 2048 and 511 × 511, respectively. The pixel size of the OPD image is set to the diffraction limit of $\sim$350 nm, determined by the NA of the objective lens.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{figure/QPI optical systems.pdf}
@@ -307,7 +310,7 @@ This excellent agreement confirms that the grating-based off-axis configuration 
 
 \section{Phase sensitivity}
 
-To discuss the OPD precision of off-axis DH, determined by the temporal OPD noise, we first add the noise term $z_{m,n}^{\mathrm{DH}}$ to Eq. (3.18), such that
+To discuss the OPD precision of off-axis DH, determined by the temporal OPD noise, we first add the noise term $z_{m,n}^{\mathrm{DH}}$ to \eqref{eq:hologram_DH}, such that
 \begin{equation}
 I_{m,n}^{'\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + (J_{m,n}^{\mathrm{int}})^* e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + z_{m,n}^{\mathrm{DH}}.
 \end{equation}
@@ -320,23 +323,26 @@ The OPD image containing noise is represented by
 where $H_{m,n}$ denotes the IFT of the pupil function $h_{k,l}$ for LP filtering, and $\ast$ represents convolution. The temporal OPD standard deviation at each spatial pixel $\sigma_{\phi'}^{\mathrm{DH}}$ can be obtained by calculating the square root of the variance of $\phi'_{m,n}$ as
 \begin{align}
 \sigma_{\phi'}^{\mathrm{DH}} &= \sqrt{\mathrm{Var}(\phi'_{m,n})} = \frac{1}{|J_{m,n}^{\mathrm{int}}|} \sqrt{[\mathrm{Var}(z_{m,n}^{\mathrm{DH}}) \sin^2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})] \ast H_{m,n}^2} \nonumber \\
-&= \frac{1}{|J_{m,n}^{\mathrm{int}}|} \sqrt{\left[\mathrm{Var}(z_{m,n}^{\mathrm{DH}}) \frac{1 - \cos 2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})}{2}\right] \ast H_{m,n}^2}.
+&= \frac{1}{|J_{m,n}^{\mathrm{int}}|} \sqrt{\left[\mathrm{Var}(z_{m,n}^{\mathrm{DH}}) \frac{1 - \cos 2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})}{2}\right] \ast H_{m,n}^2}. \label{eq:sigma_phi_DH}
 \end{align}
 
 In the case of optical shot-noise-limited detection, $\mathrm{Var}(z_{m,n}^{\mathrm{DH,shot}})$ is given by
 \begin{equation}
+\label{eq:var_shot}
 \mathrm{Var}(z_{m,n}^{\mathrm{DH,shot}}) = \mathrm{Mean}(I_{m,n}^{\mathrm{DH}}) = J_{m,n}^{\mathrm{non-int}} + 2|J_{m,n}^{\mathrm{int}}| \cos(\phi_{m,n} - k_m^{\mathrm{off-axis}}m - k_n^{\mathrm{off-axis}}n).
 \end{equation}
-All terms outside the LP bandwidth, such as $\cos 2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})$ in Eq. (3.43) and $\cos(\phi_{m,n} - k_m^{\mathrm{off-axis}}m - k_n^{\mathrm{off-axis}}n)$ in Eq. (3.44), are removed by the LP-filtering operation $\ast H_{m,n}$. Because $h_{k,l}$ is unity within its passband and zero elsewhere, $H_{m,n}^2$ can be approximated by the delta function $\delta_{m,n}$, and the summation of its amplitude over the entire pixel range is expressed as
+All terms outside the LP bandwidth, such as $\cos 2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})$ in \eqref{eq:sigma_phi_DH} and $\cos(\phi_{m,n} - k_m^{\mathrm{off-axis}}m - k_n^{\mathrm{off-axis}}n)$ in \eqref{eq:var_shot}, are removed by the LP-filtering operation $\ast H_{m,n}$. Because $h_{k,l}$ is unity within its passband and zero elsewhere, $H_{m,n}^2$ can be approximated by the delta function $\delta_{m,n}$, and the summation of its amplitude over the entire pixel range is expressed as
 \begin{equation}
+\label{eq:H_sum}
 \sum_{m,n} H_{m,n}^2 = \sum_{k,l} h_{k,l}^2 \cdot \frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}},
 \end{equation}
-where $A_{\mathrm{sensor}}$ is the total number of sensor pixels and $A_{\mathrm{aperture}}$ is the number of pixels inside the LP bandwidth. By substituting Eq. (3.45) into Eq. (3.43), we obtain the optical shot-noise-limited OPD precision as
+where $A_{\mathrm{sensor}}$ is the total number of sensor pixels and $A_{\mathrm{aperture}}$ is the number of pixels inside the LP bandwidth. By substituting \eqref{eq:H_sum} into \eqref{eq:sigma_phi_DH}, we obtain the optical shot-noise-limited OPD precision as
 \begin{equation}
+\label{eq:sigma_shot}
 \sigma_{\phi'}^{\mathrm{DH,shot}} = \frac{\sqrt{|J_{m,n}^{\mathrm{non-int}}| \ast H_{m,n}^2}}{\sqrt{2}|J_{m,n}^{\mathrm{int}}|} = \sqrt{\frac{|J_{m,n}^{\mathrm{non-int}}|}{2|J_{m,n}^{\mathrm{int}}|^2}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}}.
 \end{equation}
 
-Equation (3.46) can be extended to obtain the OPD precision including both the optical shot noise and the sensor's read-out noise as
+Equation~\eqref{eq:sigma_shot} can be extended to obtain the OPD precision including both the optical shot noise and the sensor's read-out noise as
 \begin{equation}
 \sigma_{\phi'}^{\mathrm{DH,shot+sensor}} = \sqrt{\frac{|J_{m,n}^{\mathrm{non-int}}| + \mathrm{Var}(z_{m,n}^{\mathrm{sensor}})}{2|J_{m,n}^{\mathrm{int}}|^2}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}},
 \end{equation}
@@ -436,7 +442,7 @@ Media perfusion was controlled by a syringe pump (Harvard ULTRA-P), maintaining 
 \caption{\textnormal{\textbf{Omniposeインターフェース}Omniposeではリアルタイムのフィードバックデータのインタラクティブな解析を可能にする.表示されている生データはBF画像に訓練済みのモデルを用いて,セグメンテーションを行ったマスクを重ね合わせた図}}
 \end{figure}
 
-To correct for sample drift during time-lapse imaging, we calculated alignment transformations using the Enhanced Correlation Coefficient (ECC) algorithm \cite{evangelidis2008parametric}. Alignment transformations were computed using images from empty channels (no cells present) to register against immobile channel structures. The resulting transformation matrices were stored and subsequently applied to cell-containing channel images using affine transformation. To isolate cellular phase signals from residual channel structures, the empty channel was subtracted from all subsequent frames, yielding differential phase images Δφ(\textit{x,y,t}) representing only cellular refractive index contributions.
+To correct for sample drift during time-lapse imaging, we calculated alignment transformations using the Enhanced Correlation Coefficient (ECC) algorithm \cite{evangelidis2008parametric}. Alignment transformations were computed using images from empty channels (no cells present) to register against immobile channel structures. The resulting transformation matrices were stored and subsequently applied to cell-containing channel images using affine transformation. To isolate cellular phase signals from residual channel structures, the empty channel was subtracted from all subsequent frames, yielding differential phase images $\Delta\phi(x,y,t)$ representing only cellular refractive index contributions.
 
 \section{Cell Segmentation}
 Cell boundaries were detected using Omnipose \cite{cutler2022omnipose}, a deep learning-based segmentation method optimized for bacterial morphology. We trained a custom Omnipose model on approximately 3000 manually annotated S. pombe cells. Training images were first manually annotated using the Omnipose GUI to generate ground truth segmentation masks. Segmentation masks were converted to binary outlines by detecting pixel discontinuities at cell boundaries using morphological operations. Specifically, boundaries were identified where mask values differed from their four-connected neighbors, generating single-pixel-width contours.
