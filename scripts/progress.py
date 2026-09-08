@@ -27,7 +27,7 @@ TARGET = {"0.Abstract": 400, "1.Introduction": 6000,
 PLOT = re.compile(r'^\s*%%\s*(?:==\s*)?([A-Za-z]*\d+)\s*\[(\w+)\]\s*(.*)$', re.M)
 STATUS_ORDER = ["plot", "draft", "fixed"]
 
-# しおり。各ファイルの先頭近くに 1 行だけ置く。
+# 次にやること。各ファイルの先頭近くに 1 行だけ置く。
 #   .tex → % NEXT: 次の一手
 #   .md  → <!-- NEXT: 次の一手 -->  または  **NEXT:** 次の一手
 NEXT = re.compile(r'NEXT:\s*(.+?)\s*(?:-->|\*\*)?\s*$', re.M)
@@ -50,8 +50,8 @@ def next_of(path):
     m = NEXT.search(head)
     return m.group(1).strip() if m else ""
 
-def shiori():
-    """しおり一覧。前回どこで止まって、次はどこからか。"""
+def next_block():
+    """各ファイルの NEXT: 行を集める。書くのは作業を止めた本人。"""
     rows = []
     for n in THESIS_ORDER:
         f = THESIS / f"{n}.tex"
@@ -69,13 +69,15 @@ def shiori():
         return None
     rows.sort(key=lambda r: r[3])          # 放置が長い順
     today = datetime.date.today()
-    out = ["■ しおり — 前回どこで止まって、次はどこからか", "-" * 74]
+    out = ["■ 次にやること（各ファイルの NEXT: 行）", "-" * 74]
     for who, name, txt, mt in rows:
         d = (today - datetime.date.fromtimestamp(mt)).days
         out.append(f"{d:>3}日前  [{who}] {name}")
-        out.append(f"         → {txt}")
+        mark = "★" if txt.endswith("〔初期値〕") else " "
+        out.append(f"      {mark}  → {txt.replace('〔初期値〕','')}")
     out.append("-" * 74)
-    out.append("  書き終わりに NEXT: の行を書き換える。それだけで次に開いたとき迷わない。")
+    out.append("  書き終わりに NEXT: を書き換える。★ は 2026-09-09 に私が置いた初期値で、")
+    out.append("  会話で決めたことと私の推測が混ざっている。書き換えれば ★ は消える。")
     return "\n".join(out)
 
 def measure(path):
@@ -196,7 +198,7 @@ def render(show_all=False, since=None):
     pn0 = paper_names()
     if pn0:
         rows += plots(PAPER, pn0[0], pn0[1])
-    sh = shiori()
+    sh = next_block()
     if sh:
         parts.append("")
         parts.append(sh)
