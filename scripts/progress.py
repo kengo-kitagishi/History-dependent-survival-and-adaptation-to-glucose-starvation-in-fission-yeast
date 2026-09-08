@@ -27,6 +27,11 @@ TARGET = {"0.Abstract": 400, "1.Introduction": 6000,
 PLOT = re.compile(r'^\s*%%\s*(?:==\s*)?([A-Za-z]*\d+)\s*\[(\w+)\]\s*(.*)$', re.M)
 STATUS_ORDER = ["plot", "draft", "fixed"]
 
+# しおり。各ファイルの先頭近くに 1 行だけ置く。
+#   .tex → % NEXT: 次の一手
+#   .md  → <!-- NEXT: 次の一手 -->  または  **NEXT:** 次の一手
+NEXT = re.compile(r'NEXT:\s*(.+?)\s*(?:-->|\*\*)?\s*$', re.M)
+
 JA = re.compile(r'[\u3040-\u30ff\u3400-\u9fff]')
 EN = re.compile(r"[A-Za-z][A-Za-z'-]*")
 
@@ -37,6 +42,41 @@ def body(tex):
     tex = re.sub(r'\$[^$]*\$', ' ', tex)
     tex = re.sub(r'\\[a-zA-Z@]+\*?(\[[^\]]*\])?', ' ', tex)
     return re.sub(r'[{}\\~^_&]', ' ', tex)
+
+def next_of(path):
+    if not path.exists():
+        return ""
+    head = "".join(path.read_text(errors='ignore').splitlines(keepends=True)[:12])
+    m = NEXT.search(head)
+    return m.group(1).strip() if m else ""
+
+def shiori():
+    """しおり一覧。前回どこで止まって、次はどこからか。"""
+    rows = []
+    for n in THESIS_ORDER:
+        f = THESIS / f"{n}.tex"
+        if f.exists():
+            rows.append(("修論", n, next_of(f), f.stat().st_mtime))
+    pn = paper_names()
+    if pn:
+        for n in pn[0]:
+            for layer, ext in (("plot",".md"), ("paragraph",".md"), ("sentence",".tex")):
+                f = PAPER / layer / f"{n}{ext}"
+                if f.exists() and (t := next_of(f)):
+                    rows.append(("論文", f"{layer}/{n}", t, f.stat().st_mtime))
+    rows = [r for r in rows if r[2]]
+    if not rows:
+        return None
+    rows.sort(key=lambda r: r[3])          # 放置が長い順
+    today = datetime.date.today()
+    out = ["■ しおり — 前回どこで止まって、次はどこからか", "-" * 74]
+    for who, name, txt, mt in rows:
+        d = (today - datetime.date.fromtimestamp(mt)).days
+        out.append(f"{d:>3}日前  [{who}] {name}")
+        out.append(f"         → {txt}")
+    out.append("-" * 74)
+    out.append("  書き終わりに NEXT: の行を書き換える。それだけで次に開いたとき迷わない。")
+    return "\n".join(out)
 
 def measure(path):
     if not path.exists():
@@ -156,6 +196,10 @@ def render(show_all=False, since=None):
     pn0 = paper_names()
     if pn0:
         rows += plots(PAPER, pn0[0], pn0[1])
+    sh = shiori()
+    if sh:
+        parts.append("")
+        parts.append(sh)
     lb = layers_block()
     if show_all and lb:
         parts.append("")
