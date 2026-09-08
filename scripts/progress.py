@@ -14,12 +14,11 @@ import re, sys, os, subprocess, time, datetime, pathlib
 THESIS = pathlib.Path(__file__).resolve().parent.parent
 PAPER  = pathlib.Path.home() / "Desktop/manuscripts/qpi-methods"
 
-THESIS_ORDER = ["0.Abstract", "1.Introduction", "2.Background", "3.Experimental setup",
-                "4.Experimental results", "5.Summary and outlook",
-                "AppendixA", "AppendixB", "AppendixC"]
+THESIS_ORDER = ["0.Abstract", "1.Introduction", "2.Measurement system", "3.Starvation",
+                "5.Summary and outlook", "AppendixA", "AppendixB", "AppendixC"]
 # 目安（本人が決める。0 のままなら % を出さない）
-TARGET = {"0.Abstract": 400, "1.Introduction": 6000, "2.Background": 4000,
-          "3.Experimental setup": 8000, "4.Experimental results": 8000,
+TARGET = {"0.Abstract": 400, "1.Introduction": 6000,
+          "2.Measurement system": 12000, "3.Starvation": 8000,
           "5.Summary and outlook": 3000,
           "00_abstract": 150, "10_intro": 800, "20_methods": 2500,
           "30_results": 2000, "40_discussion": 1500}
@@ -179,13 +178,16 @@ if __name__ == "__main__":
     a = sys.argv[1:]
     since = a[a.index("--since") + 1] if "--since" in a else None
     show_all = "--all" in a
+    iv = 10.0
     if "--watch" in a:
+        j = a.index("--watch") + 1
+        if j < len(a) and a[j].replace(".","",1).isdigit(): iv = float(a[j])
         try:
             while True:
                 os.system("clear")
                 print(render(show_all, since))
                 print("\n(Ctrl-C で止める)")
-                time.sleep(2)
+                time.sleep(iv)
         except KeyboardInterrupt:
             pass
     else:
