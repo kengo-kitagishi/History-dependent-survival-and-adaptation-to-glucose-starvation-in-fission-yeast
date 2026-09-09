@@ -36,3 +36,6 @@ thesis_log.md
 
 # エディタ設定（Overleaf に送らない）
 .vscode/
+
+# xelatex の中間出力（thesis.pdf と同じく追跡しない）
+*.xdv
