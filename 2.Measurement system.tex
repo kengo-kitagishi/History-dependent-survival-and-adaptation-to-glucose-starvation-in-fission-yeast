@@ -371,35 +371,37 @@ PDMS は主剤と硬化剤（SYLGARD 184, Dow）を 10:1 で混ぜ、真空で 1
 \end{figure}
 
 \section{細胞と長期タイムラプス計測}
+\label{sec:timelapse}
+
 \subsection{顕微鏡と環境}
-Microscopy was conducted on an inverted Nikon Ti microscope (Nikon Instruments Inc.) fitted with a 40×/0.95 NA air objective. Samples were maintained at 30 °C with a stage-top incubator (Tokai Hit model ). The microscope hardware including motorized stage, shutters, Perfect Focus System (PFS) autofocus and image acquisition were controlled using Micro-Manager (v) open-source software.
+
+計測は倒立顕微鏡（Ti-E, Nikon）で行った。対物レンズは \ref{sec:optics} 節の $40\times$、NA 0.95 の乾燥系である。試料はステージトップインキュベータ（TIZHB, Tokai Hit）で 30 °C に保ち、焦点は Perfect Focus System（Nikon）で維持した。電動ステージ、シャッター、画像の取得は Micro-Manager 1.4\cite{edelstein2014advanced} で制御した。
 
 \subsection{細胞株と培養条件}
-% 性能評価に使った記録の株と培地。第3章 3.3.1 と同じなら1段落で再掲する。
-% 実験1の株が HN0101（mNeonGreen）か FY18675（野生型）かは未確定。
+\label{sec:strain}
+
+野生型の分裂酵母 \textit{Schizosaccharomyces pombe} FY18675（$h^{-}$）を National BioResource Project（NBRP）から得て用いた。培地と操作は分裂酵母の標準的な方法\cite{moreno1991molecular}に従った。YE 寒天培地の単一コロニーを 2\%（w/v）グルコースの EMM 20 mL に植え、30 °C で 12 h 培養したのち、600 nm の吸光度（OD$_{600}$）が 0.01 になるよう希釈し、50 mL チューブ（Watson）で 30 °C、200 rpm で OD$_{600}$ が 0.2--0.5 になるまで培養した。\mynote{第3章 3.3.1 は HN0101（mNeonGreen）と書いている。性能評価の記録と実験1でどの株を使ったかを確認して揃える}
 
 \subsection{細胞の準備と導入}
-Exponential-phase S. pombe cells cultured in EMM (2\% glucose) at 30°C were harvested from 20 mL cultures by centrifugation at 3,700 rpm for 5 min (HITACHI himac CT6E) to generate a 100-fold concentrated cell suspension. The concentrated suspension was loaded into the microfluidic device using a 1-mL syringe (Terumo).
-To insert cells into the observation channels, the device was centrifuged at 1,200 rpm for 5 min, rotated 180°, and centrifuged again for 5 min. After confirming cell trapping within the observation channels by microscopy, EMM (2\% glucose) was perfused at 2 mL/h. Cells were allowed to settle until excess cells were completely flushed from the drain channels. Time-lapse imaging was then initiated after registering cell positions.
+
+指数増殖期の培養液 20 mL を 3,700 rpm で 5 min 遠心（himac CT6E, HITACHI）して 100 倍に濃縮し、1 mL シリンジ（Terumo）でデバイスに注入した。デバイスを約 10 min 傾けて重力で細胞を観察チャネルへ入れた。\mynote{旧本文は遠心（1,200 rpm 5 min、180° 回して2回）と書いている。実験1の手順がどちらかを確認}観察チャネルに細胞が入ったことを顕微鏡で確かめてから 2 mL/h で EMM を灌流し、主流路に残った細胞がドレインから流れ去るまで待ってから計測を始めた。
 
 \subsection{培地交換と灌流}
-For media exchanges to EMM (low\% glucose) or EMM (0\% glucose), the entire tubing system, including the connector, was replaced. The appearance of air bubbles in the connector, visualized by live microscopy, was used as the reference point to define the next frame as the time of media exchange.
-Media perfusion was controlled by a syringe pump (Harvard ULTRA-P), maintaining a constant flow rate of 2 mL/h throughout the experiments to ensure stable environmental conditions.
+
+培地はシリンジポンプ（PHD ULTRA, Harvard Apparatus）で記録の全期間を通して 2 mL/h の一定流量で送った。培地を交換するときは、コネクタを含むチューブ一式ごと交換した。交換の時刻は、コネクタ内の気泡が画像に映った次のフレームとした。
 
 \subsection{取得条件}
-% 5分間隔・露光 60 ms・複数ステージ位置。論文 qpi-methods/sentence/20_methods.tex の Long-term time-lapse から日本語に起こす。
+
+ホログラムは 5 min 間隔、露光 60 ms で、デバイスに沿った複数のステージ位置と、流路の無い位置1つで記録した。流路の無い位置の像は参照像の処理に使う（\ref{sec:grid_acq} 節）。\ref{sec:performance} 節の性能評価に使った記録は約 168 h（2020 時点）である。
 
 \subsection{参照グリッドの取得}
 \label{sec:grid_acq}
-% 細胞のそばに培地だけの領域が残らないので、計測前に stage 変位の 9×9 グリッド（0.1 µm 刻み）で参照像を撮る。
-% 中心像を計測中のフィードバックの基準にする。論文 Reference acquisition から。
 
-\subsection{タイムラプス計測と画像の取得}
-% 蛍光顕微鏡（ORCA・LED・GFP-B）の記述で、QPI の計測系ではない。卒論の残りと思われる。
-% Hsp104-GFP を第3章で使うなら 3.3 へ移す。使わないなら消す。
-タイムラプス計測には,温度を正確に制御するためのサーモスタットチャンバー（TIZHB,TokaiHit）を備えた電動倒立顕微鏡（Nikon,Ti-E）を使用した.デジタルCMOSカメラ（ORCA C14440 ,浜松ホトニクス）,LED光源（Thorlabs）を組み合わせ,対物レンズはPlan Apo $\lambda$D 40x / 0.95(MRD70470,Nikon)を,GFP蛍光のフィルターキューブにはGFP-B(EX 460-500, DM 505, EM 510-560)を使用した.撮影はMicromanagerソフトウェア（https://micro-manager.org/）で制御し,5分間隔で画像を取得した.明視野画像の露光時間は50ミリ秒,GFP蛍光画像の露光時間は500ミリ秒とした.観察期間は実験条件によって異なり,192時間から240時間であった.長期間のタイムラプス撮影中には,焦点面の安定性を保つためにパーフェクト・フォーカス・システム（PFS）を使用した.すべての観察は30°Cで実施した.
+位相像から照明光の波面と流路の位相を除くには、同じ視野で細胞の無い状態の参照像が要る（\ref{sec:reconstruction} 節）。しかし mother machine では観察チャネルが細胞で埋まり、細胞のそばに培地だけの領域が残らない。そこで計測を始める前に、各視野を 0.1 μm 刻みの $9 \times 9$ のステージ変位のグリッドで撮り、参照像とした。各変位では z スタックを撮って合焦面だけを残し、流路の無い位置を同じ変位で撮った像を引いた。グリッドの中心の像を、計測中のフィードバックの基準にする。計測中は各時点で各視野の位相像をこの基準像に並進のみの位置合わせで合わせ（方法は \ref{sec:registration} 節）、測った変位でステージ位置を更新してから次にその視野を訪れる。このフィードバックにより、各視野は記録の全長で開始位置から $\pm 0.4$ μm 以内に保たれた。記録後の各フレームには、その変位に最も近いグリッドの像を背景として対応させる（\ref{sec:bgsub} 節）。
 
-
+\subsection{蛍光像の同時取得}
+% Hsp104-GFP の記録でだけ使う。第3章で Hsp104-GFP を使わないならこの小節は消す。
+Hsp104-GFP 株の記録では、各ホログラムと同時に蛍光像を顕微鏡の反対側のポートから取得した。光源は LED（Thorlabs）、フィルタキューブは励起 460--500 nm、ダイクロイックミラー 505 nm、蛍光 510--560 nm の GFP 用で、蛍光像は別の sCMOS カメラ（ORCA-Fusion BT C14440, Hamamatsu）で記録した。
 
 \section{画像解析}
 % 旧 Image analysis / Image Preprocessing / Volume estimation / Cell Segmentation の4節をここにまとめた。
@@ -407,6 +409,7 @@ Media perfusion was controlled by a syringe pump (Harvard ULTRA-P), maintaining 
 To reduce post-processing time, each z-stack was cropped to a square region containing the cell(s) of interest and a border of at least 40 pixels, and the focal plane was identified. This cropping was accomplished first using FIJI v. 1.53c to identify regions of interest (ROIs) within a thresholded standard deviation z-projection image of each brightfield z-stack. Using custom Matlab R2019a (Mathworks) scripts, images were cropped to the ROIs and the standard deviation of the pixels in each ROI was computed. The focal plane was defined based on the image in the stack with the lowest standard deviation. Three images above and three images below the focal plane separated by 500 nm were used to quantify cytoplasmic density. Based on these images, the phase information was calculated using a custom Matlab script implementing a previously published algorithm (Bostan et al., 2016). In brief, this method relates the phase information of the cell to bright-field image intensity changes along the z-direction. Equidistant, out-of-focus images above and below the focal plane are used to estimate intensity changes at various defocus distances. A phase-shift map is reconstructed in a non-linear, iterative fashion to solve the transport-of-intensity equation.[from variational]
 
 \subsection{位置合わせ}
+\label{sec:registration}
 % 各時点で ECC（並進のみ）で参照像に合わせる。下の段落は「空チャネルを引く」旧方式。論文はグリッド像を引く方式。今のコードがどちらかを QPI_Omni で確認。
 To correct for sample drift during time-lapse imaging, we calculated alignment transformations using the Enhanced Correlation Coefficient (ECC) algorithm \cite{evangelidis2008parametric}. Alignment transformations were computed using images from empty channels (no cells present) to register against immobile channel structures. The resulting transformation matrices were stored and subsequently applied to cell-containing channel images using affine transformation. To isolate cellular phase signals from residual channel structures, the empty channel was subtracted from all subsequent frames, yielding differential phase images $\Delta\phi(x,y,t)$ representing only cellular refractive index contributions.
 
