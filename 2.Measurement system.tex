@@ -1,4 +1,4 @@
-% NEXT: 2.9.1 位相感度の理論を日本語に起こす（plot 2.9 はある。paragraph は無い）。2.9.2・2.9.3 は Figure 3・2 が確定してから〔初期値〕
+% NEXT: plot 2.9（P0〜P10）の「決めること」を決めてから paragraph 2.9 を書く。本文は確定している 2.9.2（3C・3D）と 2.9.3（Figure 2）から〔初期値〕
 % 第2章: QPI による長期1細胞計測系の構築
 % 2026-09-08 に橋本幹弘さんの博論（48136）の形に組み替えた。
 % 2026-09-09 に節を確定し、見出しを日本語にした。
@@ -335,12 +335,13 @@ C = \frac{1}{\alpha}\left(n_{\mathrm{medium}} - n_{\mathrm{water}} + \frac{\lamb
 
 \section{性能評価}
 \label{sec:performance}
-% Figure 2（校正・精度）と Figure 3（位相ノイズ・グリッド・ドリフト・既知シフトの回収）はここ。
-% これらは手法の検証図なので、実験1のデータを待たずに書ける。
+% 示すこと: 2.1.2 の条件 (3)(4) が本番の記録（260517、EMM 2%、先頭 168.25 h、5 分間隔、露光 60 ms、104 視野）で満たされている。
+% 図と数値は論文 qpi-methods の Figure 2（背景差分）・Figure 3（A ノイズ / B グリッド / C ドリフト / D 注入回収 / E–G 校正 / H 誤差伝播）と共通。
+% 確定: 3C（ドリフト）、3D（注入回収 MAE 3.8 nm）、Figure 2（ver2 未決）。未測定: 3A（本番条件）、3B（32 bit 対応表）、3E–G（BSA 9/13）、3H。
 
-\subsection{位相感度の理論と実測}
-% 旧「Phase sensitivity」節をここへ移した。式は 2.9 でしか使わない。
-% 理論のあとに実測を続ける: 連続フレーム差の空間標準偏差/√2 を細胞のない領域で測り、shot-noise 限界と比べる。Figure 3A（測り直し要）。
+\subsection{位相ノイズ}
+% 理論（英語のまま。導出を全部載せるか結果の式だけにするかは plot の決めること）→ 測り方 → 実測 12.00 mrad と shot-noise 限界 6.68 mrad（別条件の値。本番条件で測り直す）。図 3A。
+
 
 To discuss the OPD precision of off-axis DH, determined by the temporal OPD noise, we first add the noise term $z_{m,n}^{\mathrm{DH}}$ to \eqref{eq:hologram_DH}, such that
 \begin{equation}
@@ -393,14 +394,16 @@ In common-path off-axis holography with background subtraction, the noise propag
 
 The phase sensitivity exhibits a quadratic dependence on visibility ($\sigma_{\phi} \propto V^{-1}$) and a square-root dependence on the number of electrons ($\sigma_{\phi} \propto N_e^{-1/2}$), making visibility optimization critical for achieving high sensitivity.
 
+\subsection{位置合わせの精度と長期のドリフト}
+% 既知シフトの回収（3D、確定）: ±0.69 µm を 2200 回 × 2 軸、MAE 3.8 nm、バイアス X −0.3 / Y −1.9 nm。
+% 参照グリッドの登録（3B）: 81 ノードの公称と実測、誤差ベクトル。32 bit の対応表を作り直してから。
+% ドリフト（3C、確定）: 中央値 0.11–0.14 µm、95% 点 0.25–0.32 µm、0.4 µm 以内 98–99.6%。補正なしは残差の累積和で復元。
 
-\subsection{位置の精度}
-% 参照グリッド登録の精度: 公称ステージ変位と実測変位の差、誤差ベクトル。Figure 3B（対応表を 32 bit 実数で作り直してから）。
-% ドリフト: 記録全長での位置ずれ、補正あり／なし。Figure 3C（確定済み）。
-% 既知シフトの回収: 細胞のない領域に既知の sub-pixel 並進を与えて回収、MAE 3.8 nm。Figure 3D（確定済み）。
+\subsection{参照グリッドによる背景差分の残差}
+% Figure 2: 参照を動かした量に対する残差 64 / 94 / 563 mrad（< 0.1 / 0.4–0.7 / 1.5–3 µm）。乾燥質量に換算して 1.3 / 1.9 / 11.5 pg（最悪ケース）。
 
-\subsection{濃度校正の直線性}
-% BSA 系列に対する位相の線形。Figure 2（ver2 未決）。
+\subsection{培地屈折率の校正と密度の測定限界}
+% BSA 系列の直線性（3E–G、9/13 撮影のあと）。誤差を式 eq:drymass に伝播した測定床と周期平均密度の分布 CV 5.9%（3H、未作成）。
 
 \section{考察}
 % 他の QPI 系・他の密度計測法との比較と、この系の限界。論文 qpi-methods/sentence/40_discussion.tex から。
