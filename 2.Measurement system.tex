@@ -281,82 +281,57 @@ D_{\mathrm{ap}} = 2 \,\mathrm{round}\!\left( \frac{0.95}{658 \times 10^{-9}} \ti
 
 \section{光学系}
 \label{sec:optics}
-% 旧「Optical system: design and configuration」と「Design of the optical system」を1節にまとめた。順は 設計条件 → 構成 → 検証。
 
 \subsection{設計条件}
 
-When designing an off-axis DH optical system, two conditions must be satisfied. First, the magnitude of the off-axis wavevector $k^{\mathrm{off-axis}} = \sqrt{(k_m^{\mathrm{off-axis}})^2 + (k_n^{\mathrm{off-axis}})^2}$ must be sufficiently large to avoid overlap of the interferometric and noninterferometric terms in the Fourier space. The radius of the interferometric component in the Fourier space is $2\pi \mathrm{NA}/(\lambda M)$, while that of the noninterferometric component is $2\pi \cdot 2\mathrm{NA}/(\lambda M)$, as the noninterferometric term is expressed by the autocorrelation of the frequency spectrum. Hence, $k^{\mathrm{off-axis}}$ must satisfy
+off-axis DH の光学系を設計するとき、満たすべき条件は2つある。第1に、off-axis の波数の大きさ $k^{\mathrm{off-axis}} = \sqrt{(k_m^{\mathrm{off-axis}})^2 + (k_n^{\mathrm{off-axis}})^2}$ が十分大きく、Fourier 空間で干渉項と非干渉項が重ならないことである。像面での干渉項の半径は $2\pi \mathrm{NA}/(\lambda M)$ で（$M$ は倍率）、非干渉項は周波数スペクトルの自己相関なので半径はその2倍の $2\pi \cdot 2\mathrm{NA}/(\lambda M)$ になる。したがって
 \begin{equation}
-k^{\mathrm{off-axis}} \geq 3 \left(\frac{2\pi \mathrm{NA}}{\lambda M}\right).
+k^{\mathrm{off-axis}} \geq 3 \left(\frac{2\pi \mathrm{NA}}{\lambda M}\right)
+\label{eq:cond_overlap}
 \end{equation}
-
-Second, the spatial frequency of the interferometric component should not exceed 1/2 of the sensor's pitch (Nyquist criterion). For a wavevector in an arbitrary direction, the worst case occurs along the diagonal direction, requiring:
+が要る。第2に、干渉項の空間周波数が、センサの画素ピッチで決まる Nyquist 周波数を超えないことである。波数の向きは任意なので最も厳しいのは対角方向で、
 \begin{equation}
-\frac{k^{\mathrm{off-axis}}}{\sqrt{2}} + \frac{2\pi \mathrm{NA}}{\lambda M} \leq \frac{2\pi f_{\mathrm{pitch}}}{2},
+\frac{k^{\mathrm{off-axis}}}{\sqrt{2}} + \frac{2\pi \mathrm{NA}}{\lambda M} \leq \frac{2\pi f_{\mathrm{pitch}}}{2}
+\label{eq:cond_nyquist}
 \end{equation}
-where $f_{\mathrm{pitch}}$ is the inverse of the sensor's pixel pitch. Combining these two conditions yields
+が要る。$f_{\mathrm{pitch}}$ はセンサの画素ピッチの逆数である。2つを合わせると
 \begin{equation}
-\frac{2\pi \cdot 3\mathrm{NA}}{\lambda M} \leq k^{\mathrm{off-axis}} \leq \sqrt{2}\pi \left(f_{\mathrm{pitch}} - \frac{2\mathrm{NA}}{\lambda M}\right).
+\frac{2\pi \cdot 3\mathrm{NA}}{\lambda M} \leq k^{\mathrm{off-axis}} \leq \sqrt{2}\pi \left(f_{\mathrm{pitch}} - \frac{2\mathrm{NA}}{\lambda M}\right)
+\label{eq:cond_range}
 \end{equation}
-
-For our system, the off-axis wavevector is determined by the grating (120 lines per mm) placed at the sample conjugate plane. At the sensor plane (image plane), the grating period is 8.33 μm, yielding an off-axis wavevector magnitude of
-\begin{equation}
-k^{\mathrm{off-axis}} = \frac{2\pi}{8.33~\mu\mathrm{m}} = 7.54 \times 10^5~\mathrm{rad/m}.
-\end{equation}
-
-We verify that our system satisfies both design conditions at the sensor plane. For the first condition (overlap avoidance):
-\begin{equation}
-k^{\mathrm{off-axis}} = 7.54 \times 10^5 \geq 3 \times \frac{2\pi \times 0.95}{658 \times 10^{-9} \times 40} = 6.80 \times 10^5~\mathrm{rad/m}.
-\end{equation}
-For the second condition (Nyquist criterion), with sensor pixel pitch of 3.45 μm giving $f_{\mathrm{pitch}} = 1/3.45~\mu\mathrm{m} = 2.90 \times 10^5~\mathrm{m}^{-1}$:
-\begin{equation}
-k^{\mathrm{off-axis}} = 7.54 \times 10^5 \leq \sqrt{2}\pi \left(2.90 \times 10^5 - \frac{2 \times 0.95}{658 \times 10^{-9} \times 40}\right) = 9.68 \times 10^5~\mathrm{rad/m}.
-\end{equation}
-Both conditions are satisfied, confirming that the optical system design is appropriate for aliasing-free hologram acquisition.
+になる。我々の系は NA $= 0.95$、$M = 40$、$\lambda = 658$ nm、画素ピッチ 3.45 μm（$f_{\mathrm{pitch}} = 1/3.45~\mu\mathrm{m} = 2.90 \times 10^5~\mathrm{m}^{-1}$）なので、下限は $3 \times 2\pi \times 0.95/(658 \times 10^{-9} \times 40) = 6.80 \times 10^5$ rad/m、上限は $\sqrt{2}\pi \left(2.90 \times 10^5 - 2 \times 0.95/(658 \times 10^{-9} \times 40)\right) = 9.68 \times 10^5$ rad/m である。この範囲は NA、倍率、画素ピッチだけで決まる。
 
 \subsection{構成}
 
-The optical system of QPI is described in Fig. \ref{fig:qpi_optical_system}. The light source consisted of a 658 nm, 20 mW single-mode fiber-pigtailed laser diode (LP660-SF20, Thorlabs) mounted in an LDM9LP mount. The laser was controlled by an LDC202C benchtop LD current controller (±200 mA) and a TED200C temperature controller (12 W, Thorlabs), connected via CAB400 and CAB420-15 cables, respectively. The output beam was collimated using an FC/PC fiber collimator (CFC2-B, $f$ = 2.0 mm, Thorlabs) to illuminate the sample. 
-The optical field transmitted through the sample was magnified with a 40× objective lens (Nikon, NA = 0.95) and replicated with a Ronchi ruling grating (120 lines per mm, Edmund Optics \#66-342). We employ diffraction phase microscopy (i.e., common-path off-axis DH) as the QPI method. The first-order diffraction light is used as the object light, while the zeroth-order diffraction light low-pass filtered with a 25 μm pinhole (P25K, Thorlabs) placed at the Fourier plane is converted to a quasi-plane wave that acts as the reference light. The interferogram between these states in the off-axis configuration is recorded with a monochrome USB 3.0 CMOS camera (acA2440-75, Basler ace, 2448 × 2048 pixels, pixel size of 3.45 μm, full-well capacity of $\sim$10 ke$^-$) after relay lenses (ACT508-200-A, $f$ = 200 mm, Ø2", Thorlabs) in a 4f configuration. The number of pixels in the raw hologram and reconstructed OPD image are 2048 × 2048 and 511 × 511, respectively. The pixel size of the OPD image is set to the diffraction limit of $\sim$350 nm, determined by the NA of the objective lens.
+光学系を図~\ref{fig:qpi_optical_system}に示す。方式は回折位相顕微鏡（diffraction phase microscopy）、すなわち common-path off-axis DH である\cite{popescu2006diffraction}。光源は波長 658 nm、出力 20 mW のシングルモードファイバ出力の半導体レーザー（LP660-SF20, Thorlabs）で、ファイバコリメータ（CFC2-B, $f = 2.0$ mm, Thorlabs）で平行光にして試料を照明する。試料を透過した光は、倒立顕微鏡（Ti-E, Nikon）の $40\times$、NA 0.95 の乾燥系対物レンズ（CFI Plan Apochromat Lambda D, MRD70470, Nikon）で拡大され、顕微鏡の出力ポートに置いた像面で Ronchi 格子（120 lines/mm, \#66-342, Edmund Optics）により複数の回折次数に分けられる。各次数は像の空間情報をすべて持つ。焦点距離 200 mm のリレーレンズ2枚（ACT508-200-A, Thorlabs）で 4f 系を組み、その Fourier 面で 0 次光を直径 25 μm のピンホール（P25K, Thorlabs）で低域通過させて一様な参照光にし、1 次光はそのまま通して物体光にする。他の次数は遮る。2つの光は同じ光路を通り、センサ上で角度をもって干渉する。ホログラムは CMOS カメラ（acA2440-75um, Basler; $2448 \times 2048$ 画素、画素 3.45 μm、full-well 容量約 10 ke$^-$）で記録する。生のホログラムは $2048 \times 2048$ 画素を使い、再構成した位相像は \ref{sec:reconstruction} 節のとおり $511 \times 511$ 画素、画素 0.346 μm である。
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{figure/QPI optical systems.pdf}
-    \caption{Schematic of the QPI optical system based on common-path off-axis digital holography. The first-order diffraction beam from a Ronchi ruling grating serves as the object light, and the zeroth-order beam spatially filtered at the Fourier plane serves as the reference light.}
+    \includegraphics[width=0.85\linewidth]{figure/QPI optical systems.pdf}
+    \caption{common-path off-axis ディジタルホログラフィの光学系。Ronchi 格子の $+1$ 次回折光を物体光、Fourier 面のピンホールで低域通過させた 0 次光を参照光にする。}
     \label{fig:qpi_optical_system}
 \end{figure}
 
+我々の系では、$k^{\mathrm{off-axis}}$ は試料と共役な像面に置いた格子の周期で決まる。4f リレーの倍率は 1 なので、センサ面での格子周期は 8.33 μm であり、
+\begin{equation}
+k^{\mathrm{off-axis}} = \frac{2\pi}{8.33~\mu\mathrm{m}} = 7.54 \times 10^5~\mathrm{rad/m}
+\end{equation}
+である。これは式~\eqref{eq:cond_range} の範囲 $6.80 \times 10^5 \leq k^{\mathrm{off-axis}} \leq 9.68 \times 10^5$ rad/m に入る。
+
 \subsection{off-axis配置の検証}
 
-To validate the optical system design, we compare the theoretically calculated off-axis wavevector with the experimentally measured carrier frequency in the Fourier domain. From the grating specifications, the theoretical off-axis wavevector at the sensor plane (image plane) is $k_{\mathrm{theory}}^{\mathrm{off-axis}} = 7.54 \times 10^5~\mathrm{rad/m}$ as calculated above.
-
-Experimentally, the off-axis carrier frequency is determined from the position of the +1st-order sideband in the Fourier-transformed hologram. For our system, the measured sideband peak position is $(m_{\mathrm{off}}, n_{\mathrm{off}}) = (1623, 1621)$ in the 2048 × 2048 pixel raw hologram, where the DC component is centered at $(1024, 1024)$. The offset from the center is
+設計どおりの off-axis 配置になっているかを、Fourier 空間でのキャリア周波数の実測で確かめた。$2048 \times 2048$ 画素のホログラムを Fourier 変換すると、直流成分は $(1024, 1024)$ に、$+1$ 次サイドバンドの中心は $(m_{\mathrm{off}}, n_{\mathrm{off}}) = (1623, 1621)$ にあった。中心からのずれは
 \begin{equation}
-\Delta m = 1623 - 1024 = 599~\mathrm{pixels}, \quad \Delta n = 1621 - 1024 = 597~\mathrm{pixels}.
+\Delta m = 1623 - 1024 = 599, \quad \Delta n = 1621 - 1024 = 597
 \end{equation}
-
-The magnitude of the off-axis wavevector in pixel units is
+画素で、その大きさは $\sqrt{599^2 + 597^2} = 845.8$ 画素である。センサ面での周波数分解能は
 \begin{equation}
-k_{\mathrm{pixel}}^{\mathrm{off-axis}} = \sqrt{(\Delta m)^2 + (\Delta n)^2} = \sqrt{599^2 + 597^2} = 845.8~\mathrm{pixels}.
+\Delta f_{\mathrm{sensor}} = \frac{1}{2048 \times 3.45~\mu\mathrm{m}} = \frac{1}{7.07~\mathrm{mm}} = 141.5~\mathrm{m}^{-1}
 \end{equation}
-
-To convert this to physical units at the sensor plane, we use the spatial frequency resolution determined by the sensor FOV:
+なので、キャリアの空間周波数は $845.8 \times 141.5 = 1.20 \times 10^5$ cycles/m、波数にすると
 \begin{equation}
-\Delta f_{\mathrm{sensor}} = \frac{1}{\mathrm{FOV}_{\mathrm{sensor}}} = \frac{1}{2048 \times 3.45~\mu\mathrm{m}} = \frac{1}{7.07~\mathrm{mm}} = 141.5~\mathrm{m}^{-1}.
+k_{\mathrm{exp}}^{\mathrm{off-axis}} = 2\pi \times 1.20 \times 10^5 = 7.53 \times 10^5~\mathrm{rad/m}
 \end{equation}
-
-The spatial frequency of the carrier at the sensor plane is
-\begin{equation}
-f_{\mathrm{exp}}^{\mathrm{off-axis}} = 845.8 \times 141.5 = 1.20 \times 10^5~\mathrm{cycles/m},
-\end{equation}
-corresponding to a wavevector of
-\begin{equation}
-k_{\mathrm{exp}}^{\mathrm{off-axis}} = 2\pi f_{\mathrm{exp}}^{\mathrm{off-axis}} = 2\pi \times 1.20 \times 10^5 = 7.53 \times 10^5~\mathrm{rad/m}.
-\end{equation}
-
-This excellent agreement confirms that the grating-based off-axis configuration is correctly implemented and that the optical system operates as designed.
-
-
-\newpage
+である。格子から計算した $7.54 \times 10^5$ rad/m と一致し、格子による off-axis 配置が設計どおりに実装されていることが確かめられた。位相ノイズの実測は \ref{sec:performance} 節で述べる。
 
 \section{マイクロ流路デバイス}
 \subsection{mother machineの原理}

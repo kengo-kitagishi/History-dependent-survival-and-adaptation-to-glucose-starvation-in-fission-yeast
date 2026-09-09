@@ -38,3 +38,29 @@ Evidence の数値は ~/QPI_Omni の実コード・解析出力で裏を取る�
 - Evidence: λ = 658 nm、NA 0.95、40×、カメラ画素 3.45 µm。Δp = 3.45/40 = 86.25 nm。FOV = 2048 × 86.25 nm = 176.64 µm。Abbe 692 nm。Nyquist 346 nm。余裕 346/86.25 = 4.0。(NA/λ)·FOV = 255.0 → D_ap = 2·round(255.0) + 1 = 511。Δp_recon = 176.64 µm / 511 = 346 nm。
 - Implication: 位相像は 511×511 画素、画素 0.346 µm。論文の値と一致する。
 - Bridge: k^off をどの範囲に置くかが光学系の設計条件になる → 2.5。
+
+## 2.5 光学系
+
+**P1 設計条件**
+- Topic: off-axis DH の設計条件は2つ。
+- Evidence: (i) 干渉項と非干渉項が重ならない: 干渉項の半径 2πNA/λM、非干渉項はその2倍 → k^off ≥ 3·2πNA/λM。(ii) 干渉項が Nyquist を超えない、対角方向が最も厳しい → k^off/√2 + 2πNA/λM ≤ πf_pitch。合わせて 2π·3NA/λM ≤ k^off ≤ √2π(f_pitch − 2NA/λM)。NA 0.95、M 40、λ 658 nm、画素 3.45 µm（f_pitch = 2.90×10⁵ m⁻¹）で 6.80×10⁵ ≤ k^off ≤ 9.68×10⁵ rad/m。
+- Implication: k^off の許容範囲は NA・倍率・画素ピッチだけで決まる。
+- Bridge: 実際の k^off は格子で決まる。
+
+**P2 構成**
+- Topic: common-path off-axis DH（diffraction phase microscopy）を Ti-E の出力ポートに組んだ。
+- Evidence: 658 nm・20 mW LD（LP660-SF20）→ コリメータ（CFC2-B, f = 2 mm）→ 試料 → 40×/0.95 乾燥系（CFI Plan Apochromat Lambda D, MRD70470）→ 像面の Ronchi 格子 120 lines/mm（#66-342）→ 4f リレー 2×ACT508-200-A（f = 200 mm）→ Fourier 面の 25 µm ピンホール（P25K）で 0 次を参照光、1 次はそのまま物体光、他の次数は遮る → CMOS acA2440-75um（2448×2048、3.45 µm、FWC ≈ 10 ke⁻）。生ホログラム 2048×2048、位相像 511×511・0.346 µm。図 fig:qpi_optical_system。
+- Implication: 2光が同じ光路を通るので振動と光学系のずれに強い（2.1.2 の条件 (2)）。
+- Bridge: 格子の周期が k^off を決める。
+
+**P3 格子から決まる k^off**
+- Topic: k^off = 2π/8.33 µm = 7.54×10⁵ rad/m。
+- Evidence: 格子 120 lines/mm、4f リレーの倍率 1 なのでセンサ面でも周期 8.33 µm。
+- Implication: P1 の範囲に入る。
+- Bridge: 実測で確かめる。
+
+**P4 off-axis 配置の検証**
+- Topic: 実測のキャリア周波数が格子からの計算と一致する。
+- Evidence: 2048² ホログラムの FT で DC (1024, 1024)、+1 次の中心 (1623, 1621)、ずれ (599, 597) 画素、大きさ 845.8 画素。Δf_sensor = 1/(2048 × 3.45 µm) = 141.5 m⁻¹。f = 845.8 × 141.5 = 1.20×10⁵ cycles/m → k_exp = 7.53×10⁵ rad/m。
+- Implication: 格子による off-axis 配置は設計どおり。
+- Bridge: 位相ノイズの実測は 2.9。
