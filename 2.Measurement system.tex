@@ -97,6 +97,7 @@ U(x,y,d) = \mathcal{F}^{-1}\left\{\tilde{U}(f_x, f_y, 0) \cdot e^{i k_z d}\right
 \end{equation}
 
 \subsection{対物レンズによる帯域制限}
+\label{sec:bandlimit}
 
 An objective lens with numerical aperture NA acts as a spatial frequency filter, passing only components with $\sqrt{f_x^2 + f_y^2} \leq \mathrm{NA}/\lambda$. The transmitted field spectrum is
 \begin{equation}
@@ -215,69 +216,68 @@ I_{m,n}^{\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-
 where $J_{m,n}^{\mathrm{non-int}} = |U_{s,m,n}|^2 + |U_{r,m,n}|^2$ and $J_{m,n}^{\mathrm{int}} = U_{s,m,n} \cdot U_{r,m,n}^*$.
 
 \section{位相像の再構成}
+\label{sec:reconstruction}
+% 2026-09-09 に plot/2 の 2.4（P1〜P5）と paragraph/2 の T/E/I/B から日本語で書いた。英語の旧本文は git の ebf768f 以前にある。
+% 図は figure-hub fig_qpi_reconstruction_overview v003（figure/qpi_fig_01_panel.pdf）。論文 Figure 1C（8/10 確定）に差し替えるなら figure-hub から取る。
+% 円窓の半径は旧本文の (2πNA/λ)·N·Δp から 2π を外した。D_ap = 2⌊(NA/λ)·FOV⌋+1 = 511 と整合するのはこちら。
 
-The image-reconstruction procedure comprises (1) 2D discrete FT, (2) sideband centering, (3) low-pass (LP) filtering, and (4) 2D discrete inverse FT (IFT), followed by background subtraction. The 2D FT of the hologram is written as
+ホログラム1枚から位相像を得る手順は5段階である（図~\ref{fig:reconstruction}）\cite{takeda1982fourier}。第1に、ホログラム $I^{\mathrm{DH}}_{m,n}$ を2次元離散 Fourier 変換する。式~\eqref{eq:hologram_DH} より、そのスペクトルは
 \begin{equation}
-i_{p,q}^{\mathrm{DH}} = j_{p,q}^{\mathrm{non-int}} + j_{p+k_m^{\mathrm{off-axis}}, q+k_n^{\mathrm{off-axis}}}^{\mathrm{int}} + j_{p-k_m^{\mathrm{off-axis}}, q-k_n^{\mathrm{off-axis}}}^{\mathrm{int}*},
+i_{p,q}^{\mathrm{DH}} = j_{p,q}^{\mathrm{non-int}} + j_{p+k_m^{\mathrm{off-axis}},\, q+k_n^{\mathrm{off-axis}}}^{\mathrm{int}} + j_{p-k_m^{\mathrm{off-axis}},\, q-k_n^{\mathrm{off-axis}}}^{\mathrm{int}*}
 \end{equation}
-where $(p,q)$ is the reciprocal coordinate of $(m,n)$. The three components are spatially separated in the Fourier space due to the off-axis wavevector.
-
-The interferometric term is extracted by first identifying the +1st-order sideband peak position $(p_{\mathrm{off}}, q_{\mathrm{off}})$ and then shifting the spatial frequency to center the sideband:
+の3成分からなる。$(p,q)$ は $(m,n)$ に共役な座標である。干渉項は off-axis の波数の分だけ原点から離れているので、3成分は Fourier 空間で分離している。第2に、$+1$ 次のサイドバンドの中心 $(p_{\mathrm{off}}, q_{\mathrm{off}})$ を求め、ホログラムに位相因子を掛けてサイドバンドを原点へ移す:
 \begin{equation}
 I_{m,n}^{(c)} = I_{m,n}^{\mathrm{DH}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}.
 \end{equation}
-A circular LP filter $H_{p,q}$ with radius
+第3に、原点を中心とする半径
 \begin{equation}
-r_{\mathrm{aperture}} = \frac{2\pi \mathrm{NA}}{\lambda} \cdot N \cdot \Delta p
+r_{\mathrm{aperture}} = \frac{\mathrm{NA}}{\lambda} \cdot N \cdot \Delta p
 \end{equation}
-(in discrete Fourier coordinates, pixel units) is applied in the Fourier domain, where $N$ is the hologram size and $\Delta p$ is the pixel pitch at the object plane. This corresponds to the spatial frequency cutoff determined by the NA of the objective lens. After LP filtering, 2D discrete IFT is performed to obtain the phase:
+の円窓 $H_{p,q}$ で干渉項だけを切り出す。半径は離散 Fourier 座標の画素単位で、$N$ はホログラムの一辺の画素数、$\Delta p$ は物体面での画素ピッチである。この半径は、対物レンズの NA で決まる空間周波数のカットオフ（\ref{sec:bandlimit} 節）に対応する。第4に、切り出した成分を2次元逆 Fourier 変換して複素場を得て、その偏角を位相とする:
 \begin{equation}
 \phi_{m,n}^{\mathrm{meas}} = \arg[\mathrm{LP}(I_{m,n}^{(c)})].
 \end{equation}
+第5に、$\arg$ は $(-\pi, \pi]$ に折り返されているので、画素を信頼度の順に並べて $2\pi$ の飛びをつなぐ方法\cite{herraez2002fast}で unwrap する。円窓の半径は対物レンズの NA で決まるので、位相像の分解能は光学系で決まり、この処理で変わることはない。
 
-The OPD is obtained after removing the complex amplitude distribution of the illumination light without the sample (background):
+この位相には、細胞による位相遅れのほかに、照明光の波面と流路の位相が乗っている。これを除くために、同じ視野で細胞の無い状態を撮った位相像（参照像）を引く。複素場の比の偏角をとれば位相の差になる:
 \begin{equation}
-\phi_{m,n} = \arg\left[\frac{\mathrm{LP}(I_{m,n}^{\mathrm{sample}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}{\mathrm{LP}(I_{m,n}^{\mathrm{bg}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}\right].
+\phi_{m,n} = \arg\left[\frac{\mathrm{LP}(I_{m,n}^{\mathrm{sample}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}{\mathrm{LP}(I_{m,n}^{\mathrm{ref}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}\right].
 \end{equation}
-The final OPD image is obtained by subtracting the mean value of the background region to remove the offset. The conversion from phase to OPD is performed as
-\begin{equation}
-\mathrm{OPD}(x,y) = \frac{\phi(x,y) \lambda}{2\pi}.
-\end{equation}
-\begin{figure}
+照明光の波面と流路の位相は試料の像と参照像に共通なので、この差で消える。残るオフセットは細胞の無い領域の平均で除く。位相を光路長差に直すなら $\mathrm{OPD} = \phi\lambda/2\pi$ であるが、以降では位相 $\phi$（rad）のまま扱う。mother machine では細胞のそばに培地だけの領域が残らないので、参照像をどう取るかが問題になる。参照像の取得は \ref{sec:grid_acq} 節で、各フレームにどの参照像を対応させるかは \ref{sec:bgsub} 節で述べる。
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{example-image}
-    \caption{Reconstruction procedure of off-axis DH}
+    \includegraphics[width=0.95\linewidth]{figure/qpi_fig_01_panel.pdf}
+    \caption{ホログラムから位相像までの再構成。左から、生のホログラム、その Fourier スペクトル、$+1$ 次サイドバンドを円窓で切り出したもの、逆 Fourier 変換して得た位相像。}
     \label{fig:reconstruction}
 \end{figure}
 
 \subsection{空間分解能とFourier面のパラメータ}
 
-The spatial resolution in off-axis DH is determined by the NA of the objective lens and the discrete sampling in the Fourier domain. For coherent illumination, the spatial frequency cutoff imposed by the NA is
+位相像の画素数と画素サイズは、対物レンズの NA と視野で決まる。コヒーレント照明での空間周波数のカットオフは
 \begin{equation}
-f_{\mathrm{cutoff}} = \frac{\mathrm{NA}}{\lambda},
+f_{\mathrm{cutoff}} = \frac{\mathrm{NA}}{\lambda}
 \end{equation}
-which corresponds to the Abbe diffraction limit given in \eqref{eq:abbe}.
+で、Abbe の分解限界（式~\eqref{eq:abbe}）に対応する。ホログラムが $N \times N$ 画素、物体面での画素ピッチが $\Delta p$ なら、視野は $\mathrm{FOV} = N \cdot \Delta p$ である。円窓の直径は画素単位で
+\begin{equation}
+D_{\mathrm{ap}} = 2 \left\lfloor \frac{\mathrm{NA}}{\lambda} \cdot \mathrm{FOV} \right\rfloor + 1
+\end{equation}
+となり（$\lfloor \cdot \rfloor$ は床関数）、これがそのまま位相像の一辺の画素数になる。位相像の画素サイズは
+\begin{equation}
+\Delta p_{\mathrm{recon}} = \frac{\mathrm{FOV}}{D_{\mathrm{ap}}} \approx \frac{\lambda}{2\mathrm{NA}}
+\end{equation}
+で、分解能要素 $\lambda/\mathrm{NA}$ の半分である。すなわち位相像は、Nyquist の条件をちょうど満たす画素で組まれる。
 
-The aperture diameter in pixels is determined by the field of view (FOV) and the spatial frequency cutoff. For a hologram with $N \times N$ pixels and object-plane pixel pitch $\Delta p$, the FOV is $\mathrm{FOV} = N \cdot \Delta p$. The aperture diameter in pixels is
+サンプリングの条件は2段階ある。第1に、生のホログラムが折り返しを起こさないために
 \begin{equation}
-D_{\mathrm{ap}} = 2 \left\lfloor \frac{\mathrm{NA}}{\lambda} \cdot \mathrm{FOV} \right\rfloor + 1,
+\Delta p < \frac{\lambda}{2 \cdot \mathrm{NA}}
 \end{equation}
-where $\lfloor \cdot \rfloor$ denotes the floor function. This aperture size $D_{\mathrm{ap}}$ directly determines the size of the reconstructed OPD image. The reconstructed pixel size is
-\begin{equation}
-\Delta p_{\mathrm{recon}} = \frac{\mathrm{FOV}}{D_{\mathrm{ap}}} \approx \frac{\lambda}{2\mathrm{NA}}.
-\end{equation}
+が要る。干渉縞を写すので、実際には 2--4 倍の余裕をとる。第2に、位相像では1分解能要素 $\lambda/\mathrm{NA}$ がおよそ2画素に対応する。生のホログラムの側の余裕は、干渉項が Nyquist を超えないという光学系の設計条件（\ref{sec:optics} 節の第2条件）と同じ要求である。
 
-Two stages of sampling must be considered in the system design. First, the raw hologram must satisfy the Nyquist sampling criterion to avoid aliasing:
+我々の系はこの条件を満たす。$\lambda = 658$ nm、NA $= 0.95$、倍率 $40\times$、カメラの画素 3.45 μm から、物体面の画素ピッチは $\Delta p = 3.45~\mu\mathrm{m}/40 = 86.25$ nm、視野は $2048 \times 86.25$ nm $= 176.6$ μm である。Abbe の分解限界は $658/0.95 = 692$ nm、Nyquist の条件は $\Delta p_{\mathrm{Nyquist}} = 658/(2 \times 0.95) = 346$ nm で、生のホログラムの余裕は $346/86.25 = 4.0$ 倍になる。円窓の直径は
 \begin{equation}
-\Delta p < \frac{\lambda}{2 \cdot \mathrm{NA}}.
+D_{\mathrm{ap}} = 2\left\lfloor \frac{0.95}{658 \times 10^{-9}} \times 176.6 \times 10^{-6} \right\rfloor + 1 = 511
 \end{equation}
-An oversampling factor of 2--4$\times$ is typical for robust hologram acquisition. Second, after Fourier filtering, the reconstructed OPD image pixel size is designed to match the Nyquist requirement, where one resolution element ($\lambda/\mathrm{NA}$) spans approximately two pixels.
-
-For our system with $\lambda = 658$ nm, NA = 0.95, 40$\times$ magnification, and camera pixel size of 3.45 μm, the key parameters are calculated as follows. The object-plane pixel pitch is $\Delta p = 3.45~\mu\mathrm{m}/40 = 86.25$ nm, yielding a FOV of $2048 \times 86.25$ nm = 176.6 μm. The Abbe limit for coherent illumination is $\Delta x_{\mathrm{Abbe}} = 658/0.95 = 692$ nm, and the Nyquist requirement is $\Delta p_{\mathrm{Nyquist}} = 658/(2 \times 0.95) = 346$ nm. The raw hologram sampling achieves an oversampling factor of $346/86.25 = 4.0\times$, ensuring aliasing-free acquisition. The aperture diameter is
-\begin{equation}
-D_{\mathrm{ap}} = 2\left\lfloor \frac{0.95}{658 \times 10^{-9}} \times 176.6 \times 10^{-6} \right\rfloor + 1 = 511~\mathrm{pixels},
-\end{equation}
-and the reconstructed pixel size is $\Delta p_{\mathrm{recon}} = 176.6~\mu\mathrm{m}/511 = 346$ nm, which closely matches the Nyquist requirement.
+画素で、位相像の画素サイズは $\Delta p_{\mathrm{recon}} = 176.6~\mu\mathrm{m}/511 = 346$ nm である。したがって位相像は $511 \times 511$ 画素、画素サイズ 0.346 μm となる。off-axis の波数 $k^{\mathrm{off-axis}}$ をどの範囲に置くかは、次節で光学系の設計条件として述べる。
 
 \section{光学系}
 \label{sec:optics}
