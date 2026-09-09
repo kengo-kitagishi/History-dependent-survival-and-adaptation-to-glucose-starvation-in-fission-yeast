@@ -340,59 +340,61 @@ C = \frac{1}{\alpha}\left(n_{\mathrm{medium}} - n_{\mathrm{water}} + \frac{\lamb
 % 確定: 3C（ドリフト）、3D（注入回収 MAE 3.8 nm）、Figure 2（ver2 未決）。未測定: 3A（本番条件）、3B（32 bit 対応表）、3E–G（BSA 9/13）、3H。
 
 \subsection{位相ノイズ}
-% 理論（英語のまま。導出を全部載せるか結果の式だけにするかは plot の決めること）→ 測り方 → 実測 12.00 mrad と shot-noise 限界 6.68 mrad（別条件の値。本番条件で測り直す）。図 3A。
+% 導出は本文に全部載せる（本人 9/9）。理論 → 測り方 → 実測。実測値は別条件のもので、本番条件で測り直す。図 3A。
 
-
-To discuss the OPD precision of off-axis DH, determined by the temporal OPD noise, we first add the noise term $z_{m,n}^{\mathrm{DH}}$ to \eqref{eq:hologram_DH}, such that
+オフアクシス DH で得る位相の精度は、時間方向の位相ノイズで決まる。これを見積もるために、式~\eqref{eq:hologram_DH} のホログラムにノイズ項 $z_{m,n}^{\mathrm{DH}}$ を加える:
 \begin{equation}
 I_{m,n}^{'\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + (J_{m,n}^{\mathrm{int}})^* e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + z_{m,n}^{\mathrm{DH}}.
 \end{equation}
-The OPD image containing noise is represented by
+このホログラムを \ref{sec:reconstruction} 節の手順で再構成すると、ノイズを含む位相像は
 \begin{align}
 \phi'_{m,n} &= \arg\left[\mathrm{LP}\left(\frac{I_{m,n}^{'\mathrm{DH}} e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}}{|J_{m,n}^{\mathrm{int}}|}\right)\right] \nonumber \\
 &= \arg\left[e^{i\phi_{m,n}}\left(1 + \frac{\mathrm{LP}(z_{m,n}^{\mathrm{DH}} e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}{|J_{m,n}^{\mathrm{int}}| e^{i\phi_{m,n}}}\right)\right] \nonumber \\
 &= \phi_{m,n} + \frac{z_{m,n}^{\mathrm{DH}} \sin(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n}) \ast H_{m,n}}{|J_{m,n}^{\mathrm{int}}|},
 \end{align}
-where $H_{m,n}$ denotes the IFT of the pupil function $h_{k,l}$ for LP filtering, and $\ast$ represents convolution. The temporal OPD standard deviation at each spatial pixel $\sigma_{\phi'}^{\mathrm{DH}}$ can be obtained by calculating the square root of the variance of $\phi'_{m,n}$ as
+になる。$H_{m,n}$ は低域通過（LP）フィルタに使う瞳関数 $h_{k,l}$ の逆 Fourier 変換、$\ast$ は畳み込みである。各画素での位相の時間方向の標準偏差 $\sigma_{\phi'}^{\mathrm{DH}}$ は、$\phi'_{m,n}$ の分散の平方根として
 \begin{align}
 \sigma_{\phi'}^{\mathrm{DH}} &= \sqrt{\mathrm{Var}(\phi'_{m,n})} = \frac{1}{|J_{m,n}^{\mathrm{int}}|} \sqrt{[\mathrm{Var}(z_{m,n}^{\mathrm{DH}}) \sin^2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})] \ast H_{m,n}^2} \nonumber \\
 &= \frac{1}{|J_{m,n}^{\mathrm{int}}|} \sqrt{\left[\mathrm{Var}(z_{m,n}^{\mathrm{DH}}) \frac{1 - \cos 2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})}{2}\right] \ast H_{m,n}^2}. \label{eq:sigma_phi_DH}
 \end{align}
+と書ける。
 
-In the case of optical shot-noise-limited detection, $\mathrm{Var}(z_{m,n}^{\mathrm{DH,shot}})$ is given by
+検出が光のショットノイズで制限されるとき、ノイズの分散は強度の平均に等しく、
 \begin{equation}
 \label{eq:var_shot}
 \mathrm{Var}(z_{m,n}^{\mathrm{DH,shot}}) = \mathrm{Mean}(I_{m,n}^{\mathrm{DH}}) = J_{m,n}^{\mathrm{non-int}} + 2|J_{m,n}^{\mathrm{int}}| \cos(\phi_{m,n} - k_m^{\mathrm{off-axis}}m - k_n^{\mathrm{off-axis}}n).
 \end{equation}
-All terms outside the LP bandwidth, such as $\cos 2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})$ in \eqref{eq:sigma_phi_DH} and $\cos(\phi_{m,n} - k_m^{\mathrm{off-axis}}m - k_n^{\mathrm{off-axis}}n)$ in \eqref{eq:var_shot}, are removed by the LP-filtering operation $\ast H_{m,n}$. Because $h_{k,l}$ is unity within its passband and zero elsewhere, $H_{m,n}^2$ can be approximated by the delta function $\delta_{m,n}$, and the summation of its amplitude over the entire pixel range is expressed as
+である。式~\eqref{eq:sigma_phi_DH} の $\cos 2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})$ や式~\eqref{eq:var_shot} の $\cos(\phi_{m,n} - k_m^{\mathrm{off-axis}}m - k_n^{\mathrm{off-axis}}n)$ のように LP の帯域の外にある項は、畳み込み $\ast H_{m,n}$ で落ちる。$h_{k,l}$ は通過帯域で 1、その外で 0 なので、$H_{m,n}^2$ はデルタ関数 $\delta_{m,n}$ で近似でき、その振幅の全画素にわたる和は
 \begin{equation}
 \label{eq:H_sum}
 \sum_{m,n} H_{m,n}^2 = \sum_{k,l} h_{k,l}^2 \cdot \frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}},
 \end{equation}
-where $A_{\mathrm{sensor}}$ is the total number of sensor pixels and $A_{\mathrm{aperture}}$ is the number of pixels inside the LP bandwidth. By substituting \eqref{eq:H_sum} into \eqref{eq:sigma_phi_DH}, we obtain the optical shot-noise-limited OPD precision as
+である。$A_{\mathrm{sensor}}$ はセンサの全画素数、$A_{\mathrm{aperture}}$ は LP の帯域内の画素数である。式~\eqref{eq:H_sum} を式~\eqref{eq:sigma_phi_DH} に代入すると、ショットノイズで制限された位相の精度
 \begin{equation}
 \label{eq:sigma_shot}
 \sigma_{\phi'}^{\mathrm{DH,shot}} = \frac{\sqrt{|J_{m,n}^{\mathrm{non-int}}| \ast H_{m,n}^2}}{\sqrt{2}|J_{m,n}^{\mathrm{int}}|} = \sqrt{\frac{|J_{m,n}^{\mathrm{non-int}}|}{2|J_{m,n}^{\mathrm{int}}|^2}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}}.
 \end{equation}
-
-Equation~\eqref{eq:sigma_shot} can be extended to obtain the OPD precision including both the optical shot noise and the sensor's read-out noise as
+を得る。センサの読み出しノイズの分散 $\mathrm{Var}(z_{m,n}^{\mathrm{sensor}})$ を含めるなら
 \begin{equation}
 \sigma_{\phi'}^{\mathrm{DH,shot+sensor}} = \sqrt{\frac{|J_{m,n}^{\mathrm{non-int}}| + \mathrm{Var}(z_{m,n}^{\mathrm{sensor}})}{2|J_{m,n}^{\mathrm{int}}|^2}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}},
 \end{equation}
-where $\mathrm{Var}(z_{m,n}^{\mathrm{sensor}})$ is the variance of the sensor read-out noise.
+である。
 
-Using the visibility $V = 2|J_{m,n}^{\mathrm{int}}|/J_{m,n}^{\mathrm{non-int}}$ and noting that $J_{m,n}^{\mathrm{non-int}} = |U_{s,m,n}|^2 + |U_{r,m,n}|^2$ is the mean intensity (in units of electrons), the shot-noise-limited phase sensitivity can be written as
+干渉縞の visibility を $V = 2|J_{m,n}^{\mathrm{int}}|/J_{m,n}^{\mathrm{non-int}}$ とおき、$J_{m,n}^{\mathrm{non-int}} = |U_{s,m,n}|^2 + |U_{r,m,n}|^2$ が電子数を単位とした平均強度であることに注意すると、式~\eqref{eq:sigma_shot} は
 \begin{equation}
+\label{eq:sigma_visibility}
 \sigma_{\phi}^{\mathrm{shot}} = \frac{1}{V} \sqrt{\frac{2}{J_{m,n}^{\mathrm{non-int}}}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}} = \frac{1}{V\sqrt{N_e}} \sqrt{\frac{2A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}},
 \end{equation}
-where $N_e = J_{m,n}^{\mathrm{non-int}}$ is the total number of electrons.
-
-In common-path off-axis holography with background subtraction, the noise propagates from both sample and background measurements. Since the measurements are independent, the variance becomes $\mathrm{Var}[\Delta I] = 2\sigma_I^2$, yielding
+と書き直せる。$N_e = J_{m,n}^{\mathrm{non-int}}$ は1画素に入る電子数である。背景差分（\ref{sec:reconstruction} 節）では試料の像と参照像という独立な2つの計測からノイズが伝わるので、差の分散は2倍になり、
 \begin{equation}
+\label{eq:sigma_bgsub}
 \sigma_{\phi}^{\mathrm{bg\ sub}} = \sqrt{2} \times \sigma_{\phi}^{\mathrm{shot}} = \frac{\sqrt{2}}{V\sqrt{N_e}} \sqrt{\frac{2A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}} = \frac{2}{V\sqrt{N_e}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}}.
 \end{equation}
+になる。位相ノイズは visibility に反比例し、電子数の平方根に反比例する。電子数の上限はセンサの full-well 容量（\ref{sec:optics} 節）で決まるので、露光を固定したとき位相ノイズを決めるのは visibility である。
 
-The phase sensitivity exhibits a quadratic dependence on visibility ($\sigma_{\phi} \propto V^{-1}$) and a square-root dependence on the number of electrons ($\sigma_{\phi} \propto N_e^{-1/2}$), making visibility optimization critical for achieving high sensitivity.
+実測では、細胞の無い領域で連続する2フレームの位相像の差をとり、その空間標準偏差を $\sqrt{2}$ で割った値を時間方向の位相ノイズとし、フレーム対で平均した。差をとるのはフレーム間で共通の背景を消して時間変動だけを残すためで、$\sqrt{2}$ で割るのは独立な2フレームの差の分散が2倍になるためである。ショットノイズ限界は、同じホログラムの縞の visibility と強度から式~\eqref{eq:sigma_visibility} で計算した。強度はカメラの変換ゲインで電子数に換算し、読み出しノイズは含めていない。
+
+\mynote{以下の値は露光 200 ms・間隔 1 s の別データによる。本番条件（露光 60 ms、5 分間隔）で測り直して差し替える。図は論文 Figure 3A に対応し、修論の図は未作成}実測の位相ノイズは 12.00 mrad、ショットノイズ限界は 6.68 mrad で、比は 1.80 であった。$\lambda = 658$ nm では 1 mrad が光路長 0.105 nm に対応する。ショットノイズを超える分は読み出しノイズと機械的な揺らぎによるもので、\ref{sec:discussion} 節で扱う。
 
 \subsection{位置合わせの精度と長期のドリフト}
 % 既知シフトの回収（3D、確定）: ±0.69 µm を 2200 回 × 2 軸、MAE 3.8 nm、バイアス X −0.3 / Y −1.9 nm。
@@ -406,6 +408,7 @@ The phase sensitivity exhibits a quadratic dependence on visibility ($\sigma_{\p
 % BSA 系列の直線性（3E–G、9/13 撮影のあと）。誤差を式 eq:drymass に伝播した測定床と周期平均密度の分布 CV 5.9%（3H、未作成）。
 
 \section{考察}
+\label{sec:discussion}
 % 他の QPI 系・他の密度計測法との比較と、この系の限界。論文 qpi-methods/sentence/40_discussion.tex から。
 
 \section{まとめ}
