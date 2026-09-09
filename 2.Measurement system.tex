@@ -334,46 +334,41 @@ k_{\mathrm{exp}}^{\mathrm{off-axis}} = 2\pi \times 1.20 \times 10^5 = 7.53 \time
 である。格子から計算した $7.54 \times 10^5$ rad/m と一致し、格子による off-axis 配置が設計どおりに実装されていることが確かめられた。位相ノイズの実測は \ref{sec:performance} 節で述べる。
 
 \section{マイクロ流路デバイス}
+\label{sec:device}
+
 \subsection{mother machineの原理}
-シングルセルレベルで発現状態の時間変化を長期的に取得するため,mother machineと呼ばれるPolydimethylsiloxane(PDMS)製マイクロ流体デバイスを用いて計測を行った.mother machineは,制御された増殖条件下で個々の細菌細胞を長期間にわたって観察・分析するために設計された特殊なマイクロ流体デバイスである\cite{wang2010robust}.2010年にWangらによって大腸菌の一細胞解析のために初めて開発されたこの装置は,単一細胞の動態,細菌の老化,遺伝子発現,およびその他のさまざまな細胞プロセスを,これまでにない時間的・空間的解像度で研究するための非常に貴重なツールとなっている.
-この基本設計は,数百から数千の細長い増殖チャネルが,増殖培地が連続的に流れる大きな主溝に対して垂直に配置されている.各増殖チャネルは通常,細菌細胞の1列分が収まるだけの幅しかなく,一端が閉じられている.チャネルは,ソフトリソグラフィ技術を用いて,透明でガス透過性のポリマーであるポリジメチルシロキサン（PDMS）で製造される.その後,PDMSチップはガラスカバースリップに接着され,顕微鏡観察に適した透明度を維持しながら密閉された流路が形成される(図1).
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=100mm]{example-image}
-\caption{\textnormal{\textbf{マザーマシンの構造の概略図} 培地は矢印に沿って流れ,メイン流路に流れる.穴は中央チャネルの入口と出口に穴を開け,新鮮培地（入口）と廃液（出口）用のチューブを接続する.}}
+細胞を同じ視野に数日とどめ、増える子孫を除きながら培地を一定に保つために、mother machine と呼ばれる PDMS 製のマイクロ流路デバイスを用いた\cite{wang2010robust}。基本構造は、培地が流れる1本の主流路と、それに垂直に並ぶ多数の細い行き止まりの観察チャネルからなる（図~\ref{fig:mm_schematic}）。観察チャネルの幅は細胞1個分で、細胞は1列に並ぶ。閉端にある細胞は分裂しても同じ場所にとどまり、娘細胞は分裂のたびに主流路側へ押し出され、流れで洗い出される。閉端の細胞を母細胞と呼ぶ。培地は主流路から観察チャネルへ拡散で届き、その時間は秒の桁で、栄養の取り込みの時間（分の桁）より十分短い\cite{wang2010robust}。主流路の培地を切り替えれば、細胞の環境を任意の時刻に変えられる。もとは大腸菌のために作られたが、分裂酵母でも同じ構造で老化と寿命の計測に使われている\cite{nakaoka2017aging}。
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=55mm]{figure/MotherMachine_schematic_2D_cellLoaded.pdf}
+    \caption{mother machine の構造。培地は主流路を矢印の向きに流れる。観察チャネルは主流路に垂直な行き止まりで、細胞が1列に入る。閉端の母細胞はとどまり、娘細胞は主流路へ押し出されて流される。}
+    \label{fig:mm_schematic}
 \end{figure}
-
-「マザー・マシン」という名称は,何百世代にもわたって同じ「母細胞」を追跡できる能力に由来する.細胞がこれらの流路で成長し分裂すると,各流路の行き止まりにある細胞はそのまま捕捉された状態が維持されるが,その娘細胞は徐々に主溝に向かって押し出され,最終的には主溝を勢いよく流れる培地によって洗い流される(図2).この閉じ込められた細胞は,その極の1つが常に流路の末端に接しており,世代から世代へと受け継がれるため,「母細胞」と呼ばれる.この設計により,定常状態の増殖条件を維持しながら,何百もの細胞分裂にわたって同じ母細胞を追跡することが可能になる.
-主溝を流れる新鮮な培地の連続的な流れは,成長チャネルへの拡散により,すべての細胞に栄養素を一定に供給する.研究により,栄養素の拡散は数秒単位の時間スケールで起こり,一般的な栄養素の取り込み時間である数分よりもはるかに速いことが示されており,均一な栄養条件が確保されることが分かっている\cite{wang2010robust} \cite{taheri2015cell}.また,主溝を流れる培地により,成長チャネルから出てきた娘細胞が除去されることで過密状態が回避され,均一な成長条件が維持される.さらに,マザーマシンの重要な利点の一つは培地条件の切り替えが容易なことで,培養条件を素早く変化させることができるため,研究者は環境変化に対する細胞の反応を研究することができる.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=100mm]{example-image}
-\caption{\textnormal{\textbf{マザーマシンの観察チャネルの概略図} ”母細胞”は成長チャネルの端に捕捉されており, 中央のフローセルに垂直に並んだ成長チャネルは, 新鮮な培地を供給し, 娘細胞をかき出す.}}
-\end{figure}
-
-mother machineは細胞は固定された焦点面に留まり,高開口数対物レンズを使用して簡単に画像化できるため,この装置は蛍光顕微鏡にも適している.また,成長チャネル間の間隔は,チャネル間の蛍光の漏れを最小限に抑えつつ,同時に観察できる細胞の数を最大限に増やすように最適化することができる.典型的な実験では,一定の間隔（通常は数分ごと）で10～12の視野を撮影し,各視野には約100個の細胞が含まれる.その結果,長期間にわたって数千もの細胞系統を観察することができる.こうした利点を活かして,mother machineは老化\cite{wang2010robust}\cite{nakaoka2017aging},飢餓適応\cite{bakshi2021tracking},抗生物質耐性\cite{kaplan2021observation},細胞分化\cite{russell2017noise},細胞壁の成長メカニズム\cite{amir2014bending}など,さまざまな研究分野で活用されている.
 
 \subsection{デバイスの構成}
-本研究で使用したmother machineでは,幅180~$\mu$\text{m}の太い1本の流路に沿って垂直に,幅約6.3~$\mu$\text{m},長さ約40~$\mu$\text{m}の観察用チャンバーが多数配列している.流路の両端にはそれぞれシリンジと廃液に繋がるチューブが接続されており,シリンジポンプにより一定速度で送り出される培地が流路内を一方向に流れることでデバイス中の培養環境がおよそ定常に保たれる.導入された細胞はこのチャンバー内に入り込み,ほぼ一列に限定された状態で増殖するマザーマシンは,メインフロートレンチに沿って多数の流路が並ぶように設計されており,メインフロートレンチ内を流れる培地を変化させることで,細胞の環境条件を精密に制御することが可能である.
 
-\subsection{作製}
-The microfluidic device consisted of observation chambers and flow channels. Photomasks were developed on mask blanks (Clean Surface Technology) using a maskless lithography system (μmLA, Heidelberg Instruments). Devices were fabricated from polydimethylsiloxane (PDMS) using molds prepared on silicon wafers (University Wafers) as follows (Figure 3):
-An appendix-grade, stepwise fabrication protocol with acceptance criteria and troubleshooting is provided in Appendix C.
-Observation channel layer: SU-8 2 (MicroChem) and SU-8 3005 (MicroChem) were mixed at the appropriate ratio, and 1 mL was dispensed onto a silicon wafer and spin-coated at 3,000 rpm for 30 s (Mikasa MS-A150). The wafer was soft-baked at 65°C for 1 min and 95°C for 2 min. The observation channel mask was aligned, and the wafer was exposed to UV light using a mask aligner (Mikasa MA-20) with three exposures of 5.0 s each. Post-exposure baking was performed at 65°C for 1 min and 95°C for 3 min, followed by development in SU-8 developer (MicroChem), rinsing with isopropanol, and drying.
-Drain layer: SU-8 3010 (MicroChem) was dispensed onto the wafer with the completed observation channel layer and spin-coated at 1,500 rpm for 30 s. After soft-baking at 65°C for 1 min and 95°C for 8 min, the drain channel mask was aligned to the observation channel alignment marks and exposed to UV light for 30 s. Post-exposure baking was performed at 65°C for 3 min and 95°C for 10 min, followed by development, rinsing, and drying as described above.
-PDMS device assembly: SYLGARD 184 (Dow Silicones Corporation) base and curing agent were mixed at a 10:1 ratio, degassed under vacuum for 1 h, and poured onto the silicon wafer mold. After curing at 65°C for at least 12 h, PDMS blocks were cut to size, and inlet/outlet ports were punched using a 0.5-mm biopsy punch (BP-A05F). Blocks were sonicated in ethanol and dried at 65°C.
-Cover glass preparation: Cover glasses (Matsunami NEO No.1, 0.13–0.17 mm) were sonicated sequentially in diluted Contaminon LS-II (Wako), ultrapure water, ethanol, and ultrapure water. Cover glasses were then treated with 0.1 M sodium hydroxide, rinsed with ultrapure water, and dried at 140°C.
-Bonding: PDMS blocks and cleaned cover glasses were treated with a plasma etcher (FA-1, SAMCO) for 10 s and immediately bonded, taking care to avoid air bubbles and debris.
-Epoxy replica fabrication: A PDMS negative mold was first generated from the original silicon wafer master by casting SYLGARD 184 (10:1 ratio, degassed for 1 h) and curing at 65°C for at least 12 h. The PDMS mold was then used to cast epoxy replicas using two-part rigid epoxy (LOCTITE EA E-30CL) on plastic plates, allowing complete curing for at least 24 h. These epoxy replicas served as reusable masters for subsequent PDMS device fabrication.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=150mm]{example-image}
-\caption{\textnormal{\textbf{マイクロ流体デバイスの作製} SU-8マスターモールドの作製,モールド上へのポリジメチルシロキサン（PDMS）のキャスティング,プラズマ処理によるスライドガラスへの接着過程の模式図を表している.}}
+本研究のデバイスは、Nakaoka と Wakamoto\cite{nakaoka2017aging} の設計に倣って自作した（図~\ref{fig:mm_layout}）。観察チャネルは幅 5.3 μm、高さ 6.2 μm、主流路（ドレイン）は幅 214 μm、高さ 19.75 μm である。\mynote{観察チャネルの長さと間隔、1視野に入る本数は設計ファイルで確認して書く}高さが2段階なので、鋳型は2層の SU-8 で作る。主流路の両端はチューブでシリンジと廃液容器につながり、シリンジポンプが培地を 2 mL/h で送る。細胞は観察チャネルの閉端側に入り、1列で増える。
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figure/MotherMachine_channels_layout.pdf}
+    \caption{デバイスの全体と観察チャネル。左: 入口からシリンジポンプで培地を送り、出口から廃液へ流す。観察はカバーガラス側から行う。右: 観察チャネルに分裂酵母が1列に入った明視野像。スケールバー 40 μm。}
+    \label{fig:mm_layout}
 \end{figure}
 
+\subsection{作製}
+
+作製の工程を図~\ref{fig:pdms_process}に示す。フォトマスクは、マスクブランクス（Clean Surface Technology）にマスクレス露光機（μMLA, Heidelberg Instruments）で描画した。観察チャネルとドレインは別のマスクにする。鋳型はシリコンウェハ（University Wafer）上の SU-8 を2層で作る。観察チャネル層は、SU-8 2 と SU-8 3005（MicroChem）の混合物を 3000 rpm で 30 s スピンコートし、65 °C で 1 min、95 °C で 2 min ソフトベークし、マスクアライナ（MA-20, Mikasa）でチャネルのマスクを通して 5 s の露光を3回行い、65 °C で 1 min、95 °C で 3 min の露光後ベークののち、SU-8 現像液（MicroChem）で現像してイソプロパノールで洗う。ドレイン層は、SU-8 3010（MicroChem）を 1500 rpm で 30 s スピンコートし、65 °C で 1 min、95 °C で 8 min ソフトベークし、1層目の合わせマークにドレインのマスクを合わせて 30 s 露光し、65 °C で 3 min、95 °C で 10 min の露光後ベークののち、同様に現像する。
+
+PDMS は主剤と硬化剤（SYLGARD 184, Dow）を 10:1 で混ぜ、真空で 1 h 脱泡して鋳型に流し、65 °C で 12 h 以上硬化させる。切り出したブロックに直径 0.5 mm の生検トレパン（BP-A05F, Kai Medical）で入口と出口の穴を開け、エタノール中で超音波洗浄して 65 °C で乾かす。カバーガラス（Neo No.~1, Matsunami）は Contaminon LS-II の希釈液、超純水、エタノール、超純水の順に超音波洗浄し、0.1 M 水酸化ナトリウムで処理して超純水で洗い、140 °C で乾かす。PDMS ブロックとカバーガラスをプラズマ処理装置（FA-1, Samco）で 10 s 処理し、すぐに貼り合わせる。
+
+日常の鋳造にはシリコンの鋳型を直接使わず、エポキシのレプリカを使う。鋳型から PDMS のネガ型を取り、それに2液性エポキシ（EA E-30CL, Loctite）を流して 24 h 以上硬化させる。このレプリカを型にして PDMS を鋳造する。作製の手順書（受け入れ条件とトラブル対応を含む）は Appendix C に置いた。
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{figure/PDMS_fabrication_process.pdf}
+    \caption{デバイスの作製工程。左: フォトマスクを通した露光で SU-8 の鋳型を作り、PDMS を鋳造してカバーガラスに接合する。右: 鋳型から取った PDMS のネガ型にエポキシを流してレプリカを作り、以後はレプリカから PDMS を鋳造する。}
+    \label{fig:pdms_process}
+\end{figure}
 
 \section{細胞と長期タイムラプス計測}
 \subsection{顕微鏡と環境}
