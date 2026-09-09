@@ -1,9 +1,10 @@
-% NEXT: 2.1 背景・2.2 目的 の第一稿（9/9）を読んで直す。次に書くのは 2.7.5 取得条件と 2.7.6 参照グリッド（論文 Methods を日本語に）〔初期値〕
+% NEXT: 2.9.1 位相感度の理論を日本語に起こす（plot 2.9 はある。paragraph は無い）。2.9.2・2.9.3 は Figure 3・2 が確定してから〔初期値〕
 % 第2章: QPI による長期1細胞計測系の構築
 % 2026-09-08 に橋本幹弘さんの博論（48136）の形に組み替えた。
 % 2026-09-09 に節を確定し、見出しを日本語にした。
 %   背景 → 目的 → 原理 → 再構成 → 光学系 → デバイス → 細胞と計測 → 画像解析 → 性能評価 → 考察 → まとめ
-%   本文は節の下に移しただけで書き直していない。英語と日本語が混ざったまま。
+%   2.1〜2.8 は日本語で書いた。2.9.1 は英語のまま。
+%   小節は「手順のまとまり」単位で切る（橋本・小金澤の博論に合わせた）。plot の1行（=1段落）を1小節にはしない。
 \chapter{QPIによる長期1細胞計測系の構築}
 
 \section{背景}
@@ -52,14 +53,14 @@
 \section{定量位相イメージングの原理}
 \label{sec:principle}
 
+\subsection{位相遅れと共通光路法}
+
 細胞と周囲の培地の屈折率の差は、透過する光の位相の遅れとして光に刻まれる。可視光の振動数は 400--800 THz で、その振動をセンサで直接記録することはできないので、位相の遅れを検出するには強度の変化に変換する必要がある。位相差顕微鏡と微分干渉顕微鏡はこの変換を光学的に行うが、得られる強度は位相の定量値ではない。位相を定量する方法をまとめて定量位相イメージング（QPI）と呼ぶ\cite{park2018quantitative}。QPI は試料を透過する照明を用いる。細胞の屈折率が面内にも深さ方向にも変わるとき、面内位置 $x$ で細胞を透過した光が得る相対的な位相は
 \begin{equation}
 \Delta\phi(x) = \frac{2\pi}{\lambda}\int_0^{h(x)} [n_{\mathrm{cell}}(x, z) - n_0]\, dz
 \label{eq:phase_delay}
 \end{equation}
 である。$z$ は試料内の深さ、$h(x)$ は細胞の厚さ、$n_{\mathrm{cell}}$ は細胞の屈折率（位置に依存してよい）、$n_0$ は培地の屈折率、$\lambda$ は光の波長で、散乱は無視できるとしている。
-
-\subsection{共通光路法}
 
 QPI の多くは干渉計で位相を取り出す。共通光路（common-path）法では、試料の後ろに小さな干渉計を組み、干渉する2つの光が多くの光学素子を共有して伝搬する。このため振動や光学系のずれに強く、系も小さくなる。試料の後ろに置けるので、顕微鏡の出力ポートにそのまま組める。数日にわたるタイムラプスに向くのはこの性質による。
 
@@ -84,7 +85,7 @@ P(f_x, f_y) = \begin{cases}
 \end{equation}
 になる。
 
-\subsection{干渉による位相の回復}
+\subsection{オフアクシス干渉による位相の回復}
 
 センサは強度 $I = |U|^2$ しか測れないので、複素場 $U = A e^{i\phi}$ の位相 $\phi$ は検出で失われる。位相を回復するには、物体光 $U_s = A_s e^{i\phi_s}$ を既知の参照光 $U_r = A_r e^{i\phi_r}$ と干渉させる。検出される強度は
 \begin{equation}
@@ -97,37 +98,15 @@ I = A_s^2 + A_r^2 + 2A_s A_r \cos(\phi_s - \phi_r)
 \end{equation}
 になる。位相差 $\phi_s - \phi_r$ が干渉縞として強度を変調する。しかし2つの光が同軸（on-axis）のとき、式~\eqref{eq:interference} の4項は Fourier 空間で同じ領域を占め、位相を含む項 $U_s \cdot U_r^*$ だけを取り出すことができない。
 
-\subsection{オフアクシス配置}
-
-干渉の各項を Fourier 空間で分けるために、物体光にオフアクシス（off-axis）の波数 $(k_m^{\mathrm{off-axis}}, k_n^{\mathrm{off-axis}})$ を与えてキャリア周波数を作る。$(m, n)$ は画素の離散座標である。本研究の共通光路系では、参照光は Fourier 面のピンホールで空間フィルタされて準平面波
-\begin{equation}
-U_r = A_r
-\end{equation}
-になり、物体光は Ronchi 格子で与えられたオフアクシスの波数を持つ:
-\begin{equation}
-U_s = A_s e^{i\phi_s} e^{-i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)}.
-\end{equation}
-干渉パターンは
-\begin{equation}
-I_{m,n} = |U_s|^2 + |U_r|^2 + U_s \cdot U_r^* + U_s^* \cdot U_r = A_s^2 + A_r^2 + 2A_r A_s \cos[\phi_s - k_m^{\mathrm{off-axis}} m - k_n^{\mathrm{off-axis}} n]
-\end{equation}
-になる。共役座標 $(p, q)$ で2次元 Fourier 変換すると
-\begin{equation}
-\tilde{I}(p,q) = \tilde{I}_{\mathrm{DC}}(p,q) + \mathcal{F}\{U_s \cdot U_r^*\}(p + k_m^{\mathrm{off-axis}}, q + k_n^{\mathrm{off-axis}}) + \mathcal{F}\{U_s^* \cdot U_r\}(p - k_m^{\mathrm{off-axis}}, q - k_n^{\mathrm{off-axis}})
-\end{equation}
-で、3つの成分が Fourier 空間で分かれる。$+1$ 次のサイドバンドを選んで逆 Fourier 変換すれば複素場 $U_s$ が単独で得られ、その位相 $\phi_s = \arg(U_s)$ が取り出せる。
-
-\subsection{オフアクシスホログラムの形成}
-
-オフアクシス DH では、物体光と参照光の干渉パターンをイメージセンサで記録する。試料の位置を $z = 0$ とすると、センサ上の物体光は
-\begin{equation}
-U_{s,m,n} = \frac{1}{M^2} A_s \exp[i\phi_{m,n}] \exp[-i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)]
-\end{equation}
-である。$M$ は倍率、$A_s$ は物体光の振幅、$(k_m^{\mathrm{off-axis}}, k_n^{\mathrm{off-axis}})$ は Ronchi 格子が与えるオフアクシスのキャリア波数、$\phi_{m,n}$ は試料による位相遅れである。参照光は
+干渉の各項を Fourier 空間で分けるために、物体光にオフアクシス（off-axis）の波数 $(k_m^{\mathrm{off-axis}}, k_n^{\mathrm{off-axis}})$ を与えてキャリア周波数を作る。$(m, n)$ は画素の離散座標である。本研究の共通光路系では、参照光は Fourier 面のピンホールで空間フィルタされ、視野全体でほぼ一定の準平面波
 \begin{equation}
 U_{r,m,n} = A_r
 \end{equation}
-で、Fourier 面のピンホールによる空間フィルタの後では視野全体でほぼ一定である。画素 $(m,n)$ で記録されるホログラムの強度は
+になる。物体光は Ronchi 格子で与えられたオフアクシスの波数を持ち、試料の位置を $z = 0$ とすると、センサ上で
+\begin{equation}
+U_{s,m,n} = \frac{1}{M^2} A_s \exp[i\phi_{m,n}] \exp[-i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)]
+\end{equation}
+である。$M$ は倍率、$A_s$ は物体光の振幅、$\phi_{m,n}$ は試料による位相遅れである。画素 $(m,n)$ で記録されるホログラムの強度は
 \begin{equation}
 I_{m,n}^{\mathrm{DH}} = \left|U_{s,m,n} + U_{r,m,n}\right|^2 = |U_{s,m,n}|^2 + |U_{r,m,n}|^2 + U_{s,m,n} \cdot U_{r,m,n}^* + \mathrm{c.c.}
 \end{equation}
@@ -136,7 +115,9 @@ I_{m,n}^{\mathrm{DH}} = \left|U_{s,m,n} + U_{r,m,n}\right|^2 = |U_{s,m,n}|^2 + |
 \label{eq:hologram_DH}
 I_{m,n}^{\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + (J_{m,n}^{\mathrm{int}})^* e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}
 \end{equation}
-と書ける。$J_{m,n}^{\mathrm{non-int}} = |U_{s,m,n}|^2 + |U_{r,m,n}|^2$、$J_{m,n}^{\mathrm{int}} = U_{s,m,n} \cdot U_{r,m,n}^*$ である。このホログラムから位相像を再構成する手順を次節で述べる。
+と書ける。$J_{m,n}^{\mathrm{non-int}} = |U_{s,m,n}|^2 + |U_{r,m,n}|^2$、$J_{m,n}^{\mathrm{int}} = U_{s,m,n} \cdot U_{r,m,n}^*$ である。
+
+共役座標 $(p, q)$ で2次元 Fourier 変換すると、非干渉項は原点に、干渉項とその複素共役は原点から $\pm(k_m^{\mathrm{off-axis}}, k_n^{\mathrm{off-axis}})$ だけ離れた2つの位置に現れ、3つの成分が Fourier 空間で分かれる。$+1$ 次のサイドバンドを選んで逆 Fourier 変換すれば複素場 $U_{s,m,n}$ が単独で得られ、その位相 $\phi_{m,n} = \arg(U_{s,m,n})$ が取り出せる。このホログラムから位相像を再構成する手順を次節で述べる。
 
 \section{位相像の再構成}
 \label{sec:reconstruction}
@@ -173,8 +154,6 @@ r_{\mathrm{aperture}} = \frac{\mathrm{NA}}{\lambda} \cdot N \cdot \Delta p
     \caption{ホログラムから位相像までの再構成。左から、生のホログラム、その Fourier スペクトル、$+1$ 次サイドバンドを円窓で切り出したもの、逆 Fourier 変換して得た位相像。}
     \label{fig:reconstruction}
 \end{figure}
-
-\subsection{空間分解能とFourier面のパラメータ}
 
 位相像の画素数と画素サイズは、対物レンズの NA と視野で決まる。コヒーレント照明での空間周波数のカットオフは
 \begin{equation}
@@ -298,48 +277,39 @@ PDMS は、主剤と硬化剤（SYLGARD 184、Dow）を 10:1 で混ぜ、真空�
 \section{細胞と長期タイムラプス計測}
 \label{sec:timelapse}
 
-\subsection{顕微鏡と環境}
-
-計測は倒立顕微鏡（Ti-E、Nikon）で行った。対物レンズは \ref{sec:optics} 節の 40 倍、NA 0.95 の乾燥系である。試料はステージトップインキュベータ（TIZHB、Tokai Hit）で 30 °C に保ち、焦点は Perfect Focus System（Nikon）で維持した。電動ステージ、シャッター、画像の取得は Micro-Manager 1.4\cite{edelstein2014advanced} で制御した。
-
 \subsection{細胞株と培養条件}
 \label{sec:strain}
 
 野生型の分裂酵母 \textit{Schizosaccharomyces pombe} FY18675（$h^{-}$）を National BioResource Project（NBRP）から得て用いた。培地と操作は分裂酵母の標準的な方法\cite{moreno1991molecular}に従った。YE 寒天培地の単一コロニーを 2\%（w/v）グルコースの EMM 20 mL に植え、30 °C で 12 時間培養した。これを 600 nm の吸光度（OD$_{600}$）が 0.01 になるよう希釈し、50 mL チューブ（Watson）で 30 °C、200 rpm で OD$_{600}$ が 0.2--0.5 になるまで培養した。\mynote{第3章 3.3.1 は HN0101（mNeonGreen）と書いている。性能評価の記録と実験1でどの株を使ったかを確認して揃える}
 
-\subsection{細胞の準備と導入}
+\subsection{計測の手順}
+
+計測は倒立顕微鏡（Ti-E、Nikon）で行った。対物レンズは \ref{sec:optics} 節の 40 倍、NA 0.95 の乾燥系である。試料はステージトップインキュベータ（TIZHB、Tokai Hit）で 30 °C に保ち、焦点は Perfect Focus System（Nikon）で維持した。電動ステージ、シャッター、画像の取得は Micro-Manager 1.4\cite{edelstein2014advanced} で制御した。
 
 指数増殖期の培養液 20 mL を 3700 rpm で 5 分間遠心（himac CT6E、HITACHI）して 100 倍に濃縮し、1 mL のシリンジ（Terumo）でデバイスに注入した。デバイスを約 10 分間傾け、重力で細胞を観察チャネルへ入れた。\mynote{旧本文は遠心（1200 rpm で 5 分間、180° 回して2回）と書いている。実験1の手順がどちらかを確認}細胞が観察チャネルに入ったことを顕微鏡で確かめてから、EMM を 2 mL/h で灌流した。主流路に残った細胞がドレインから流れ去ってから計測を始めた。
 
-\subsection{培地交換と灌流}
-
 培地はシリンジポンプ（PHD ULTRA、Harvard Apparatus）で、記録の全期間を通して 2 mL/h の一定流量で送った。培地を交換するときは、コネクタを含むチューブ一式を交換した。交換の時刻は、コネクタ内の気泡が画像に映った次のフレームとした。
 
-\subsection{取得条件}
-
 ホログラムは 5 分間隔、露光 60 ms で記録した。撮影位置は、デバイスに沿った複数のステージ位置と、流路の無い位置1つである。流路の無い位置の像は参照像の処理に使う（\ref{sec:grid_acq} 節）。\ref{sec:performance} 節の性能評価に使った記録は約 168 時間（2020 時点）である。
+
+% Hsp104-GFP の記録でだけ使う。第3章で Hsp104-GFP を使わないならこの段落は消す。
+Hsp104-GFP 株の記録では、各ホログラムと同時に蛍光像を顕微鏡の反対側のポートから取得した。光源は LED（Thorlabs）、フィルタキューブは励起 460--500 nm、ダイクロイックミラー 505 nm、蛍光 510--560 nm の GFP 用である。蛍光像は別の sCMOS カメラ（ORCA-Fusion BT C14440、Hamamatsu）で記録した。
 
 \subsection{参照グリッドの取得}
 \label{sec:grid_acq}
 
 位相像から照明光の波面と流路の位相を除くには、同じ視野で細胞の無い状態の参照像が必要である（\ref{sec:reconstruction} 節）。しかし mother machine では観察チャネルが細胞で埋まり、細胞のそばに培地だけの領域が残らない。そこで計測を始める前に、各視野を 0.1 μm 刻みの $9 \times 9$ のステージ変位で撮り、参照像とした。各変位では z スタックを撮り、合焦面だけを残した。流路の無い位置を同じ変位で撮った像を、各参照像から引いた。グリッドの中心の像は、計測中のフィードバックの基準にした。計測中は各時点で、各視野の位相像をこの基準像に並進のみで位置合わせし（方法は \ref{sec:registration} 節）、測った変位でステージ位置を更新してから次にその視野を訪れた。このフィードバックにより、各視野は記録の全長で開始位置から $\pm 0.4$ μm 以内に保たれた。記録後は、各フレームにその変位に最も近いグリッドの像を背景として対応させる（\ref{sec:bgsub} 節）。
 
-\subsection{蛍光像の同時取得}
-% Hsp104-GFP の記録でだけ使う。第3章で Hsp104-GFP を使わないならこの小節は消す。
-Hsp104-GFP 株の記録では、各ホログラムと同時に蛍光像を顕微鏡の反対側のポートから取得した。光源は LED（Thorlabs）、フィルタキューブは励起 460--500 nm、ダイクロイックミラー 505 nm、蛍光 510--560 nm の GFP 用である。蛍光像は別の sCMOS カメラ（ORCA-Fusion BT C14440、Hamamatsu）で記録した。
-
 \section{画像解析}
 \label{sec:analysis}
 
 位相像から細胞ごとの乾燥質量密度を得るまでの処理は、位置合わせ、背景差分、培地の屈折率の校正、セグメンテーション、系譜追跡、形状と体積の推定、乾燥質量の計算の順である。
 
-\subsection{位置合わせ}
+\subsection{位置合わせと背景差分}
 \label{sec:registration}
+\label{sec:bgsub}
 
 各時点の各視野の位相像を、参照グリッドの中心像（\ref{sec:grid_acq} 節）に対して並進のみの位置合わせで合わせた。位置合わせには enhanced correlation coefficient（ECC）の最大化\cite{evangelidis2008parametric}を用い、変換は並進に限った。計測中はこの変位でステージ位置を更新し、記録後は同じ位置合わせで各フレームのグリッド中心からの変位を測った。
-
-\subsection{背景差分}
-\label{sec:bgsub}
 
 各フレームには、測った変位に最も近い変位で撮ったグリッドの像を背景として対応させた。フレームを残りの変位だけずらしてその像に重ね、観察チャネルの周りに切った長方形の帯の中で差をとった。差の位相に残る $2\pi$ の整数倍と線形の傾きは、各帯のうち細胞の無い部分で推定して除いた。
 
@@ -348,20 +318,12 @@ Hsp104-GFP 株の記録では、各ホログラムと同時に蛍光像を顕微
 
 乾燥質量の計算（\ref{sec:drymass} 節）には培地の屈折率が必要である。これを BSA の濃度系列で校正した。BSA を超純水に溶かした 0--5\%（w/v）の溶液を順にデバイスに灌流し、参照グリッドを撮った視野を各溶液で撮った。培地が入った状態のグリッド中心像の位相を引き、チャネルの上で位相を積分した値を BSA 濃度に対して最小二乗で直線に当てはめた。傾きは積分した位相が見ている培地の体積を与え、傾きと切片から培地の屈折率が求まる。BSA の屈折率増分は、アミノ酸配列から計算した値に Zhao ら\cite{zhao2011distribution}の波長と温度の補正を加えた、658 nm、30 °C での値を使った。0\% の溶液は系列の最後にもう一度測り、持ち越しとドリフトの確認にした。
 
-\subsection{セグメンテーション}
+\subsection{細胞の輪郭・系譜・体積と乾燥質量}
+\label{sec:drymass}
 
-細胞の輪郭は Omnipose\cite{cutler2022omnipose}で得た。本研究の画像から手で注釈した約 3000 細胞でモデルを学習した。
-
-\subsection{系譜追跡}
-
-マスクは面積でフレーム間を連結した。各チャネルの閉端に最も近い細胞を母細胞として起点にする。隣接する2つのマスクの面積の和が前のフレームの1細胞の面積と合うとき分裂とし、閉端側のマスクが親の識別子を継ぐ。整合する連結が見つからないフレームには追跡の失敗の印を付けた。1つのチャネルの閉端を占め続ける細胞の連なりを系譜と呼ぶ。
-
-\subsection{細胞の形状と体積}
+細胞の輪郭は Omnipose\cite{cutler2022omnipose}で得た。本研究の画像から手で注釈した約 3000 細胞でモデルを学習した。 得られたマスクは面積でフレーム間を連結した。各チャネルの閉端に最も近い細胞を母細胞として起点にする。隣接する2つのマスクの面積の和が前のフレームの1細胞の面積と合うとき分裂とし、閉端側のマスクが親の識別子を継ぐ。整合する連結が見つからないフレームには追跡の失敗の印を付けた。1つのチャネルの閉端を占め続ける細胞の連なりを系譜と呼ぶ。
 
 各マスクの輪郭を楕円 Fourier 記述子で平滑化し、平滑化した輪郭から中心線（medial axis）を取った。中心線に垂直な方向の幅を軸に沿った各点で測り、細胞長は中心線の弧長、細胞幅は両端を除いた中央部の幅の平均とした。体積は中心線の周りの回転対称を仮定し、各断面の体積を足し合わせて求めた。
-
-\subsection{乾燥質量}
-\label{sec:drymass}
 
 各細胞の乾燥質量濃度 $C$ は Barer\cite{barer1952interference}に従い、
 \begin{equation}
@@ -376,8 +338,9 @@ C = \frac{1}{\alpha}\left(n_{\mathrm{medium}} - n_{\mathrm{water}} + \frac{\lamb
 % Figure 2（校正・精度）と Figure 3（位相ノイズ・グリッド・ドリフト・既知シフトの回収）はここ。
 % これらは手法の検証図なので、実験1のデータを待たずに書ける。
 
-\subsection{位相感度の理論}
+\subsection{位相感度の理論と実測}
 % 旧「Phase sensitivity」節をここへ移した。式は 2.9 でしか使わない。
+% 理論のあとに実測を続ける: 連続フレーム差の空間標準偏差/√2 を細胞のない領域で測り、shot-noise 限界と比べる。Figure 3A（測り直し要）。
 
 To discuss the OPD precision of off-axis DH, determined by the temporal OPD noise, we first add the noise term $z_{m,n}^{\mathrm{DH}}$ to \eqref{eq:hologram_DH}, such that
 \begin{equation}
@@ -431,17 +394,10 @@ In common-path off-axis holography with background subtraction, the noise propag
 The phase sensitivity exhibits a quadratic dependence on visibility ($\sigma_{\phi} \propto V^{-1}$) and a square-root dependence on the number of electrons ($\sigma_{\phi} \propto N_e^{-1/2}$), making visibility optimization critical for achieving high sensitivity.
 
 
-\subsection{位相ノイズ}
-% 連続フレーム差の空間標準偏差/√2 を細胞のない領域で測り、上の shot-noise 限界と比べる。Figure 3A（測り直し要）。
-
-\subsection{参照グリッド登録の精度}
-% 公称ステージ変位と実測変位の差、誤差ベクトル。Figure 3B（対応表を 32 bit 実数で作り直してから）。
-
-\subsection{ドリフト}
-% 記録全長での位置ずれ、補正あり／なし。Figure 3C（確定済み）。
-
-\subsection{既知シフトの回収}
-% 細胞のない領域に既知の sub-pixel 並進を与えて回収、MAE 3.8 nm。Figure 3D（確定済み）。
+\subsection{位置の精度}
+% 参照グリッド登録の精度: 公称ステージ変位と実測変位の差、誤差ベクトル。Figure 3B（対応表を 32 bit 実数で作り直してから）。
+% ドリフト: 記録全長での位置ずれ、補正あり／なし。Figure 3C（確定済み）。
+% 既知シフトの回収: 細胞のない領域に既知の sub-pixel 並進を与えて回収、MAE 3.8 nm。Figure 3D（確定済み）。
 
 \subsection{濃度校正の直線性}
 % BSA 系列に対する位相の線形。Figure 2（ver2 未決）。
