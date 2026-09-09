@@ -7,6 +7,44 @@ Evidence の数値は ~/QPI_Omni の実コード・解析出力で裏を取る�
 
 # 第2章 QPIによる長期1細胞計測系の構築 — paragraph
 
+## 2.3 定量位相イメージングの原理
+
+**P1 位相遅れと QPI**
+- Topic: 細胞と培地の屈折率差は透過光の位相遅れになる。
+- Evidence: Δφ(x) = (2π/λ)∫₀^{h(x)}[n_cell(x,z) − n_0]dz。可視光 400–800 THz の振動は直接記録できないので強度に変換する。位相差・DIC は光学的に変換するが定量値ではない。QPI は位相を定量する（Park 2018）。
+- Implication: 位相を定量できれば屈折率差、すなわち乾燥質量に届く（2.1）。
+- Bridge: 干渉計の組み方。
+
+**P2 common-path 法**
+- Topic: 試料の後ろに干渉計を組み、2光が素子を共有する。
+- Evidence: 振動・ずれに強い、系が小さい、出力ポートにそのまま組める。
+- Implication: 数日のタイムラプスに向く（2.1.2 の条件 (2)）。
+- Bridge: 分解能は対物で決まる。
+
+**P3 帯域制限**
+- Topic: 対物レンズは NA/λ で切る空間周波数フィルタ。
+- Evidence: Ũ_transmitted = Ũ_0·P、P は半径 NA/λ の瞳関数。Abbe 限界 λ/NA（コヒーレント）。
+- Implication: 2.4 の円窓の半径がこれに対応する。
+- Bridge: 位相を強度から取り出す。
+
+**P4 干渉による位相の回復**
+- Topic: 物体光を参照光と干渉させると位相が強度に現れる。
+- Evidence: I = |U_s + U_r|² = A_s² + A_r² + 2A_sA_r cos(φ_s − φ_r)。on-axis では4項が Fourier 空間で同じ領域を占める。
+- Implication: そのままでは位相を含む項だけを取り出せない。
+- Bridge: off-axis で分ける。
+
+**P5 off-axis 配置**
+- Topic: 物体光にキャリア波数を与えて干渉項を Fourier 空間で分ける。
+- Evidence: 参照光はピンホールで準平面波 U_r = A_r、物体光は格子で U_s = A_s e^{iφ_s} e^{−i(k_m m + k_n n)}。FT すると DC・+1次・−1次の3成分が ±k^off に分かれる。+1次を逆 FT すれば U_s、φ_s = arg U_s。
+- Implication: 1枚のホログラムから位相が取れる（2.1.2 の条件 (2)）。
+- Bridge: センサに記録される式。
+
+**P6 ホログラムの式**
+- Topic: 記録されるホログラムは非干渉項と干渉項の和。
+- Evidence: U_{s,m,n} = (1/M²)A_s e^{iφ_{m,n}} e^{−i(k_m m + k_n n)}、U_{r,m,n} = A_r。I^DH = J^non-int + J^int e^{−i(k·r)} + c.c.、J^non-int = |U_s|² + |U_r|²、J^int = U_s U_r*。
+- Implication: 2.4 の再構成と 2.9.1 の位相感度の理論はこの式から出発する。
+- Bridge: 再構成の手順（2.4）。
+
 ## 2.4 位相像の再構成
 
 **P1 再構成の手順**
