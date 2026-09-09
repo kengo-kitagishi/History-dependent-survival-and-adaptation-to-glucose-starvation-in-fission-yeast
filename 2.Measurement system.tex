@@ -1,10 +1,12 @@
-% NEXT: 2.1 Background を書く。橋本博論 48136 の p9-14（既存技術の問題点 → 必要条件）が手本〔初期値〕
+% NEXT: 2.1 背景 を書く。橋本博論 48136 の p9-14（既存技術の問題点 → 必要条件）が手本〔初期値〕
 % 第2章: QPI による長期1細胞計測系の構築
 % 2026-09-08 に橋本幹弘さんの博論（48136）の形に組み替えた。
-% 背景 → 原理 → 光学系 → デバイス → 計測 → 解析 → 性能評価 → まとめ で1章を完結させる。
-\chapter{Construction of a long-term single-cell measurement system by QPI}
+% 2026-09-09 に節を確定し、見出しを日本語にした。
+%   背景 → 目的 → 原理 → 再構成 → 光学系 → デバイス → 細胞と計測 → 画像解析 → 性能評価 → 考察 → まとめ
+%   本文は節の下に移しただけで書き直していない。英語と日本語が混ざったまま。
+\chapter{QPIによる長期1細胞計測系の構築}
 
-\section{Background}
+\section{背景}
 なんで他の密度測定方法ではなく、QPIを用いたのかまで書きたかったら、generalな測定方法を挙げていって、この方法が良かったみたいなことを書けばよくて、その際には
 \cite{nguyen2022quantitative}
 non invasive way of 
@@ -14,7 +16,10 @@ non invasive way of
 It has been found that, for most biological molecules, including proteins and nucleic acids, the values of γ are close to 0.19 mL/g (\href{https://www.sciencedirect.com/science/chapter/bookseries/pii/S1063582318300024\#bib244}{Theisen, Johann, Deacon, \& Harding, 2000}), and the linearity is maintained for a wide range of concentrations \cite{zangle2014live}
 (\href{https://www.sciencedirect.com/science/chapter/bookseries/pii/S1063582318300024\#bib12}{Barer and Tkaczyk, 1954}, \href{https://www.sciencedirect.com/science/chapter/bookseries/pii/S1063582318300024\#bib278}{Zangle and Teitell, 2014}, \href{https://www.sciencedirect.com/science/chapter/bookseries/pii/S1063582318300024\#bib282}{Zhao et al., 2011}). Therefore, refractive index measurement is a rather direct approach to determination of concentration of molecules in cell.
 
-\section{Principle of QPI}
+\section{目的}
+% 2.1 の必要条件を満たす計測系を作り、その性能を 2.9 で示す。数行でよい。
+
+\section{定量位相イメージングの原理}
 % TODO: ここの導出は AppendixA と重なっている。本文には結果に必要な分だけ残し、
 % 導出は AppendixA へ落とすかどうかを決める（2026-09-09 の枠で判断）。
 Differences in refractive index between a cell and its environment are imprinted upon light as different delays to the phase of light oscillations. Because frequencies of visible light are very high (400–800 THz), its oscillations cannot be directly recorded by imaging sensors. To become detectable, phase delay must be converted into measurable intensity. This is done in standard phase contrast and differential interference contrast microscopes. Quantification of the phase is accomplished by a group of methods known as quantitative phase imaging (QPI)
@@ -29,11 +34,11 @@ where $z$ denotes depth within the sample, $h(x)$ is the cell thickness profile,
     \caption{A diagram showing accumulation of phase delay of light passing through a cell}
     \label{fig:placeholder}
 \end{figure}
-\subsection{Common-path Methods}
+\subsection{共通光路法}
 common path QPI methods implement a considerably more compact interferometer after the sample. In this geometry, the two interfering light beams propagate through many of the same optical components, increasing robustness to vibrations and misalignments of the system as well as generally reducing the system's footprint. Because they can be placed after the sample, common-path systems can also be easily implemented at the output port of a microscope.
 だから長期のタイムラプスに最適。
 
-\subsection{Light propagation and angular spectrum method}
+\subsection{光の伝搬と角スペクトル法}
 The propagation of monochromatic light in a homogeneous medium is governed by the Helmholtz equation:
 \begin{equation}
 \nabla^2 U(\mathbf{r}) + k^2 U(\mathbf{r}) = 0,
@@ -61,7 +66,7 @@ The field at distance $d$ is then obtained by inverse Fourier transformation:
 U(x,y,d) = \mathcal{F}^{-1}\left\{\tilde{U}(f_x, f_y, 0) \cdot e^{i k_z d}\right\}.
 \end{equation}
 
-\subsection{Band-pass limitation by the objective lens}
+\subsection{対物レンズによる帯域制限}
 
 An objective lens with numerical aperture NA acts as a spatial frequency filter, passing only components with $\sqrt{f_x^2 + f_y^2} \leq \mathrm{NA}/\lambda$. The transmitted field spectrum is
 \begin{equation}
@@ -81,11 +86,11 @@ This band-pass limitation determines the spatial resolution through the Abbe dif
 \end{equation}
 for coherent illumination.
 
-\subsection{Light propagation in 4f optical systems}
+\subsection{4f光学系における光の伝搬}
 
 A 4f optical system consists of two lenses with focal length $f$ arranged such that the object plane, Fourier plane, and image plane are separated by distances $f$. This configuration performs spatial Fourier transformation and imaging, and is widely used in spatial light modulation, optical filtering, and holographic imaging systems \cite{goodman2005}.
 
-\subsubsection{System configuration}
+\subsubsection{系の構成}
 
 The 4f system comprises the following elements (Fig.~\ref{fig:4f_system}):
 \begin{itemize}
@@ -96,7 +101,7 @@ The 4f system comprises the following elements (Fig.~\ref{fig:4f_system}):
 \item Image plane at $z = 4f$
 \end{itemize}
 
-\subsubsection{Fourier transformation by a single lens}
+\subsubsection{単レンズによるFourier変換}
 
 When an object is placed at the front focal plane of a lens with focal length $f$, the field at the back focal plane (Fourier plane) is proportional to the spatial Fourier transform of the object field \cite{goodman2005}:
 \begin{equation}
@@ -109,7 +114,7 @@ The spatial frequency components $(f_x, f_y)$ are mapped to coordinates in the F
 f_x = \frac{x_F}{\lambda f}, \quad f_y = \frac{y_F}{\lambda f}
 \end{equation}
 
-\subsubsection{Spatial filtering in the 4f system}
+\subsubsection{4f系における空間フィルタリング}
 
 A spatial filter (e.g., pinhole, amplitude mask) placed at the Fourier plane modifies the spatial frequency spectrum. The filter function $P(x_F, y_F)$ multiplies the Fourier-domain field:
 \begin{equation}
@@ -122,7 +127,7 @@ U_i(x_i, y_i) = -U_0(-x_i, -y_i) \cdot e^{i4kf}
 \end{equation}
 where the negative sign indicates spatial inversion in both transverse directions.
 
-\subsection{Phase recovery through interferometry}
+\subsection{干渉による位相の回復}
 
 Since image sensors can only measure intensity $I = |U|^2$, the phase information $\phi$ in the complex field $U = A e^{i\phi}$ is lost upon detection. To recover the phase, we interfere the object field $U_s = A_s e^{i\phi_s}$ with a known reference field $U_r = A_r e^{i\phi_r}$. The detected intensity is
 \begin{equation}
@@ -135,7 +140,7 @@ I = A_s^2 + A_r^2 + 2A_s A_r \cos(\phi_s - \phi_r).
 \end{equation}
 The phase difference $\phi_s - \phi_r$ modulates the intensity as interference fringes. However, in an on-axis configuration, all four terms in \eqref{eq:interference} occupy the same region in Fourier space, preventing isolation of the phase-containing term $U_s \cdot U_r^*$.
 
-\subsection{Off-axis configuration}
+\subsection{off-axis配置}
 
 To separate the interferometric components in Fourier space, we introduce a carrier frequency by giving the object field an off-axis wavevector $(k_m^{\mathrm{off-axis}}, k_n^{\mathrm{off-axis}})$, where $(m, n)$ denote discrete pixel indices. In our common-path system, the reference field is spatially filtered by a pinhole at the Fourier plane to produce a quasi-plane wave:
 \begin{equation}
@@ -156,7 +161,7 @@ Taking the 2D Fourier transform with reciprocal coordinates $(p,q)$, we obtain
 \end{equation}
 The three components are now spatially separated in Fourier space. By selecting the +1st-order sideband and applying inverse Fourier transformation, the complex field $U_s$ is isolated and its phase $\phi_s = \arg(U_s)$ is extracted.
 
-\subsection{Off-axis hologram formation}
+\subsection{off-axisホログラムの形成}
 
 In off-axis DH, the interference patterns between the object field and reference field are captured with an image sensor. Assuming $z = 0$ as the sample location, the object field at the sensor is
 \begin{equation}
@@ -179,7 +184,7 @@ I_{m,n}^{\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-
 \end{equation}
 where $J_{m,n}^{\mathrm{non-int}} = |U_{s,m,n}|^2 + |U_{r,m,n}|^2$ and $J_{m,n}^{\mathrm{int}} = U_{s,m,n} \cdot U_{r,m,n}^*$.
 
-\section{Reconstruction procedure}
+\section{位相像の再構成}
 
 The image-reconstruction procedure comprises (1) 2D discrete FT, (2) sideband centering, (3) low-pass (LP) filtering, and (4) 2D discrete inverse FT (IFT), followed by background subtraction. The 2D FT of the hologram is written as
 \begin{equation}
@@ -215,7 +220,7 @@ The final OPD image is obtained by subtracting the mean value of the background 
     \label{fig:placeholder}
 \end{figure}
 
-\subsection{Spatial resolution and Fourier domain parameters}
+\subsection{空間分解能とFourier面のパラメータ}
 
 The spatial resolution in off-axis DH is determined by the NA of the objective lens and the discrete sampling in the Fourier domain. For coherent illumination, the spatial frequency cutoff imposed by the NA is
 \begin{equation}
@@ -244,17 +249,10 @@ D_{\mathrm{ap}} = 2\left\lfloor \frac{0.95}{658 \times 10^{-9}} \times 176.6 \ti
 \end{equation}
 and the reconstructed pixel size is $\Delta p_{\mathrm{recon}} = 176.6~\mu\mathrm{m}/511 = 346$ nm, which closely matches the Nyquist requirement.
 
-\section{Optical system: design and configuration}
+\section{光学系}
+% 旧「Optical system: design and configuration」と「Design of the optical system」を1節にまとめた。順は 設計条件 → 構成 → 検証。
 
-The optical system of QPI is described in Fig. \ref{fig:qpi_optical_system}. The light source consisted of a 658 nm, 20 mW single-mode fiber-pigtailed laser diode (LP660-SF20, Thorlabs) mounted in an LDM9LP mount. The laser was controlled by an LDC202C benchtop LD current controller (±200 mA) and a TED200C temperature controller (12 W, Thorlabs), connected via CAB400 and CAB420-15 cables, respectively. The output beam was collimated using an FC/PC fiber collimator (CFC2-B, $f$ = 2.0 mm, Thorlabs) to illuminate the sample. 
-The optical field transmitted through the sample was magnified with a 40× objective lens (Nikon, NA = 0.95) and replicated with a Ronchi ruling grating (120 lines per mm, Edmund Optics \#66-342). We employ diffraction phase microscopy (i.e., common-path off-axis DH) as the QPI method. The first-order diffraction light is used as the object light, while the zeroth-order diffraction light low-pass filtered with a 25 μm pinhole (P25K, Thorlabs) placed at the Fourier plane is converted to a quasi-plane wave that acts as the reference light. The interferogram between these states in the off-axis configuration is recorded with a monochrome USB 3.0 CMOS camera (acA2440-75, Basler ace, 2448 × 2048 pixels, pixel size of 3.45 μm, full-well capacity of $\sim$10 ke$^-$) after relay lenses (ACT508-200-A, $f$ = 200 mm, Ø2", Thorlabs) in a 4f configuration. The number of pixels in the raw hologram and reconstructed OPD image are 2048 × 2048 and 511 × 511, respectively. The pixel size of the OPD image is set to the diffraction limit of $\sim$350 nm, determined by the NA of the objective lens.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{figure/QPI optical systems.pdf}
-    \caption{Schematic of the QPI optical system based on common-path off-axis digital holography. The first-order diffraction beam from a Ronchi ruling grating serves as the object light, and the zeroth-order beam spatially filtered at the Fourier plane serves as the reference light.}
-    \label{fig:qpi_optical_system}
-\end{figure}
-\section{Design of the optical system}
+\subsection{設計条件}
 
 When designing an off-axis DH optical system, two conditions must be satisfied. First, the magnitude of the off-axis wavevector $k^{\mathrm{off-axis}} = \sqrt{(k_m^{\mathrm{off-axis}})^2 + (k_n^{\mathrm{off-axis}})^2}$ must be sufficiently large to avoid overlap of the interferometric and noninterferometric terms in the Fourier space. The radius of the interferometric component in the Fourier space is $2\pi \mathrm{NA}/(\lambda M)$, while that of the noninterferometric component is $2\pi \cdot 2\mathrm{NA}/(\lambda M)$, as the noninterferometric term is expressed by the autocorrelation of the frequency spectrum. Hence, $k^{\mathrm{off-axis}}$ must satisfy
 \begin{equation}
@@ -285,7 +283,18 @@ k^{\mathrm{off-axis}} = 7.54 \times 10^5 \leq \sqrt{2}\pi \left(2.90 \times 10^5
 \end{equation}
 Both conditions are satisfied, confirming that the optical system design is appropriate for aliasing-free hologram acquisition.
 
-\subsection{Verification of the off-axis configuration}
+\subsection{構成}
+
+The optical system of QPI is described in Fig. \ref{fig:qpi_optical_system}. The light source consisted of a 658 nm, 20 mW single-mode fiber-pigtailed laser diode (LP660-SF20, Thorlabs) mounted in an LDM9LP mount. The laser was controlled by an LDC202C benchtop LD current controller (±200 mA) and a TED200C temperature controller (12 W, Thorlabs), connected via CAB400 and CAB420-15 cables, respectively. The output beam was collimated using an FC/PC fiber collimator (CFC2-B, $f$ = 2.0 mm, Thorlabs) to illuminate the sample. 
+The optical field transmitted through the sample was magnified with a 40× objective lens (Nikon, NA = 0.95) and replicated with a Ronchi ruling grating (120 lines per mm, Edmund Optics \#66-342). We employ diffraction phase microscopy (i.e., common-path off-axis DH) as the QPI method. The first-order diffraction light is used as the object light, while the zeroth-order diffraction light low-pass filtered with a 25 μm pinhole (P25K, Thorlabs) placed at the Fourier plane is converted to a quasi-plane wave that acts as the reference light. The interferogram between these states in the off-axis configuration is recorded with a monochrome USB 3.0 CMOS camera (acA2440-75, Basler ace, 2448 × 2048 pixels, pixel size of 3.45 μm, full-well capacity of $\sim$10 ke$^-$) after relay lenses (ACT508-200-A, $f$ = 200 mm, Ø2", Thorlabs) in a 4f configuration. The number of pixels in the raw hologram and reconstructed OPD image are 2048 × 2048 and 511 × 511, respectively. The pixel size of the OPD image is set to the diffraction limit of $\sim$350 nm, determined by the NA of the objective lens.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{figure/QPI optical systems.pdf}
+    \caption{Schematic of the QPI optical system based on common-path off-axis digital holography. The first-order diffraction beam from a Ronchi ruling grating serves as the object light, and the zeroth-order beam spatially filtered at the Fourier plane serves as the reference light.}
+    \label{fig:qpi_optical_system}
+\end{figure}
+
+\subsection{off-axis配置の検証}
 
 To validate the optical system design, we compare the theoretically calculated off-axis wavevector with the experimentally measured carrier frequency in the Fourier domain. From the grating specifications, the theoretical off-axis wavevector at the sensor plane (image plane) is $k_{\mathrm{theory}}^{\mathrm{off-axis}} = 7.54 \times 10^5~\mathrm{rad/m}$ as calculated above.
 
@@ -316,8 +325,126 @@ k_{\mathrm{exp}}^{\mathrm{off-axis}} = 2\pi f_{\mathrm{exp}}^{\mathrm{off-axis}}
 This excellent agreement confirms that the grating-based off-axis configuration is correctly implemented and that the optical system operates as designed.
 
 
+\newpage
 
-\section{Phase sensitivity}
+\section{マイクロ流路デバイス}
+\subsection{mother machineの原理}
+シングルセルレベルで発現状態の時間変化を長期的に取得するため,mother machineと呼ばれるPolydimethylsiloxane(PDMS)製マイクロ流体デバイスを用いて計測を行った.mother machineは,制御された増殖条件下で個々の細菌細胞を長期間にわたって観察・分析するために設計された特殊なマイクロ流体デバイスである\cite{wang2010robust}.2010年にWangらによって大腸菌の一細胞解析のために初めて開発されたこの装置は,単一細胞の動態,細菌の老化,遺伝子発現,およびその他のさまざまな細胞プロセスを,これまでにない時間的・空間的解像度で研究するための非常に貴重なツールとなっている.
+この基本設計は,数百から数千の細長い増殖チャネルが,増殖培地が連続的に流れる大きな主溝に対して垂直に配置されている.各増殖チャネルは通常,細菌細胞の1列分が収まるだけの幅しかなく,一端が閉じられている.チャネルは,ソフトリソグラフィ技術を用いて,透明でガス透過性のポリマーであるポリジメチルシロキサン（PDMS）で製造される.その後,PDMSチップはガラスカバースリップに接着され,顕微鏡観察に適した透明度を維持しながら密閉された流路が形成される(図1).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=100mm]{example-image}
+\caption{\textnormal{\textbf{マザーマシンの構造の概略図} 培地は矢印に沿って流れ,メイン流路に流れる.穴は中央チャネルの入口と出口に穴を開け,新鮮培地（入口）と廃液（出口）用のチューブを接続する.}}
+\end{figure}
+
+「マザー・マシン」という名称は,何百世代にもわたって同じ「母細胞」を追跡できる能力に由来する.細胞がこれらの流路で成長し分裂すると,各流路の行き止まりにある細胞はそのまま捕捉された状態が維持されるが,その娘細胞は徐々に主溝に向かって押し出され,最終的には主溝を勢いよく流れる培地によって洗い流される(図2).この閉じ込められた細胞は,その極の1つが常に流路の末端に接しており,世代から世代へと受け継がれるため,「母細胞」と呼ばれる.この設計により,定常状態の増殖条件を維持しながら,何百もの細胞分裂にわたって同じ母細胞を追跡することが可能になる.
+主溝を流れる新鮮な培地の連続的な流れは,成長チャネルへの拡散により,すべての細胞に栄養素を一定に供給する.研究により,栄養素の拡散は数秒単位の時間スケールで起こり,一般的な栄養素の取り込み時間である数分よりもはるかに速いことが示されており,均一な栄養条件が確保されることが分かっている\cite{wang2010robust} \cite{taheri2015cell}.また,主溝を流れる培地により,成長チャネルから出てきた娘細胞が除去されることで過密状態が回避され,均一な成長条件が維持される.さらに,マザーマシンの重要な利点の一つは培地条件の切り替えが容易なことで,培養条件を素早く変化させることができるため,研究者は環境変化に対する細胞の反応を研究することができる.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=100mm]{example-image}
+\caption{\textnormal{\textbf{マザーマシンの観察チャネルの概略図} ”母細胞”は成長チャネルの端に捕捉されており, 中央のフローセルに垂直に並んだ成長チャネルは, 新鮮な培地を供給し, 娘細胞をかき出す.}}
+\end{figure}
+
+mother machineは細胞は固定された焦点面に留まり,高開口数対物レンズを使用して簡単に画像化できるため,この装置は蛍光顕微鏡にも適している.また,成長チャネル間の間隔は,チャネル間の蛍光の漏れを最小限に抑えつつ,同時に観察できる細胞の数を最大限に増やすように最適化することができる.典型的な実験では,一定の間隔（通常は数分ごと）で10～12の視野を撮影し,各視野には約100個の細胞が含まれる.その結果,長期間にわたって数千もの細胞系統を観察することができる.こうした利点を活かして,mother machineは老化\cite{wang2010robust}\cite{nakaoka2017aging},飢餓適応\cite{bakshi2021tracking},抗生物質耐性\cite{kaplan2021observation},細胞分化\cite{russell2017noise},細胞壁の成長メカニズム\cite{amir2014bending}など,さまざまな研究分野で活用されている.
+
+\subsection{デバイスの構成}
+本研究で使用したmother machineでは,幅180~$\mu$\text{m}の太い1本の流路に沿って垂直に,幅約6.3~$\mu$\text{m},長さ約40~$\mu$\text{m}の観察用チャンバーが多数配列している.流路の両端にはそれぞれシリンジと廃液に繋がるチューブが接続されており,シリンジポンプにより一定速度で送り出される培地が流路内を一方向に流れることでデバイス中の培養環境がおよそ定常に保たれる.導入された細胞はこのチャンバー内に入り込み,ほぼ一列に限定された状態で増殖するマザーマシンは,メインフロートレンチに沿って多数の流路が並ぶように設計されており,メインフロートレンチ内を流れる培地を変化させることで,細胞の環境条件を精密に制御することが可能である.
+
+\subsection{作製}
+The microfluidic device consisted of observation chambers and flow channels. Photomasks were developed on mask blanks (Clean Surface Technology) using a maskless lithography system (μmLA, Heidelberg Instruments). Devices were fabricated from polydimethylsiloxane (PDMS) using molds prepared on silicon wafers (University Wafers) as follows (Figure 3):
+An appendix-grade, stepwise fabrication protocol with acceptance criteria and troubleshooting is provided in Appendix C.
+Observation channel layer: SU-8 2 (MicroChem) and SU-8 3005 (MicroChem) were mixed at the appropriate ratio, and 1 mL was dispensed onto a silicon wafer and spin-coated at 3,000 rpm for 30 s (Mikasa MS-A150). The wafer was soft-baked at 65°C for 1 min and 95°C for 2 min. The observation channel mask was aligned, and the wafer was exposed to UV light using a mask aligner (Mikasa MA-20) with three exposures of 5.0 s each. Post-exposure baking was performed at 65°C for 1 min and 95°C for 3 min, followed by development in SU-8 developer (MicroChem), rinsing with isopropanol, and drying.
+Drain layer: SU-8 3010 (MicroChem) was dispensed onto the wafer with the completed observation channel layer and spin-coated at 1,500 rpm for 30 s. After soft-baking at 65°C for 1 min and 95°C for 8 min, the drain channel mask was aligned to the observation channel alignment marks and exposed to UV light for 30 s. Post-exposure baking was performed at 65°C for 3 min and 95°C for 10 min, followed by development, rinsing, and drying as described above.
+PDMS device assembly: SYLGARD 184 (Dow Silicones Corporation) base and curing agent were mixed at a 10:1 ratio, degassed under vacuum for 1 h, and poured onto the silicon wafer mold. After curing at 65°C for at least 12 h, PDMS blocks were cut to size, and inlet/outlet ports were punched using a 0.5-mm biopsy punch (BP-A05F). Blocks were sonicated in ethanol and dried at 65°C.
+Cover glass preparation: Cover glasses (Matsunami NEO No.1, 0.13–0.17 mm) were sonicated sequentially in diluted Contaminon LS-II (Wako), ultrapure water, ethanol, and ultrapure water. Cover glasses were then treated with 0.1 M sodium hydroxide, rinsed with ultrapure water, and dried at 140°C.
+Bonding: PDMS blocks and cleaned cover glasses were treated with a plasma etcher (FA-1, SAMCO) for 10 s and immediately bonded, taking care to avoid air bubbles and debris.
+Epoxy replica fabrication: A PDMS negative mold was first generated from the original silicon wafer master by casting SYLGARD 184 (10:1 ratio, degassed for 1 h) and curing at 65°C for at least 12 h. The PDMS mold was then used to cast epoxy replicas using two-part rigid epoxy (LOCTITE EA E-30CL) on plastic plates, allowing complete curing for at least 24 h. These epoxy replicas served as reusable masters for subsequent PDMS device fabrication.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=150mm]{example-image}
+\caption{\textnormal{\textbf{マイクロ流体デバイスの作製} SU-8マスターモールドの作製,モールド上へのポリジメチルシロキサン（PDMS）のキャスティング,プラズマ処理によるスライドガラスへの接着過程の模式図を表している.}}
+\end{figure}
+
+
+\section{細胞と長期タイムラプス計測}
+\subsection{顕微鏡と環境}
+Microscopy was conducted on an inverted Nikon Ti microscope (Nikon Instruments Inc.) fitted with a 40×/0.95 NA air objective. Samples were maintained at 30 °C with a stage-top incubator (Tokai Hit model ). The microscope hardware including motorized stage, shutters, Perfect Focus System (PFS) autofocus and image acquisition were controlled using Micro-Manager (v) open-source software.
+
+\subsection{細胞株と培養条件}
+% 性能評価に使った記録の株と培地。第3章 3.3.1 と同じなら1段落で再掲する。
+% 実験1の株が HN0101（mNeonGreen）か FY18675（野生型）かは未確定。
+
+\subsection{細胞の準備と導入}
+Exponential-phase S. pombe cells cultured in EMM (2\% glucose) at 30°C were harvested from 20 mL cultures by centrifugation at 3,700 rpm for 5 min (HITACHI himac CT6E) to generate a 100-fold concentrated cell suspension. The concentrated suspension was loaded into the microfluidic device using a 1-mL syringe (Terumo).
+To insert cells into the observation channels, the device was centrifuged at 1,200 rpm for 5 min, rotated 180°, and centrifuged again for 5 min. After confirming cell trapping within the observation channels by microscopy, EMM (2\% glucose) was perfused at 2 mL/h. Cells were allowed to settle until excess cells were completely flushed from the drain channels. Time-lapse imaging was then initiated after registering cell positions.
+
+\subsection{培地交換と灌流}
+For media exchanges to EMM (low\% glucose) or EMM (0\% glucose), the entire tubing system, including the connector, was replaced. The appearance of air bubbles in the connector, visualized by live microscopy, was used as the reference point to define the next frame as the time of media exchange.
+Media perfusion was controlled by a syringe pump (Harvard ULTRA-P), maintaining a constant flow rate of 2 mL/h throughout the experiments to ensure stable environmental conditions.
+
+\subsection{取得条件}
+% 5分間隔・露光 60 ms・複数ステージ位置。論文 qpi-methods/sentence/20_methods.tex の Long-term time-lapse から日本語に起こす。
+
+\subsection{参照グリッドの取得}
+% 細胞のそばに培地だけの領域が残らないので、計測前に stage 変位の 9×9 グリッド（0.1 µm 刻み）で参照像を撮る。
+% 中心像を計測中のフィードバックの基準にする。論文 Reference acquisition から。
+
+\subsection{タイムラプス計測と画像の取得}
+% 蛍光顕微鏡（ORCA・LED・GFP-B）の記述で、QPI の計測系ではない。卒論の残りと思われる。
+% Hsp104-GFP を第3章で使うなら 3.3 へ移す。使わないなら消す。
+タイムラプス計測には,温度を正確に制御するためのサーモスタットチャンバー（TIZHB,TokaiHit）を備えた電動倒立顕微鏡（Nikon,Ti-E）を使用した.デジタルCMOSカメラ（ORCA C14440 ,浜松ホトニクス）,LED光源（Thorlabs）を組み合わせ,対物レンズはPlan Apo $\lambda$D 40x / 0.95(MRD70470,Nikon)を,GFP蛍光のフィルターキューブにはGFP-B(EX 460-500, DM 505, EM 510-560)を使用した.撮影はMicromanagerソフトウェア（https://micro-manager.org/）で制御し,5分間隔で画像を取得した.明視野画像の露光時間は50ミリ秒,GFP蛍光画像の露光時間は500ミリ秒とした.観察期間は実験条件によって異なり,192時間から240時間であった.長期間のタイムラプス撮影中には,焦点面の安定性を保つためにパーフェクト・フォーカス・システム（PFS）を使用した.すべての観察は30℃で実施した.
+
+
+
+\section{画像解析}
+% 旧 Image analysis / Image Preprocessing / Volume estimation / Cell Segmentation の4節をここにまとめた。
+% [from variational] 印の段落は別論文の手順の写し。論文 20_methods の対応する小節で置き換える。
+To reduce post-processing time, each z-stack was cropped to a square region containing the cell(s) of interest and a border of at least 40 pixels, and the focal plane was identified. This cropping was accomplished first using FIJI v. 1.53c to identify regions of interest (ROIs) within a thresholded standard deviation z-projection image of each brightfield z-stack. Using custom Matlab R2019a (Mathworks) scripts, images were cropped to the ROIs and the standard deviation of the pixels in each ROI was computed. The focal plane was defined based on the image in the stack with the lowest standard deviation. Three images above and three images below the focal plane separated by 500 nm were used to quantify cytoplasmic density. Based on these images, the phase information was calculated using a custom Matlab script implementing a previously published algorithm (Bostan et al., 2016). In brief, this method relates the phase information of the cell to bright-field image intensity changes along the z-direction. Equidistant, out-of-focus images above and below the focal plane are used to estimate intensity changes at various defocus distances. A phase-shift map is reconstructed in a non-linear, iterative fashion to solve the transport-of-intensity equation.[from variational]
+
+\subsection{位置合わせ}
+% 各時点で ECC（並進のみ）で参照像に合わせる。下の段落は「空チャネルを引く」旧方式。論文はグリッド像を引く方式。今のコードがどちらかを QPI_Omni で確認。
+To correct for sample drift during time-lapse imaging, we calculated alignment transformations using the Enhanced Correlation Coefficient (ECC) algorithm \cite{evangelidis2008parametric}. Alignment transformations were computed using images from empty channels (no cells present) to register against immobile channel structures. The resulting transformation matrices were stored and subsequently applied to cell-containing channel images using affine transformation. To isolate cellular phase signals from residual channel structures, the empty channel was subtracted from all subsequent frames, yielding differential phase images $\Delta\phi(x,y,t)$ representing only cellular refractive index contributions.
+
+\subsection{背景差分}
+% 各フレームの変位に最も近いグリッド像を背景として引く。残る 2π の倍数と線形成分は細胞のない領域で推定して除く。論文 Background subtraction から。
+Using Matlab, images were background-corrected by fitting a Gaussian to the highest peak of the histogram (corresponding to the background pixels) of the phase-shift map and shifting every pixel so that the background intensity peak corresponded to zero phase shift. These background-corrected phase-shift maps were converted into binary images using watershedding for cell segmentation; where necessary, binary images were corrected manually to ensure accurate segmentation. Binary images were segmented using Morphometrics (Ursell et al., 2017) to generate subpixel-resolved cell outlines.
+
+\subsection{培地屈折率の校正}
+% BSA 濃度系列（0–5% w/v）の灌流。論文 Calibration から。下の段落の BSA 100 mg/mL 1点は別論文の写し。
+To convert the mean intensity of the phase-shift within each cell into absolute concentration (in units of mg/mL), the mean of all cells across all time points was first calculated. Then, the decrease in phase shift induced by a prescribed concentration of BSA (typically 100 mg/mL) was defined as the difference between the mean of the phase shifts before and after the BSA imaging time point and the phase shift during the BSA time point. This difference in intensity established the calibration scaling between phase shift intensity and the concentration of BSA (Figure 1B). The cytoplasmic density of each cell was then calculated by dividing the mean phase shift of the cell by the aforementioned scaling factor. The mass of each cell was inferred from its mean density and volume.[from variational]
+
+\subsection{セグメンテーション}
+明視野（BF）画像のセグメンテーションは,顕微鏡における細胞セグメンテーションに一般的に使用される深層学習ベースのアルゴリズムであるOmnipose\cite{cutler2022omnipose}の半自動ワークフローを用いてセグメンテーションした.Omnipose は,大規模なパラメータチューニングをすることなく,様々なタイプの画像を正確にセグメントできることで知られている.BF画像のセグメンテーションを容易にするために,Omniposeモデルは,パラメータ調整なしで,GFP蛍光画像から得られたマスク画像からなるグランドトゥルースデータを用いて学習された.得られた学習済みモデルをBF画像に適用した(図4). 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=50mm]{example-image}
+\caption{\textnormal{\textbf{Omniposeインターフェース}Omniposeではリアルタイムのフィードバックデータのインタラクティブな解析を可能にする.表示されている生データはBF画像に訓練済みのモデルを用いて,セグメンテーションを行ったマスクを重ね合わせた図}}
+\end{figure}
+
+Cell boundaries were detected using Omnipose \cite{cutler2022omnipose}, a deep learning-based segmentation method optimized for bacterial morphology. We trained a custom Omnipose model on approximately 3000 manually annotated S. pombe cells. Training images were first manually annotated using the Omnipose GUI to generate ground truth segmentation masks. Segmentation masks were converted to binary outlines by detecting pixel discontinuities at cell boundaries using morphological operations. Specifically, boundaries were identified where mask values differed from their four-connected neighbors, generating single-pixel-width contours.
+
+
+\subsection{系譜追跡}
+% 面積でフレーム間を連結する。論文 lineage tracking から。
+
+\subsection{細胞の形状と体積}
+% 楕円 Fourier 記述子で輪郭を平滑化し、medial axis に垂直な幅から回転対称で体積。論文 Cell geometry から。
+戸田さんの哺乳類細胞の体積推定や他のrod shape近似の書き方を調べる
+
+Each cell outline was skeletonized using custom Matlab code as follows. First, the closest-fitting rectangle around each cell was used to define the long axis of the cell. Perpendicular to the long axis, sectioning lines at 250 nm intervals and their intersection with the cell contour were computed. The centerline was then updated to run through the midpoint of each sectioning line between the two contour-intersection points. The slope of each sectioning line was updated to be perpendicular to the slope of the centerline around the midpoint. Sectioning lines that crossed a neighboring line were removed. Cell volume and surface area were calculated by summing the volume or area of each section, assuming rotational symmetry. Volume and area of the poles were calculated assuming a regular spherical cap.
+
+\subsection{乾燥質量}
+% Barer (1952)、屈折率増分 0.18 mL/g、位相の面積分から乾燥質量濃度。論文 Dry mass から。2.1 の 0.19 と揃える。
+
+\section{性能評価}
+% Figure 2（校正・精度）と Figure 3（位相ノイズ・グリッド・ドリフト・既知シフトの回収）はここ。
+% これらは手法の検証図なので、実験1のデータを待たずに書ける。
+
+\subsection{位相感度の理論}
+% 旧「Phase sensitivity」節をここへ移した。式は 2.9 でしか使わない。
 
 To discuss the OPD precision of off-axis DH, determined by the temporal OPD noise, we first add the noise term $z_{m,n}^{\mathrm{DH}}$ to \eqref{eq:hologram_DH}, such that
 \begin{equation}
@@ -371,87 +498,23 @@ In common-path off-axis holography with background subtraction, the noise propag
 The phase sensitivity exhibits a quadratic dependence on visibility ($\sigma_{\phi} \propto V^{-1}$) and a square-root dependence on the number of electrons ($\sigma_{\phi} \propto N_e^{-1/2}$), making visibility optimization critical for achieving high sensitivity.
 
 
-\newpage
+\subsection{位相ノイズ}
+% 連続フレーム差の空間標準偏差/√2 を細胞のない領域で測り、上の shot-noise 限界と比べる。Figure 3A（測り直し要）。
 
-\section{Microfluidic device}
-シングルセルレベルで発現状態の時間変化を長期的に取得するため,mother machineと呼ばれるPolydimethylsiloxane(PDMS)製マイクロ流体デバイスを用いて計測を行った.mother machineは,制御された増殖条件下で個々の細菌細胞を長期間にわたって観察・分析するために設計された特殊なマイクロ流体デバイスである\cite{wang2010robust}.2010年にWangらによって大腸菌の一細胞解析のために初めて開発されたこの装置は,単一細胞の動態,細菌の老化,遺伝子発現,およびその他のさまざまな細胞プロセスを,これまでにない時間的・空間的解像度で研究するための非常に貴重なツールとなっている.
-この基本設計は,数百から数千の細長い増殖チャネルが,増殖培地が連続的に流れる大きな主溝に対して垂直に配置されている.各増殖チャネルは通常,細菌細胞の1列分が収まるだけの幅しかなく,一端が閉じられている.チャネルは,ソフトリソグラフィ技術を用いて,透明でガス透過性のポリマーであるポリジメチルシロキサン（PDMS）で製造される.その後,PDMSチップはガラスカバースリップに接着され,顕微鏡観察に適した透明度を維持しながら密閉された流路が形成される(図1).
+\subsection{参照グリッド登録の精度}
+% 公称ステージ変位と実測変位の差、誤差ベクトル。Figure 3B（対応表を 32 bit 実数で作り直してから）。
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=100mm]{example-image}
-\caption{\textnormal{\textbf{マザーマシンの構造の概略図} 培地は矢印に沿って流れ,メイン流路に流れる.穴は中央チャネルの入口と出口に穴を開け,新鮮培地（入口）と廃液（出口）用のチューブを接続する.}}
-\end{figure}
+\subsection{ドリフト}
+% 記録全長での位置ずれ、補正あり／なし。Figure 3C（確定済み）。
 
-「マザー・マシン」という名称は,何百世代にもわたって同じ「母細胞」を追跡できる能力に由来する.細胞がこれらの流路で成長し分裂すると,各流路の行き止まりにある細胞はそのまま捕捉された状態が維持されるが,その娘細胞は徐々に主溝に向かって押し出され,最終的には主溝を勢いよく流れる培地によって洗い流される(図2).この閉じ込められた細胞は,その極の1つが常に流路の末端に接しており,世代から世代へと受け継がれるため,「母細胞」と呼ばれる.この設計により,定常状態の増殖条件を維持しながら,何百もの細胞分裂にわたって同じ母細胞を追跡することが可能になる.
-主溝を流れる新鮮な培地の連続的な流れは,成長チャネルへの拡散により,すべての細胞に栄養素を一定に供給する.研究により,栄養素の拡散は数秒単位の時間スケールで起こり,一般的な栄養素の取り込み時間である数分よりもはるかに速いことが示されており,均一な栄養条件が確保されることが分かっている\cite{wang2010robust} \cite{taheri2015cell}.また,主溝を流れる培地により,成長チャネルから出てきた娘細胞が除去されることで過密状態が回避され,均一な成長条件が維持される.さらに,マザーマシンの重要な利点の一つは培地条件の切り替えが容易なことで,培養条件を素早く変化させることができるため,研究者は環境変化に対する細胞の反応を研究することができる.
+\subsection{既知シフトの回収}
+% 細胞のない領域に既知の sub-pixel 並進を与えて回収、MAE 3.8 nm。Figure 3D（確定済み）。
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=100mm]{example-image}
-\caption{\textnormal{\textbf{マザーマシンの観察チャネルの概略図} ”母細胞”は成長チャネルの端に捕捉されており, 中央のフローセルに垂直に並んだ成長チャネルは, 新鮮な培地を供給し, 娘細胞をかき出す.}}
-\end{figure}
+\subsection{濃度校正の直線性}
+% BSA 系列に対する位相の線形。Figure 2（ver2 未決）。
 
-mother machineは細胞は固定された焦点面に留まり,高開口数対物レンズを使用して簡単に画像化できるため,この装置は蛍光顕微鏡にも適している.また,成長チャネル間の間隔は,チャネル間の蛍光の漏れを最小限に抑えつつ,同時に観察できる細胞の数を最大限に増やすように最適化することができる.典型的な実験では,一定の間隔（通常は数分ごと）で10～12の視野を撮影し,各視野には約100個の細胞が含まれる.その結果,長期間にわたって数千もの細胞系統を観察することができる.こうした利点を活かして,mother machineは老化\cite{wang2010robust}\cite{nakaoka2017aging},飢餓適応\cite{bakshi2021tracking},抗生物質耐性\cite{kaplan2021observation},細胞分化\cite{russell2017noise},細胞壁の成長メカニズム\cite{amir2014bending}など,さまざまな研究分野で活用されている.
+\section{考察}
+% 他の QPI 系・他の密度計測法との比較と、この系の限界。論文 qpi-methods/sentence/40_discussion.tex から。
 
-本研究で使用したmother machineでは,幅180~$\mu$\text{m}の太い1本の流路に沿って垂直に,幅約6.3~$\mu$\text{m},長さ約40~$\mu$\text{m}の観察用チャンバーが多数配列している.流路の両端にはそれぞれシリンジと廃液に繋がるチューブが接続されており,シリンジポンプにより一定速度で送り出される培地が流路内を一方向に流れることでデバイス中の培養環境がおよそ定常に保たれる.導入された細胞はこのチャンバー内に入り込み,ほぼ一列に限定された状態で増殖するマザーマシンは,メインフロートレンチに沿って多数の流路が並ぶように設計されており,メインフロートレンチ内を流れる培地を変化させることで,細胞の環境条件を精密に制御することが可能である.
-
-The microfluidic device consisted of observation chambers and flow channels. Photomasks were developed on mask blanks (Clean Surface Technology) using a maskless lithography system (μmLA, Heidelberg Instruments). Devices were fabricated from polydimethylsiloxane (PDMS) using molds prepared on silicon wafers (University Wafers) as follows (Figure 3):
-An appendix-grade, stepwise fabrication protocol with acceptance criteria and troubleshooting is provided in Appendix C.
-Observation channel layer: SU-8 2 (MicroChem) and SU-8 3005 (MicroChem) were mixed at the appropriate ratio, and 1 mL was dispensed onto a silicon wafer and spin-coated at 3,000 rpm for 30 s (Mikasa MS-A150). The wafer was soft-baked at 65°C for 1 min and 95°C for 2 min. The observation channel mask was aligned, and the wafer was exposed to UV light using a mask aligner (Mikasa MA-20) with three exposures of 5.0 s each. Post-exposure baking was performed at 65°C for 1 min and 95°C for 3 min, followed by development in SU-8 developer (MicroChem), rinsing with isopropanol, and drying.
-Drain layer: SU-8 3010 (MicroChem) was dispensed onto the wafer with the completed observation channel layer and spin-coated at 1,500 rpm for 30 s. After soft-baking at 65°C for 1 min and 95°C for 8 min, the drain channel mask was aligned to the observation channel alignment marks and exposed to UV light for 30 s. Post-exposure baking was performed at 65°C for 3 min and 95°C for 10 min, followed by development, rinsing, and drying as described above.
-PDMS device assembly: SYLGARD 184 (Dow Silicones Corporation) base and curing agent were mixed at a 10:1 ratio, degassed under vacuum for 1 h, and poured onto the silicon wafer mold. After curing at 65°C for at least 12 h, PDMS blocks were cut to size, and inlet/outlet ports were punched using a 0.5-mm biopsy punch (BP-A05F). Blocks were sonicated in ethanol and dried at 65°C.
-Cover glass preparation: Cover glasses (Matsunami NEO No.1, 0.13–0.17 mm) were sonicated sequentially in diluted Contaminon LS-II (Wako), ultrapure water, ethanol, and ultrapure water. Cover glasses were then treated with 0.1 M sodium hydroxide, rinsed with ultrapure water, and dried at 140°C.
-Bonding: PDMS blocks and cleaned cover glasses were treated with a plasma etcher (FA-1, SAMCO) for 10 s and immediately bonded, taking care to avoid air bubbles and debris.
-Epoxy replica fabrication: A PDMS negative mold was first generated from the original silicon wafer master by casting SYLGARD 184 (10:1 ratio, degassed for 1 h) and curing at 65°C for at least 12 h. The PDMS mold was then used to cast epoxy replicas using two-part rigid epoxy (LOCTITE EA E-30CL) on plastic plates, allowing complete curing for at least 24 h. These epoxy replicas served as reusable masters for subsequent PDMS device fabrication.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=150mm]{example-image}
-\caption{\textnormal{\textbf{マイクロ流体デバイスの作製} SU-8マスターモールドの作製,モールド上へのポリジメチルシロキサン（PDMS）のキャスティング,プラズマ処理によるスライドガラスへの接着過程の模式図を表している.}}
-\end{figure}
-
-
-\section{Time-lapse imaging}
-Microscopy was conducted on an inverted Nikon Ti microscope (Nikon Instruments Inc.) fitted with a 40×/0.95 NA air objective. Samples were maintained at 30 °C with a stage-top incubator (Tokai Hit model ). The microscope hardware including motorized stage, shutters, Perfect Focus System (PFS) autofocus and image acquisition were controlled using Micro-Manager (v) open-source software.
-Exponential-phase S. pombe cells cultured in EMM (2\% glucose) at 30°C were harvested from 20 mL cultures by centrifugation at 3,700 rpm for 5 min (HITACHI himac CT6E) to generate a 100-fold concentrated cell suspension. The concentrated suspension was loaded into the microfluidic device using a 1-mL syringe (Terumo).
-To insert cells into the observation channels, the device was centrifuged at 1,200 rpm for 5 min, rotated 180°, and centrifuged again for 5 min. After confirming cell trapping within the observation channels by microscopy, EMM (2\% glucose) was perfused at 2 mL/h. Cells were allowed to settle until excess cells were completely flushed from the drain channels. Time-lapse imaging was then initiated after registering cell positions.
-For media exchanges to EMM (low\% glucose) or EMM (0\% glucose), the entire tubing system, including the connector, was replaced. The appearance of air bubbles in the connector, visualized by live microscopy, was used as the reference point to define the next frame as the time of media exchange.
-Media perfusion was controlled by a syringe pump (Harvard ULTRA-P), maintaining a constant flow rate of 2 mL/h throughout the experiments to ensure stable environmental conditions.
-
-\section{タイムラプス計測と画像の取得}
-タイムラプス計測には,温度を正確に制御するためのサーモスタットチャンバー（TIZHB,TokaiHit）を備えた電動倒立顕微鏡（Nikon,Ti-E）を使用した.デジタルCMOSカメラ（ORCA C14440 ,浜松ホトニクス）,LED光源（Thorlabs）を組み合わせ,対物レンズはPlan Apo $\lambda$D 40x / 0.95(MRD70470,Nikon)を,GFP蛍光のフィルターキューブにはGFP-B(EX 460-500, DM 505, EM 510-560)を使用した.撮影はMicromanagerソフトウェア（https://micro-manager.org/）で制御し,5分間隔で画像を取得した.明視野画像の露光時間は50ミリ秒,GFP蛍光画像の露光時間は500ミリ秒とした.観察期間は実験条件によって異なり,192時間から240時間であった.長期間のタイムラプス撮影中には,焦点面の安定性を保つためにパーフェクト・フォーカス・システム（PFS）を使用した.すべての観察は30℃で実施した.
-
-
-
-\section{Image analysis}
-To reduce post-processing time, each z-stack was cropped to a square region containing the cell(s) of interest and a border of at least 40 pixels, and the focal plane was identified. This cropping was accomplished first using FIJI v. 1.53c to identify regions of interest (ROIs) within a thresholded standard deviation z-projection image of each brightfield z-stack. Using custom Matlab R2019a (Mathworks) scripts, images were cropped to the ROIs and the standard deviation of the pixels in each ROI was computed. The focal plane was defined based on the image in the stack with the lowest standard deviation. Three images above and three images below the focal plane separated by 500 nm were used to quantify cytoplasmic density. Based on these images, the phase information was calculated using a custom Matlab script implementing a previously published algorithm (Bostan et al., 2016). In brief, this method relates the phase information of the cell to bright-field image intensity changes along the z-direction. Equidistant, out-of-focus images above and below the focal plane are used to estimate intensity changes at various defocus distances. A phase-shift map is reconstructed in a non-linear, iterative fashion to solve the transport-of-intensity equation.[from variational]
-
-\section{Image Preprocessing}
-Using Matlab, images were background-corrected by fitting a Gaussian to the highest peak of the histogram (corresponding to the background pixels) of the phase-shift map and shifting every pixel so that the background intensity peak corresponded to zero phase shift. These background-corrected phase-shift maps were converted into binary images using watershedding for cell segmentation; where necessary, binary images were corrected manually to ensure accurate segmentation. Binary images were segmented using Morphometrics (Ursell et al., 2017) to generate subpixel-resolved cell outlines.
-
-Each cell outline was skeletonized using custom Matlab code as follows. First, the closest-fitting rectangle around each cell was used to define the long axis of the cell. Perpendicular to the long axis, sectioning lines at 250 nm intervals and their intersection with the cell contour were computed. The centerline was then updated to run through the midpoint of each sectioning line between the two contour-intersection points. The slope of each sectioning line was updated to be perpendicular to the slope of the centerline around the midpoint. Sectioning lines that crossed a neighboring line were removed. Cell volume and surface area were calculated by summing the volume or area of each section, assuming rotational symmetry. Volume and area of the poles were calculated assuming a regular spherical cap.
-
-To convert the mean intensity of the phase-shift within each cell into absolute concentration (in units of mg/mL), the mean of all cells across all time points was first calculated. Then, the decrease in phase shift induced by a prescribed concentration of BSA (typically 100 mg/mL) was defined as the difference between the mean of the phase shifts before and after the BSA imaging time point and the phase shift during the BSA time point. This difference in intensity established the calibration scaling between phase shift intensity and the concentration of BSA (Figure 1B). The cytoplasmic density of each cell was then calculated by dividing the mean phase shift of the cell by the aforementioned scaling factor. The mass of each cell was inferred from its mean density and volume.[from variational]
-
-\section{Volume estimation}
-戸田さんの哺乳類細胞の体積推定や他のrod shape近似の書き方を調べる
-
-明視野（BF）画像のセグメンテーションは,顕微鏡における細胞セグメンテーションに一般的に使用される深層学習ベースのアルゴリズムであるOmnipose\cite{cutler2022omnipose}の半自動ワークフローを用いてセグメンテーションした.Omnipose は,大規模なパラメータチューニングをすることなく,様々なタイプの画像を正確にセグメントできることで知られている.BF画像のセグメンテーションを容易にするために,Omniposeモデルは,パラメータ調整なしで,GFP蛍光画像から得られたマスク画像からなるグランドトゥルースデータを用いて学習された.得られた学習済みモデルをBF画像に適用した(図4). 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=50mm]{example-image}
-\caption{\textnormal{\textbf{Omniposeインターフェース}Omniposeではリアルタイムのフィードバックデータのインタラクティブな解析を可能にする.表示されている生データはBF画像に訓練済みのモデルを用いて,セグメンテーションを行ったマスクを重ね合わせた図}}
-\end{figure}
-
-To correct for sample drift during time-lapse imaging, we calculated alignment transformations using the Enhanced Correlation Coefficient (ECC) algorithm \cite{evangelidis2008parametric}. Alignment transformations were computed using images from empty channels (no cells present) to register against immobile channel structures. The resulting transformation matrices were stored and subsequently applied to cell-containing channel images using affine transformation. To isolate cellular phase signals from residual channel structures, the empty channel was subtracted from all subsequent frames, yielding differential phase images $\Delta\phi(x,y,t)$ representing only cellular refractive index contributions.
-
-\section{Cell Segmentation}
-Cell boundaries were detected using Omnipose \cite{cutler2022omnipose}, a deep learning-based segmentation method optimized for bacterial morphology. We trained a custom Omnipose model on approximately 3000 manually annotated S. pombe cells. Training images were first manually annotated using the Omnipose GUI to generate ground truth segmentation masks. Segmentation masks were converted to binary outlines by detecting pixel discontinuities at cell boundaries using morphological operations. Specifically, boundaries were identified where mask values differed from their four-connected neighbors, generating single-pixel-width contours.
-
-
-\section{Performance evaluation}
-% Figure 2（校正・精度）と Figure 3（位相ノイズ・グリッド・ドリフト・既知シフトの回収）はここ。
-% これらは手法の検証図なので、実験1のデータを待たずに書ける。
-
-\section{Summary of this chapter}
+\section{まとめ}
+% 何を、どの精度で、どれだけ長く測れるか（数値は 2.9 から）。第3章で何に使うか1文。
