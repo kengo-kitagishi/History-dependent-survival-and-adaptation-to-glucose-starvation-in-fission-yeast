@@ -23,7 +23,7 @@ Evidence の数値は ~/QPI_Omni の実コード・解析出力で裏を取る�
 
 **P3 分解能と Fourier 面のパラメータ**
 - Topic: 位相像の画素数と画素サイズは NA と視野で決まる。
-- Evidence: カットオフ f = NA/λ（Abbe 限界 λ/NA、コヒーレント照明）。N×N 画素・物体面画素 Δp のホログラムで FOV = NΔp。円窓の直径 D_ap = 2⌊(NA/λ)·FOV⌋+1 画素。再構成画素 Δp_recon = FOV/D_ap ≈ λ/2NA。
+- Evidence: カットオフ f = NA/λ（Abbe 限界 λ/NA、コヒーレント照明）。N×N 画素・物体面画素 Δp のホログラムで FOV = NΔp。円窓の直径 D_ap = 2·round((NA/λ)·FOV)+1 画素（コード qpi.py の aperturesize と同じ式）。再構成画素 Δp_recon = FOV/D_ap ≈ λ/2NA。
 - Implication: 位相像の画素は分解能要素の半分で、Nyquist をちょうど満たす。
 - Bridge: 生ホログラムの側にも条件がある。
 
@@ -35,6 +35,6 @@ Evidence の数値は ~/QPI_Omni の実コード・解析出力で裏を取る�
 
 **P5 我々の値**
 - Topic: 我々の系はこの条件を満たす。
-- Evidence: λ = 658 nm、NA 0.95、40×、カメラ画素 3.45 µm。Δp = 3.45/40 = 86.25 nm。FOV = 2048 × 86.25 nm = 176.6 µm。Abbe 692 nm。Nyquist 346 nm。余裕 346/86.25 = 4.0。D_ap = 2⌊(0.95/658 nm) × 176.6 µm⌋ + 1 = 511。Δp_recon = 176.6 µm / 511 = 346 nm。
+- Evidence: λ = 658 nm、NA 0.95、40×、カメラ画素 3.45 µm。Δp = 3.45/40 = 86.25 nm。FOV = 2048 × 86.25 nm = 176.64 µm。Abbe 692 nm。Nyquist 346 nm。余裕 346/86.25 = 4.0。(NA/λ)·FOV = 255.0 → D_ap = 2·round(255.0) + 1 = 511。Δp_recon = 176.64 µm / 511 = 346 nm。FOV を 176.6 と丸めると 254.97 になり床関数では 509 になるので、式は round で書く。
 - Implication: 位相像は 511×511 画素、画素 0.346 µm。論文の値と一致する。
 - Bridge: k^off をどの範囲に置くかが光学系の設計条件になる → 2.5。

@@ -259,9 +259,9 @@ f_{\mathrm{cutoff}} = \frac{\mathrm{NA}}{\lambda}
 \end{equation}
 で、Abbe の分解限界（式~\eqref{eq:abbe}）に対応する。ホログラムが $N \times N$ 画素、物体面での画素ピッチが $\Delta p$ なら、視野は $\mathrm{FOV} = N \cdot \Delta p$ である。円窓の直径は画素単位で
 \begin{equation}
-D_{\mathrm{ap}} = 2 \left\lfloor \frac{\mathrm{NA}}{\lambda} \cdot \mathrm{FOV} \right\rfloor + 1
+D_{\mathrm{ap}} = 2 \,\mathrm{round}\!\left( \frac{\mathrm{NA}}{\lambda} \cdot \mathrm{FOV} \right) + 1
 \end{equation}
-となり（$\lfloor \cdot \rfloor$ は床関数）、これがそのまま位相像の一辺の画素数になる。位相像の画素サイズは
+となり（$\mathrm{round}$ は最も近い整数への丸め）、これがそのまま位相像の一辺の画素数になる。位相像の画素サイズは
 \begin{equation}
 \Delta p_{\mathrm{recon}} = \frac{\mathrm{FOV}}{D_{\mathrm{ap}}} \approx \frac{\lambda}{2\mathrm{NA}}
 \end{equation}
@@ -273,11 +273,11 @@ D_{\mathrm{ap}} = 2 \left\lfloor \frac{\mathrm{NA}}{\lambda} \cdot \mathrm{FOV} 
 \end{equation}
 が要る。干渉縞を写すので、実際には 2--4 倍の余裕をとる。第2に、位相像では1分解能要素 $\lambda/\mathrm{NA}$ がおよそ2画素に対応する。生のホログラムの側の余裕は、干渉項が Nyquist を超えないという光学系の設計条件（\ref{sec:optics} 節の第2条件）と同じ要求である。
 
-我々の系はこの条件を満たす。$\lambda = 658$ nm、NA $= 0.95$、倍率 $40\times$、カメラの画素 3.45 μm から、物体面の画素ピッチは $\Delta p = 3.45~\mu\mathrm{m}/40 = 86.25$ nm、視野は $2048 \times 86.25$ nm $= 176.6$ μm である。Abbe の分解限界は $658/0.95 = 692$ nm、Nyquist の条件は $\Delta p_{\mathrm{Nyquist}} = 658/(2 \times 0.95) = 346$ nm で、生のホログラムの余裕は $346/86.25 = 4.0$ 倍になる。円窓の直径は
+我々の系はこの条件を満たす。$\lambda = 658$ nm、NA $= 0.95$、倍率 $40\times$、カメラの画素 3.45 μm から、物体面の画素ピッチは $\Delta p = 3.45~\mu\mathrm{m}/40 = 86.25$ nm、視野は $2048 \times 86.25$ nm $= 176.64$ μm である。Abbe の分解限界は $658/0.95 = 692$ nm、Nyquist の条件は $\Delta p_{\mathrm{Nyquist}} = 658/(2 \times 0.95) = 346$ nm で、生のホログラムの余裕は $346/86.25 = 4.0$ 倍になる。円窓の直径は
 \begin{equation}
-D_{\mathrm{ap}} = 2\left\lfloor \frac{0.95}{658 \times 10^{-9}} \times 176.6 \times 10^{-6} \right\rfloor + 1 = 511
+D_{\mathrm{ap}} = 2 \,\mathrm{round}\!\left( \frac{0.95}{658 \times 10^{-9}} \times 176.64 \times 10^{-6} \right) + 1 = 2 \,\mathrm{round}(255.0) + 1 = 511
 \end{equation}
-画素で、位相像の画素サイズは $\Delta p_{\mathrm{recon}} = 176.6~\mu\mathrm{m}/511 = 346$ nm である。したがって位相像は $511 \times 511$ 画素、画素サイズ 0.346 μm となる。off-axis の波数 $k^{\mathrm{off-axis}}$ をどの範囲に置くかは、次節で光学系の設計条件として述べる。
+画素で、位相像の画素サイズは $\Delta p_{\mathrm{recon}} = 176.64~\mu\mathrm{m}/511 = 346$ nm である。したがって位相像は $511 \times 511$ 画素、画素サイズ 0.346 μm となる。off-axis の波数 $k^{\mathrm{off-axis}}$ をどの範囲に置くかは、次節で光学系の設計条件として述べる。
 
 \section{光学系}
 \label{sec:optics}
