@@ -1,4 +1,4 @@
-% NEXT: 2.1 背景 を書く。橋本博論 48136 の p9-14（既存技術の問題点 → 必要条件）が手本〔初期値〕
+% NEXT: 2.1 背景・2.2 目的 の第一稿（9/9）を読んで直す。次に書くのは 2.7.5 取得条件と 2.7.6 参照グリッド（論文 Methods を日本語に）〔初期値〕
 % 第2章: QPI による長期1細胞計測系の構築
 % 2026-09-08 に橋本幹弘さんの博論（48136）の形に組み替えた。
 % 2026-09-09 に節を確定し、見出しを日本語にした。
@@ -7,17 +7,47 @@
 \chapter{QPIによる長期1細胞計測系の構築}
 
 \section{背景}
-なんで他の密度測定方法ではなく、QPIを用いたのかまで書きたかったら、generalな測定方法を挙げていって、この方法が良かったみたいなことを書けばよくて、その際には
-\cite{nguyen2022quantitative}
-non invasive way of 
+\label{sec:background}
+% 2026-09-09 に Claude が、論文 qpi-methods/sentence/10_intro.tex と plot/2_measurement_system.md の 2.1 から起こした第一稿。
+% 橋本博論 48136 の 2.1（2.1.1 既存技術の問題点 → 2.1.2 必要条件 → 2.2 目的1文）の形に合わせた。本人が読んで直す。
+% 屈折率増分は文献値として 0.18〜0.19 mL/g と書いた。解析で使う1つの値は 2.8.7 で決める（コードの値に合わせる）。
 
+\subsection{細胞質の乾燥質量密度と既存の計測法}
 
+細胞質の乾燥質量密度、すなわち細胞質の非水成分の濃度は、細胞内の拡散、反応速度、相分離に影響する\cite{ellis2001crowding,delarue2018mtorc1,molines2022cytoplasm}。集団の平均で見ると、密度は増殖速度が数倍変わっても一定に保たれる\cite{kubitschek1984independence,kubitschek1985buoyant}。一方、1細胞の水準では生合成と体積成長が脱共役しうる。G1 期に停止させた出芽酵母は大きく成長して細胞質が希釈され\cite{neurohr2019excessive}、分裂酵母では体積成長を一時的に止めると密度が上がる\cite{knapp2019decoupling}。通常の細胞周期の進行でも密度は変わる\cite{odermatt2021variations,zlotekzlotkiewicz2015optical}。それでも、同じ条件にある細胞どうしの密度の差は数\%にとどまる\cite{oldewurtel2021robust,odermatt2021variations,liu2022uniformity}。第3章で扱うグルコース飢餓下の密度変化を1細胞で捉えるには、この数\%の差を分解する精度で、同じ細胞を数日にわたって測り続ける計測が要る。
 
-It has been found that, for most biological molecules, including proteins and nucleic acids, the values of γ are close to 0.19 mL/g (\href{https://www.sciencedirect.com/science/chapter/bookseries/pii/S1063582318300024\#bib244}{Theisen, Johann, Deacon, \& Harding, 2000}), and the linearity is maintained for a wide range of concentrations \cite{zangle2014live}
-(\href{https://www.sciencedirect.com/science/chapter/bookseries/pii/S1063582318300024\#bib12}{Barer and Tkaczyk, 1954}, \href{https://www.sciencedirect.com/science/chapter/bookseries/pii/S1063582318300024\#bib278}{Zangle and Teitell, 2014}, \href{https://www.sciencedirect.com/science/chapter/bookseries/pii/S1063582318300024\#bib282}{Zhao et al., 2011}). Therefore, refractive index measurement is a rather direct approach to determination of concentration of molecules in cell.
+屈折率は分子濃度の指標である。溶液の屈折率 $n$ は溶質の質量濃度 $C$ に対して $n = n_0 + \alpha C$ と線形に増える。比例係数 $\alpha$（屈折率増分）はタンパク質と核酸でほぼ共通の値 $0.18$〜$0.19~\mathrm{mL/g}$ をとり、細胞内の濃度範囲で線形性が保たれる\cite{barer1952interference,barer1954refractive,zhao2011distribution,zangle2014live}。したがって、細胞と培地の屈折率差を測れば、細胞質の乾燥質量濃度が求まる。
+
+1細胞の密度を測る方法には次のものがある。浮遊密度は Percoll などの密度勾配遠心で測る\cite{woldringh1981variation,kubitschek1985buoyant,bryan2010measurement}。集団を分画する測定なので同じ細胞の時系列は得られず、遠心と勾配媒体が細胞の環境を変える。懸濁マイクロチャネル共振器（SMR）は1細胞の浮遊質量を高い精度で測り、密度の異なる2種類の液中での測定から密度を求める\cite{grover2011measuring,bryan2010measurement}。細胞を流路に流して測るので、同じ細胞を数日追うことには向かない。蛍光排除法は体積を測る方法で、質量の測定と組み合わせて密度を出す\cite{zlotekzlotkiewicz2015optical}が、培地に蛍光色素を加える必要がある。ラマン散乱を用いる方法は分子種ごとの濃度を無標識で与える\cite{oh2022protein}が、装置と取得時間の点で、多数の視野を数分間隔で数日撮る用途には向かない。
+
+定量位相イメージング（QPI）は、細胞を透過した光の位相遅れ $\Delta\phi = (2\pi/\lambda)\int (n_{\mathrm{cell}} - n_0)\,dz$ を定量する\cite{barer1952interference,popescu2006diffraction,park2018quantitative,nguyen2022quantitative}。位相の面積分は乾燥質量に比例し、体積と合わせれば密度になる。標識も固定も要らず、1枚の露光で1視野の位相像が得られるので、長期のタイムラプスに使える。分裂酵母でも、細胞周期内の密度変動が QPI で測られている\cite{rappaz2009noninvasive,odermatt2021variations}。ただし、系譜に沿って密度を追った記録は1〜数周期にとどまり\cite{odermatt2021variations,liu2020computationally}、世代をまたいだ細胞間のばらつきがどう振る舞うかは分かっていない。
+
+\subsection{長期1細胞密度計測系の必要条件}
+\label{sec:requirements}
+
+前項の方法を、分裂酵母1細胞の密度を飢餓下で数日にわたって追うという目的に照らすと、計測系に必要な条件は次の4つになる。
+
+\begin{enumerate}
+\item 長期の1細胞追跡。同じ細胞を同じ視野に数日とどめ、指数関数的に増える子孫を系外に除き、培地を一定に保つか任意の時刻に交換できること。細胞を行き止まりの細い流路に1列で閉じ込め、主流路で培地を流す mother machine がこれを満たす\cite{wang2010robust,nakaoka2017aging}。
+\item 無標識・非侵襲で、1枚の露光から位相像が得られること。多数の視野を数分間隔で数日撮るので、機械的な走査や複数枚の取得を要する方式は取得時間と安定性の点で不利である。数日の記録では振動と光学系のずれが避けられないので、物体光と参照光が同じ光路を通る common-path 型の干渉計が要る。
+\item 位相ノイズが、測りたい密度差に対応する位相差より十分小さいこと。同一条件での細胞間の密度差は数\%なので、位相像のノイズはその位相差の数分の一以下でなければならない。
+\item 背景の位相を細胞の無い領域から取れること。QPI では照明光の位相分布を試料の無い領域で測って差し引くが、mother machine の観察チャネルは細胞で埋まり、細胞のそばに培地だけの領域が残らない。背景をどこから取るかを別に決める必要がある。
+\end{enumerate}
+
+このほか、数千フレームの位相像から細胞の輪郭、系譜、体積を自動で取り出す解析が要る。第1・第2の条件は既存の要素（mother machine と common-path off-axis 干渉計）の組み合わせで満たせる。第3の条件は光学系の設計（\ref{sec:optics} 節）と性能評価（\ref{sec:performance} 節）で示す。第4の条件は既存の方法では満たされないので、本研究では計測前にステージ変位のグリッドで参照像を記録する方式を導入した（\ref{sec:grid_acq} 節、\ref{sec:bgsub} 節）。
+
+% 旧: なんで他の密度測定方法ではなく、QPIを用いたのかまで書きたかったら、generalな測定方法を挙げていって、この方法が良かったみたいなことを書けばよくて、その際には
+% 旧: \cite{nguyen2022quantitative}
+% 旧: non invasive way of 
+%
+%
+%
+% 旧: It has been found that, for most biological molecules, including proteins and nucleic acids, the values of γ are close to 0.19 mL/g (\href{https://www.sciencedirect.com/science/chapter/bookseries/pii/S1063582318300024\#bib244}{Theisen, Johann, Deacon, \& Harding, 2000}), and the linearity is maintained for a wide range of concentrations \cite{zangle2014live}
+% 旧: (\href{https://www.sciencedirect.com/science/chapter/bookseries/pii/S1063582318300024\#bib12}{Barer and Tkaczyk, 1954}, \href{https://www.sciencedirect.com/science/chapter/bookseries/pii/S1063582318300024\#bib278}{Zangle and Teitell, 2014}, \href{https://www.sciencedirect.com/science/chapter/bookseries/pii/S1063582318300024\#bib282}{Zhao et al., 2011}). Therefore, refractive index measurement is a rather direct approach to determination of concentration of molecules in cell.
 
 \section{目的}
-% 2.1 の必要条件を満たす計測系を作り、その性能を 2.9 で示す。数行でよい。
+\label{sec:aim}
+分裂酵母を対象に、\ref{sec:requirements} 節の4条件を満たす、QPI による長期1細胞乾燥質量密度計測系を構築する。common-path off-axis ディジタルホログラフィの光学系、mother machine、ステージ変位のグリッドによる参照像の取得、位相像から乾燥質量密度までの解析パイプラインを一体として作り、その性能を位相ノイズ、参照像の登録精度、ドリフト、既知シフトの回収、濃度校正の直線性で評価する（\ref{sec:performance} 節）。この計測系を第3章のグルコース飢餓実験に用いる。
 
 \section{定量位相イメージングの原理}
 % TODO: ここの導出は AppendixA と重なっている。本文には結果に必要な分だけ残し、
@@ -32,7 +62,7 @@ where $z$ denotes depth within the sample, $h(x)$ is the cell thickness profile,
     \centering
     \includegraphics[width=0.5\linewidth]{example-image}
     \caption{A diagram showing accumulation of phase delay of light passing through a cell}
-    \label{fig:placeholder}
+    \label{fig:phase_delay}
 \end{figure}
 \subsection{共通光路法}
 common path QPI methods implement a considerably more compact interferometer after the sample. In this geometry, the two interfering light beams propagate through many of the same optical components, increasing robustness to vibrations and misalignments of the system as well as generally reducing the system's footprint. Because they can be placed after the sample, common-path systems can also be easily implemented at the output port of a microscope.
@@ -217,7 +247,7 @@ The final OPD image is obtained by subtracting the mean value of the background 
     \centering
     \includegraphics[width=0.5\linewidth]{example-image}
     \caption{Reconstruction procedure of off-axis DH}
-    \label{fig:placeholder}
+    \label{fig:reconstruction}
 \end{figure}
 
 \subsection{空間分解能とFourier面のパラメータ}
@@ -250,6 +280,7 @@ D_{\mathrm{ap}} = 2\left\lfloor \frac{0.95}{658 \times 10^{-9}} \times 176.6 \ti
 and the reconstructed pixel size is $\Delta p_{\mathrm{recon}} = 176.6~\mu\mathrm{m}/511 = 346$ nm, which closely matches the Nyquist requirement.
 
 \section{光学系}
+\label{sec:optics}
 % 旧「Optical system: design and configuration」と「Design of the optical system」を1節にまとめた。順は 設計条件 → 構成 → 検証。
 
 \subsection{設計条件}
@@ -389,13 +420,14 @@ Media perfusion was controlled by a syringe pump (Harvard ULTRA-P), maintaining 
 % 5分間隔・露光 60 ms・複数ステージ位置。論文 qpi-methods/sentence/20_methods.tex の Long-term time-lapse から日本語に起こす。
 
 \subsection{参照グリッドの取得}
+\label{sec:grid_acq}
 % 細胞のそばに培地だけの領域が残らないので、計測前に stage 変位の 9×9 グリッド（0.1 µm 刻み）で参照像を撮る。
 % 中心像を計測中のフィードバックの基準にする。論文 Reference acquisition から。
 
 \subsection{タイムラプス計測と画像の取得}
 % 蛍光顕微鏡（ORCA・LED・GFP-B）の記述で、QPI の計測系ではない。卒論の残りと思われる。
 % Hsp104-GFP を第3章で使うなら 3.3 へ移す。使わないなら消す。
-タイムラプス計測には,温度を正確に制御するためのサーモスタットチャンバー（TIZHB,TokaiHit）を備えた電動倒立顕微鏡（Nikon,Ti-E）を使用した.デジタルCMOSカメラ（ORCA C14440 ,浜松ホトニクス）,LED光源（Thorlabs）を組み合わせ,対物レンズはPlan Apo $\lambda$D 40x / 0.95(MRD70470,Nikon)を,GFP蛍光のフィルターキューブにはGFP-B(EX 460-500, DM 505, EM 510-560)を使用した.撮影はMicromanagerソフトウェア（https://micro-manager.org/）で制御し,5分間隔で画像を取得した.明視野画像の露光時間は50ミリ秒,GFP蛍光画像の露光時間は500ミリ秒とした.観察期間は実験条件によって異なり,192時間から240時間であった.長期間のタイムラプス撮影中には,焦点面の安定性を保つためにパーフェクト・フォーカス・システム（PFS）を使用した.すべての観察は30℃で実施した.
+タイムラプス計測には,温度を正確に制御するためのサーモスタットチャンバー（TIZHB,TokaiHit）を備えた電動倒立顕微鏡（Nikon,Ti-E）を使用した.デジタルCMOSカメラ（ORCA C14440 ,浜松ホトニクス）,LED光源（Thorlabs）を組み合わせ,対物レンズはPlan Apo $\lambda$D 40x / 0.95(MRD70470,Nikon)を,GFP蛍光のフィルターキューブにはGFP-B(EX 460-500, DM 505, EM 510-560)を使用した.撮影はMicromanagerソフトウェア（https://micro-manager.org/）で制御し,5分間隔で画像を取得した.明視野画像の露光時間は50ミリ秒,GFP蛍光画像の露光時間は500ミリ秒とした.観察期間は実験条件によって異なり,192時間から240時間であった.長期間のタイムラプス撮影中には,焦点面の安定性を保つためにパーフェクト・フォーカス・システム（PFS）を使用した.すべての観察は30°Cで実施した.
 
 
 
@@ -409,6 +441,7 @@ To reduce post-processing time, each z-stack was cropped to a square region cont
 To correct for sample drift during time-lapse imaging, we calculated alignment transformations using the Enhanced Correlation Coefficient (ECC) algorithm \cite{evangelidis2008parametric}. Alignment transformations were computed using images from empty channels (no cells present) to register against immobile channel structures. The resulting transformation matrices were stored and subsequently applied to cell-containing channel images using affine transformation. To isolate cellular phase signals from residual channel structures, the empty channel was subtracted from all subsequent frames, yielding differential phase images $\Delta\phi(x,y,t)$ representing only cellular refractive index contributions.
 
 \subsection{背景差分}
+\label{sec:bgsub}
 % 各フレームの変位に最も近いグリッド像を背景として引く。残る 2π の倍数と線形成分は細胞のない領域で推定して除く。論文 Background subtraction から。
 Using Matlab, images were background-corrected by fitting a Gaussian to the highest peak of the histogram (corresponding to the background pixels) of the phase-shift map and shifting every pixel so that the background intensity peak corresponded to zero phase shift. These background-corrected phase-shift maps were converted into binary images using watershedding for cell segmentation; where necessary, binary images were corrected manually to ensure accurate segmentation. Binary images were segmented using Morphometrics (Ursell et al., 2017) to generate subpixel-resolved cell outlines.
 
@@ -440,6 +473,7 @@ Each cell outline was skeletonized using custom Matlab code as follows. First, t
 % Barer (1952)、屈折率増分 0.18 mL/g、位相の面積分から乾燥質量濃度。論文 Dry mass から。2.1 の 0.19 と揃える。
 
 \section{性能評価}
+\label{sec:performance}
 % Figure 2（校正・精度）と Figure 3（位相ノイズ・グリッド・ドリフト・既知シフトの回収）はここ。
 % これらは手法の検証図なので、実験1のデータを待たずに書ける。
 
