@@ -404,46 +404,47 @@ PDMS は主剤と硬化剤（SYLGARD 184, Dow）を 10:1 で混ぜ、真空で 1
 Hsp104-GFP 株の記録では、各ホログラムと同時に蛍光像を顕微鏡の反対側のポートから取得した。光源は LED（Thorlabs）、フィルタキューブは励起 460--500 nm、ダイクロイックミラー 505 nm、蛍光 510--560 nm の GFP 用で、蛍光像は別の sCMOS カメラ（ORCA-Fusion BT C14440, Hamamatsu）で記録した。
 
 \section{画像解析}
-% 旧 Image analysis / Image Preprocessing / Volume estimation / Cell Segmentation の4節をここにまとめた。
-% [from variational] 印の段落は別論文の手順の写し。論文 20_methods の対応する小節で置き換える。
-To reduce post-processing time, each z-stack was cropped to a square region containing the cell(s) of interest and a border of at least 40 pixels, and the focal plane was identified. This cropping was accomplished first using FIJI v. 1.53c to identify regions of interest (ROIs) within a thresholded standard deviation z-projection image of each brightfield z-stack. Using custom Matlab R2019a (Mathworks) scripts, images were cropped to the ROIs and the standard deviation of the pixels in each ROI was computed. The focal plane was defined based on the image in the stack with the lowest standard deviation. Three images above and three images below the focal plane separated by 500 nm were used to quantify cytoplasmic density. Based on these images, the phase information was calculated using a custom Matlab script implementing a previously published algorithm (Bostan et al., 2016). In brief, this method relates the phase information of the cell to bright-field image intensity changes along the z-direction. Equidistant, out-of-focus images above and below the focal plane are used to estimate intensity changes at various defocus distances. A phase-shift map is reconstructed in a non-linear, iterative fashion to solve the transport-of-intensity equation.[from variational]
+\label{sec:analysis}
+
+位相像から細胞ごとの乾燥質量密度を得るまでの処理は、位置合わせ、背景差分、培地の屈折率の校正、セグメンテーション、系譜追跡、形状と体積の推定、乾燥質量の計算の順である。
 
 \subsection{位置合わせ}
 \label{sec:registration}
-% 各時点で ECC（並進のみ）で参照像に合わせる。下の段落は「空チャネルを引く」旧方式。論文はグリッド像を引く方式。今のコードがどちらかを QPI_Omni で確認。
-To correct for sample drift during time-lapse imaging, we calculated alignment transformations using the Enhanced Correlation Coefficient (ECC) algorithm \cite{evangelidis2008parametric}. Alignment transformations were computed using images from empty channels (no cells present) to register against immobile channel structures. The resulting transformation matrices were stored and subsequently applied to cell-containing channel images using affine transformation. To isolate cellular phase signals from residual channel structures, the empty channel was subtracted from all subsequent frames, yielding differential phase images $\Delta\phi(x,y,t)$ representing only cellular refractive index contributions.
+
+各時点の各視野の位相像を、参照グリッドの中心像（\ref{sec:grid_acq} 節）に対して並進のみの位置合わせで合わせた。位置合わせには enhanced correlation coefficient（ECC）の最大化\cite{evangelidis2008parametric}を用い、変換は並進に限った。計測中はこの変位でステージ位置を更新し、記録後は同じ位置合わせで各フレームのグリッド中心からの変位を測った。
 
 \subsection{背景差分}
 \label{sec:bgsub}
-% 各フレームの変位に最も近いグリッド像を背景として引く。残る 2π の倍数と線形成分は細胞のない領域で推定して除く。論文 Background subtraction から。
-Using Matlab, images were background-corrected by fitting a Gaussian to the highest peak of the histogram (corresponding to the background pixels) of the phase-shift map and shifting every pixel so that the background intensity peak corresponded to zero phase shift. These background-corrected phase-shift maps were converted into binary images using watershedding for cell segmentation; where necessary, binary images were corrected manually to ensure accurate segmentation. Binary images were segmented using Morphometrics (Ursell et al., 2017) to generate subpixel-resolved cell outlines.
+
+各フレームには、測った変位に最も近い変位で撮ったグリッドの像を背景として対応させた。フレームを残りの変位だけずらしてその像に重ね、観察チャネルの周りに切った長方形の帯の中で差をとった。差の位相に残る $2\pi$ の整数倍と線形の傾きは、各帯のうち細胞の無い部分で推定して除いた。
 
 \subsection{培地屈折率の校正}
-% BSA 濃度系列（0–5% w/v）の灌流。論文 Calibration から。下の段落の BSA 100 mg/mL 1点は別論文の写し。
-To convert the mean intensity of the phase-shift within each cell into absolute concentration (in units of mg/mL), the mean of all cells across all time points was first calculated. Then, the decrease in phase shift induced by a prescribed concentration of BSA (typically 100 mg/mL) was defined as the difference between the mean of the phase shifts before and after the BSA imaging time point and the phase shift during the BSA time point. This difference in intensity established the calibration scaling between phase shift intensity and the concentration of BSA (Figure 1B). The cytoplasmic density of each cell was then calculated by dividing the mean phase shift of the cell by the aforementioned scaling factor. The mass of each cell was inferred from its mean density and volume.[from variational]
+\label{sec:calibration}
+
+乾燥質量の計算（\ref{sec:drymass} 節）には培地の屈折率が要る。これを BSA の濃度系列で校正した。BSA を超純水に溶かした 0--5\%（w/v）の溶液を順にデバイスに灌流し、参照グリッドを撮った視野を各溶液で撮った。培地が入った状態のグリッド中心像の位相を引き、チャネルの上で位相を積分した値を BSA 濃度に対して最小二乗で直線に当てはめた。傾きは積分した位相が見ている培地の体積を与え、傾きと切片から培地の屈折率が求まる。BSA の屈折率増分は、アミノ酸配列から計算した値に Zhao ら\cite{zhao2011distribution}の波長と温度の補正を加えた、658 nm、30 °C での値を使った。0\% の溶液は系列の最後にもう一度測り、持ち越しとドリフトの確認にした。
 
 \subsection{セグメンテーション}
-明視野（BF）画像のセグメンテーションは,顕微鏡における細胞セグメンテーションに一般的に使用される深層学習ベースのアルゴリズムであるOmnipose\cite{cutler2022omnipose}の半自動ワークフローを用いてセグメンテーションした.Omnipose は,大規模なパラメータチューニングをすることなく,様々なタイプの画像を正確にセグメントできることで知られている.BF画像のセグメンテーションを容易にするために,Omniposeモデルは,パラメータ調整なしで,GFP蛍光画像から得られたマスク画像からなるグランドトゥルースデータを用いて学習された.得られた学習済みモデルをBF画像に適用した(図4). 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=50mm]{example-image}
-\caption{\textnormal{\textbf{Omniposeインターフェース}Omniposeではリアルタイムのフィードバックデータのインタラクティブな解析を可能にする.表示されている生データはBF画像に訓練済みのモデルを用いて,セグメンテーションを行ったマスクを重ね合わせた図}}
-\end{figure}
 
-Cell boundaries were detected using Omnipose \cite{cutler2022omnipose}, a deep learning-based segmentation method optimized for bacterial morphology. We trained a custom Omnipose model on approximately 3000 manually annotated S. pombe cells. Training images were first manually annotated using the Omnipose GUI to generate ground truth segmentation masks. Segmentation masks were converted to binary outlines by detecting pixel discontinuities at cell boundaries using morphological operations. Specifically, boundaries were identified where mask values differed from their four-connected neighbors, generating single-pixel-width contours.
-
+細胞の輪郭は Omnipose\cite{cutler2022omnipose}で得た。我々の画像から手で注釈した約 3,000 細胞でモデルを学習した。
 
 \subsection{系譜追跡}
-% 面積でフレーム間を連結する。論文 lineage tracking から。
+
+マスクは面積でフレーム間を連結した。各チャネルの閉端に最も近い細胞を母細胞として起点にする。隣接する2つのマスクの面積の和が前のフレームの1細胞の面積と合うとき分裂とし、閉端側のマスクが親の識別子を継ぐ。整合する連結が見つからないフレームには追跡の失敗の印を付けた。1つのチャネルの閉端を占め続ける細胞の連なりを系譜と呼ぶ。
 
 \subsection{細胞の形状と体積}
-% 楕円 Fourier 記述子で輪郭を平滑化し、medial axis に垂直な幅から回転対称で体積。論文 Cell geometry から。
-戸田さんの哺乳類細胞の体積推定や他のrod shape近似の書き方を調べる
 
-Each cell outline was skeletonized using custom Matlab code as follows. First, the closest-fitting rectangle around each cell was used to define the long axis of the cell. Perpendicular to the long axis, sectioning lines at 250 nm intervals and their intersection with the cell contour were computed. The centerline was then updated to run through the midpoint of each sectioning line between the two contour-intersection points. The slope of each sectioning line was updated to be perpendicular to the slope of the centerline around the midpoint. Sectioning lines that crossed a neighboring line were removed. Cell volume and surface area were calculated by summing the volume or area of each section, assuming rotational symmetry. Volume and area of the poles were calculated assuming a regular spherical cap.
+各マスクの輪郭を楕円 Fourier 記述子で平滑化し、平滑化した輪郭から medial axis を取った。medial axis に垂直な方向の幅を軸に沿った各点で測り、細胞長は medial axis の弧長、細胞幅は両端を除いた中央部の幅の平均とした。体積は medial axis の周りの回転対称を仮定し、各断面の体積を足し合わせて求めた。
 
 \subsection{乾燥質量}
-% Barer (1952)、屈折率増分 0.18 mL/g、位相の面積分から乾燥質量濃度。論文 Dry mass から。2.1 の 0.19 と揃える。
+\label{sec:drymass}
+
+各細胞の乾燥質量濃度 $C$ は Barer\cite{barer1952interference}に従い、
+\begin{equation}
+C = \frac{1}{\alpha}\left(n_{\mathrm{medium}} - n_{\mathrm{water}} + \frac{\lambda}{2\pi V}\iint_S \Delta\phi\, dA\right)
+\label{eq:drymass}
+\end{equation}
+で求めた。$\alpha = 0.18$ mL/g は屈折率増分で、タンパク質、脂質、糖、核酸の平均値をとった\cite{barer1954refractometry,zangle2014live}。積分は細胞の投影面積 $S$ の上でとり、$\Delta\phi$ は背景差分後の位相、$V$ は細胞の体積、$\lambda = 658$ nm は光源の波長、$n_{\mathrm{medium}}$ は \ref{sec:calibration} 節で校正した培地の屈折率、$n_{\mathrm{water}} = 1.3312$ は同じ波長での水の屈折率である。細胞の乾燥質量は $CV$ である。
+% α はコードの値に合わせる。2.1 では文献値 0.18〜0.19 と書いた。
 
 \section{性能評価}
 \label{sec:performance}
