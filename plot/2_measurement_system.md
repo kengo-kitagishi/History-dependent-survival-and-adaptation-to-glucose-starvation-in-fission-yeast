@@ -33,7 +33,7 @@
 - off-axis: 回折格子でキャリア波数 k^off を物体光に与え、ピンホールで参照光を準平面波にする。干渉項が Fourier 空間で分離し、+1 次サイドバンドから U_s を取り出せる
 - ホログラムの式: I^DH = J^non-int + J^int e^{−i k·r} + c.c.
 
-決めること: 4f の図 fig:4f_system が無い。本文に残すのは、位相と OPD の関係、ホログラムの式と off-axis で干渉項が分離する理由、カットオフ NA/λ とサンプリング条件の3つ。角スペクトル法・単レンズの Fourier 変換・4f の伝搬・defocus の許容は Appendix A へ
+決めること: Appendix A（4f 系の理論導出）は廃止した。本文に残すのは、位相と OPD の関係、ホログラムの式と off-axis で干渉項が分離する理由、カットオフ NA/λ とサンプリング条件の3つ。角スペクトル法・単レンズの Fourier 変換・4f の伝搬（fig:4f_system の参照を含む）は消す（git に残る）
 
 ## 2.4 位相像の再構成
 - P1 再構成は5段階: 2D FT → +1次サイドバンドを原点へ移す → 半径 (NA/λ)·N·Δp の円窓で切る → 2D IFT で複素場、その arg が位相 → reliability-ordered 法で unwrap。図 fig:reconstruction

@@ -15,7 +15,7 @@ THESIS = pathlib.Path(__file__).resolve().parent.parent
 PAPER  = pathlib.Path.home() / "Desktop/manuscripts/qpi-methods"
 
 THESIS_ORDER = ["0.Abstract", "1.Introduction", "2.Measurement system", "3.Starvation",
-                "5.Summary and outlook", "AppendixA", "AppendixB", "AppendixC"]
+                "5.Summary and outlook", "AppendixB", "AppendixC"]
 # 目安（本人が決める。0 のままなら % を出さない）
 TARGET = {"0.Abstract": 400, "1.Introduction": 6000,
           "2.Measurement system": 12000, "3.Starvation": 8000,
