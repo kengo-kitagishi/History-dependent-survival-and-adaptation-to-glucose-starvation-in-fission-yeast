@@ -195,7 +195,7 @@ k^{\mathrm{off-axis}} \geq 3 \left(\frac{2\pi \mathrm{NA}}{\lambda M}\right)
 \end{equation}
 のときである。
 
-次に上限である。縞は画素の格子で標本化されるので、縞の空間周波数が Nyquist 周波数（画素ピッチの逆数 $f_{\mathrm{pitch}}$ の半分）を超えると、折り返して別の周波数の縞に化ける。センサが記録するのは中心 $k^{\mathrm{off-axis}}$、半径 $2\pi\mathrm{NA}/(\lambda M)$ の円板の全体なので、その最も高い周波数が Nyquist を超えてはならない。この限界は各軸ごとに掛かる。キャリアを画素格子の対角方向に置けば各軸の成分は $k^{\mathrm{off-axis}}/\sqrt{2}$ に下がり、軸方向に置く場合より大きな $k^{\mathrm{off-axis}}$ を許せる。本研究では格子をこの向きに置いた（\ref{sec:offaxis_check} 節）。このとき条件は
+次に上限である。縞は画素の格子で標本化されるので、縞の空間周波数が Nyquist 周波数（画素ピッチの逆数 $f_{\mathrm{pitch}}$ の半分）を超えると、折り返して別の周波数の縞に化ける。センサが記録するのは中心 $k^{\mathrm{off-axis}}$、半径 $2\pi\mathrm{NA}/(\lambda M)$ の円板の全体なので、その最も高い周波数が Nyquist を超えてはならない。この限界は各軸ごとに掛かる。キャリアを画素格子の対角方向に置けば各軸の成分は $k^{\mathrm{off-axis}}/\sqrt{2}$ に下がり、軸方向に置く場合より大きな $k^{\mathrm{off-axis}}$ を許せる。本研究では格子をこの向きに向けて置いた。このとき条件は
 \begin{equation}
 \frac{k^{\mathrm{off-axis}}}{\sqrt{2}} + \frac{2\pi \mathrm{NA}}{\lambda M} \leq \frac{2\pi f_{\mathrm{pitch}}}{2}
 \label{eq:cond_nyquist}
@@ -223,24 +223,7 @@ k^{\mathrm{off-axis}} \geq 3 \left(\frac{2\pi \mathrm{NA}}{\lambda M}\right)
 \begin{equation}
 k^{\mathrm{off-axis}} = \frac{2\pi}{8.33~\mu\mathrm{m}} = 7.54 \times 10^5~\mathrm{rad/m}
 \end{equation}
-である。これは式~\eqref{eq:cond_range} の範囲 $6.80 \times 10^5 \leq k^{\mathrm{off-axis}} \leq 9.68 \times 10^5$ rad/m に入る。
-
-\subsection{off-axis 配置の検証}
-\label{sec:offaxis_check}
-
-設計どおりの off-axis 配置になっているかを、Fourier 空間でのキャリア周波数の実測で確かめた。$2048 \times 2048$ 画素のホログラムを Fourier 変換すると、直流成分は $(1024, 1024)$ に、$+1$ 次サイドバンドの中心は $(m_{\mathrm{off}}, n_{\mathrm{off}}) = (1623, 1621)$ にあった。中心からのずれは
-\begin{equation}
-\Delta m = 1623 - 1024 = 599, \quad \Delta n = 1621 - 1024 = 597
-\end{equation}
-画素で、その大きさは $\sqrt{599^2 + 597^2} = 845.8$ 画素である。センサ面での周波数分解能は
-\begin{equation}
-\Delta f_{\mathrm{sensor}} = \frac{1}{2048 \times 3.45~\mu\mathrm{m}} = \frac{1}{7.07~\mathrm{mm}} = 141.5~\mathrm{m}^{-1}
-\end{equation}
-なので、キャリアの空間周波数は $845.8 \times 141.5 = 1.20 \times 10^5$ cycles/m、波数にすると
-\begin{equation}
-k_{\mathrm{exp}}^{\mathrm{off-axis}} = 2\pi \times 1.20 \times 10^5 = 7.53 \times 10^5~\mathrm{rad/m}
-\end{equation}
-である。格子から計算した $7.54 \times 10^5$ rad/m と一致し、格子による off-axis 配置が設計どおりに実装されていることが確かめられた。位相ノイズの実測は \ref{sec:performance} 節で述べる。
+である。これは式~\eqref{eq:cond_range} の範囲 $6.80 \times 10^5 \leq k^{\mathrm{off-axis}} \leq 9.68 \times 10^5$ rad/m に入る。格子は、キャリアがセンサの画素格子の対角方向を向くように傾けて置いた。組み上げた光学系でホログラムを Fourier 変換すると、$+1$ 次サイドバンドは直流成分から縦横それぞれ 599 画素と 597 画素ずれた位置にあり、そこから求めたキャリア波数は $7.53 \times 10^5$ rad/m で、格子から計算した値と一致した。
 
 \section{マイクロ流路デバイス}
 \label{sec:device}
