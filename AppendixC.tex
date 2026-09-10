@@ -1,9 +1,7 @@
-\chapter*{Appendix C}
+\chapter{マイクロ流路デバイス作製の詳細手順}
 \label{appendix:microfluidic_protocol}
 
-\section{Detailed protocol for microfluidic device fabrication}
-
-\subsection{Scope and device revision}
+\section{Scope and device revision}
 This appendix describes the fabrication workflow for the two-layer SU-8 master, PDMS casting, glass bonding, and epoxy replica master generation used in this thesis. The protocol is intended to be reproducible by users with prior cleanroom and soft-lithography experience.
 
 \textbf{Device name:} Mother machine for \textit{S. pombe} long-term imaging \\
@@ -12,7 +10,7 @@ This appendix describes the fabrication workflow for the two-layer SU-8 master, 
 \textbf{Minimum critical feature size:} [fill] \\
 \textbf{Critical dimensions:} observation chamber width and chamber-to-main-channel alignment
 
-\subsection{Design files and critical dimensions}
+\section{Design files and critical dimensions}
 Store design files with explicit versioning and archive the exact version used in each experiment batch.
 
 \textbf{Required archived files}
@@ -41,7 +39,7 @@ Chip outer outline & [fill] & Non-critical \\
 \end{tabular}
 \end{table}
 
-\subsection{Photomask and alignment specification}
+\section{Photomask and alignment specification}
 \begin{itemize}
   \item Mask fabrication: maskless lithography system (\textmu mLA, Heidelberg Instruments) on mask blanks (Clean Surface Technology).
   \item Tone convention: SU-8 is negative-tone resist; exposed regions define raised master features.
@@ -49,7 +47,7 @@ Chip outer outline & [fill] & Non-critical \\
   \item Alignment acceptance: overlay error $\leq$ [fill] $\mu$m at three representative mark pairs.
 \end{itemize}
 
-\subsection{Reagents and equipment}
+\section{Reagents and equipment}
 \begin{table}[H]
 \centering
 \caption{Core materials and instruments}
@@ -72,16 +70,16 @@ Punch & 0.5-mm biopsy punch (BP-A05F) \\
 \end{tabular}
 \end{table}
 
-\subsection{Master mold fabrication (two-layer SU-8)}
+\section{Master mold fabrication (two-layer SU-8)}
 
-\subsubsection{General notes}
+\subsection{General notes}
 \begin{itemize}
   \item Run process on dehydrated wafers and stable room humidity.
   \item Record resist lot number and room temperature for each batch.
   \item Measure final layer thickness by profilometer at 3--5 positions.
 \end{itemize}
 
-\subsubsection{Layer 1: observation channel layer}
+\subsection{Layer 1: observation channel layer}
 \textbf{Action}
 \begin{enumerate}
   \item Prepare mixed resist from SU-8 2 and SU-8 3005 at \textbf{explicit ratio} [fill: weight ratio or volume ratio].
@@ -108,7 +106,7 @@ Punch & 0.5-mm biopsy punch (BP-A05F) \\
   \item No collapsed features or residual resist in observation channels
 \end{itemize}
 
-\subsubsection{Layer 2: drain layer}
+\subsection{Layer 2: drain layer}
 \textbf{Action}
 \begin{enumerate}
   \item Dispense SU-8 3010 on wafer containing completed Layer 1.
@@ -127,9 +125,9 @@ Punch & 0.5-mm biopsy punch (BP-A05F) \\
   \item Continuous drain features without residual scum
 \end{itemize}
 
-\subsection{PDMS casting, porting, and bonding}
+\section{PDMS casting, porting, and bonding}
 
-\subsubsection{PDMS casting and demolding}
+\subsection{PDMS casting and demolding}
 \begin{enumerate}
   \item Mix SYLGARD 184 base and curing agent at 10:1 ratio (recommended: by weight).
   \item Degas under vacuum for 1 h (or until no visible bubbles $>$ [fill] mm).
@@ -138,14 +136,14 @@ Punch & 0.5-mm biopsy punch (BP-A05F) \\
   \item Sonicate PDMS blocks in ethanol and dry at 65$^{\circ}$C.
 \end{enumerate}
 
-\subsubsection{Cover glass cleaning}
+\subsection{Cover glass cleaning}
 \begin{enumerate}
   \item Sonicate cover glasses sequentially in diluted Contaminon LS-II, ultrapure water, ethanol, and ultrapure water.
   \item Treat with 0.1 M NaOH.
   \item Rinse with ultrapure water and dry at 140$^{\circ}$C.
 \end{enumerate}
 
-\subsubsection{Plasma bonding}
+\subsection{Plasma bonding}
 \begin{enumerate}
   \item Treat PDMS and cleaned cover glass with plasma etcher (FA-1, SAMCO) for 10 s.
   \item Bring surfaces into conformal contact immediately after activation.
@@ -164,7 +162,7 @@ Punch & 0.5-mm biopsy punch (BP-A05F) \\
   \item Bond survives tubing connection and initial perfusion without delamination
 \end{itemize}
 
-\subsection{Epoxy replica master fabrication}
+\section{Epoxy replica master fabrication}
 \begin{enumerate}
   \item Cast PDMS negative from silicon master (10:1 SYLGARD 184, degas 1 h, cure 65$^{\circ}$C for $\geq$12 h).
   \item Cast two-part epoxy (LOCTITE EA E-30CL) on flat plastic plate using PDMS negative mold.
@@ -179,7 +177,7 @@ Punch & 0.5-mm biopsy punch (BP-A05F) \\
   \item Store masters in dust-free closed containers.
 \end{itemize}
 
-\subsection{Quality control and acceptance criteria}
+\section{Quality control and acceptance criteria}
 \begin{table}[H]
 \centering
 \caption{Batch-level quality control checks}
@@ -197,7 +195,7 @@ Leak test & Perfusion test & No leakage at 2 mL/h for [fill] min \\
 \end{tabular}
 \end{table}
 
-\subsection{Troubleshooting guide}
+\section{Troubleshooting guide}
 \begin{table}[H]
 \centering
 \caption{Common failure modes and corrective actions}
@@ -216,7 +214,7 @@ Warped epoxy master & Non-level curing surface or uneven stress & Use leveled ba
 \end{tabular}
 \end{table}
 
-\subsection{Document control and version history}
+\section{Document control and version history}
 Track all process changes that affect dimensions, yield, or bond quality.
 
 \begin{table}[H]
@@ -233,5 +231,5 @@ v1.1 & [fill] & [fill] & [fill] \\
 \end{tabular}
 \end{table}
 
-\subsection{Safety note}
+\section{Safety note}
 All steps involving SU-8 resists, SU-8 developer, NaOH, ethanol, plasma equipment, and epoxy components must follow institutional chemical safety rules and relevant SDS documents. PPE, waste segregation, and local ventilation requirements should be applied according to facility policy.
