@@ -30,12 +30,12 @@
 
 \begin{enumerate}
 \item 長期の1細胞追跡。同じ細胞を同じ視野に数日とどめ、指数関数的に増える子孫を系外に除き、培地を一定に保つか任意の時刻に交換できること。細胞を行き止まりの細い流路に1列で閉じ込め、主流路で培地を流す mother machine がこれを満たす\cite{wang2010robust,nakaoka2017aging}。
-\item 無標識・非侵襲で、1枚の露光から位相像が得られること。多数の視野を数分間隔で数日撮るので、機械的な走査や複数枚の取得を要する方式は取得時間と安定性の点で不利である。数日の記録では振動と光学系のずれが避けられないので、物体光と参照光が同じ光路を通る共通光路型の干渉計が必要である。
+\item 無標識・非侵襲で、1枚の露光から位相像が得られること。多数の視野を数分間隔で数日撮るので、機械的な走査や複数枚の取得を要する方式は取得時間と安定性の点で不利である。数日の記録では振動と光学系のずれが避けられないので、物体光と参照光が同じ光路を通る common-path 型の干渉計が必要である。
 \item 位相ノイズが、測りたい密度差に対応する位相差より十分小さいこと。同一条件での細胞間の密度差は数\%なので、位相像のノイズはその位相差の数分の一以下でなければならない。
 \item 背景の位相を細胞の無い領域から取れること。QPI では照明光の位相分布を試料の無い領域で測って差し引くが、mother machine の観察チャネルは細胞で埋まり、細胞のそばに培地だけの領域が残らない。背景をどこから取るかを別に決める必要がある。
 \end{enumerate}
 
-このほか、数千フレームの位相像から細胞の輪郭、系譜、体積を自動で取り出す解析が必要である。第1・第2の条件は既存の要素（mother machine と共通光路オフアクシス干渉計）の組み合わせで満たせる。第3の条件は光学系の設計（\ref{sec:optics} 節）と性能評価（\ref{sec:performance} 節）で示す。第4の条件は既存の方法では満たされないので、本研究では計測前にステージ変位のグリッドで参照像を記録する方式を導入した（\ref{sec:grid_acq} 節、\ref{sec:bgsub} 節）。
+このほか、数千フレームの位相像から細胞の輪郭、系譜、体積を自動で取り出す解析が必要である。第1・第2の条件は既存の要素（mother machine と common-path off-axis 干渉計）の組み合わせで満たせる。第3の条件は光学系の設計（\ref{sec:optics} 節）と性能評価（\ref{sec:performance} 節）で示す。第4の条件は既存の方法では満たされないので、本研究では計測前にステージ変位のグリッドで参照像を記録する方式を導入した（\ref{sec:grid_acq} 節、\ref{sec:bgsub} 節）。
 
 % 旧: なんで他の密度測定方法ではなく、QPIを用いたのかまで書きたかったら、generalな測定方法を挙げていって、この方法が良かったみたいなことを書けばよくて、その際には
 % 旧: \cite{nguyen2022quantitative}
@@ -48,12 +48,12 @@
 
 \section{目的}
 \label{sec:aim}
-分裂酵母を対象に、\ref{sec:requirements} 節の4条件を満たす、QPI による長期1細胞乾燥質量密度計測系を構築する。共通光路オフアクシスディジタルホログラフィの光学系、mother machine、ステージ変位のグリッドによる参照像の取得、位相像から乾燥質量密度までの解析パイプラインを一体として作り、その性能を位相ノイズ、参照像の登録精度、ドリフト、既知シフトの回収、濃度校正の直線性で評価する（\ref{sec:performance} 節）。この計測系を第3章のグルコース飢餓実験に用いる。
+分裂酵母を対象に、\ref{sec:requirements} 節の4条件を満たす、QPI による長期1細胞乾燥質量密度計測系を構築する。common-path off-axis デジタルホログラフィの光学系、mother machine、ステージ変位のグリッドによる参照像の取得、位相像から乾燥質量密度までの解析パイプラインを一体として作り、その性能を位相ノイズ、参照像の登録精度、ドリフト、既知シフトの回収、濃度校正の直線性で評価する（\ref{sec:performance} 節）。この計測系を第3章のグルコース飢餓実験に用いる。
 
 \section{定量位相イメージングの原理}
 \label{sec:principle}
 
-\subsection{位相遅れと共通光路法}
+\subsection{位相遅れと common-path 法}
 
 細胞と周囲の培地の屈折率の差は、透過する光の位相の遅れとして光に刻まれる。可視光の振動数は 400--800 THz で、その振動をセンサで直接記録することはできないので、位相の遅れを検出するには強度の変化に変換する必要がある。位相差顕微鏡と微分干渉顕微鏡はこの変換を光学的に行うが、得られる強度は位相の定量値ではない。位相を定量する方法をまとめて定量位相イメージング（QPI）と呼ぶ\cite{park2018quantitative}。QPI は試料を透過する照明を用いる。細胞の屈折率が面内にも深さ方向にも変わるとき、面内位置 $x$ で細胞を透過した光が得る相対的な位相は
 \begin{equation}
@@ -62,7 +62,7 @@
 \end{equation}
 である。$z$ は試料内の深さ、$h(x)$ は細胞の厚さ、$n_{\mathrm{cell}}$ は細胞の屈折率（位置に依存してよい）、$n_0$ は培地の屈折率、$\lambda$ は光の波長で、散乱は無視できるとしている。
 
-QPI の多くは干渉計で位相を取り出す。共通光路（common-path）法では、試料の後ろに小さな干渉計を組み、干渉する2つの光が多くの光学素子を共有して伝搬する。このため振動や光学系のずれに強く、系も小さくなる。試料の後ろに置けるので、顕微鏡の出力ポートにそのまま組める。数日にわたるタイムラプスに向くのはこの性質による。
+QPI の多くは干渉計で位相を取り出す。物体光と参照光が同じ光路を通る配置を common-path と呼ぶ。common-path 法では、試料の後ろに小さな干渉計を組み、干渉する2つの光が多くの光学素子を共有して伝搬する。このため振動や光学系のずれに強く、系も小さくなる。試料の後ろに置けるので、顕微鏡の出力ポートにそのまま組める。数日にわたるタイムラプスに向くのはこの性質による。
 
 \subsection{対物レンズによる帯域制限}
 \label{sec:bandlimit}
@@ -85,7 +85,7 @@ P(f_x, f_y) = \begin{cases}
 \end{equation}
 になる。
 
-\subsection{オフアクシス干渉による位相の回復}
+\subsection{off-axis 干渉による位相の回復}
 
 センサは強度 $I = |U|^2$ しか測れないので、複素場 $U = A e^{i\phi}$ の位相 $\phi$ は検出で失われる。位相を回復するには、物体光 $U_s = A_s e^{i\phi_s}$ を既知の参照光 $U_r = A_r e^{i\phi_r}$ と干渉させる。検出される強度は
 \begin{equation}
@@ -98,11 +98,11 @@ I = A_s^2 + A_r^2 + 2A_s A_r \cos(\phi_s - \phi_r)
 \end{equation}
 になる。位相差 $\phi_s - \phi_r$ が干渉縞として強度を変調する。しかし2つの光が同軸（on-axis）のとき、式~\eqref{eq:interference} の4項は Fourier 空間で同じ領域を占め、位相を含む項 $U_s \cdot U_r^*$ だけを取り出すことができない。
 
-干渉の各項を Fourier 空間で分けるために、物体光にオフアクシス（off-axis）の波数 $(k_m^{\mathrm{off-axis}}, k_n^{\mathrm{off-axis}})$ を与えてキャリア周波数を作る。$(m, n)$ は画素の離散座標である。本研究の共通光路系では、参照光は Fourier 面のピンホールで空間フィルタされ、視野全体でほぼ一定の準平面波
+干渉の各項を Fourier 空間で分けるために、物体光に off-axis の波数 $(k_m^{\mathrm{off-axis}}, k_n^{\mathrm{off-axis}})$ を与えてキャリア周波数を作る。$(m, n)$ は画素の離散座標である。本研究の common-path 系では、参照光は Fourier 面のピンホールで空間フィルタされ、視野全体でほぼ一定の準平面波
 \begin{equation}
 U_{r,m,n} = A_r
 \end{equation}
-になる。物体光は Ronchi 格子で与えられたオフアクシスの波数を持ち、試料の位置を $z = 0$ とすると、センサ上で
+になる。物体光は Ronchi 格子で与えられた off-axis の波数を持ち、試料の位置を $z = 0$ とすると、センサ上で
 \begin{equation}
 U_{s,m,n} = \frac{1}{M^2} A_s \exp[i\phi_{m,n}] \exp[-i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)]
 \end{equation}
@@ -129,7 +129,7 @@ I_{m,n}^{\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-
 \begin{equation}
 i_{p,q}^{\mathrm{DH}} = j_{p,q}^{\mathrm{non-int}} + j_{p+k_m^{\mathrm{off-axis}},\, q+k_n^{\mathrm{off-axis}}}^{\mathrm{int}} + j_{p-k_m^{\mathrm{off-axis}},\, q-k_n^{\mathrm{off-axis}}}^{\mathrm{int}*}
 \end{equation}
-の3成分からなる。$(p,q)$ は $(m,n)$ に共役な座標である。干渉項はオフアクシスの波数の分だけ原点から離れているので、3成分は Fourier 空間で分離している。第2に、$+1$ 次のサイドバンドの中心 $(p_{\mathrm{off}}, q_{\mathrm{off}})$ を求め、ホログラムに位相因子を掛けてサイドバンドを原点へ移す:
+の3成分からなる。$(p,q)$ は $(m,n)$ に共役な座標である。干渉項は off-axis の波数の分だけ原点から離れているので、3成分は Fourier 空間で分離している。第2に、$+1$ 次のサイドバンドの中心 $(p_{\mathrm{off}}, q_{\mathrm{off}})$ を求め、ホログラムに位相因子を掛けてサイドバンドを原点へ移す:
 \begin{equation}
 I_{m,n}^{(c)} = I_{m,n}^{\mathrm{DH}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}.
 \end{equation}
@@ -179,14 +179,14 @@ D_{\mathrm{ap}} = 2 \,\mathrm{round}\!\left( \frac{\mathrm{NA}}{\lambda} \cdot \
 \begin{equation}
 D_{\mathrm{ap}} = 2 \,\mathrm{round}\!\left( \frac{0.95}{658 \times 10^{-9}} \times 176.64 \times 10^{-6} \right) + 1 = 2 \,\mathrm{round}(255.0) + 1 = 511
 \end{equation}
-画素で、位相像の画素サイズは $\Delta p_{\mathrm{recon}} = 176.64~\mu\mathrm{m}/511 = 346$ nm である。したがって位相像は $511 \times 511$ 画素、画素サイズ 0.346 μm となる。オフアクシスの波数 $k^{\mathrm{off-axis}}$ をどの範囲に置くかは、次節で光学系の設計条件として述べる。
+画素で、位相像の画素サイズは $\Delta p_{\mathrm{recon}} = 176.64~\mu\mathrm{m}/511 = 346$ nm である。したがって位相像は $511 \times 511$ 画素、画素サイズ 0.346 μm となる。off-axis の波数 $k^{\mathrm{off-axis}}$ をどの範囲に置くかは、次節で光学系の設計条件として述べる。
 
 \section{光学系}
 \label{sec:optics}
 
 \subsection{設計条件}
 
-オフアクシス配置では、物体光と参照光をセンサ面で角度をつけて干渉させ、その干渉縞に位相を載せる（\ref{sec:principle} 節）。縞の細かさを決めるのがキャリア波数 $k^{\mathrm{off-axis}} = \sqrt{(k_m^{\mathrm{off-axis}})^2 + (k_n^{\mathrm{off-axis}})^2}$ で、センサ面での縞の周期 $\Lambda$ とは $k^{\mathrm{off-axis}} = 2\pi/\Lambda$ の関係にある。この値をどこに置くかで、1枚のホログラムから位相が取り出せるかどうかが決まる。小さすぎると Fourier 空間で干渉項が非干渉項と重なり、\ref{sec:reconstruction} 節の円窓で干渉項だけを切り出せない。大きすぎると縞が画素より細かくなり、センサが縞を記録できない。したがって $k^{\mathrm{off-axis}}$ には下限と上限があり、どちらも対物レンズの NA、倍率 $M$、センサの画素ピッチだけで決まる。以下でその2つを求める。
+off-axis 配置では、物体光と参照光をセンサ面で角度をつけて干渉させ、その干渉縞に位相を載せる（\ref{sec:principle} 節）。縞の細かさを決めるのがキャリア波数 $k^{\mathrm{off-axis}} = \sqrt{(k_m^{\mathrm{off-axis}})^2 + (k_n^{\mathrm{off-axis}})^2}$ で、センサ面での縞の周期 $\Lambda$ とは $k^{\mathrm{off-axis}} = 2\pi/\Lambda$ の関係にある。この値をどこに置くかで、1枚のホログラムから位相が取り出せるかどうかが決まる。小さすぎると Fourier 空間で干渉項が非干渉項と重なり、\ref{sec:reconstruction} 節の円窓で干渉項だけを切り出せない。大きすぎると縞が画素より細かくなり、センサが縞を記録できない。したがって $k^{\mathrm{off-axis}}$ には下限と上限があり、どちらも対物レンズの NA、倍率 $M$、センサの画素ピッチだけで決まる。以下でその2つを求める。
 
 まず下限である。対物レンズは $\mathrm{NA}/\lambda$ より高い空間周波数を通さないので（\ref{sec:bandlimit} 節）、試料の情報は Fourier 空間の有限の円板の中で尽きている。像面では空間周波数が倍率の分だけ下がるから、この円板の半径は $2\pi\mathrm{NA}/(\lambda M)$ である。円板の外に試料の情報は無く、そこにあるのは雑音だけである。干渉項 $J_{m,n}^{\mathrm{int}} = U_{s,m,n} U_{r,m,n}^*$ は、参照光がピンホールで準平面波になっているため、この円板と同じ半径を持つ。一方、非干渉項 $J_{m,n}^{\mathrm{non-int}} = |U_{s,m,n}|^2 + |U_{r,m,n}|^2$ はスペクトルの自己相関なので、半径はその2倍の $2\pi \cdot 2\mathrm{NA}/(\lambda M)$ に広がる。非干渉項は原点を中心に、干渉項は原点から $k^{\mathrm{off-axis}}$ だけ離れた位置を中心に置かれる（\ref{sec:principle} 節）。2つの円板が重ならないのは、中心の間隔が半径の和を超えるとき、すなわち
 \begin{equation}
@@ -211,11 +211,11 @@ k^{\mathrm{off-axis}} \geq 3 \left(\frac{2\pi \mathrm{NA}}{\lambda M}\right)
 
 \subsection{構成}
 
-光学系を図~\ref{fig:qpi_optical_system}に示す。方式は回折位相顕微鏡（diffraction phase microscopy）、すなわち共通光路オフアクシス DH である\cite{popescu2006diffraction}。光源は波長 658 nm、出力 20 mW のシングルモードファイバ出力の半導体レーザー（LP660-SF20、Thorlabs）で、ファイバコリメータ（CFC2-B, $f = 2.0$ mm, Thorlabs）で平行光にして試料を照明する。試料を透過した光は、倒立顕微鏡（Ti-E、Nikon）の $40\times$、NA 0.95 の乾燥系対物レンズ（CFI Plan Apochromat Lambda D, MRD70470, Nikon）で拡大され、顕微鏡の出力ポートに置いた像面で Ronchi 格子（120 lines/mm, \#66-342, Edmund Optics）により複数の回折次数に分けられる。各次数は像の空間情報をすべて持つ。焦点距離 200 mm のリレーレンズ2枚（ACT508-200-A、Thorlabs）で 4f 系を組み、その Fourier 面で 0 次光を直径 25 μm のピンホール（P25K、Thorlabs）で低域通過させて一様な参照光にし、1 次光はそのまま通して物体光にする。他の次数は遮る。2つの光は同じ光路を通り、センサ上で角度をもって干渉する。ホログラムは CMOS カメラ（acA2440-75um, Basler; $2448 \times 2048$ 画素、画素 3.45 μm、full-well 容量約 10 ke$^-$）で記録する。生のホログラムは $2048 \times 2048$ 画素を使い、再構成した位相像は \ref{sec:reconstruction} 節のとおり $511 \times 511$ 画素、画素 0.346 μm である。
+光学系を図~\ref{fig:qpi_optical_system}に示す。方式は回折位相顕微鏡（diffraction phase microscopy）、すなわち common-path off-axis デジタルホログラフィである\cite{popescu2006diffraction}。光源は波長 658 nm、出力 20 mW のシングルモードファイバ出力の半導体レーザー（LP660-SF20、Thorlabs）で、ファイバコリメータ（CFC2-B, $f = 2.0$ mm, Thorlabs）で平行光にして試料を照明する。試料を透過した光は、倒立顕微鏡（Ti-E、Nikon）の $40\times$、NA 0.95 の乾燥系対物レンズ（CFI Plan Apochromat Lambda D, MRD70470, Nikon）で拡大され、顕微鏡の出力ポートに置いた像面で Ronchi 格子（120 lines/mm, \#66-342, Edmund Optics）により複数の回折次数に分けられる。各次数は像の空間情報をすべて持つ。焦点距離 200 mm のリレーレンズ2枚（ACT508-200-A、Thorlabs）で 4f 系を組み、その Fourier 面で 0 次光を直径 25 μm のピンホール（P25K、Thorlabs）で低域通過させて一様な参照光にし、1 次光はそのまま通して物体光にする。他の次数は遮る。2つの光は同じ光路を通り、センサ上で角度をもって干渉する。ホログラムは CMOS カメラ（acA2440-75um, Basler; $2448 \times 2048$ 画素、画素 3.45 μm、full-well 容量約 10 ke$^-$）で記録する。生のホログラムは $2048 \times 2048$ 画素を使い、再構成した位相像は \ref{sec:reconstruction} 節のとおり $511 \times 511$ 画素、画素 0.346 μm である。
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\linewidth]{figure/QPI optical systems.pdf}
-    \caption{共通光路オフアクシスディジタルホログラフィの光学系。Ronchi 格子の $+1$ 次回折光を物体光、Fourier 面のピンホールで低域通過させた 0 次光を参照光にする。}
+    \caption{common-path off-axis デジタルホログラフィの光学系。Ronchi 格子の $+1$ 次回折光を物体光、Fourier 面のピンホールで低域通過させた 0 次光を参照光にする。}
     \label{fig:qpi_optical_system}
 \end{figure}
 
@@ -225,10 +225,10 @@ k^{\mathrm{off-axis}} = \frac{2\pi}{8.33~\mu\mathrm{m}} = 7.54 \times 10^5~\math
 \end{equation}
 である。これは式~\eqref{eq:cond_range} の範囲 $6.80 \times 10^5 \leq k^{\mathrm{off-axis}} \leq 9.68 \times 10^5$ rad/m に入る。
 
-\subsection{オフアクシス配置の検証}
+\subsection{off-axis 配置の検証}
 \label{sec:offaxis_check}
 
-設計どおりのオフアクシス配置になっているかを、Fourier 空間でのキャリア周波数の実測で確かめた。$2048 \times 2048$ 画素のホログラムを Fourier 変換すると、直流成分は $(1024, 1024)$ に、$+1$ 次サイドバンドの中心は $(m_{\mathrm{off}}, n_{\mathrm{off}}) = (1623, 1621)$ にあった。中心からのずれは
+設計どおりの off-axis 配置になっているかを、Fourier 空間でのキャリア周波数の実測で確かめた。$2048 \times 2048$ 画素のホログラムを Fourier 変換すると、直流成分は $(1024, 1024)$ に、$+1$ 次サイドバンドの中心は $(m_{\mathrm{off}}, n_{\mathrm{off}}) = (1623, 1621)$ にあった。中心からのずれは
 \begin{equation}
 \Delta m = 1623 - 1024 = 599, \quad \Delta n = 1621 - 1024 = 597
 \end{equation}
@@ -240,7 +240,7 @@ k^{\mathrm{off-axis}} = \frac{2\pi}{8.33~\mu\mathrm{m}} = 7.54 \times 10^5~\math
 \begin{equation}
 k_{\mathrm{exp}}^{\mathrm{off-axis}} = 2\pi \times 1.20 \times 10^5 = 7.53 \times 10^5~\mathrm{rad/m}
 \end{equation}
-である。格子から計算した $7.54 \times 10^5$ rad/m と一致し、格子によるオフアクシス配置が設計どおりに実装されていることが確かめられた。位相ノイズの実測は \ref{sec:performance} 節で述べる。
+である。格子から計算した $7.54 \times 10^5$ rad/m と一致し、格子による off-axis 配置が設計どおりに実装されていることが確かめられた。位相ノイズの実測は \ref{sec:performance} 節で述べる。
 
 \section{マイクロ流路デバイス}
 \label{sec:device}
@@ -349,7 +349,7 @@ C = \frac{1}{\alpha}\left(n_{\mathrm{medium}} - n_{\mathrm{water}} + \frac{\lamb
 \subsection{位相ノイズ}
 % 導出は本文に全部載せる（本人 9/9）。理論 → 測り方 → 実測。実測値は別条件のもので、本番条件で測り直す。図 3A。
 
-オフアクシス DH で得る位相の精度は、時間方向の位相ノイズで決まる。これを見積もるために、式~\eqref{eq:hologram_DH} のホログラムにノイズ項 $z_{m,n}^{\mathrm{DH}}$ を加える:
+off-axis デジタルホログラフィで得る位相の精度は、時間方向の位相ノイズで決まる。これを見積もるために、式~\eqref{eq:hologram_DH} のホログラムにノイズ項 $z_{m,n}^{\mathrm{DH}}$ を加える:
 \begin{equation}
 I_{m,n}^{'\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + (J_{m,n}^{\mathrm{int}})^* e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + z_{m,n}^{\mathrm{DH}}.
 \end{equation}

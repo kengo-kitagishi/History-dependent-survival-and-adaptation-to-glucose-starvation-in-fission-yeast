@@ -9,7 +9,7 @@ Evidence の数値は ~/QPI_Omni の実コード・解析出力で裏を取る�
 
 ## 2.3 定量位相イメージングの原理
 
-### 2.3.1 位相遅れと共通光路法
+### 2.3.1 位相遅れと common-path 法
 
 **P1 位相遅れと QPI**
 - Topic: 細胞と培地の屈折率差は透過光の位相遅れになる。
@@ -18,7 +18,7 @@ Evidence の数値は ~/QPI_Omni の実コード・解析出力で裏を取る�
 - Bridge: 干渉計の組み方。
 
 **P2 common-path 法**
-- Topic: 試料の後ろに干渉計を組み、2光が素子を共有する。
+- Topic: 物体光と参照光が同じ光路を通る配置を common-path と呼ぶ。試料の後ろに干渉計を組み、2光が素子を共有する。
 - Evidence: 振動・ずれに強い、系が小さい、出力ポートにそのまま組める。
 - Implication: 数日のタイムラプスに向く（2.1.2 の条件 (2)）。
 - Bridge: 分解能は対物で決まる。
@@ -31,7 +31,7 @@ Evidence の数値は ~/QPI_Omni の実コード・解析出力で裏を取る�
 - Implication: 2.4 の円窓の半径がこれに対応する。
 - Bridge: 位相を強度から取り出す。
 
-### 2.3.3 オフアクシス干渉による位相の回復
+### 2.3.3 off-axis 干渉による位相の回復
 
 **P4 干渉による位相の回復**
 - Topic: 物体光を参照光と干渉させると位相が強度に現れる。
@@ -114,12 +114,12 @@ Evidence の数値は ~/QPI_Omni の実コード・解析出力で裏を取る�
 ### 2.5.2 構成
 
 **P2 構成**
-- Topic: common-path off-axis DH（diffraction phase microscopy）を Ti-E の出力ポートに組んだ。
+- Topic: common-path off-axis デジタルホログラフィ（diffraction phase microscopy）を Ti-E の出力ポートに組んだ。
 - Evidence: 658 nm・20 mW LD（LP660-SF20）→ コリメータ（CFC2-B, f = 2 mm）→ 試料 → 40×/0.95 乾燥系（CFI Plan Apochromat Lambda D, MRD70470）→ 像面の Ronchi 格子 120 lines/mm（#66-342）→ 4f リレー 2×ACT508-200-A（f = 200 mm）→ Fourier 面の 25 µm ピンホール（P25K）で 0 次を参照光、1 次はそのまま物体光、他の次数は遮る → CMOS acA2440-75um（2448×2048、3.45 µm、FWC ≈ 10 ke⁻）。生ホログラム 2048×2048、位相像 511×511・0.346 µm。図 fig:qpi_optical_system。
 - Implication: 2光が同じ光路を通るので振動と光学系のずれに強い（2.1.2 の条件 (2)）。
 - Bridge: 格子の周期が k^off を決める。
 
-### 2.5.3 オフアクシス配置の検証
+### 2.5.3 off-axis 配置の検証
 
 **P3 格子から決まる k^off**
 - Topic: k^off = 2π/8.33 µm = 7.54×10⁵ rad/m。
