@@ -62,28 +62,7 @@
 \end{equation}
 である。$z$ は試料内の深さ、$h(x)$ は細胞の厚さ、$n_{\mathrm{cell}}$ は細胞の屈折率（位置に依存してよい）、$n_0$ は培地の屈折率、$\lambda$ は光の波長で、散乱は無視できるとしている。
 
-QPI の多くは干渉計で位相を取り出す。物体光と参照光が同じ光路を通る配置を common-path と呼ぶ。common-path 法では、試料の後ろに小さな干渉計を組み、干渉する2つの光が多くの光学素子を共有して伝搬する。このため振動や光学系のずれに強く、系も小さくなる。試料の後ろに置けるので、顕微鏡の出力ポートにそのまま組める。数日にわたるタイムラプスに向くのはこの性質による。
-
-\subsection{対物レンズによる帯域制限}
-\label{sec:bandlimit}
-
-光の場 $U(x, y)$ を空間周波数 $(f_x, f_y)$ の平面波の重ね合わせで表したときのスペクトルを $\tilde{U}(f_x, f_y)$ と書く。開口数 NA の対物レンズは空間周波数のフィルタとして働き、$\sqrt{f_x^2 + f_y^2} \leq \mathrm{NA}/\lambda$ の成分だけを通す。透過後の場のスペクトルは
-\begin{equation}
-\tilde{U}_{\mathrm{transmitted}}(f_x, f_y) = \tilde{U}_0(f_x, f_y) \cdot P(f_x, f_y)
-\end{equation}
-で、$P$ は瞳関数
-\begin{equation}
-P(f_x, f_y) = \begin{cases}
-1 & \sqrt{f_x^2 + f_y^2} \leq f_{\mathrm{cutoff}} = \mathrm{NA}/\lambda \\
-0 & \text{それ以外}
-\end{cases}
-\end{equation}
-である。この帯域制限が空間分解能を決め、コヒーレント照明では Abbe の分解限界
-\begin{equation}
-\label{eq:abbe}
-\Delta x_{\mathrm{Abbe}} = \frac{\lambda}{\mathrm{NA}}
-\end{equation}
-になる。
+QPI の多くは干渉計で位相を取り出す。物体光と参照光が同じ光路を通る配置を common-path と呼ぶ。common-path 法では、試料の後ろに小さな干渉計を組み、干渉する2つの光が多くの光学素子を共有して伝搬する。このため振動や光学系のずれに強く、系も小さくなる。試料の後ろに置けるので、顕微鏡の出力ポートにそのまま組める。数日にわたるタイムラプスに向くのはこの性質による。なお、対物レンズは開口数 NA で決まる空間周波数 $\mathrm{NA}/\lambda$ より高い成分を通さない。この帯域制限が位相像の分解能を決めることは \ref{sec:reconstruction} 節で、off-axis のキャリア波数をどこに置けるかを決めることは \ref{sec:optics} 節で述べる。
 
 \subsection{off-axis 干渉による位相の回復}
 
@@ -137,7 +116,7 @@ I_{m,n}^{(c)} = I_{m,n}^{\mathrm{DH}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n
 \begin{equation}
 r_{\mathrm{aperture}} = \frac{\mathrm{NA}}{\lambda} \cdot N \cdot \Delta p
 \end{equation}
-の円窓 $H_{p,q}$ で干渉項だけを切り出す。半径は離散 Fourier 座標の画素単位で、$N$ はホログラムの一辺の画素数、$\Delta p$ は物体面での画素ピッチである。この半径は、対物レンズの NA で決まる空間周波数のカットオフ（\ref{sec:bandlimit} 節）に対応する。第4に、切り出した成分を2次元逆 Fourier 変換して複素場を得て、その偏角を位相とする:
+の円窓 $H_{p,q}$ で干渉項だけを切り出す。半径は離散 Fourier 座標の画素単位で、$N$ はホログラムの一辺の画素数、$\Delta p$ は物体面での画素ピッチである。この半径は、対物レンズが通す空間周波数の上限に対応する。第4に、切り出した成分を2次元逆 Fourier 変換して複素場を得て、その偏角を位相とする:
 \begin{equation}
 \phi_{m,n}^{\mathrm{meas}} = \arg[\mathrm{LP}(I_{m,n}^{(c)})].
 \end{equation}
@@ -159,7 +138,12 @@ r_{\mathrm{aperture}} = \frac{\mathrm{NA}}{\lambda} \cdot N \cdot \Delta p
 \begin{equation}
 f_{\mathrm{cutoff}} = \frac{\mathrm{NA}}{\lambda}
 \end{equation}
-で、Abbe の分解限界（式~\eqref{eq:abbe}）に対応する。ホログラムが $N \times N$ 画素、物体面での画素ピッチが $\Delta p$ なら、視野は $\mathrm{FOV} = N \cdot \Delta p$ である。円窓の直径は画素単位で
+である。これに対応する分解能が、コヒーレント照明での Abbe の分解限界
+\begin{equation}
+\label{eq:abbe}
+\Delta x_{\mathrm{Abbe}} = \frac{\lambda}{\mathrm{NA}}
+\end{equation}
+である。ホログラムが $N \times N$ 画素、物体面での画素ピッチが $\Delta p$ なら、視野は $\mathrm{FOV} = N \cdot \Delta p$ である。円窓の直径は画素単位で
 \begin{equation}
 D_{\mathrm{ap}} = 2 \,\mathrm{round}\!\left( \frac{\mathrm{NA}}{\lambda} \cdot \mathrm{FOV} \right) + 1
 \end{equation}
@@ -188,7 +172,7 @@ D_{\mathrm{ap}} = 2 \,\mathrm{round}\!\left( \frac{0.95}{658 \times 10^{-9}} \ti
 
 off-axis 配置では、物体光と参照光をセンサ面で角度をつけて干渉させ、その干渉縞に位相を載せる（\ref{sec:principle} 節）。縞の細かさを決めるのがキャリア波数 $k^{\mathrm{off-axis}} = \sqrt{(k_m^{\mathrm{off-axis}})^2 + (k_n^{\mathrm{off-axis}})^2}$ で、センサ面での縞の周期 $\Lambda$ とは $k^{\mathrm{off-axis}} = 2\pi/\Lambda$ の関係にある。この値をどこに置くかで、1枚のホログラムから位相が取り出せるかどうかが決まる。小さすぎると Fourier 空間で干渉項が非干渉項と重なり、\ref{sec:reconstruction} 節の円窓で干渉項だけを切り出せない。大きすぎると縞が画素より細かくなり、センサが縞を記録できない。したがって $k^{\mathrm{off-axis}}$ には下限と上限があり、どちらも対物レンズの NA、倍率 $M$、センサの画素ピッチだけで決まる。以下でその2つを求める。
 
-まず下限である。対物レンズは $\mathrm{NA}/\lambda$ より高い空間周波数を通さないので（\ref{sec:bandlimit} 節）、試料の情報は Fourier 空間の有限の円板の中で尽きている。像面では空間周波数が倍率の分だけ下がるから、この円板の半径は $2\pi\mathrm{NA}/(\lambda M)$ である。円板の外に試料の情報は無く、そこにあるのは雑音だけである。干渉項 $J_{m,n}^{\mathrm{int}} = U_{s,m,n} U_{r,m,n}^*$ は、参照光がピンホールで準平面波になっているため、この円板と同じ半径を持つ。一方、非干渉項 $J_{m,n}^{\mathrm{non-int}} = |U_{s,m,n}|^2 + |U_{r,m,n}|^2$ はスペクトルの自己相関なので、半径はその2倍の $2\pi \cdot 2\mathrm{NA}/(\lambda M)$ に広がる。非干渉項は原点を中心に、干渉項は原点から $k^{\mathrm{off-axis}}$ だけ離れた位置を中心に置かれる（\ref{sec:principle} 節）。2つの円板が重ならないのは、中心の間隔が半径の和を超えるとき、すなわち
+まず下限である。対物レンズは $\mathrm{NA}/\lambda$ より高い空間周波数を通さないので（\ref{sec:principle} 節）、試料の情報は Fourier 空間の有限の円板の中で尽きている。像面では空間周波数が倍率の分だけ下がるから、この円板の半径は $2\pi\mathrm{NA}/(\lambda M)$ である。円板の外に試料の情報は無く、そこにあるのは雑音だけである。干渉項 $J_{m,n}^{\mathrm{int}} = U_{s,m,n} U_{r,m,n}^*$ は、参照光がピンホールで準平面波になっているため、この円板と同じ半径を持つ。一方、非干渉項 $J_{m,n}^{\mathrm{non-int}} = |U_{s,m,n}|^2 + |U_{r,m,n}|^2$ はスペクトルの自己相関なので、半径はその2倍の $2\pi \cdot 2\mathrm{NA}/(\lambda M)$ に広がる。非干渉項は原点を中心に、干渉項は原点から $k^{\mathrm{off-axis}}$ だけ離れた位置を中心に置かれる（\ref{sec:principle} 節）。2つの円板が重ならないのは、中心の間隔が半径の和を超えるとき、すなわち
 \begin{equation}
 k^{\mathrm{off-axis}} \geq 3 \left(\frac{2\pi \mathrm{NA}}{\lambda M}\right)
 \label{eq:cond_overlap}
