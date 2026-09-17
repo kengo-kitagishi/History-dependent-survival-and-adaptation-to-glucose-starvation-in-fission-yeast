@@ -167,54 +167,84 @@ D_{\mathrm{ap}} = 2 \,\mathrm{round}\!\left( \frac{0.95}{658 \times 10^{-9}} \ti
 
 \section{光学系}
 \label{sec:optics}
+% 2026-09-12: 石金元気（2023）修論 3.2・3.3、菅原優生（2025）修論 3.1 を参考に、概要から設計条件へ進む構成にした。
+% 参考にしたのは説明の順序と詳しさ。光学素子と実験条件は本研究のものを記す。
+
+\subsection{光学系の概要}
+\label{sec:optics_overview}
+
+本研究で構築した光学系を図~\ref{fig:qpi_optical_system}に示す。光学系は、試料を照明して拡大像を形成する顕微鏡と、その出力像からホログラムを取得する干渉計からなる。干渉計には、試料を透過した光から物体光と参照光を作る common-path off-axis デジタルホログラフィを用いた。この配置は回折位相顕微鏡（diffraction phase microscopy）と呼ばれる\cite{popescu2006diffraction}。
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figure/QPI optical systems.pdf}
+    \caption{本研究で構築した common-path off-axis デジタルホログラフィの光学系。試料の拡大像を Ronchi 格子で複数の回折次数に分け、4f 系の Fourier 面で 0 次光をピンホールに通して参照光とする。試料の情報を保持した $+1$ 次光を物体光とし、両者の干渉縞を CMOS カメラで記録する。}
+    \label{fig:qpi_optical_system}
+\end{figure}
+
+照明には、波長 658 nm、出力 20 mW のシングルモードファイバ出力の半導体レーザー（LP660-SF20、Thorlabs）を用いた。ファイバから出射する光を焦点距離 2.0 mm のコリメータ（CFC2-B、Thorlabs）で平行光にして試料に照射した。試料を透過した光は、倒立顕微鏡（Ti-E、Nikon）の倍率 $40\times$、NA 0.95 の乾燥系対物レンズ（CFI Plan Apochromat Lambda D、MRD70470、Nikon）を用いて結像した。顕微鏡の出力ポートの像面に Ronchi 格子（120 lines/mm、\#66-342、Edmund Optics）を置き、試料の像を複数の回折次数に分けた。
+
+格子の後方には、焦点距離 200 mm のレンズ2枚（ACT508-200-A、Thorlabs）からなる倍率 1 の 4f 系を配置した。各回折次数は 4f 系の Fourier 面で分離される。この面で 0 次光の低空間周波数成分だけを直径 25 μm のピンホール（P25K、Thorlabs）に通し、準平面波の参照光とした。一方、$+1$ 次光は試料の空間情報を保持した物体光として通過させ、それ以外の回折次数は遮った。物体光と参照光は後段のレンズを通ってセンサ面で重なり、入射角の違いにより干渉縞を形成する。
+
+干渉縞の記録には CMOS カメラ（acA2440-75um、Basler）を用いた。センサは $2448 \times 2048$ 画素、画素ピッチは 3.45 μm、飽和電荷量は約 10 ke$^-$ である。このうち $2048 \times 2048$ 画素をホログラムとして用いた。再構成後の位相像は、\ref{sec:reconstruction} 節で述べたとおり $511 \times 511$ 画素、物体面での画素サイズは 0.346 μm である。
 
 \subsection{設計条件}
+\label{sec:optics_design}
 
-off-axis 配置では、物体光と参照光をセンサ面で角度をつけて干渉させ、その干渉縞に位相を載せる（\ref{sec:principle} 節）。縞の細かさを決めるのがキャリア波数 $k^{\mathrm{off-axis}} = \sqrt{(k_m^{\mathrm{off-axis}})^2 + (k_n^{\mathrm{off-axis}})^2}$ で、センサ面での縞の周期 $\Lambda$ とは $k^{\mathrm{off-axis}} = 2\pi/\Lambda$ の関係にある。この値をどこに置くかで、1枚のホログラムから位相が取り出せるかどうかが決まる。小さすぎると Fourier 空間で干渉項が非干渉項と重なり、\ref{sec:reconstruction} 節の円窓で干渉項だけを切り出せない。大きすぎると縞が画素より細かくなり、センサが縞を記録できない。したがって $k^{\mathrm{off-axis}}$ には下限と上限があり、どちらも対物レンズの NA、倍率 $M$、センサの画素ピッチだけで決まる。以下でその2つを求める。
+前項の光学系で位相を再構成するには、Fourier 空間で干渉項を非干渉項から分離でき、かつ干渉項の全帯域をセンサで標本化できる必要がある。干渉項の中心と原点との距離はキャリア波数 $k^{\mathrm{off-axis}}$ で決まり、センサ面での干渉縞の周期 $\Lambda$ とは $k^{\mathrm{off-axis}} = 2\pi/\Lambda$ の関係にある。本項ではセンサ面に換算した角空間周波数（rad/m）を用い、この2条件からキャリア波数の範囲を求める。
 
-まず下限である。対物レンズは $\mathrm{NA}/\lambda$ より高い空間周波数を通さないので（\ref{sec:principle} 節）、試料の情報は Fourier 空間の有限の円板の中で尽きている。像面では空間周波数が倍率の分だけ下がるから、この円板の半径は $2\pi\mathrm{NA}/(\lambda M)$ である。円板の外に試料の情報は無く、そこにあるのは雑音だけである。干渉項 $J_{m,n}^{\mathrm{int}} = U_{s,m,n} U_{r,m,n}^*$ は、参照光がピンホールで準平面波になっているため、この円板と同じ半径を持つ。一方、非干渉項 $J_{m,n}^{\mathrm{non-int}} = |U_{s,m,n}|^2 + |U_{r,m,n}|^2$ はスペクトルの自己相関なので、半径はその2倍の $2\pi \cdot 2\mathrm{NA}/(\lambda M)$ に広がる。非干渉項は原点を中心に、干渉項は原点から $k^{\mathrm{off-axis}}$ だけ離れた位置を中心に置かれる（\ref{sec:principle} 節）。2つの円板が重ならないのは、中心の間隔が半径の和を超えるとき、すなわち
+まず、干渉項と非干渉項が重ならない条件を考える。対物レンズの空間周波数のカットオフは $\mathrm{NA}/\lambda$ であるため、総倍率を $M$ とすると、センサ面における物体光のスペクトルは半径 $2\pi\mathrm{NA}/(\lambda M)$ の円内に制限される。参照光を平面波とみなすと、干渉項の帯域も同じ半径になる。一方、物体光の強度の Fourier 変換は複素振幅のスペクトルの自己相関であり、原点を中心とする非干渉項の帯域はその2倍の半径まで広がる。したがって、両成分の帯域が重ならないためには、中心間の距離が半径の和以上となる条件
 \begin{equation}
 k^{\mathrm{off-axis}} \geq 3 \left(\frac{2\pi \mathrm{NA}}{\lambda M}\right)
 \label{eq:cond_overlap}
 \end{equation}
-のときである。
+が必要である。
 
-次に上限である。縞は画素の格子で標本化されるので、縞の空間周波数が Nyquist 周波数（画素ピッチの逆数 $f_{\mathrm{pitch}}$ の半分）を超えると、折り返して別の周波数の縞に化ける。センサが記録するのは中心 $k^{\mathrm{off-axis}}$、半径 $2\pi\mathrm{NA}/(\lambda M)$ の円板の全体なので、その最も高い周波数が Nyquist を超えてはならない。この限界は各軸ごとに掛かる。キャリアを画素格子の対角方向に置けば各軸の成分は $k^{\mathrm{off-axis}}/\sqrt{2}$ に下がり、軸方向に置く場合より大きな $k^{\mathrm{off-axis}}$ を許せる。本研究では格子をこの向きに向けて置いた。このとき条件は
+次に、センサによる標本化の条件を考える。センサの画素ピッチの逆数を $f_{\mathrm{pitch}}$ とすると、Nyquist 限界は各軸で $\pi f_{\mathrm{pitch}}$ である。干渉項の中心だけでなく、その帯域全体がこの範囲に収まらなければならない。本研究では、キャリアの方向がセンサの画素格子の対角方向になるよう格子を配置した。このとき、各軸方向のキャリア波数は $k^{\mathrm{off-axis}}/\sqrt{2}$ となるので、
 \begin{equation}
-\frac{k^{\mathrm{off-axis}}}{\sqrt{2}} + \frac{2\pi \mathrm{NA}}{\lambda M} \leq \frac{2\pi f_{\mathrm{pitch}}}{2}
+\frac{k^{\mathrm{off-axis}}}{\sqrt{2}} + \frac{2\pi \mathrm{NA}}{\lambda M} \leq \pi f_{\mathrm{pitch}}
 \label{eq:cond_nyquist}
 \end{equation}
-となる。2つを合わせると $k^{\mathrm{off-axis}}$ の置ける範囲は
+を満たす必要がある。式~\eqref{eq:cond_overlap} と式~\eqref{eq:cond_nyquist} より、キャリア波数の範囲は
 \begin{equation}
 \frac{2\pi \cdot 3\mathrm{NA}}{\lambda M} \leq k^{\mathrm{off-axis}} \leq \sqrt{2}\pi \left(f_{\mathrm{pitch}} - \frac{2\mathrm{NA}}{\lambda M}\right)
 \label{eq:cond_range}
 \end{equation}
-である。
+となる。
 
-本研究の計測系は NA $= 0.95$、$M = 40$、$\lambda = 658$ nm、画素ピッチ 3.45 μm（$f_{\mathrm{pitch}} = 1/3.45~\mu\mathrm{m} = 2.90 \times 10^5~\mathrm{m}^{-1}$）なので、下限は $3 \times 2\pi \times 0.95/(658 \times 10^{-9} \times 40) = 6.80 \times 10^5$ rad/m、上限は $\sqrt{2}\pi \left(2.90 \times 10^5 - 2 \times 0.95/(658 \times 10^{-9} \times 40)\right) = 9.68 \times 10^5$ rad/m である。この範囲に $k^{\mathrm{off-axis}}$ を収めるように光学系を組んだ。
-
-\subsection{構成}
-
-光学系を図~\ref{fig:qpi_optical_system}に示す。方式は回折位相顕微鏡（diffraction phase microscopy）、すなわち common-path off-axis デジタルホログラフィである\cite{popescu2006diffraction}。光源は波長 658 nm、出力 20 mW のシングルモードファイバ出力の半導体レーザー（LP660-SF20、Thorlabs）で、ファイバコリメータ（CFC2-B, $f = 2.0$ mm, Thorlabs）で平行光にして試料を照明する。試料を透過した光は、倒立顕微鏡（Ti-E、Nikon）の $40\times$、NA 0.95 の乾燥系対物レンズ（CFI Plan Apochromat Lambda D, MRD70470, Nikon）で拡大され、顕微鏡の出力ポートに置いた像面で Ronchi 格子（120 lines/mm, \#66-342, Edmund Optics）により複数の回折次数に分けられる。各次数は像の空間情報をすべて持つ。焦点距離 200 mm のリレーレンズ2枚（ACT508-200-A、Thorlabs）で 4f 系を組み、その Fourier 面で 0 次光を直径 25 μm のピンホール（P25K、Thorlabs）で低域通過させて一様な参照光にし、1 次光はそのまま通して物体光にする。他の次数は遮る。2つの光は同じ光路を通り、センサ上で角度をもって干渉する。ホログラムは CMOS カメラ（acA2440-75um, Basler; $2448 \times 2048$ 画素、画素 3.45 μm、full-well 容量約 10 ke$^-$）で記録する。生のホログラムは $2048 \times 2048$ 画素を使い、再構成した位相像は \ref{sec:reconstruction} 節のとおり $511 \times 511$ 画素、画素 0.346 μm である。
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\linewidth]{figure/QPI optical systems.pdf}
-    \caption{common-path off-axis デジタルホログラフィの光学系。Ronchi 格子の $+1$ 次回折光を物体光、Fourier 面のピンホールで低域通過させた 0 次光を参照光にする。}
-    \label{fig:qpi_optical_system}
-\end{figure}
-
-本研究の計測系では、$k^{\mathrm{off-axis}}$ は試料と共役な像面に置いた格子の周期で決まる。4f リレーの倍率は 1 なので、センサ面での格子周期は 8.33 μm であり、
+本研究では、波長 $\lambda = 658$ nm、NA $= 0.95$、総倍率 $M = 40$、センサの画素ピッチ 3.45 μm である。これらを式~\eqref{eq:cond_range} に代入すると、
 \begin{equation}
-k^{\mathrm{off-axis}} = \frac{2\pi}{8.33~\mu\mathrm{m}} = 7.54 \times 10^5~\mathrm{rad/m}
+6.80 \times 10^5~\mathrm{rad/m} \leq k^{\mathrm{off-axis}} \leq 9.67 \times 10^5~\mathrm{rad/m}
 \end{equation}
-である。これは式~\eqref{eq:cond_range} の範囲 $6.80 \times 10^5 \leq k^{\mathrm{off-axis}} \leq 9.68 \times 10^5$ rad/m に入る。格子は、キャリアがセンサの画素格子の対角方向を向くように傾けて置いた。組み上げた光学系でホログラムを Fourier 変換すると、$+1$ 次サイドバンドは直流成分から縦横それぞれ 599 画素と 597 画素ずれた位置にあり、そこから求めたキャリア波数は $7.53 \times 10^5$ rad/m で、格子から計算した値と一致した。
+を得る。数値の計算には丸め前の値を用いた。
+
+採用した Ronchi 格子の周期は $1/(120~\mathrm{mm}^{-1}) \approx 8.33$ μm である。格子からセンサまでの 4f 系は倍率 1 なので、センサ面での干渉縞もこの周期を持ち、キャリア波数は
+\begin{equation}
+k^{\mathrm{off-axis}} = 2\pi \times 120 \times 10^3~\mathrm{m}^{-1} \approx 7.54 \times 10^5~\mathrm{rad/m}
+\end{equation}
+となる。この値は上記の範囲内にあり、干渉項の分離と標本化の両条件を満たす。
+
+組み上げた光学系のホログラムを Fourier 変換すると、$+1$ 次サイドバンドの中心は直流成分から縦横それぞれ 599 画素、597 画素ずれた位置にあった。ホログラムの一辺が 2048 画素、センサの画素ピッチが 3.45 μm であることから、この変位に対応するキャリア波数は
+\begin{equation}
+k_{\mathrm{exp}}^{\mathrm{off-axis}}
+= \frac{2\pi\sqrt{599^2 + 597^2}}{2048 \times 3.45~\mu\mathrm{m}}
+\approx 7.52 \times 10^5~\mathrm{rad/m}
+\end{equation}
+である。縦横の変位がほぼ等しいことはキャリアが対角方向に配置されていることと整合し、キャリア波数は格子の周期から求めた値と約 0.3\% の差で一致した。
 
 \section{マイクロ流路デバイス}
 \label{sec:device}
 
 \subsection{mother machineの原理}
-
-mother machine は、1個の細胞を同じ視野に数日とどめて観察するためのマイクロ流路デバイスである。Wang らが大腸菌の老化を1細胞で追うために作った\cite{wang2010robust}。分裂酵母でも同じ構造で老化と寿命が計測されている\cite{nakaoka2017aging}。基本構造は、培地が流れる1本の主流路と、それに垂直に並ぶ多数の細い行き止まりの観察チャネルからなる（図~\ref{fig:mm_schematic}）。観察チャネルの幅は細胞1個分で、細胞は1列に並ぶ。閉端にある細胞は分裂しても同じ場所にとどまり、娘細胞は分裂のたびに主流路側へ押し出され、流れで洗い出される。この閉端の細胞を母細胞と呼ぶ。培地は主流路から観察チャネルへ拡散で届く。その時間は秒の桁で、栄養の取り込みの時間（分の桁）より十分短い\cite{wang2010robust}。したがって、主流路を流す培地を切り替えれば、細胞の環境を任意の時刻に変えられる。
+一細胞レベルで細胞の状態を長時間追跡する方法は、この20 年で数多く開発されている。
+その中でも特に多くの研究で用いられている方法は“mother machine” と呼ばれるデバイスである。
+mother machine はP. Wang らによって発表されたマイクロ流体デバイスであり、新鮮な培地が一定の流速
+で流れるメイン流路と、細胞がトラップされその内部で分裂成長する観察チャンネルからなる。観察チャンネ
+ルの一方の端はメイン流路に接続されており、ここから常に栄養が供給される。もう一方の端は閉じられてお
+り、行き止まりになっている。そのため、閉じられた端にいる細胞が分裂成長をするとメイン流路側に他の細
+胞を押し出していき、押し出された細胞は最終的に培地の流れによって排除される。一方で、閉じられた端に
+いる細胞自身は常に一番奥に残るため、この細胞は長期間にわたり観察チャンネルの中にとどまる。この細胞
+を観察することで細胞の表現型の変化を長期間追跡することができる。このmother machine デバイスは当初
+は大腸菌の計測に用いられていた[94, 97, 99, 100, 101, 102] が、現在では枯草菌(Bacillus Subtilis)[103]、酵母(Schizosaccharomyces Pombe)[104]、培養細胞[105] などにも用いられている。また、mother machine を応用した類似の形状のデバイスも多く作られるなど発展を続けている[106, 107, 108]。
 \begin{figure}[H]
     \centering
     \includegraphics[width=55mm]{figure/MotherMachine_schematic_2D_cellLoaded.pdf}
