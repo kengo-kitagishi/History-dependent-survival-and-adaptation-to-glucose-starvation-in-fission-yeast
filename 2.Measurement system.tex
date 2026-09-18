@@ -1,8 +1,9 @@
-% NEXT: plot 2.9（P0〜P10）の「決めること」を決めてから paragraph 2.9 を書く。本文は確定している 2.9.2（3C・3D）と 2.9.3（Figure 2）から〔初期値〕
+% NEXT: plot 2.7（P0〜P10）の「決めること」を決めてから paragraph 2.7 を書く。本文は確定している 2.7.2（3C・3D）と 2.7.3（Figure 2）から〔初期値〕
 % 第2章: QPI による長期1細胞計測系の構築
 % 2026-09-08 に橋本幹弘さんの博論（48136）の形に組み替えた。
 % 2026-09-09 に節を確定し、見出しを日本語にした。
-%   背景 → 目的 → 原理 → 再構成 → 光学系 → デバイス → 細胞と計測 → 画像解析 → 性能評価 → 考察 → まとめ
+%   背景 → 目的 → QPI（測定原理と再構成・光学系の設計）→ デバイス → 細胞と計測 → 画像解析 → 性能評価 → 考察 → まとめ
+% 2026-09-18: QPI の見出しを統合し、画像解析を処理のまとまりで分割。
 %   2.1〜2.8 は日本語で書いた。2.9.1 は英語のまま。
 %   小節は「手順のまとまり」単位で切る（橋本・小金澤の博論に合わせた）。plot の1行（=1段落）を1小節にはしない。
 \chapter{QPIによる長期1細胞計測系の構築}
@@ -11,7 +12,7 @@
 \label{sec:background}
 % 2026-09-09 に Claude が、論文 qpi-methods/sentence/10_intro.tex と plot/2_measurement_system.md の 2.1 から起こした第一稿。
 % 橋本博論 48136 の 2.1（2.1.1 既存技術の問題点 → 2.1.2 必要条件 → 2.2 目的1文）の形に合わせた。本人が読んで直す。
-% 屈折率増分は文献値として 0.18〜0.19 mL/g と書いた。解析で使う1つの値は 2.8.7 で決める（コードの値に合わせる）。
+% 屈折率増分は文献値として 0.18〜0.19 mL/g と書いた。解析で使う1つの値は \ref{sec:drymass} 節で決める（コードの値に合わせる）。
 
 \subsection{細胞質の乾燥質量密度と既存の計測法}
 
@@ -50,21 +51,21 @@
 \label{sec:aim}
 分裂酵母を対象に、\ref{sec:requirements} 節の4条件を満たす、QPI による長期1細胞乾燥質量密度計測系を構築する。common-path off-axis デジタルホログラフィの光学系、mother machine、ステージ変位のグリッドによる参照像の取得、位相像から乾燥質量密度までの解析パイプラインを一体として作り、その性能を位相ノイズ、参照像の登録精度、ドリフト、既知シフトの回収、濃度校正の直線性で評価する（\ref{sec:performance} 節）。この計測系を第3章のグルコース飢餓実験に用いる。
 
-\section{定量位相イメージングの原理}
+\section{定量位相イメージング（QPI）}
+\label{sec:qpi}
+
+\subsection{測定原理と位相像の再構成}
 \label{sec:principle}
+\label{sec:reconstruction}
 
-\subsection{QPIによる位相差の定量化}
-
-細胞と周囲の培地の屈折率の差は、透過する光の位相の遅れとして光に刻まれる。可視光の振動数は 400--800 THz で、その振動をセンサで直接記録することはできないので、位相の遅れを検出するには強度の変化に変換する必要がある。位相差顕微鏡と微分干渉顕微鏡はこの変換を光学的に行うが、得られる強度は位相の定量値ではない。位相を定量する方法をまとめて定量位相イメージング（QPI）と呼ぶ\cite{park2018quantitative}。QPI は試料を透過する照明を用いる。細胞の屈折率が面内にも深さ方向にも変わるとき、面内位置 $x$ で細胞を透過した光が得る相対的な位相は
+細胞と周囲の培地の屈折率の差は、透過光の位相遅れを生じる。QPI は、この位相遅れを定量する計測法である\cite{park2018quantitative}。位相差顕微鏡や微分干渉顕微鏡も位相の情報を強度の変化に変換するが、得られる強度は位相の定量値ではない。細胞の屈折率が面内にも深さ方向にも変わるとき、面内位置 $x$ で細胞を透過した光が得る相対的な位相は
 \begin{equation}
 \Delta\phi(x) = \frac{2\pi}{\lambda}\int_0^{h(x)} [n_{\mathrm{cell}}(x, z) - n_0]\, dz
 \label{eq:phase_delay}
 \end{equation}
 である。$z$ は試料内の深さ、$h(x)$ は細胞の厚さ、$n_{\mathrm{cell}}$ は細胞の屈折率（位置に依存してよい）、$n_0$ は培地の屈折率、$\lambda$ は光の波長で、散乱は無視できるとしている。
 
-QPI の多くは干渉計で位相を取り出す。物体光と参照光が同じ光路を通る配置を common-path と呼ぶ。common-path 法では、試料の後ろに小さな干渉計を組み、干渉する2つの光が多くの光学素子を共有して伝搬する。このため振動や光学系のずれに強く、系も小さくなる。試料の後ろに置けるので、顕微鏡の出力ポートにそのまま組める。数日にわたるタイムラプスに向くのはこの性質による。なお、対物レンズは開口数 NA で決まる空間周波数 $\mathrm{NA}/\lambda$ より高い成分を通さない。この帯域制限が位相像の分解能を決めることは \ref{sec:reconstruction} 節で、off-axis のキャリア波数をどこに置けるかを決めることは \ref{sec:optics} 節で述べる。
-
-\subsection{off-axis デジタルホログラフィによる位相回復}
+本研究では、物体光と参照光が光路の大部分を共有する common-path 型の干渉計を用いた。2つの光が多くの光学素子を共有して伝搬するため、振動や光学系のずれによる相対的な位相変動が小さく、長期タイムラプス計測に適している。顕微鏡の出力ポートに接続する光学系の構成は \ref{sec:optics} 節で述べる。
 
 センサは強度 $I = |U|^2$ しか測れないので、複素場 $U = A e^{i\phi}$ の位相 $\phi$ は検出で失われる。位相を回復するには、物体光 $U_s = A_s e^{i\phi_s}$ を既知の参照光 $U_r = A_r e^{i\phi_r}$ と干渉させる。検出される強度は
 \begin{equation}
@@ -96,10 +97,6 @@ I_{m,n}^{\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-
 \end{equation}
 と書ける。$J_{m,n}^{\mathrm{non-int}} = |U_{s,m,n}|^2 + |U_{r,m,n}|^2$、$J_{m,n}^{\mathrm{int}} = U_{s,m,n} \cdot U_{r,m,n}^*$ である。
 
-共役座標 $(p, q)$ で2次元 Fourier 変換すると、非干渉項は原点に、干渉項とその複素共役は原点から $\pm(k_m^{\mathrm{off-axis}}, k_n^{\mathrm{off-axis}})$ だけ離れた2つの位置に現れ、3つの成分が Fourier 空間で分かれる。$+1$ 次のサイドバンドを選んで逆 Fourier 変換すれば複素場 $U_{s,m,n}$ が単独で得られ、その位相 $\phi_{m,n} = \arg(U_{s,m,n})$ が取り出せる。このホログラムから位相像を再構成する手順を次節で述べる。
-
-\section{位相像の再構成}
-\label{sec:reconstruction}
 % 2026-09-09 に plot/2 の 2.4（P1〜P5）と paragraph/2 の T/E/I/B から日本語で書いた。英語の旧本文は git の ebf768f 以前にある。
 % 図は figure-hub fig_qpi_reconstruction_overview v003（figure/qpi_fig_01_panel.pdf）。論文 Figure 1C（8/10 確定）に差し替えるなら figure-hub から取る。
 % 円窓の半径は旧本文の (2πNA/λ)·N·Δp から 2π を外した。D_ap = 2⌊(NA/λ)·FOV⌋+1 = 511 と整合するのはこちら。
@@ -108,7 +105,7 @@ I_{m,n}^{\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-
 \begin{equation}
 i_{p,q}^{\mathrm{DH}} = j_{p,q}^{\mathrm{non-int}} + j_{p+k_m^{\mathrm{off-axis}},\, q+k_n^{\mathrm{off-axis}}}^{\mathrm{int}} + j_{p-k_m^{\mathrm{off-axis}},\, q-k_n^{\mathrm{off-axis}}}^{\mathrm{int}*}
 \end{equation}
-の3成分からなる。$(p,q)$ は $(m,n)$ に共役な座標である。干渉項は off-axis の波数の分だけ原点から離れているので、3成分は Fourier 空間で分離している。第2に、$+1$ 次のサイドバンドの中心 $(p_{\mathrm{off}}, q_{\mathrm{off}})$ を求め、ホログラムに位相因子を掛けてサイドバンドを原点へ移す:
+の3成分からなる。$(p,q)$ は $(m,n)$ に共役な座標である。非干渉項は原点に、干渉項とその複素共役は原点から離れた2か所に現れる。この分離を利用して、位相情報を含む干渉項を取り出す。第2に、$+1$ 次のサイドバンドの中心 $(p_{\mathrm{off}}, q_{\mathrm{off}})$ を求め、ホログラムに位相因子を掛けてサイドバンドを原点へ移す:
 \begin{equation}
 I_{m,n}^{(c)} = I_{m,n}^{\mathrm{DH}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}.
 \end{equation}
@@ -120,13 +117,13 @@ r_{\mathrm{aperture}} = \frac{\mathrm{NA}}{\lambda} \cdot N \cdot \Delta p
 \begin{equation}
 \phi_{m,n}^{\mathrm{meas}} = \arg[\mathrm{LP}(I_{m,n}^{(c)})].
 \end{equation}
-第5に、$\arg$ は $(-\pi, \pi]$ に折り返されているので、画素を信頼度の順に並べて $2\pi$ の飛びをつなぐ方法\cite{herraez2002fast}で位相接続（unwrapping）を行う。円窓の半径は対物レンズの NA で決まるので、位相像の分解能は光学系で決まり、この処理で変わることはない。
+ここで $\mathrm{LP}$ は、Fourier 空間で円窓を適用し、逆 Fourier 変換する低域通過処理を表す。第5に、$\arg$ は $(-\pi, \pi]$ に折り返されているので、画素を信頼度の順に並べて $2\pi$ の飛びをつなぐ方法\cite{herraez2002fast}で位相接続（unwrapping）を行う。
 
-この位相には、細胞による位相遅れのほかに、照明光の波面と流路の位相が乗っている。これを除くために、同じ視野で細胞の無い状態を撮った位相像（参照像）を引く。複素場の比の偏角をとれば位相の差になる:
+再構成した位相像には、細胞による位相遅れのほかに、照明光の波面と流路の位相が含まれる。これらに共通する背景成分を除くため、同じ視野で細胞の無い状態を撮った位相像（参照像）との差をとる。複素場の比を用いると、この位相差は次式で得られる:
 \begin{equation}
 \phi_{m,n} = \arg\left[\frac{\mathrm{LP}(I_{m,n}^{\mathrm{sample}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}{\mathrm{LP}(I_{m,n}^{\mathrm{ref}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}\right].
 \end{equation}
-照明光の波面と流路の位相は試料の像と参照像に共通なので、この差で消える。残るオフセットは細胞の無い領域の平均で除く。位相を光路長差に直すなら $\mathrm{OPD} = \phi\lambda/2\pi$ であるが、以降では位相 $\phi$（rad）のまま扱う。mother machine では細胞のそばに培地だけの領域が残らないので、参照像をどう取るかが問題になる。参照像の取得は \ref{sec:grid_acq} 節で、各フレームにどの参照像を対応させるかは \ref{sec:bgsub} 節で述べる。
+残るオフセットは細胞の無い領域の平均で除く。位相を光路長差に直すなら $\mathrm{OPD} = \phi\lambda/2\pi$ であるが、以降では位相 $\phi$（rad）のまま扱う。mother machine では細胞のそばに培地だけの領域が残らないので、参照像をどう取るかが問題になる。参照像の取得は \ref{sec:grid_acq} 節で、各フレームにどの参照像を対応させるかは \ref{sec:bgsub} 節で述べる。
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\linewidth]{figure/qpi_fig_01_panel.pdf}
@@ -134,7 +131,7 @@ r_{\mathrm{aperture}} = \frac{\mathrm{NA}}{\lambda} \cdot N \cdot \Delta p
     \label{fig:reconstruction}
 \end{figure}
 
-位相像の画素数と画素サイズは、対物レンズの NA と視野で決まる。コヒーレント照明での空間周波数のカットオフは
+再構成に用いる円窓の大きさは、対物レンズの開口数 NA による帯域制限から決まる。コヒーレント照明での空間周波数のカットオフは
 \begin{equation}
 f_{\mathrm{cutoff}} = \frac{\mathrm{NA}}{\lambda}
 \end{equation}
@@ -153,25 +150,24 @@ D_{\mathrm{ap}} = 2 \,\mathrm{round}\!\left( \frac{\mathrm{NA}}{\lambda} \cdot \
 \end{equation}
 で、分解能要素 $\lambda/\mathrm{NA}$ の半分である。すなわち位相像は、Nyquist の条件をちょうど満たす画素で組まれる。
 
-サンプリングの条件は2段階ある。第1に、生のホログラムが折り返しを起こさないために
+一方、再構成前のホログラムでは、試料の空間周波数帯域に加えて off-axis の干渉縞を記録する必要がある。試料の帯域を標本化するには、物体面での画素ピッチが
 \begin{equation}
 \Delta p < \frac{\lambda}{2 \cdot \mathrm{NA}}
 \end{equation}
-でなければならない。干渉縞を写すので、実際には 2--4 倍の余裕をとる。第2に、位相像では1分解能要素 $\lambda/\mathrm{NA}$ がおよそ2画素に対応する。生のホログラムの側の余裕は、干渉項が Nyquist を超えないという光学系の設計条件（\ref{sec:optics} 節の第2条件）と同じ要求である。
+を満たす必要がある。off-axis の干渉縞を含む干渉項の帯域全体を記録するための条件は、キャリア波数と合わせて \ref{sec:optics} 節で示す。
 
-本研究の計測系はこの条件を満たす。$\lambda = 658$ nm、NA $= 0.95$、倍率 $40\times$、カメラの画素 3.45 μm から、物体面の画素ピッチは $\Delta p = 3.45~\mu\mathrm{m}/40 = 86.25$ nm、視野は $2048 \times 86.25$ nm $= 176.64$ μm である。Abbe の分解限界は $658/0.95 = 692$ nm、Nyquist の条件は $\Delta p_{\mathrm{Nyquist}} = 658/(2 \times 0.95) = 346$ nm で、生のホログラムの余裕は $346/86.25 = 4.0$ 倍になる。円窓の直径は
+本研究の計測系の値を用いて、画素サイズと分解能の関係を確認する。$\lambda = 658$ nm、NA $= 0.95$、倍率 $40\times$、カメラの画素 3.45 μm から、物体面の画素ピッチは $\Delta p = 3.45~\mu\mathrm{m}/40 = 86.25$ nm、視野は $2048 \times 86.25$ nm $= 176.64$ μm である。Abbe の分解限界は $658/0.95 = 692$ nm、Nyquist の条件は $\Delta p_{\mathrm{Nyquist}} = 658/(2 \times 0.95) = 346$ nm で、生のホログラムの余裕は $346/86.25 = 4.0$ 倍になる。円窓の直径は
 \begin{equation}
 D_{\mathrm{ap}} = 2 \,\mathrm{round}\!\left( \frac{0.95}{658 \times 10^{-9}} \times 176.64 \times 10^{-6} \right) + 1 = 2 \,\mathrm{round}(255.0) + 1 = 511
 \end{equation}
-画素で、位相像の画素サイズは $\Delta p_{\mathrm{recon}} = 176.64~\mu\mathrm{m}/511 = 346$ nm である。したがって位相像は $511 \times 511$ 画素、画素サイズ 0.346 μm となる。off-axis の波数 $k^{\mathrm{off-axis}}$ をどの範囲に置くかは、次節で光学系の設計条件として述べる。
+画素で、位相像の画素サイズは $\Delta p_{\mathrm{recon}} = 176.64~\mu\mathrm{m}/511 = 346$ nm である。したがって位相像は $511 \times 511$ 画素、画素サイズ 0.346 μm となる。off-axis の波数 $k^{\mathrm{off-axis}}$ をどの範囲に置くかは、次項で光学系の設計条件として述べる。
 
-\section{光学系}
+\subsection{光学系の設計}
 \label{sec:optics}
+\label{sec:optics_overview}
+\label{sec:optics_design}
 % 2026-09-12: 石金元気（2023）修論 3.2・3.3、菅原優生（2025）修論 3.1 を参考に、概要から設計条件へ進む構成にした。
 % 参考にしたのは説明の順序と詳しさ。光学素子と実験条件は本研究のものを記す。
-
-\subsection{光学系の概要}
-\label{sec:optics_overview}
 
 本研究で構築した光学系を図~\ref{fig:qpi_optical_system}に示す。光学系は、試料を照明して拡大像を形成する顕微鏡と、その出力像からホログラムを取得する干渉計からなる。干渉計には、試料を透過した光から物体光と参照光を作る common-path off-axis デジタルホログラフィを用いた。この配置は回折位相顕微鏡（diffraction phase microscopy）と呼ばれる\cite{popescu2006diffraction}。
 \begin{figure}[H]
@@ -187,10 +183,7 @@ D_{\mathrm{ap}} = 2 \,\mathrm{round}\!\left( \frac{0.95}{658 \times 10^{-9}} \ti
 
 干渉縞の記録には CMOS カメラ（acA2440-75um、Basler）を用いた。センサは $2448 \times 2048$ 画素、画素ピッチは 3.45 μm、飽和電荷量は約 10 ke$^-$ である。このうち $2048 \times 2048$ 画素をホログラムとして用いた。再構成後の位相像は、\ref{sec:reconstruction} 節で述べたとおり $511 \times 511$ 画素、物体面での画素サイズは 0.346 μm である。
 
-\subsection{設計条件}
-\label{sec:optics_design}
-
-前項の光学系で位相を再構成するには、Fourier 空間で干渉項を非干渉項から分離でき、かつ干渉項の全帯域をセンサで標本化できる必要がある。干渉項の中心と原点との距離はキャリア波数 $k^{\mathrm{off-axis}}$ で決まり、センサ面での干渉縞の周期 $\Lambda$ とは $k^{\mathrm{off-axis}} = 2\pi/\Lambda$ の関係にある。本項ではセンサ面に換算した角空間周波数（rad/m）を用い、この2条件からキャリア波数の範囲を求める。
+以上の光学系で、前項の再構成処理によって位相を取り出すには、Fourier 空間で干渉項を非干渉項から分離でき、かつ干渉項の全帯域をセンサで標本化できる必要がある。干渉項の中心と原点との距離はキャリア波数 $k^{\mathrm{off-axis}}$ で決まり、センサ面での干渉縞の周期 $\Lambda$ とは $k^{\mathrm{off-axis}} = 2\pi/\Lambda$ の関係にある。本項ではセンサ面に換算した角空間周波数（rad/m）を用い、この2条件からキャリア波数の範囲を求める。
 
 まず、干渉項と非干渉項が重ならない条件を考える。対物レンズの空間周波数のカットオフは $\mathrm{NA}/\lambda$ であるため、総倍率を $M$ とすると、センサ面における物体光のスペクトルは半径 $2\pi\mathrm{NA}/(\lambda M)$ の円内に制限される。参照光を平面波とみなすと、干渉項の帯域も同じ半径になる。一方、物体光の強度の Fourier 変換は複素振幅のスペクトルの自己相関であり、原点を中心とする非干渉項の帯域はその2倍の半径まで広がる。したがって、両成分の帯域が重ならないためには、中心間の距離が半径の和以上となる条件
 \begin{equation}
@@ -234,7 +227,7 @@ k_{\mathrm{exp}}^{\mathrm{off-axis}}
 \section{マイクロ流路デバイス}
 \label{sec:device}
 
-\subsection{mother machineの原理}
+\subsection{mother machineの概要}
 一細胞レベルで細胞の状態を長時間追跡する方法は、この20 年で数多く開発されている。
 その中でも特に多くの研究で用いられている方法は“mother machine” と呼ばれるデバイスである。
 mother machine はP. Wang らによって発表されたマイクロ流体デバイスであり、新鮮な培地が一定の流速
@@ -262,7 +255,7 @@ mother machine はP. Wang らによって発表されたマイクロ流体デバ
     \label{fig:mm_layout}
 \end{figure}
 
-\subsection{作製}
+\subsection{デバイスの作製}
 
 作製の工程を図~\ref{fig:pdms_process}に示す。フォトマスクは、マスクブランクス（Clean Surface Technology）にマスクレス露光機（μMLA、Heidelberg Instruments）で描画した。観察チャネルと主流路のパターンは別のマスクにした。
 
@@ -322,10 +315,13 @@ Hsp104-GFP 株の記録では、各ホログラムと同時に蛍光像を顕微
 
 乾燥質量の計算（\ref{sec:drymass} 節）には培地の屈折率が必要である。これを BSA の濃度系列で校正した。BSA を超純水に溶かした 0--5\%（w/v）の溶液を順にデバイスに灌流し、参照グリッドを撮った視野を各溶液で撮った。培地が入った状態のグリッド中心像の位相を引き、チャネルの上で位相を積分した値を BSA 濃度に対して最小二乗で直線に当てはめた。傾きは積分した位相が見ている培地の体積を与え、傾きと切片から培地の屈折率が求まる。BSA の屈折率増分は、アミノ酸配列から計算した値に Zhao ら\cite{zhao2011distribution}の波長と温度の補正を加えた、658 nm、30 °C での値を使った。0\% の溶液は系列の最後にもう一度測り、持ち越しとドリフトの確認にした。
 
-\subsection{細胞の輪郭・系譜・体積と乾燥質量}
-\label{sec:drymass}
+\subsection{細胞の識別と追跡}
+\label{sec:tracking}
 
 細胞の輪郭は Omnipose\cite{cutler2022omnipose}で得た。本研究の画像から手で注釈した約 3000 細胞でモデルを学習した。 得られたマスクは面積でフレーム間を連結した。各チャネルの閉端に最も近い細胞を母細胞として起点にする。隣接する2つのマスクの面積の和が前のフレームの1細胞の面積と合うとき分裂とし、閉端側のマスクが親の識別子を継ぐ。整合する連結が見つからないフレームには追跡の失敗の印を付けた。1つのチャネルの閉端を占め続ける細胞の連なりを系譜と呼ぶ。
+
+\subsection{体積と乾燥質量の算出}
+\label{sec:drymass}
 
 各マスクの輪郭を楕円 Fourier 記述子で平滑化し、平滑化した輪郭から中心線（medial axis）を取った。中心線に垂直な方向の幅を軸に沿った各点で測り、細胞長は中心線の弧長、細胞幅は両端を除いた中央部の幅の平均とした。体積は中心線の周りの回転対称を仮定し、各断面の体積を足し合わせて求めた。
 
