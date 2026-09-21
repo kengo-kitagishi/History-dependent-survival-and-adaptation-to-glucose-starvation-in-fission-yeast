@@ -1,0 +1,1966 @@
+{
+  "checked_on": "2026-09-21",
+  "scope": "9/19に図ID別検索で特定した第2章関連75タスクを9/21に再取得。全DBの網羅検索ではない。",
+  "tasks": [
+    {
+      "id": "3dfeda96-228e-819a-bdf6-ff78fb27dd31",
+      "title": "【修論図 fig:principle ③/③】(a)(b) を組み、キャプションを書いて 2.3.1 に入れる（30 min）",
+      "url": "https://app.notion.com/p/3dfeda96228e819abdf6ff78fb27dd31?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:principle ③/③】(a)(b) を組み、キャプションを書いて 2.3.1 に入れる（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3dfeda96228e819abdf6ff78fb27dd31",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3dfeda96-228e-819a-bdf6-ff78fb27dd31/amJ1Yw"
+      },
+      "body": "2026-09-19 第2版: パネル (c)（参照像との差）は fig:bgsub (f) に移した。この図は (a)(b) まで。面積分が乾燥質量に比例する式は (b) に添える。この図で示すのは「チャネルの段差が細胞の位相より大きい」ところまで。\n要件の全文: plot/[figures.md](http://figures.md) の fig:principle（[https://github.com/kengo-kitagishi/History-dependent-survival-and-adaptation-to-glucose-starvation-in-fission-yeast/blob/master/plot/figures.md）](https://github.com/kengo-kitagishi/History-dependent-survival-and-adaptation-to-glucose-starvation-in-fission-yeast/blob/master/plot/figures.md）)\n## 問い\n位相像の値は何を測っているのか。なぜ細胞の無い参照像を引く必要があるのか。\n## 先行図\n- 戸田 図6.2b（PDF p.83。貼った1枚目: 波面 → レンズ → センサ → OPD(x)）\n- 戸田 図4.1a（p.54。貼った3枚目: IR ON − IR OFF = ΔRI）\n- 戸田 図3.2a（p.40）、菅原 図2.1（p.10）、石金 図1.1（p.8）\n## パネル\n- (a) x–z 断面: カバーガラス、PDMS の壁と天井、観察チャネル（幅 5.3 μm・高さ 6.2 μm）の中の分裂酵母1個。平面波が入り、透過後の波面が遅れる\n- (b) φ(x): チャネルの段差 (2π/λ)(n_medium − n_PDMS)h と、その中の細胞の位相。縦軸は φ（rad）\n- (c) 参照像の φ(x) と差（細胞だけ）。面積分が乾燥質量に比例する式を添える\n## 必要なデータ\n- 模式図部分は無し\n- (b)(c) の数値: 260517 の1フレーム1チャネルを横切る断面（試料像・参照像・差）。外付け 0p0055 か研究室 PC の E:260517\\\\\n- 目安: 論文 Figure 2 ver1 ではチャネル内 約 −3.5〜−4 rad、差分後の細胞 約 1〜2 rad。概算 −4.4 rad（n_PDMS ≈ 1.41 と仮定）\n## 今ある素材\n- figure/MotherMachine_schematic_\\*.svg（断面の下地）\n## 並行・依存\n- fig:bgsub・fig:bg_residual と同じフレーム（260517、Pos1、frame 512）を使う\n## 決めること\n- 2.1 に置くか 2.3.1 に置くか\n- (a) を 2D 断面にするか 3D にするか",
+      "page_last_edited_at": "2026-09-19T07:08:57.148Z"
+    },
+    {
+      "id": "3e0eda96-228e-81ed-bac8-edd278229016",
+      "title": "【修論図 fig:principle ②/③】(b) チャネルを横切る φ(x) の断面を実データから描く（45 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81edbac8edd278229016?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:principle ②/③】(b) チャネルを横切る φ(x) の断面を実データから描く（45 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81edbac8edd278229016",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-81ed-bac8-edd278229016/amJ1Yw"
+      },
+      "body": "260517 Pos1 frame 512 の1チャネルを横切る断面。チャネルの段差（約 −3.5〜−4 rad、概算 −4.4 rad）と細胞の位相（約 1〜2 rad）を同じ軸に。縦軸 φ（rad）。細胞部分の面積分が乾燥質量に比例する式を添える。\n前提: 共通 D1\nfig:bgsub ③ と fig:bg_residual ② で同じ断面位置を使う",
+      "page_last_edited_at": "2026-09-19T07:03:29.665Z"
+    },
+    {
+      "id": "3e0eda96-228e-81ca-9619-ed9745ceae31",
+      "title": "【修論図 fig:principle ①/③】(a) 観察チャネル内の細胞を通る光の x–z 断面の模式図を描く（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81ca9619ed9745ceae31?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:principle ①/③】(a) 観察チャネル内の細胞を通る光の x–z 断面の模式図を描く（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81ca9619ed9745ceae31",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-81ca-9619-ed9745ceae31/amJ1Yw"
+      },
+      "body": "カバーガラス、PDMS の壁と天井、高さ 6.2 μm・幅 5.3 μm の観察チャネル、分裂酵母1個。平面波が入り、透過後の波面が遅れる。\n下地: figure/MotherMachine_schematic_\\*.svg\n先行: 戸田 図6.2b（PDF p.83、本人が貼った1枚目）\n前提: 共通 S1（様式）\n要件の全文: fig:principle ③/③ のページと plot/[figures.md](http://figures.md)",
+      "page_last_edited_at": "2026-09-19T07:03:29.665Z"
+    },
+    {
+      "id": "3dfeda96-228e-8158-ba55-de859c0d634f",
+      "title": "【修論図 fig:reconstruction ③/③】キャプションを書き 2.3.1 P5・P7 と対応させて入れる（30 min）",
+      "url": "https://app.notion.com/p/3dfeda96228e8158ba55de859c0d634f?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:reconstruction ③/③】キャプションを書き 2.3.1 P5・P7 と対応させて入れる（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3dfeda96228e8158ba55de859c0d634f",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3dfeda96-228e-8158-ba55-de859c0d634f/amJ1Yw"
+      },
+      "body": "要件の全文: plot/[figures.md](http://figures.md) の fig:reconstruction\n## 先行図\n- 戸田 図2.5（PDF p.27。6パネルをS字に並べ、操作名を矢印に乗せ、Fourier 面に半径・キャリアまでの距離・Nyquist を書き込み、最後が背景差分後）\n- 石金 図2.3（p.13）。縞の拡大と標本化の注記は 菅原 図4.17（p.43）\n## パネル\n- ホログラム（縞の拡大。対角の縞が各軸 約 3.4 画素で Nyquist を満たすことを注記）→ \\|FFT\\|（書き込み）→ +1次を原点へ → 円窓 → IFFT の位相 → unwrap → 参照像を引いた位相\n## 必要なデータ\n- 同じ視野のホログラム1枚と参照グリッドの中心像\n## 今ある素材\n- 修論 figure/qpi_fig_01_panel.pdf（4パネル、英語）\n- 論文 Figure 1C（fig1c_reconstruction_chain*、作図 figstyle/panels/build_fig1c_*）\n## 依存\n- 論文タスク「論文④ Methods の figure の最終化」（9/28）の後に日本語版を作ると二度手間が減る\n## 決めること\n- 論文 Figure 1C を日本語にするか、6パネルに組み直すか",
+      "page_last_edited_at": "2026-09-19T07:08:59.284Z"
+    },
+    {
+      "id": "3e0eda96-228e-81d6-90f5-dc4f813e4276",
+      "title": "【修論図 fig:reconstruction ②/③】縞の拡大・Fourier 面の円・流路の無い位置の像を引いた段を足す（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81d690f5dc4f813e4276?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:reconstruction ②/③】縞の拡大・Fourier 面の円・流路の無い位置の像を引いた段を足す（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81d690f5dc4f813e4276",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-81d6-90f5-dc4f813e4276/amJ1Yw"
+      },
+      "body": "- 縞の拡大: 対角方向の縞が各軸で約 3.4 画素の周期になり Nyquist 条件を満たすことを注記（菅原 図4.17 p.43）\n- 最後の段は「流路の無い位置の像」を引いたところまで（チャネルが約 −4 rad で残る）。参照グリッドで引く段は fig:bgsub\n前提: 共通 D1（生ホログラムは 0per_gluc/Pos1/z000/）",
+      "page_last_edited_at": "2026-09-19T07:03:29.665Z"
+    },
+    {
+      "id": "3e0eda96-228e-813c-89d5-d5dff4ed68c1",
+      "title": "【修論図 fig:reconstruction ①/③】論文 Figure 1C を日本語で出し直すか6パネルに組み直すかを決め、作図スクリプトを修論の様式で回す（45 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e813c89d5d5dff4ed68c1?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:reconstruction ①/③】論文 Figure 1C を日本語で出し直すか6パネルに組み直すかを決め、作図スクリプトを修論の様式で回す（45 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e813c89d5d5dff4ed68c1",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-813c-89d5-d5dff4ed68c1/amJ1Yw"
+      },
+      "body": "素材: 修論 figure/qpi_fig_01_panel.pdf（4パネル・英語）、論文 fig1c_reconstruction_chain*（作図 figstyle/panels/build_fig1c_*）\n先行: 戸田 図2.5（PDF p.27。6パネルをS字、操作名を矢印に乗せる）\n前提: 共通 S1。論文④ Methods の figure の最終化（9/28）の後にすると二度手間が減る",
+      "page_last_edited_at": "2026-09-19T07:03:29.665Z"
+    },
+    {
+      "id": "3e0eda96-228e-8199-8b45-fdd5da29e140",
+      "title": "【修論図 fig:fourier_design ①/③】(a) Fourier 面の設計図を計算して描く（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81998b45fdd5da29e140?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:fourier_design ①/③】(a) Fourier 面の設計図を計算して描く（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81998b45fdd5da29e140",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-8199-8b45-fdd5da29e140/amJ1Yw"
+      },
+      "body": "非干渉項の円（半径 2 × 2πNA/(λM)）、+1次の円（半径 2πNA/(λM)）、許容範囲 6.80×10⁵ ≤ k_off ≤ 9.67×10⁵ rad/m の円環、Nyquist ±πf_pitch の正方形、対角方向の設計値 7.54×10⁵ rad/m。\n値: λ 658 nm、NA 0.95、M 40、画素 3.45 μm。途中の値を丸めない\n先行: 菅原 図2.5（PDF p.15）\n前提: 共通 S1。データ不要",
+      "page_last_edited_at": "2026-09-19T07:03:29.665Z"
+    },
+    {
+      "id": "3dfeda96-228e-8172-a5f2-c82ae9852337",
+      "title": "【修論図 fig:fourier_design ③/③】(a)(b) を組み、キャプションを書いて 2.3.2 P8・P10 と対応させて入れる（30 min）",
+      "url": "https://app.notion.com/p/3dfeda96228e8172a5f2c82ae9852337?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:fourier_design ③/③】(a)(b) を組み、キャプションを書いて 2.3.2 P8・P10 と対応させて入れる（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3dfeda96228e8172a5f2c82ae9852337",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3dfeda96-228e-8172-a5f2-c82ae9852337/amJ1Yw"
+      },
+      "body": "要件の全文: plot/[figures.md](http://figures.md) の fig:fourier_design\n## 問い\n格子 120 lines/mm はなぜ使えるのか。分離条件と標本化条件をどう満たしているのか。\n## 先行図\n- 菅原 図2.5（PDF p.15。Fourier 面に分離条件と Nyquist 条件を書き込んだ設計図）\n- 菅原 図3.7（p.25。実測の Fourier 像にサイドバンドの円）、戸田 図2.5b（p.27）、戸田 図2.3（p.23）\n## パネル\n- (a) 設計: 非干渉項の円（半径 2×2πNA/(λM)）、+1次の円、許容範囲 6.80×10⁵〜9.67×10⁵ rad/m の円環、Nyquist の正方形、設計値 7.54×10⁵ rad/m\n- (b) 実測: \\|FFT\\| に (a) を重ね、サイドバンド中心（599, 597 画素）→ 7.52×10⁵ rad/m、差 0.3%\n- 任意 (c): on-axis で4項が原点で重なる模式（菅原 図2.4 p.14、戸田 図2.4 p.25）\n## 必要なデータ\n- (a) 計算のみ（λ 658 nm、NA 0.95、M 40、3.45 μm）→ 今すぐ作れる\n- (b) ホログラム1枚\n## 今ある素材\n- QPI_Omni/scripts/_measure_offaxis_[260405.py](http://260405.py)、qpi_fig_02_[visibility.py](http://visibility.py) の FFT パネル",
+      "page_last_edited_at": "2026-09-19T07:09:04.186Z"
+    },
+    {
+      "id": "3e0eda96-228e-81e6-876b-d0c06877fe73",
+      "title": "【修論図 fig:fourier_design ②/③】(b) 実測ホログラムの |FFT| に設計を重ねる（45 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81e6876bd0c06877fe73?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:fourier_design ②/③】(b) 実測ホログラムの \\|FFT\\| に設計を重ねる（45 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81e6876bd0c06877fe73",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-81e6-876b-d0c06877fe73/amJ1Yw"
+      },
+      "body": "2048×2048 ホログラムの \\|FFT\\|（対数）に (a) の円・円環・正方形を重ね、サイドバンド中心（599, 597 画素）→ 7.52×10⁵ rad/m と設計値の差 0.3% を注記。\n素材: QPI_Omni/scripts/_measure_offaxis_[260405.py](http://260405.py)、qpi_fig_02_[visibility.py](http://visibility.py) の FFT パネル\n先行: 菅原 図3.7（PDF p.25）\n前提: 共通 D1",
+      "page_last_edited_at": "2026-09-19T07:03:29.665Z"
+    },
+    {
+      "id": "3dfeda96-228e-8165-aa51-c5a95c122ac4",
+      "title": "【修論図 共通 P1】装置とデバイスの写真を撮る（fig:qpi_optical_system・fig:mm_layout 用）（60 min）",
+      "url": "https://app.notion.com/p/3dfeda96228e8165aa51c5a95c122ac4?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 共通 P1】装置とデバイスの写真を撮る（fig:qpi_optical_system・fig:mm_layout 用）（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "NextAction",
+        "Tag": [
+          "原稿",
+          "進学",
+          "実験"
+        ],
+        "date:期限:end": "2026-09-22T13:00:00.000Z",
+        "date:期限:is_datetime": 1,
+        "date:期限:start": "2026-09-22T12:00:00.000Z",
+        "url": "https://app.notion.com/p/3dfeda96228e8165aa51c5a95c122ac4",
+        "優先度": "低",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3dfeda96-228e-8165-aa51-c5a95c122ac4/amJ1Yw"
+      },
+      "body": "2026-09-19 第2版: 独立した図 fig:setup_photo はやめ、写真は fig:qpi_optical_system（干渉計部の写真）と fig:mm_layout（デバイスの写真）のパネルにする。撮るものは下と同じ。\n要件の全文: plot/[figures.md](http://figures.md) の fig:setup_photo\n## 先行図\n- 橋本 図2.14（PDF p.31。装置全体の写真）\n- 神野 6241 図2.3（p.35）、杉山 2006619 図2.6（p.31）\n- デバイスの写真: 石金 図5.2（p.27）、福神 48143 図3.9（p.31）\n## 撮るもの\n- 顕微鏡の出力ポートから CMOS までの干渉計部（部品名を付ける）\n- ステージトップインキュベータにデバイスとチューブを載せたところ\n- デバイス単体（fig:mm_layout 用）\n## 決めること\n- 修論に入れるかどうか",
+      "page_last_edited_at": "2026-09-20T05:57:35.496Z"
+    },
+    {
+      "id": "3dfeda96-228e-8144-98f9-e97fabc448d9",
+      "title": "【修論図 fig:qpi_optical_system ①/②】SVG に距離の目盛り・型番・顕微鏡部と干渉計部の区切りを足す（45 min）",
+      "url": "https://app.notion.com/p/3dfeda96228e814498f9e97fabc448d9?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:qpi_optical_system ①/②】SVG に距離の目盛り・型番・顕微鏡部と干渉計部の区切りを足す（45 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3dfeda96228e814498f9e97fabc448d9",
+        "優先度": "低",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3dfeda96-228e-8144-98f9-e97fabc448d9/amJ1Yw"
+      },
+      "body": "要件の全文: plot/[figures.md](http://figures.md) の fig:qpi_optical_system\n## 先行図\n- 戸田 図3.3a（PDF p.42。レンズ間距離の目盛りを図の下に置く）\n- 石金 図3.6（p.19）\n- 菅原 図3.1（p.21。顕微鏡部と干渉計部を破線で区切る）\n## 足すもの\n- f = 200 mm × 2 の距離の目盛り、格子 120 lines/mm・ピンホール 25 μm・CMOS の型番、部の区切り\n## 素材\n- figure/QPI optical systems.svg、論文 fig_optical_system\n## 並行\n- データ不要。単独で作れる",
+      "page_last_edited_at": "2026-09-19T07:09:00.697Z"
+    },
+    {
+      "id": "3e0eda96-228e-81c0-a704-fa623dd16e72",
+      "title": "【修論図 fig:qpi_optical_system ②/②】干渉計部の写真を並べ、キャプションを直す（30 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81c0a704fa623dd16e72?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:qpi_optical_system ②/②】干渉計部の写真を並べ、キャプションを直す（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81c0a704fa623dd16e72",
+        "優先度": "低",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-81c0-a704-fa623dd16e72/amJ1Yw"
+      },
+      "body": "前提: fig:qpi_optical_system ①/②（SVG の書き足し）と「装置とデバイスの写真を撮る」\n先行: 橋本 図2.14（PDF p.31）",
+      "page_last_edited_at": "2026-09-19T07:03:29.665Z"
+    },
+    {
+      "id": "3e0eda96-228e-81c1-bc25-f3b27a934c1c",
+      "title": "【修論図 fig:mm_layout ①/④】マスクの設計ファイルを探し、観察チャネルの長さ・間隔・1視野の本数を読む（30 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81c1bc25f3b27a934c1c?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:mm_layout ①/④】マスクの設計ファイルを探し、観察チャネルの長さ・間隔・1視野の本数を読む（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81c1bc25f3b27a934c1c",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-81c1-bc25-f3b27a934c1c/amJ1Yw"
+      },
+      "body": "本文 2.4.2 に mynote で残してある数値。寸法4つ（5.3、6.2、214、19.75 μm）が設計値か実測値かもここで決める。\n出力: 寸法の表（設計値）",
+      "page_last_edited_at": "2026-09-19T07:05:02.175Z"
+    },
+    {
+      "id": "3e0eda96-228e-817b-a9c4-ee8016bdc8a7",
+      "title": "【修論図 fig:mm_layout ③/④】寸法入りの俯瞰図と断面図（細胞径つき）を描く（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e817ba9c4ee8016bdc8a7?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:mm_layout ③/④】寸法入りの俯瞰図と断面図（細胞径つき）を描く（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e817ba9c4ee8016bdc8a7",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-817b-a9c4-ee8016bdc8a7/amJ1Yw"
+      },
+      "body": "俯瞰図（観察チャネルの長さ・間隔）、観察チャネルの断面（5.3 × 6.2 μm と分裂酵母の径）、主流路の断面（214 × 19.75 μm）。\n先行: 石金 図5.2（PDF p.27）、小林 図5.1（p.106）\n前提: ①、共通 S1",
+      "page_last_edited_at": "2026-09-19T07:05:02.175Z"
+    },
+    {
+      "id": "3dfeda96-228e-816e-8b74-d40ad2bc907b",
+      "title": "【修論図 fig:mm_layout ④/④】写真・明視野像と組み、キャプションを書いて 2.4.2 に入れる（30 min）",
+      "url": "https://app.notion.com/p/3dfeda96228e816e8b74d40ad2bc907b?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:mm_layout ④/④】写真・明視野像と組み、キャプションを書いて 2.4.2 に入れる（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3dfeda96228e816e8b74d40ad2bc907b",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3dfeda96-228e-816e-8b74-d40ad2bc907b/amJ1Yw"
+      },
+      "body": "要件の全文: plot/[figures.md](http://figures.md) の fig:mm_layout\n## 問い\n観察チャネルと主流路の寸法はいくつで、分裂酵母の径とどう対応しているのか。設計どおりにできたのか。\n## 先行図\n- 石金 図5.2（PDF p.27。寸法図＋実物写真＋断面の3枚組）\n- 小金澤 Fig. 2（p.16）、橋本 図2.6（p.17）、小林 図5.1（p.106。寸法記号つきの mother machine と分裂酵母）\n- 杉山 2006619 図2.4（p.28）、福神 48143 図3.6（p.28）・図3.12（p.34。設計値と実測値の比較）\n## 必要なデータ\n- マスクの設計ファイル（観察チャネルの長さ・間隔、1視野の本数）\n- 鋳型の実測高さ（段差計）\n- デバイスの写真（fig:setup_photo と同時に撮る）\n## 決めること\n- 寸法4つ（5.3、6.2、214、19.75 μm）が設計値か実測値か",
+      "page_last_edited_at": "2026-09-19T07:09:05.978Z"
+    },
+    {
+      "id": "3e0eda96-228e-81d6-a906-e2be0e2d3475",
+      "title": "【修論図 fig:mm_layout ②/④】段差計で鋳型の2層の高さを測る（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81d6a906e2be0e2d3475?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:mm_layout ②/④】段差計で鋳型の2層の高さを測る（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "実験"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81d6a906e2be0e2d3475",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-81d6-a906-e2be0e2d3475/amJ1Yw"
+      },
+      "body": "観察チャネル層と主流路層の高さを測り、設計値と並べる（先行: 福神 48143 図3.12 PDF p.34）。測れない場合は設計値だけで図にし、本文にそう書く。",
+      "page_last_edited_at": "2026-09-19T07:05:02.175Z"
+    },
+    {
+      "id": "3dfeda96-228e-8150-a64f-f6922172ba69",
+      "title": "【修論図 fig:acquisition ④/④】(a)(b)(c) を組み、キャプションを書いて 2.5.2・2.5.3 に入れる（30 min）",
+      "url": "https://app.notion.com/p/3dfeda96228e8150a64ff6922172ba69?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:acquisition ④/④】(a)(b)(c) を組み、キャプションを書いて 2.5.2・2.5.3 に入れる（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3dfeda96228e8150a64ff6922172ba69",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3dfeda96-228e-8150-a64f-f6922172ba69/amJ1Yw"
+      },
+      "body": "要件の全文: plot/[figures.md](http://figures.md) の fig:acquisition\n## 問い\n参照グリッドはいつ撮り、本計測の各時点で何をしているのか。培地はどう流れ、いつ切り替わるのか。\n## 先行図\n- 菅原 図3.8（PDF p.26。試料と背景を撮る順序）\n- 戸田 図4.3b（p.57。制御のブロック図）・図4.4（p.58。時間図）\n- 小金澤 Fig. 5A（p.25。シリンジ・デバイス・廃液・対物を1枚に）、橋本 図2.7（p.20）、小林 図5.4（p.109）、杉山 2006619 図2.7a（p.33）\n## パネル\n- (a) 送液系: シリンジポンプ 2 mL/h → チューブとコネクタ → デバイス → 廃液。培地交換で付け替える箇所\n- (b) 時間軸: 9×9 のステージ変位（0.1 μm）× z スタック → 合焦面 → 流路の無い位置 → 細胞の導入 → 5 分ごとの巡回（ECC → ステージ更新 → 撮影）→ 培地交換（気泡が映った次のフレーム）。各段に縮小像\n## 必要なデータ\n- 撮影手順（既知）。縮小像は既存の画像\n## 依存\n- 「参照グリッドを撮ったのは細胞の導入の前か後か」を確かめてから (b) を描く",
+      "page_last_edited_at": "2026-09-19T07:09:11.645Z"
+    },
+    {
+      "id": "3e0eda96-228e-8102-91a9-e355d9829fe7",
+      "title": "【修論図 fig:acquisition ①/④】(a) 送液系の模式図を描く（45 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e810291a9e355d9829fe7?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:acquisition ①/④】(a) 送液系の模式図を描く（45 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e810291a9e355d9829fe7",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-8102-91a9-e355d9829fe7/amJ1Yw"
+      },
+      "body": "シリンジポンプ（PHD ULTRA、2 mL/h）→ チューブとコネクタ → デバイス → 廃液。培地交換で付け替える箇所（チューブとコネクタごと）と、交換時刻の定義（コネクタ内の気泡が映った次のフレーム）。\n先行: 小金澤 Fig. 5A（PDF p.25）、橋本 図2.7（p.20）\n前提: 共通 S1。データ不要",
+      "page_last_edited_at": "2026-09-19T07:05:02.175Z"
+    },
+    {
+      "id": "3dfeda96-228e-81c4-96a7-ed4e51242c78",
+      "title": "【修論図 fig:acquisition ③/④】(c) 培地交換の前後の位相の時系列を出す（共通 D2 の後）（60 min）",
+      "url": "https://app.notion.com/p/3dfeda96228e81c496a7ed4e51242c78?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:acquisition ③/④】(c) 培地交換の前後の位相の時系列を出す（共通 D2 の後）（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3dfeda96228e81c496a7ed4e51242c78",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3dfeda96-228e-81c4-96a7-ed4e51242c78/amJ1Yw"
+      },
+      "body": "2026-09-19 第2版: 独立した図にせず、fig:acquisition のパネル (c) にまとめた。2.5.2 P4（培地交換）で引く。以下の中身は同じ。\n要件の全文: plot/[figures.md](http://figures.md) の fig:medium_exchange\n## 問い\n培地を切り替えてから、母細胞のいる閉端まで新しい培地が届くのに何分かかるのか。5 分間隔と比べてどうか。\n## 先行図\n- 福神 48143 図3.14（PDF p.36）・図3.15（p.37）、神野 6241 図2.4（p.35）、杉山 2006619 図2.12（p.39）。3本とも色素を流している\n## 色素なしで測れる見込み\n- グルコース 2% → 0% で Δn ≈ 0.14 mL/g × 0.02 g/mL ≈ 2.8×10⁻³（屈折率増分は文献値で要確認）\n- 観察チャネル（6.2 μm）で約 0.17 rad、主流路（19.75 μm）で約 0.53 rad の段。位相ノイズ 約 12 mrad より大きい\n- ただし今の処理は細胞の無い領域でオフセットを除くので、この段は消えている。オフセット除去前の値（crop_sub_rawraw の段階）が残っているかを確かめる\n## パネル\n- 切り替え前後の、主流路と空の観察チャネルの位相の平均の時系列（気泡が映ったフレームを 0）\n## 決めること\n- 2.7 に節を足すか、2.5.2 の本文で済ませるか\n- 培地のグルコース濃度で n_medium が約 2.8×10⁻³ 変わるので、式 eq:drymass の n_medium を培地ごとに替える（論文 Figure 3G は 2% と 0% を別に出している）",
+      "page_last_edited_at": "2026-09-19T07:09:09.641Z"
+    },
+    {
+      "id": "3e0eda96-228e-8134-9189-d8a9a5505f2f",
+      "title": "【修論図 fig:acquisition ②/④】(b) 参照グリッドから巡回撮影までの時間軸の図を描く（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81349189d8a9a5505f2f?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:acquisition ②/④】(b) 参照グリッドから巡回撮影までの時間軸の図を描く（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81349189d8a9a5505f2f",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-8134-9189-d8a9a5505f2f/amJ1Yw"
+      },
+      "body": "9×9 のステージ変位（0.1 μm）× z スタック → 合焦面 → 流路の無い位置 → 細胞の導入 → 5 分ごとの巡回（各視野で ECC → ステージ更新 → 撮影）→ 培地交換。各段に縮小像。104 視野・チャネル数・母細胞数はキャプション。\n先行: 菅原 図3.8（PDF p.26）、戸田 図4.3b（p.57）\n前提: fig:acquisition ⓪（グリッドは導入の前か後か）",
+      "page_last_edited_at": "2026-09-19T07:05:02.175Z"
+    },
+    {
+      "id": "3dfeda96-228e-8185-9d35-de7e92bd8eb0",
+      "title": "【修論図 fig:acquisition ⓪】参照グリッドを撮ったのは細胞の導入の前か後かを 260517 の記録で確かめる（30 min）",
+      "url": "https://app.notion.com/p/3dfeda96228e81859d35de7e92bd8eb0?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:acquisition ⓪】参照グリッドを撮ったのは細胞の導入の前か後かを 260517 の記録で確かめる（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3dfeda96228e81859d35de7e92bd8eb0",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3dfeda96-228e-8185-9d35-de7e92bd8eb0/amJ1Yw"
+      },
+      "body": "2.5.2 は「導入 → 洗い流す → 計測開始」、2.5.3 は「計測を始める前にグリッド」と書いていて、2つの順番が本文から読めない。論文 Methods も \"Before the time lapse\" としか書いていない。\n参照像が「細胞の無い状態」なら導入の前のはず。260517 の記録（grid_2pergluc_2 の撮影時刻と、細胞導入の時刻）で確かめ、2.5.2・2.5.3 の本文と fig:acquisition の時間軸に反映する。\n要件: plot/[figures.md](http://figures.md) の fig:acquisition",
+      "page_last_edited_at": "2026-09-19T07:09:08.270Z"
+    },
+    {
+      "id": "3dfeda96-228e-8185-8444-d27dbce768d6",
+      "title": "【修論図 fig:bgsub ④/④】(a)–(f) を組み、キャプションを書いて 2.6.1 に入れる（30 min）",
+      "url": "https://app.notion.com/p/3dfeda96228e81858444d27dbce768d6?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:bgsub ④/④】(a)–(f) を組み、キャプションを書いて 2.6.1 に入れる（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3dfeda96228e81858444d27dbce768d6",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3dfeda96-228e-8185-8444-d27dbce768d6/amJ1Yw"
+      },
+      "body": "2026-09-19 第2版: パネル (f) を「チャネルを横切る断面: 試料・参照・差」にした（fig:principle (b) と同じ位置）。旧 fig:principle (c) をここに移した。\n要件の全文: plot/[figures.md](http://figures.md) の fig:bgsub\n## 問い\n細胞で埋まったチャネルで、何から何を引いているのか。どのグリッド像を選ぶのか。\n## 先行図\n- 戸田 図4.1a（PDF p.54。貼った3枚目）、戸田 図6.4（p.90。細胞の無い領域でオフセットを決める）\n- 菅原 図3.9（p.27）・図5.1（p.52）、小林 図5.2（p.106）・図5.5（p.110）、神野 6241 図2.10（p.40）\n## パネル\n- (a) 試料像 −（b）最も近いグリッド像を残りの変位だけずらしたもの =（c）細胞の位相。同じカラースケール\n- (d) 9×9 のグリッド配置図に、そのフレームの変位・選んだノード・残りの変位のベクトル\n- (e) 差を取る帯と、2π・線形の傾きを推定する細胞の無い部分を像の上に示す\n- (f) 細胞の無い部分の断面（差分後に平らになること）\n## 必要なデータ\n- 論文 Figure 2 ver1 と同じフレーム: 260517、Pos1、frame 512、変位 0.401 μm、ノード (0, +3)、残り 0.039 μm\n- (d) 用にグリッドの公称変位と実測変位（grid_calibration_PosN.json）\n## 今ある素材\n- Obsidian QPI_methods_paper/paper/figures/fig_background_subtraction_cell_channel.\\{pdf,png\\}（試料・参照・2通りの差・チャネル方向の断面）\n- 同 fig_background_[subtraction.md](http://subtraction.md)、作図 figstyle/panels/fig2_[background.py](http://background.py)\n## 並行\n- fig:principle・fig:bg_residual と同じデータ。外付けディスクをつないだときに3つ同時に作る",
+      "page_last_edited_at": "2026-09-19T07:09:12.800Z"
+    },
+    {
+      "id": "3e0eda96-228e-81b7-9e08-dc19265e035d",
+      "title": "【修論図 fig:bgsub ②/④】(d) 9×9 グリッドの配置図（フレームの変位・選んだノード・残りの変位）を描く（45 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81b79e08dc19265e035d?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:bgsub ②/④】(d) 9×9 グリッドの配置図（フレームの変位・選んだノード・残りの変位）を描く（45 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81b79e08dc19265e035d",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-81b7-9e08-dc19265e035d/amJ1Yw"
+      },
+      "body": "frame 512: 変位 0.401 μm、選ばれたノード (0, +3)、残り 0.039 μm。公称変位と実測変位は grid_calibration_Pos1.json。\n前提: 共通 D1（json）",
+      "page_last_edited_at": "2026-09-19T07:05:02.175Z"
+    },
+    {
+      "id": "3e0eda96-228e-812c-a524-df718c3ad009",
+      "title": "【修論図 fig:bgsub ①/④】論文 Figure 2 の cell_channel 版を修論の様式・日本語ラベルで出し直す（45 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e812ca524df718c3ad009?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:bgsub ①/④】論文 Figure 2 の cell_channel 版を修論の様式・日本語ラベルで出し直す（45 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e812ca524df718c3ad009",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-812c-a524-df718c3ad009/amJ1Yw"
+      },
+      "body": "素材: Obsidian QPI_methods_paper/paper/figures/fig_background_subtraction_cell_channel、作図 figstyle/panels/fig2_[background.py](http://background.py)。\n(a) 試料像 − (b) 最も近いグリッド像（残りの変位だけずらす）= (c) 細胞の位相。同じカラースケール。\n前提: 共通 S1",
+      "page_last_edited_at": "2026-09-19T07:05:02.175Z"
+    },
+    {
+      "id": "3e0eda96-228e-81c3-be8e-d33e940b9dce",
+      "title": "【修論図 fig:bgsub ③/④】(e) 差を取る帯と細胞の無い部分、(f) チャネルを横切る断面を足す（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81c3be8ed33e940b9dce?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:bgsub ③/④】(e) 差を取る帯と細胞の無い部分、(f) チャネルを横切る断面を足す（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81c3be8ed33e940b9dce",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-81c3-be8e-d33e940b9dce/amJ1Yw"
+      },
+      "body": "(e) 2π の整数倍と線形の傾きを推定する「帯のうち細胞の無い部分」を像の上に示す。\n(f) 試料・参照・差の断面。fig:principle ② と同じ位置。\n前提: 共通 D1",
+      "page_last_edited_at": "2026-09-19T07:05:02.175Z"
+    },
+    {
+      "id": "3dfeda96-228e-8195-b85a-ed36a2558572",
+      "title": "【修論図 fig:analysis_pipeline ④/④】(a)(b)(c) を組み、キャプションを書いて 2.6.3・2.6.4 に入れる（30 min）",
+      "url": "https://app.notion.com/p/3dfeda96228e8195b85aed36a2558572?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:analysis_pipeline ④/④】(a)(b)(c) を組み、キャプションを書いて 2.6.3・2.6.4 に入れる（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3dfeda96228e8195b85aed36a2558572",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3dfeda96-228e-8195-b85a-ed36a2558572/amJ1Yw"
+      },
+      "body": "要件の全文: plot/[figures.md](http://figures.md) の fig:analysis_pipeline\n## 問い\n位相像から細胞1個の体積・乾燥質量・密度をどう出し、分裂をどう見つけているのか。\n## 先行図\n- 橋本 図2.15（PDF p.32。重心による対応付けと分裂の判定）・図2.18（p.35。サイズの急減が分裂）\n- 野添 図4.4（p.94）・図4.5（p.95）、福神 48143 図3.17（p.39）、杉山 2006619 図2.15（p.45）、神野 6241 図2.7（p.38）\n## パネル\n- (a) 背景差分後の位相像 → Omnipose マスク → 楕円 Fourier の輪郭 → 中心線と幅 → 断面の積み上げの体積\n- (b) 1細胞の1周期の輪郭の並び\n- (c) 母細胞の面積の時系列と、隣接2マスクの面積和で判定した分裂時刻の縦線\n## 必要なデータ\n- 系譜 CSV: \\~/QPI_Omni/results/260517/phase1_2per_7days/per_cell_data/\\<group\\>/\\<Pos\\>_\\<ch\\>/lineage_data3D.csv（area_um2、volume_um3_rod、mass_pg、time_h、birth/death_frame）→ (c) はこれだけで作れる\n- (a) 用に1細胞の輪郭と位相像\n## 今ある素材\n- 論文 fig_segmentation_overlay.png（そのまま (b)）\n- 論文 fig_volume_schematic.png（デバッグ用の体裁。描き直す）\n- 修論 figure/Omnipose_learningProcess_schematic.svg\n## 関連\n- Omnipose の学習集合と失敗例は既存タスク「Fig5-S1」",
+      "page_last_edited_at": "2026-09-19T07:09:14.655Z"
+    },
+    {
+      "id": "3e0eda96-228e-8175-be49-d84a1a9515ad",
+      "title": "【修論図 fig:analysis_pipeline ③/④】(c) 母細胞の面積の時系列と分裂時刻の縦線を系譜 CSV から描く（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e8175be49d84a1a9515ad?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:analysis_pipeline ③/④】(c) 母細胞の面積の時系列と分裂時刻の縦線を系譜 CSV から描く（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e8175be49d84a1a9515ad",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-8175-be49-d84a1a9515ad/amJ1Yw"
+      },
+      "body": "入力: \\~/QPI_Omni/results/260517/phase1_2per_7days/per_cell_data/\\<group\\>/\\<Pos\\>_\\<ch\\>/lineage_data3D.csv（area_um2、time_h、birth_frame、death_frame）。隣接2マスクの面積和で判定した分裂を縦線に。\n先行: 橋本 図2.18（PDF p.35）\nこの Mac だけで作れる",
+      "page_last_edited_at": "2026-09-19T07:05:02.175Z"
+    },
+    {
+      "id": "3e0eda96-228e-814c-b42a-f48413357046",
+      "title": "【修論図 fig:analysis_pipeline ①/④】(a) 1細胞の処理段階の像の列（マスク・輪郭・中心線と幅・体積）を書き出す（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e814cb42af48413357046?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:analysis_pipeline ①/④】(a) 1細胞の処理段階の像の列（マスク・輪郭・中心線と幅・体積）を書き出す（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e814cb42af48413357046",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-814c-b42a-f48413357046/amJ1Yw"
+      },
+      "body": "背景差分後の位相像 → Omnipose のマスク → 楕円 Fourier の輪郭 → 中心線と各点の幅 → 断面の積み上げの体積。論文 fig_volume_schematic.png はデバッグ用の体裁なので描き直す。\n先行: 橋本 図2.15（PDF p.32）、野添 図4.4・4.5（p.94–95）\n前提: 共通 S1",
+      "page_last_edited_at": "2026-09-19T07:05:02.175Z"
+    },
+    {
+      "id": "3e0eda96-228e-8151-9ad6-e9c5dd85acaf",
+      "title": "【修論図 fig:analysis_pipeline ②/④】(b) 1周期の輪郭の並びを修論の様式で出し直す（30 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81519ad6e9c5dd85acaf?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:analysis_pipeline ②/④】(b) 1周期の輪郭の並びを修論の様式で出し直す（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81519ad6e9c5dd85acaf",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-8151-9ad6-e9c5dd85acaf/amJ1Yw"
+      },
+      "body": "素材: 論文 fig_segmentation_overlay.png（そのまま使える）。スケールバーと色を修論の様式に。\n前提: 共通 S1",
+      "page_last_edited_at": "2026-09-19T07:05:02.175Z"
+    },
+    {
+      "id": "3e0eda96-228e-8112-82b1-eea85a814def",
+      "title": "【修論図 fig:record ②/③】分裂のラスタ・累積分裂数・分裂間隔・追跡中の母細胞数の4パネルを描く（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e811282b1eea85a814def?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:record ②/③】分裂のラスタ・累積分裂数・分裂間隔・追跡中の母細胞数の4パネルを描く（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e811282b1eea85a814def",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-8112-82b1-eea85a814def/amJ1Yw"
+      },
+      "body": "先行: 橋本 図2.17（PDF p.34）・図3.2（p.61）、清田 Figure 1(b)(c)(d)（p.5）\n前提: ①、共通 S1",
+      "page_last_edited_at": "2026-09-19T07:05:02.175Z"
+    },
+    {
+      "id": "3dfeda96-228e-812e-a684-e5c89a89156b",
+      "title": "【修論図 fig:record ③/③】キャプションと 2.7 P0 の文を書く（30 min）",
+      "url": "https://app.notion.com/p/3dfeda96228e812ea684e5c89a89156b?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:record ③/③】キャプションと 2.7 P0 の文を書く（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3dfeda96228e812ea684e5c89a89156b",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3dfeda96-228e-812e-a684-e5c89a89156b/amJ1Yw"
+      },
+      "body": "要件の全文: plot/[figures.md](http://figures.md) の fig:record（第2版。旧 fig:steady_growth を置き換えた）\n## 問い\n同じ細胞を何日、何世代追えたのか（2.1.2 の条件 (1)）。記録のあいだ増殖は定常だったのか。2.7 の評価に使ったデータは何か。\n## 置く場所\n2.7 P0（2.7 の冒頭）。2.9 まとめ から「どれだけ長く」の根拠として引く。\n## 先行図\n- 橋本 図2.17（PDF p.34。170 世代の系統樹）・図2.19（p.36。多視野）・図3.2（p.61。累積分裂数）\n- 清田 Figure 1(b)(c)(d)（p.5。分裂のラスタ図、世代ごとの世代時間、追跡できている系列数）\n- 小金澤 Fig. 6C（p.26）\n## パネル\n- (a) 母細胞ごとの分裂時刻のラスタ図（168 h）\n- (b) 全母細胞の累積分裂数と直線\n- (c) 時間区間ごとの分裂間隔の平均\n- (d) 追跡中の母細胞数\n- 104 視野・観察チャネル数・母細胞数はキャプションに書く\n## 必要なデータ\n- 系譜 CSV の birth_frame・death_frame（\\~/QPI_Omni/results/260517/phase1_2per_7days/per_cell_data/）。この Mac だけで今すぐ作れる\n- バッチ培養の倍加時間と比べるなら、その値\n## 決めること\n- 2.7 P0 に「条件 (1) もこの記録で示す」と足すか",
+      "page_last_edited_at": "2026-09-19T07:09:16.696Z"
+    },
+    {
+      "id": "3e0eda96-228e-81f0-9741-e294543109bf",
+      "title": "【修論図 fig:record ①/③】系譜 CSV から分裂時刻を集計する（ラスタ・累積分裂数・区間ごとの分裂間隔・追跡中の母細胞数）（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81f09741e294543109bf?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:record ①/③】系譜 CSV から分裂時刻を集計する（ラスタ・累積分裂数・区間ごとの分裂間隔・追跡中の母細胞数）（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81f09741e294543109bf",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-81f0-9741-e294543109bf/amJ1Yw"
+      },
+      "body": "入力: phase1_2per_7days/per_cell_data/（0–168.25 h、frame 0–2019）の clist.csv・lineage_data3D.csv。\n出力: 母細胞ごとの分裂時刻、累積分裂数、時間区間ごとの分裂間隔の平均、各時刻の追跡中の母細胞数の CSV。\nこの Mac だけで今すぐできる",
+      "page_last_edited_at": "2026-09-19T07:05:02.175Z"
+    },
+    {
+      "id": "3dfeda96-228e-81f3-be88-c8258e5408e1",
+      "title": "【修論図 fig:phase_noise ⓪】戸田 図3.6 の形（電子数 vs ノイズ＋理論線）にするか決める（30 min）",
+      "url": "https://app.notion.com/p/3dfeda96228e81f3be88c8258e5408e1?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:phase_noise ⓪】戸田 図3.6 の形（電子数 vs ノイズ＋理論線）にするか決める（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "実験"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3dfeda96228e81f3be88c8258e5408e1",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3dfeda96-228e-81f3-be88-c8258e5408e1/amJ1Yw"
+      },
+      "body": "要件の全文: plot/[figures.md](http://figures.md) の fig:phase_noise\n## 先行図\n- 戸田 図3.6（PDF p.45。横軸 電子数、縦軸 時間方向の位相ノイズ、両対数、実測点と理論線2本）\n- 石金 図4.2（p.23）、菅原 図3.10（p.28。べき乗当てはめの傾き）\n- visibility の求め方: 戸田 図7.1（p.104）、石金 図A.1（p.42）\n## この形にする場合に必要なデータ\n- 細胞の無い視野の連続撮影: 各条件 100 枚程度 × 露光 5〜8 条件（full-well の半分まで）\n- カメラの変換ゲイン、遮光での読み出しノイズ\n## 今の形にとどめる場合\n- 既存タスク「Figure 3A 位相ノイズの分布を本番ランで測り直す」（9/22）のまま。今の値 12.00 mrad／ショット限界 6.68 mrad は露光 200 ms・間隔 1 s の別データ\n## 今ある素材\n- 論文 fig_phase_noise.png、figstyle/panels/fig3a_phase_[noise.py](http://noise.py)、figure_specs/fig3a_phase_noise.\\*.json\n- QPI_Omni/scripts/qpi_fig_02_[visibility.py](http://visibility.py)、40_qpi_noise_[analysis.py](http://analysis.py)",
+      "page_last_edited_at": "2026-09-19T07:09:18.872Z"
+    },
+    {
+      "id": "3e0eda96-228e-81d3-b784-f721ff52eee8",
+      "title": "（戸田 3.6 型にする場合）【修論図 fig:phase_noise ⑤/⑤】組む・キャプション・2.7.1 P3 の数値を差し替える（30 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81d3b784f721ff52eee8?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "（戸田 3.6 型にする場合）【修論図 fig:phase_noise ⑤/⑤】組む・キャプション・2.7.1 P3 の数値を差し替える（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "WishList",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81d3b784f721ff52eee8",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-81d3-b784-f721ff52eee8/amJ1Yw"
+      },
+      "body": "2.7.1 P3 の 12.00 mrad／6.68 mrad は露光 200 ms・間隔 1 s の別データ。本番条件の値に差し替える。",
+      "page_last_edited_at": "2026-09-19T07:06:59.422Z"
+    },
+    {
+      "id": "3e0eda96-228e-8180-ad62-c4061d2535c3",
+      "title": "（戸田 3.6 型にする場合）【修論図 fig:phase_noise ④/⑤】電子数 vs 位相ノイズに理論線2本と実測点を描く（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e8180ad62c4061d2535c3?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "（戸田 3.6 型にする場合）【修論図 fig:phase_noise ④/⑤】電子数 vs 位相ノイズに理論線2本と実測点を描く（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "WishList",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e8180ad62c4061d2535c3",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-8180-ad62-c4061d2535c3/amJ1Yw"
+      },
+      "body": "両対数。理論線: ショットのみ、読み出しノイズ込み。本番条件（60 ms）の点を別記号。(b) visibility マップ、(c) ROI と差分像も。\n先行: 戸田 図3.6（PDF p.45）、石金 図4.2（p.23）",
+      "page_last_edited_at": "2026-09-19T07:06:59.422Z"
+    },
+    {
+      "id": "3e0eda96-228e-816b-afaf-cb8fe56a449e",
+      "title": "（戸田 3.6 型にする場合）【修論図 fig:phase_noise ②/⑤】露光を振った連続撮影と遮光撮影をする（90 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e816bafafcb8fe56a449e?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "（戸田 3.6 型にする場合）【修論図 fig:phase_noise ②/⑤】露光を振った連続撮影と遮光撮影をする（90 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "WishList",
+        "Tag": [
+          "原稿",
+          "進学",
+          "実験"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e816bafafcb8fe56a449e",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-816b-afaf-cb8fe56a449e/amJ1Yw"
+      },
+      "body": "前提: ①。顕微鏡の空き時間に。既存タスク「Figure 3A 位相ノイズの分布を本番ランで測り直す」（9/22）と同じ撮影にまとめられる。",
+      "page_last_edited_at": "2026-09-19T07:06:59.422Z"
+    },
+    {
+      "id": "3e0eda96-228e-81a2-bfea-f4ff7faa3a05",
+      "title": "（戸田 3.6 型にする場合）【修論図 fig:phase_noise ③/⑤】各条件の位相ノイズ・visibility・N_e を計算する（90 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81a2bfeaf4ff7faa3a05?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "（戸田 3.6 型にする場合）【修論図 fig:phase_noise ③/⑤】各条件の位相ノイズ・visibility・N_e を計算する（90 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "WishList",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81a2bfeaf4ff7faa3a05",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-81a2-bfea-f4ff7faa3a05/amJ1Yw"
+      },
+      "body": "連続2フレームの差の空間標準偏差 / √2。visibility と N_e は同じホログラムから（戸田 図7.1 p.104 の手順）。\n素材: QPI_Omni/scripts/qpi_fig_02_[visibility.py](http://visibility.py)、40_qpi_noise_[analysis.py](http://analysis.py)",
+      "page_last_edited_at": "2026-09-19T07:06:59.422Z"
+    },
+    {
+      "id": "3e0eda96-228e-8182-b017-f6a2f1c28d6c",
+      "title": "（戸田 3.6 型にする場合）【修論図 fig:phase_noise ①/⑤】露光を振る撮影の計画を立てる（条件・枚数・遮光・変換ゲイン）（30 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e8182b017f6a2f1c28d6c?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "（戸田 3.6 型にする場合）【修論図 fig:phase_noise ①/⑤】露光を振る撮影の計画を立てる（条件・枚数・遮光・変換ゲイン）（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "WishList",
+        "Tag": [
+          "原稿",
+          "進学",
+          "実験"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e8182b017f6a2f1c28d6c",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-8182-b017-f6a2f1c28d6c/amJ1Yw"
+      },
+      "body": "fig:phase_noise ⓪ で「戸田 図3.6 の形にする」と決まったら Inbox に移す。\n- 細胞の無い視野で、露光 5〜8 条件（full-well 約 10 ke⁻ の半分まで）× 各 100 枚程度\n- 運間隔は本番条件（60 ms、5 分）の点を入れる\n- 遮光での読み出しノイズ、カメラの変換ゲイン",
+      "page_last_edited_at": "2026-09-19T07:06:59.422Z"
+    },
+    {
+      "id": "3dfeda96-228e-8124-b384-eeb550d3c048",
+      "title": "【修論図 fig:registration ②/②】3B・3C・3D を組み、(b) の時間範囲を決め、キャプションを書く（30 min）",
+      "url": "https://app.notion.com/p/3dfeda96228e8124b384eeb550d3c048?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:registration ②/②】3B・3C・3D を組み、(b) の時間範囲を決め、キャプションを書く（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3dfeda96228e8124b384eeb550d3c048",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3dfeda96-228e-8124-b384-eeb550d3c048/amJ1Yw"
+      },
+      "body": "要件の全文: plot/[figures.md](http://figures.md) の fig:registration\n## 先行図\n- 菅原 図4.1（PDF p.33。実データに既知の条件を足す流れ図）・図4.7（p.38。陰性対照）\n- ドリフトに当たる図は先行12本に無い\n## パネル\n- 3B グリッドの公称変位 vs 実測変位と誤差ベクトル\n- 3D 注入量 vs 回収量（シフト 0 の注入を陰性対照として含める）\n- 3C 各視野の変位の時系列と残差の分布\n## 依存\n- 3B は既存タスク「参照グリッドの対応表を 32 bit 実数で作り直す」「Figure 3B」の後\n- 3C・3D は確定済み: 論文 fig_grid_calibration.png、fig3d_ecc_injection、fig_ecc_injection、QPI_Omni/scripts/plot_cumdrift_[260517.py](http://260517.py)",
+      "page_last_edited_at": "2026-09-19T07:09:25.936Z"
+    },
+    {
+      "id": "3e0eda96-228e-81da-97b9-dc80ec8a8138",
+      "title": "【修論図 fig:registration ①/②】3C・3D を修論の様式で出し直し、3D に陰性対照（シフト 0 の注入）を足す（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81da97b9dc80ec8a8138?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:registration ①/②】3C・3D を修論の様式で出し直し、3D に陰性対照（シフト 0 の注入）を足す（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81da97b9dc80ec8a8138",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-81da-97b9-dc80ec8a8138/amJ1Yw"
+      },
+      "body": "素材: 論文 fig3d_ecc_injection、fig_ecc_injection、QPI_Omni/scripts/plot_cumdrift_[260517.py](http://260517.py)。\n3B（グリッドの公称変位 vs 実測変位）は既存タスク「参照グリッドの対応表を 32 bit 実数で作り直す」「Figure 3B」。\n先行: 菅原 図4.1（PDF p.33）・図4.7（p.38）",
+      "page_last_edited_at": "2026-09-19T07:06:59.422Z"
+    },
+    {
+      "id": "3dfeda96-228e-811a-b75d-d2b232e89003",
+      "title": "（fig:residual_factors に置き換えた・削除してよい）【修論図 fig:bg_residual ④/④】組む・キャプション",
+      "url": "https://app.notion.com/p/3dfeda96228e811ab75dd2b232e89003?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "（fig:residual_factors に置き換えた・削除してよい）【修論図 fig:bg_residual ④/④】組む・キャプション",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "WishList",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3dfeda96228e811ab75dd2b232e89003",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3dfeda96-228e-811a-b75d-d2b232e89003/amJ1Yw"
+      },
+      "body": "要件の全文: plot/[figures.md](http://figures.md) の fig:bg_residual\n## 問い\n参照を動かした距離で残差はどう増えるのか。グリッドなしではどれだけ残るのか。\n## 先行図\n- 菅原 図3.11–3.14（PDF p.29–30。残差像・指標の定義・区分ごとの点図）・図5.8（p.57。縁で正負対の残差）\n- 戸田 図4.8b（p.64。貼った2枚目: 同じ量を2条件で重ねる）、戸田 図6.5（p.91）\n## パネル\n- (a) 同じフレームを変位 0.1 μm 未満と 1.5–3 μm の参照で引いた残差像（同じカラースケール）\n- (b) 細胞の無いチャネルを横切る φ(x) を3本重ねる: 差分前（段差）、最も近いノード、1.5–3 μm ずらした参照（縁に正負の残差）\n- (c) 区分ごとの残差 64／94／563 mrad と乾燥質量換算 1.3／1.9／11.5 pg\n## 必要なデータ\n- 論文 Figure 2 と同じ（細胞のない観察チャネル帯 6 本・1434 測定）。(b) の断面は新しく切り出す（画像データ）\n## 今ある素材\n- 論文 fig_background_subtraction.\\{pdf,png\\}、_profile.csv、_residual_sd、_paired_sd\n- QPI_Omni/scripts/plot_grid_sub_center_[profiles.py](http://profiles.py)",
+      "page_last_edited_at": "2026-09-19T07:18:02.497Z"
+    },
+    {
+      "id": "3e0eda96-228e-81ed-9cca-cb069dbc1e42",
+      "title": "（fig:residual_factors に置き換えた・削除してよい）【修論図 fig:bg_residual ①/④】残差像を修論の様式で出し直す",
+      "url": "https://app.notion.com/p/3e0eda96228e81ed9ccacb069dbc1e42?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "（fig:residual_factors に置き換えた・削除してよい）【修論図 fig:bg_residual ①/④】残差像を修論の様式で出し直す",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "WishList",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81ed9ccacb069dbc1e42",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-81ed-9cca-cb069dbc1e42/amJ1Yw"
+      },
+      "body": "素材: 論文 fig_background_subtraction（ver1）。同じカラースケール。\n前提: 共通 S1",
+      "page_last_edited_at": "2026-09-19T07:17:54.516Z"
+    },
+    {
+      "id": "3e0eda96-228e-81a7-94a7-c84639654307",
+      "title": "【修論図 fig:residual_factors ②/⑧】grid_subtract.py に比較用の切り替えを足す（参照の選び方・ずらし方・傾きの除去・z）（90 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81a794a7c84639654307?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:residual_factors ②/⑧】grid_[subtract.py](http://subtract.py) に比較用の切り替えを足す（参照の選び方・ずらし方・傾きの除去・z）（90 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81a794a7c84639654307",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-81a7-94a7-c84639654307/amJ1Yw"
+      },
+      "body": "今の処理: raw-raw の差 → 2π の整数倍の除去 → 帯の端 1/3（Pos 53 未満は左、以上は右）での傾きの除去。\n切り替えを足すもの:\n- 参照: 最近傍ノード／任意のノード／任意のフレーム\n- ずらし方: 実空間の補間（今）／複素場の位相の傾き（Fourier シフト）／ずらさない\n- 傾きの除去: 端 1/3 の直線（今）／細胞の無い部分全体の平面／なし\n- 参照の z\n出力は 40×270 の帯の float32 TIF。本番の処理の既定値は変えない。",
+      "page_last_edited_at": "2026-09-19T07:17:52.354Z"
+    },
+    {
+      "id": "3e0eda96-228e-814b-8b1a-fa20ca917ee7",
+      "title": "【修論図 fig:residual_factors ⑥/⑧】(3) 培地だけ・(4) 焦点だけの帯を作る（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e814b8b1afa20ca917ee7?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:residual_factors ⑥/⑧】(3) 培地だけ・(4) 焦点だけの帯を作る（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e814b8b1afa20ca917ee7",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-814b-8b1a-fa20ca917ee7/amJ1Yw"
+      },
+      "body": "(3) 2% → 0.0055%（168.25 h）→ 0%（192.25 h）→ 2%（240.4 h）の各期間の同じ帯。予想: 観察チャネルの内側と PDMS の間に約 0.17 rad の段。これは n_medium の変化で、消す対象ではない。\n(4) 同じノードの z スタックの隣の面を参照にする。\n前提: ②、共通 D2（オフセット除去前の値）",
+      "page_last_edited_at": "2026-09-19T07:17:52.354Z"
+    },
+    {
+      "id": "3e0eda96-228e-811e-8a69-f040a995d19d",
+      "title": "【修論図 fig:residual_factors ⑧/⑧】像から原因を読み、対処の候補を 2〜3 に絞る（キャプションに数値）（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e811e8a69f040a995d19d?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:residual_factors ⑧/⑧】像から原因を読み、対処の候補を 2〜3 に絞る（キャプションに数値）（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e811e8a69f040a995d19d",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-811e-8a69-f040a995d19d/amJ1Yw"
+      },
+      "body": "対処の候補: 複素場の Fourier シフト／ずらさない（光学系に固定された模様はステージと一緒に動かない）、z を合わせた参照、細胞の無い部分全体の平面、ホログラムの縁の窓関数（菅原の原因 (a)）、グリッドの撮り直し。\n論文 Figure 2 の定量（64／94／563 mrad、1.3／1.9／11.5 pg）は本文へ。",
+      "page_last_edited_at": "2026-09-19T07:17:52.354Z"
+    },
+    {
+      "id": "3e0eda96-228e-810b-9e2c-d73ec8ae1154",
+      "title": "【修論図 fig:residual_factors ④/⑧】(1) 変位だけ: 参照グリッドのノード同士（0.1／0.2／0.4／0.8 μm）の差の帯を作る（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e810b9e2cd73ec8ae1154?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:residual_factors ④/⑧】(1) 変位だけ: 参照グリッドのノード同士（0.1／0.2／0.4／0.8 μm）の差の帯を作る（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e810b9e2cd73ec8ae1154",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-810b-9e2c-d73ec8ae1154/amJ1Yw"
+      },
+      "body": "81 ノードは数分で撮っているので、時間の影響を含まない「既知の変位」の実測として使う（菅原の計算の代わり）。変位は grid_calibration_Pos\\<N\\>.json の実測位置で書く。ずらし方の切り替え（補間／Fourier シフト／ずらさない）もここで比べる。\n前提: ②、共通 D1",
+      "page_last_edited_at": "2026-09-19T07:17:52.354Z"
+    },
+    {
+      "id": "3e0eda96-228e-8142-b95b-d6ba303a4877",
+      "title": "【修論図 fig:residual_factors ③/⑧】(0) 陰性対照: 同じ位置の連続2フレームの差の帯を作る（30 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e8142b95bd6ba303a4877?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:residual_factors ③/⑧】(0) 陰性対照: 同じ位置の連続2フレームの差の帯を作る（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e8142b95bd6ba303a4877",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-8142-b95b-d6ba303a4877/amJ1Yw"
+      },
+      "body": "5 分差・変位差がノードの刻み（0.1 μm）より十分小さい連続2フレームを、グリッドを使わずに直接引く。ノイズだけの像で、「0」がどう見えるかの基準（菅原 図4.7 PDF p.38 に当たる）。\n前提: ②、共通 D1",
+      "page_last_edited_at": "2026-09-19T07:17:52.354Z"
+    },
+    {
+      "id": "3e0eda96-228e-8166-8aa6-fa6f683ebcc3",
+      "title": "（fig:residual_factors に置き換えた・削除してよい）【修論図 fig:bg_residual ②/④】空のチャネルを横切る φ(x) を3本重ねる",
+      "url": "https://app.notion.com/p/3e0eda96228e81668aa6fa6f683ebcc3?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "（fig:residual_factors に置き換えた・削除してよい）【修論図 fig:bg_residual ②/④】空のチャネルを横切る φ(x) を3本重ねる",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "WishList",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81668aa6fa6f683ebcc3",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-8166-8aa6-fa6f683ebcc3/amJ1Yw"
+      },
+      "body": "ずらした参照ではチャネルの縁に正負の残差が出る（菅原 図5.8 PDF p.57）。fig:principle ② と同じ断面位置。\n先行: 戸田 図4.8b（p.64、本人が貼った2枚目）\n前提: 共通 D1。素材: QPI_Omni/scripts/plot_grid_sub_center_[profiles.py](http://profiles.py)",
+      "page_last_edited_at": "2026-09-19T07:17:57.472Z"
+    },
+    {
+      "id": "3e0eda96-228e-81b8-93d4-c81cc3d213c0",
+      "title": "【修論図 fig:residual_factors ⑤/⑧】(2) 時間だけ: 変位がノードとほぼ一致したフレームを t≈1, 24, 72, 168 h から選んで引く（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81b893d4c81cc3d213c0?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:residual_factors ⑤/⑧】(2) 時間だけ: 変位がノードとほぼ一致したフレームを t≈1, 24, 72, 168 h から選んで引く（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81b893d4c81cc3d213c0",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-81b8-93d4-c81cc3d213c0/amJ1Yw"
+      },
+      "body": "pos_shifts_cal_online.json から、最寄りのノードとの差が最も小さいフレームを各時刻の前後から選ぶ。残差が時間とともに増えれば、光学系の変化（ゴミ・アライメント）が原因の候補。\n前提: ②",
+      "page_last_edited_at": "2026-09-19T07:17:52.354Z"
+    },
+    {
+      "id": "3e0eda96-228e-819a-8cd5-f3f765bc2f26",
+      "title": "【修論図 fig:residual_factors ⑦/⑧】行＝条件・列＝同じ帯の図に組み、同じカラースケールと「0 であるべき部分」の輪郭線を付ける（90 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e819a8cd5f3f765bc2f26?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:residual_factors ⑦/⑧】行＝条件・列＝同じ帯の図に組み、同じカラースケールと「0 であるべき部分」の輪郭線を付ける（90 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e819a8cd5f3f765bc2f26",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-819a-8cd5-f3f765bc2f26/amJ1Yw"
+      },
+      "body": "行: (0) 陰性対照、(1) 変位だけ（4 段）、(2) 時間だけ（4 時刻）、(3) 培地だけ、(4) 焦点だけ。列: 同じ帯 4 本。\n先行: 菅原 図4.7–4.10（PDF p.38–39）。数値（SD など）は図に出さずキャプションへ。\n前提: ③④⑤⑥、共通 S1",
+      "page_last_edited_at": "2026-09-19T07:17:52.354Z"
+    },
+    {
+      "id": "3e0eda96-228e-817a-a60c-cc33e00c95c6",
+      "title": "【解析PC で実行・手順書】背景差分の残差の原因探索（260517、fig:residual_factors）（手を動かす時間 約 7.5 h）",
+      "url": "https://app.notion.com/p/3e0eda96228e817aa60ccc33e00c95c6?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【解析PC で実行・手順書】背景差分の残差の原因探索（260517、fig:residual_factors）（手を動かす時間 約 7.5 h）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "QPI",
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e817aa60ccc33e00c95c6",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-817a-a60c-cc33e00c95c6/amJ1Yw"
+      },
+      "body": "## この手順書の使い方（実行する Claude へ）\n- 実行する機械: 研究室の解析 PC（E: に 260517 の位相再構成の出力がある機械）。QPI_Omni は main を pull してから始める\n- 上から順に実行する。各 Step が終わるたびに、その Step の「実結果」をこのページに書き込む（Notion MCP の update_content。繋がらなければ QPI_Omni/[CLAUDE.md](http://CLAUDE.md) の NOTION_TOKEN の方法）\n- 期待結果と違ったら、何が違ったかを実結果に書いて止まる。推測で先に進まない\n- 触らないもの: 本番の出力（output_phase_raw、crop_sub_rawraw）の上書き・削除、grid_[subtract.py](http://subtract.py) と batch_grid_subtract_[260517.py](http://260517.py) の既定値、撮影中のディスク（撮影中は撮影先に触らない）。新しい出力はすべて E:260517analysis_residual_factors の下\n- 30 分を超える待ちが出たら QPI_Omni/[CLAUDE.md](http://CLAUDE.md)「待ちが出たら Notion にタスクを2件作る」に従う\n- このページも、他のタスクも Done にしない（Mac 側で結果を見てから閉じる）\n## 結果の戻し方\n- 図: figure_[logger.save](http://logger.save)_figure()（Google 共有ドライブの figure-hub/inbox に入り、Mac から読める）。PNG と PDF\n- 数値: CSV を E:260517analysis_residual_factors に置き、同じものを save_figure の params にも渡す。要約をこのページの「結果」に書く\n- スクリプト: QPI_Omni にブランチ residual-factors-260517 を作って commit・pushする\n## 目的\n処理の最後まで通した 40×270 画素の帯（観察チャネル1本と両側の PDMS。チャネル方向 270 画素 ≈ 93 μm）で、0 であるべき部分が 0 にならない原因を、条件を1つずつ変えた像で切り分ける。修論 2.7.3 の fig:residual_factors（Mac 側のタスク「【修論図 fig:residual_factors ①〜⑦】」）の材料。主な出力は同じカラースケールで並べた像で、SD などの数値は CSV に残すだけ。手本は菅原優生 修論 4章（図4.7–4.10、原因を1つずつ入れた差分像を同じカラースケールで並べる）。\n## 前提\n- 時系列: E:2605172per_0055per_0per_2perPos\\<N\\>z000output_phase_rawimg_\\*_ph_000_phase.tif。変位: 同 Pos の output_phasechannelspos_shifts_cal.json。チャネル: 同 channel_rois.json\n- 参照グリッド: E:260517grid_2pergluc_2Pos\\<N\\>_x\\{±d\\}_y\\{±d\\}（本番は z index 8）、実測位置 grid_calibration_Pos\\<N\\>.json\n- 本番の帯: E:2605172per_0055per_0per_2per_crop_subPos\\<N\\>output_phasechannelscrop_sub_rawrawz000\\\\\n- 本番の設定（batch_grid_subtract_[260517.py](http://260517.py)）: GRID_Z_INDEX = 8、RAW_TL_Z_INDEX = 0、TILT_CROP_H_RAW = 270、OUTPUT_CROP_H = 270、POS_SPLIT = 51、SHIFT_SIGN_X = SHIFT_SIGN_Y = −1、CROP_BEFORE = (0, 2048, 400, 2448)（Pos \\< 51）、CROP_AFTER = (0, 2048, 0, 2048)\n- 時刻: 5 分間隔、frame 0 = 0 h。培地: 2% → 0.0055% が 168.25 h、→ 0% が 192.25 h、→ 2% が 240.4 h（QPI_Omni/results/260517/starvation_to_recovery/[README.md](http://README.md)）\n- 使う関数: grid_subtract.scan_grid_positions、load_grid_calibration、select_grid、process_single_frame（output_crop_h_override = 270、tilt_crop_h_raw = 270 で、40×270 の帯が 2π と傾きの補正まで通って返る）、tilt_utils.apply_2pi_tilt_crop\n- 今のずらし方: apply_inverse_shift_warp = cv2.warpAffine（INTER_LINEAR）で、unwrap 後の生の位相を実空間でずらす\n---\n#### Step 0: データの在庫を確かめる（30 min）\n- 目的: 以降の Step が前提にするファイルがあるかを確かめ、グリッドのノード数と z 面の数を記録する\n```python\nfrom pathlib import Path\nTL = Path(r\"E:\\260517\\2per_0055per_0per_2per\")\nGR = Path(r\"E:\\260517\\grid_2pergluc_2\")\nCS = Path(r\"E:\\260517\\2per_0055per_0per_2per_crop_sub\")\npos = sorted(int(p.name[3:]) for p in TL.glob(\"Pos*\") if p.name[3:].isdigit())\nprint(\"TL Pos:\", len(pos), pos[:3], pos[-3:])\nfor n in [1, 27, 60, 90]:\n    raw = TL / f\"Pos{n}\" / \"z000\" / \"output_phase_raw\"\n    ch = TL / f\"Pos{n}\" / \"z000\" / \"output_phase\" / \"channels\"\n    nodes = sorted(GR.glob(f\"Pos{n}_x*_y*\"))\n    print(n, \"raw frames\", len(list(raw.glob(\"img_*_ph_000_phase.tif\"))),\n          \"shifts\", (ch / \"pos_shifts_cal.json\").exists(), \"rois\", (ch / \"channel_rois.json\").exists(),\n          \"grid nodes\", len(nodes), \"cal\", (GR / f\"grid_calibration_Pos{n}.json\").exists(),\n          \"crop_sub\", (CS / f\"Pos{n}\" / \"output_phase\" / \"channels\" / \"crop_sub_rawraw\" / \"z000\").exists())\n    if nodes:\n        fs = sorted((nodes[0] / \"output_phase_raw\").glob(\"*.tif\"))\n        print(\"   \", nodes[0].name, \"phase files\", len(fs), [f.name for f in fs[:3]])\n```\n- 期待結果: TL の Pos が 104。各 Pos の raw frames が記録の全長ぶん（約 13 日、5 分間隔）。shifts・rois・cal・crop_sub がすべて True。grid nodes が 81（9×9）か 121（11×11）。ノードごとに複数の z 面\n- 実結果: （ここに書く。ノード数、z 面の数とファイル名の形、無かったもの）\n#### Step 1: 帯を選ぶ（45 min）\n- 目的: すべての行で同じ帯（列）を使うため、空の観察チャネル 3 本と細胞入り 1 本を決める\n- 方法: Pos を POS_SPLIT = 51 の両側から選ぶ（Pos \\< 51 から 2 本、≧ 51 から 2 本）。空のチャネルは、論文 Figure 2 で使った「細胞のない観察チャネル帯 6 本」の記録が QPI_Omni にあればそこから（fig_background_subtraction_residual_sd を作ったスクリプトを探す）。無ければ本番の帯を 0・84・168 h で見て、その間に細胞が入っていないチャネルを選ぶ。細胞入りは Pos1 frame 512 のチャネル（論文 Figure 2 ver1 と同じ）を優先\n- 「0 であるべき部分」: 空の帯は帯全体（補正で 0 にされた列を除く）。細胞入りの帯は Omnipose マスクを 3 画素広げた外側\n- 出力: E:260517analysis_residual_factorsstrips.json（Pos、チャネル番号、roi、種類）\n- 期待結果: 4 本が決まり、選んだ理由が1行ずつ書かれている\n- 実結果: （ここに書く）\n#### Step 2: 比較用のスクリプトを作り、本番と一致することを確かめる（90 min）\n- 目的: 条件を1つずつ変えた帯を作る。本番の既定値は変えない\n- 新しいファイル: QPI_Omni/scripts/residual_factors_[260517.py](http://260517.py)。grid_subtract を import し、batch_grid_subtract_[260517.run](http://260517.run)_pos と同じようにモジュール変数を上書きする\n- 切り替え（引数）:\n\t- 参照: 最近傍ノード（select_grid、今）／指定ノード／指定フレーム\n\t- ずらし方: linear_warp（今）／spline5（scipy.ndimage.shift(φ, −r, order=5)）／fft_phase（unwrap 後の φ を FFT し、e\\^\\{2πi f r\\} を掛けて戻す）／fft_complex（振幅つきの複素場 U を FFT でずらしてから角度・unwrap。U は生ホログラムから再構成し直して作る。生ホログラムが無ければこの選択肢は飛ばす。φ から exp(iφ) を作るやり方は振幅が落ちるので使わない）／node_interp（フレームはずらさず、周りの 4 ノードの像を grid_calibration の実測位置から求めた双一次の重みで平均して参照にする）／none（比較用。対処ではない）。注意: cv2.warpAffine は小数の位置を 1/32 画素に丸める（r = 0.05 → 0.0625）ので、新しい選択肢には使わない。根拠の計算は [https://claude.ai/artifact/HPqhDsWv9u158urYYBcqUT](https://claude.ai/artifact/HPqhDsWv9u158urYYBcqUT)\n\t- 傾きの除去: edge_third_line（今、apply_2pi_tilt_crop）／plane_cellfree（「0 であるべき部分」全体に平面を当てる）／none\n\t- 参照の z index\n- 保存するもの: 帯ごとに 2 つの段階。raw_diff（差を取っただけ、2π・傾きの除去前）と corrected（最後まで）。float32 TIF、40×270\n- 期待結果: 本番と同じ設定（最近傍ノード、linear_warp、edge_third_line、z 8）で Pos1 frame 512 の帯を作ると、crop_sub_rawraw の同じフレーム・同じチャネルの帯との差の最大絶対値が 1e-4 rad 未満\n- 実結果: （ここに書く。一致しなければ止まる）\n#### Step 3: (0) 陰性対照（30 min）\n- 目的: 「0」がどう見えるかの基準を作る（菅原 図4.7）\n- 方法: 各帯の Pos で、pos_shifts_cal.json から連続 2 フレーム（5 分差）で変位の差が 0.01 μm 未満の組を 3 組選び、グリッドを使わず tl(t+1) − tl(t) をずらしなしで引く。2π・傾きの除去は本番と同じ\n- 期待結果: 構造の無いノイズだけの像。「0 であるべき部分」の SD が数十 mrad 以下（2.7.1 の 12 mrad は別条件の値なので目安）\n- 実結果: （ここに書く）\n#### Step 4: (1) 変位だけ（60 min）\n- 目的: 時間差の無い既知の変位で、残差がどう出るかを見る。参照グリッドは数分で撮っているので、ノード同士の差は時間の影響を含まない\n- 方法: 各帯の Pos で、中心ノード (0, 0) を「試料」、(±1, 0)・(±2, 0)・(±4, 0)・(0, ±1)… を「参照」にする（刻み 0.1 μm で 0.1／0.2／0.4 μm。ノードが 11×11 なら 0.8 μm も足りる）。変位は grid_calibration_Pos\\<N\\>.json の実測値。ずらし方は Step 2 の全選択肢（linear_warp／spline5／fft_phase／fft_complex／node_interp／none）。node_interp はノード同士の差では使えないので、Step 5 のフレームで比べる\n- 期待結果: none では、各壁に沿って片符号の線（2本の壁で符号が逆、大きさは 変位 × 縁の傾き φ′）が距離とともに増える。linear_warp では各壁に沿って正負の対の線（大きさは r(1−r)/2 × 縁の曲がり φ″）が残る。fourier_complex では縁の残差はほぼ消える。Mac 側の 1D の計算（帯域制限した −4 rad の縁、最大傾き 1.4–1.8 rad/画素、r = 0.05–0.145 画素）では、none 0.07–0.28 rad、linear_warp 0.02–0.08 rad、fourier_complex 0.01 rad 未満。linear_warp・fourier_complex で縁の残差がどれだけ残るか、光学系に固定された模様（スペックル状）が現れるかを像で見る\n- 実結果: （ここに書く。見えた模様を行ごとに1行）\n#### Step 5: (2) 時間だけ（60 min）\n- 目的: 変位をほぼそろえたまま、グリッドを撮ってからの時間だけで残差が変わるかを見る\n- 方法: t ≈ 1, 24, 72, 168 h（frame 12, 288, 864, 2016 の ±12 フレーム）から、select_grid の dist_um が最小のフレームを選び、本番と同じ設定で帯を作る（選んだ frame と dist_um を CSV に）\n- 期待結果: 時間で変わらなければ Step 3 と同じ見え方。時間で増える模様があれば、その形を記録する\n- 実結果: （ここに書く）\n#### Step 6: (3) 培地だけ・(4) 焦点だけ（60 min）\n- (3) 方法: 各培地期間の中央付近（約 180 h、216 h、260 h）から Step 5 と同じ選び方でフレームを選び、raw_diff と corrected の両方を保存する\n- (3) 期待結果: raw_diff で、観察チャネルの内側と PDMS の間に約 −0.17 rad の段（グルコース 2% → 0.0055%・0%。屈折率変化 約 2.8×10⁻³ × 高さ 6.2 μm の概算）。2% に戻ると段が消える。corrected では段の片側がオフセットの除去で 0 に寄る。段の大きさを CSV に\n- (4) 方法: Step 4 の中心ノードに対し、参照を同じノードの隣の z 面（z 7 と 9、無ければある面）にする\n- (4) 期待結果: チャネルの縁や閉端に帯状・リング状の残差\n- 実結果: （ここに書く）\n#### Step 7: 図を組む（90 min）\n- 目的: 修論の fig:residual_factors の下書き。行＝条件、列＝同じ帯\n- 行: (0) 陰性対照、(1) 変位だけ（距離 × ずらし方）、(2) 時間だけ（4 時刻）、(3) 培地だけ（3 期間、raw_diff）、(4) 焦点だけ。列: Step 1 の帯 4 本。1 セルは 40×270 を横長（270 が横）で置く\n- カラースケール: 全パネル共通。発散型（RdBu_r、0 が白）。±100 mrad で作り、±50・±200 mrad も出して 3 枚並べる\n- 細胞入りの帯には「0 であるべき部分」の輪郭線を重ねる。行ラベルは左、列ラベル（Pos・チャネル）は上。数値は図に書かない\n- 保存: figure_[logger.save](http://logger.save)_figure(fig, params=..., description=\"residual factors 260517\")。数値は residual_factors_summary.csv（行・列ごとに「0 であるべき部分」の平均・SD・最大絶対値）\n- 期待結果: figure-hub/inbox に 3 枚（カラースケール違い）と CSV\n- 実結果: （ここに書く。figure-hub 上のパス）\n#### Step 8: 報告（30 min）\n- このページの「結果」に書く: 行ごとに見えた模様を1行（場所・形・大きさ）、CSV と図のパス、Step 0 で分かったこと。原因を断定する解釈は書かず、見えたことを書く\n- QPI_Omni のブランチ residual-factors-260517 に commit・push\n- 対処の前後（fig:residual_remedies）は、この結果を Mac 側で見てから別の手順書にする\n---\n## 結果（実行した Claude が書く）\n（空欄）",
+      "page_last_edited_at": "2026-09-19T07:40:13.163Z"
+    },
+    {
+      "id": "3e0eda96-228e-8170-a3d9-d1bb41f213b2",
+      "title": "（fig:residual_factors に置き換えた・削除してよい）【修論図 fig:bg_residual ③/④】区分ごとの残差の点図",
+      "url": "https://app.notion.com/p/3e0eda96228e8170a3d9d1bb41f213b2?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "（fig:residual_factors に置き換えた・削除してよい）【修論図 fig:bg_residual ③/④】区分ごとの残差の点図",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "WishList",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e8170a3d9d1bb41f213b2",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-8170-a3d9-d1bb41f213b2/amJ1Yw"
+      },
+      "body": "64／94／563 mrad（0.1 μm 未満／0.4–0.7／1.5–3 μm）、乾燥質量換算 1.3／1.9／11.5 pg。\n入力: 論文 fig_background_subtraction_residual_sd・_paired_sd の CSV（空の観察チャネル帯 6 本・1434 測定）",
+      "page_last_edited_at": "2026-09-19T07:18:00.256Z"
+    },
+    {
+      "id": "3e0eda96-228e-8135-a8f6-e0de072c586b",
+      "title": "【修論図 fig:residual_factors ①/⑧】帯の組（空のチャネル3本＋細胞入り1本、40×270）と「0 であるべき部分」のマスクを決める（45 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e8135a8f6e0de072c586b?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:residual_factors ①/⑧】帯の組（空のチャネル3本＋細胞入り1本、40×270）と「0 であるべき部分」のマスクを決める（45 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e8135a8f6e0de072c586b",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-8135-a8f6-e0de072c586b/amJ1Yw"
+      },
+      "body": "菅原 4章（シミュレーションによる画像アーティファクトの原因探索）の形で、背景差分の残差を SD でなく像で見せる。要件の全文は plot/[figures.md](http://figures.md) の fig:residual_factors。\n- 帯: チャネル方向 270 画素（約 93 μm）× 幅 40 画素（約 13.8 μm）。analyze_ch_xtilt_corrected_[ecc.py](http://ecc.py) と同じ切り出し\n- 視野を分けて選ぶ（POS_SPLIT = 53 の両側から）\n- 細胞入りの帯では、マスクの外側を何画素離すかを決める\n- カラースケールの幅（±50〜150 mrad）もここで仮に決める",
+      "page_last_edited_at": "2026-09-19T07:17:52.354Z"
+    },
+    {
+      "id": "3e0eda96-228e-819d-9c75-fe055d734efb",
+      "title": "【修論図 fig:residual_remedies ②/④】対処 2（と 3）を入れて、前・後・差の帯を作る（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e819d9c75fe055d734efb?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:residual_remedies ②/④】対処 2（と 3）を入れて、前・後・差の帯を作る（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e819d9c75fe055d734efb",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-819d-9c75-fe055d734efb/amJ1Yw"
+      },
+      "body": "前提: ①",
+      "page_last_edited_at": "2026-09-19T07:17:52.354Z"
+    },
+    {
+      "id": "3e0eda96-228e-8112-8b8d-e2d94bed5991",
+      "title": "【修論図 fig:residual_remedies ③/④】対処ごとの前・後・差を組み、キャプションを書く（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81128b8de2d94bed5991?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:residual_remedies ③/④】対処ごとの前・後・差を組み、キャプションを書く（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81128b8de2d94bed5991",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-8112-8b8d-e2d94bed5991/amJ1Yw"
+      },
+      "body": "前提: ①②、共通 S1",
+      "page_last_edited_at": "2026-09-19T07:17:52.354Z"
+    },
+    {
+      "id": "3e0eda96-228e-8133-9915-e63203754865",
+      "title": "【修論図 fig:residual_remedies ①/④】対処 1 を入れて、前・後・差の帯を作る（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81339915e63203754865?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:residual_remedies ①/④】対処 1 を入れて、前・後・差の帯を作る（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81339915e63203754865",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-8133-9915-e63203754865/amJ1Yw"
+      },
+      "body": "対処は fig:residual_factors ⑧ で選んだもの。列は fig:residual_factors と同じ帯。\n先行: 菅原 図4.24（PDF p.48。前・後・差を 3 行 × 5 枚）",
+      "page_last_edited_at": "2026-09-19T07:17:52.354Z"
+    },
+    {
+      "id": "3e0eda96-228e-815a-9fd1-f66689d004ea",
+      "title": "【修論図 fig:residual_remedies ④/④】本番の解析に入れる対処を決め、系譜 CSV を出し直す（90 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e815a9fd1f66689d004ea?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:residual_remedies ④/④】本番の解析に入れる対処を決め、系譜 CSV を出し直す（90 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e815a9fd1f66689d004ea",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-815a-9fd1-f66689d004ea/amJ1Yw"
+      },
+      "body": "入れたら fig:record・fig:density_floor・第3章の図の入力が変わる。出し直しの計算時間は解析 PC で別にかかる（この時間には含めていない）。",
+      "page_last_edited_at": "2026-09-19T07:17:52.354Z"
+    },
+    {
+      "id": "3e0eda96-228e-8186-9869-d533c1bbbfdd",
+      "title": "【修論図 fig:ri_calibration ①/③】BSA 系列の積分位相を出し、直線当てはめと n_medium（2%・0%）を計算する（90 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81869869d533c1bbbfdd?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:ri_calibration ①/③】BSA 系列の積分位相を出し、直線当てはめと n_medium（2%・0%）を計算する（90 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81869869d533c1bbbfdd",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-8186-9869-d533c1bbbfdd/amJ1Yw"
+      },
+      "body": "前提: 既存タスク「屈折率校正の撮影（BSA 濃度系列）」（9/29）。論文⑤（Results R1 を BSA 系列で書き直す、10/6）と同じ計算。\n傾き＝見ている培地の体積、傾きと切片から n_medium。不確かさは視野が独立でないので移動ブロックブートストラップ。",
+      "page_last_edited_at": "2026-09-19T07:06:59.422Z"
+    },
+    {
+      "id": "3e0eda96-228e-81d2-8028-da3fc14f3278",
+      "title": "【修論図 fig:ri_calibration ②/③】散布図と直線・残差・0% の再測定・n_medium の表を描く（60 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81d28028da3fc14f3278?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:ri_calibration ②/③】散布図と直線・残差・0% の再測定・n_medium の表を描く（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81d28028da3fc14f3278",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-81d2-8028-da3fc14f3278/amJ1Yw"
+      },
+      "body": "先行: 戸田 図3.5a（PDF p.43）、石金 図4.1c（p.22）、戸田 図4.6c（p.62、既知値との比較）\n前提: ①、共通 S1",
+      "page_last_edited_at": "2026-09-19T07:06:59.422Z"
+    },
+    {
+      "id": "3e0eda96-228e-819a-91d3-f6d7b3cb2965",
+      "title": "【修論図 fig:ri_calibration ③/③】キャプションと 2.7.4 P9 の数値を書く（30 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e819a91d3f6d7b3cb2965?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:ri_calibration ③/③】キャプションと 2.7.4 P9 の数値を書く（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e819a91d3f6d7b3cb2965",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-819a-91d3-f6d7b3cb2965/amJ1Yw"
+      },
+      "body": "視野ごとの n は付録 fig:app_ri_per_field へ。培地ごとに n_medium を替えるかもここで決める（グルコース 2% と 0% で約 2.8×10⁻³ 違う）。",
+      "page_last_edited_at": "2026-09-19T07:06:59.422Z"
+    },
+    {
+      "id": "3e0eda96-228e-8120-8122-d3c28032a0df",
+      "title": "【修論図 fig:density_floor ④/④】(a) と (b)（論文 3H）を組み、キャプションと 2.7.4 P10 を書く（30 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e81208122d3c28032a0df?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:density_floor ④/④】(a) と (b)（論文 3H）を組み、キャプションと 2.7.4 P10 を書く（30 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e81208122d3c28032a0df",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-8120-8122-d3c28032a0df/amJ1Yw"
+      },
+      "body": "(b) ③/④ は既存タスク「Figure 3H 誤差を密度へ伝搬した測定床を周期平均密度の分布に重ねる」。\n前提: 位相ノイズ・背景残差・BSA 校正・合成細胞の体積誤差の数値が揃ってから。この図は 2.9 まとめと第3章の冒頭から引く。",
+      "page_last_edited_at": "2026-09-19T07:06:59.422Z"
+    },
+    {
+      "id": "3dfeda96-228e-8185-bccc-c0cae28561e2",
+      "title": "【修論図 fig:density_floor ①/④】(a) 空のチャネルに同じ式を当てた見かけの密度の時系列を計算する（共通 D2 の後）（60 min）",
+      "url": "https://app.notion.com/p/3dfeda96228e8185bcccc0cae28561e2?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:density_floor ①/④】(a) 空のチャネルに同じ式を当てた見かけの密度の時系列を計算する（共通 D2 の後）（60 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3dfeda96228e8185bcccc0cae28561e2",
+        "優先度": "中",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3dfeda96-228e-8185-bccc-c0cae28561e2/amJ1Yw"
+      },
+      "body": "要件の全文: plot/[figures.md](http://figures.md) の fig:density_floor（第2版。旧 fig:long_lineage を fig:density_floor のパネル (a) にまとめた）。(b) の分布と測定下限は既存タスク「Figure 3H」\n## 問い\n背景の変動が細胞の密度の変化に見えていないか。\n## 置く場所\n2.7.4 P10。2.9 まとめ と第3章の冒頭から引く。\n## 先行図\n- 戸田 図4.9b,c（PDF p.68。細胞と培地の RI 変化を重ねる）\n- 戸田 図4.8b（p.64。貼った2枚目: 同じ量を2条件で重ねる）\n- 石金 図5.4（p.29）、橋本 図2.18（p.35）\n## パネル\n- 1系譜の密度の時系列（168 h、分裂を縦線）に、空の観察チャネルに同じ式を当てた「見かけの密度」を同じ軸で重ねる\n## 必要なデータ\n- 細胞側: 系譜 CSV（この Mac）\n- 空のチャネル側: 帯の位相（画像データ。外付け 0p0055 か研究室 PC の E:260517）\n## 今ある素材\n- 論文 fig_density_timeseries.png（論文 Figure 4A）",
+      "page_last_edited_at": "2026-09-19T07:09:27.703Z"
+    },
+    {
+      "id": "3e0eda96-228e-811a-a0ce-cb68196a2171",
+      "title": "【修論図 fig:density_floor ②/④】(a) 1系譜の密度の時系列に見かけの密度を重ねて描く（45 min）",
+      "url": "https://app.notion.com/p/3e0eda96228e811aa0cecb68196a2171?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論図 fig:density_floor ②/④】(a) 1系譜の密度の時系列に見かけの密度を重ねて描く（45 min）",
+        "Project": [
+          "https://app.notion.com/p/36eeda96228e816dba8ac6e5dcdc81ac"
+        ],
+        "Status": "Inbox",
+        "Tag": [
+          "原稿",
+          "進学",
+          "QPI"
+        ],
+        "date:期限:is_datetime": 0,
+        "url": "https://app.notion.com/p/3e0eda96228e811aa0cecb68196a2171",
+        "優先度": "高",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-811a-a0ce-cb68196a2171/amJ1Yw"
+      },
+      "body": "168 h、分裂を縦線。同じ軸に空の観察チャネルの見かけの密度。\n素材: 論文 fig_density_timeseries（Figure 4A）\n先行: 戸田 図4.9b,c（PDF p.68）\n前提: fig:density_floor ①/④",
+      "page_last_edited_at": "2026-09-19T07:06:59.422Z"
+    },
+    {
+      "id": "3b2eda96-228e-8112-89d0-c4637366e345",
+      "title": "Figure 3E 参照液（水・エタノール）の差分像",
+      "url": "https://app.notion.com/p/3b2eda96228e811289d0c4637366e345?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "Figure 3E 参照液（水・エタノール）の差分像",
+        "Status": "NextAction",
+        "Tag": [
+          "原稿"
+        ],
+        "date:期限:end": "2026-09-18T12:45:00.000Z",
+        "date:期限:is_datetime": 1,
+        "date:期限:start": "2026-09-18T12:00:00.000Z",
+        "url": "https://app.notion.com/p/3b2eda96228e811289d0c4637366e345",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3b2eda96-228e-8112-89d0-c4637366e345/amJ1Yw"
+      },
+      "body": "撮り直した校正データから作る。\n- 満たすべき条件: 水とエタノールの2枚が同一カラースケールで、符号が逆であることが色だけで読める。積算に使ったマスクの輪郭が両方の像に同じ位置で重なる\n- 切り出し: CROP_W=40, TILT_CROP_H=270, OUTPUT_CROP_H=180, MASK_THRESHOLD=−1.0 rad\n- マスクは差分像でなく 2% 培地グリッドの背景差し引き済み位相から作る\n## 何の図か（仕様書より・2026-09-19 追記）\n同じ観察チャネル帯で、MilliQ 水を流したフレームと 2% 培地グリッドの中央ノードとの差分像、およびエタノールでの同じ差分像。\n**完了条件**: 水とエタノールの2枚が同一のカラースケールで描かれ、符号が逆（水は 2% 培地より低屈折率、エタノールは高屈折率）であることが色だけで読める。積算に使ったマスクの輪郭が両方の像に同じ位置で重なり、和 S を取った領域が像の上で特定できる。\n## 入力\npaper/figures/fig_ri_calibration.png（= figure-hub `fig_qpi_ri_calibration` v001、run 20260426T130154Z_32d7d8）の gs\\[1,1\\] 「Delta: MilliQ − grid」と gs\\[1,2\\] 「Delta: EtOH − grid」（例示は Pos1 ch5）。生成 /Users/kitak/QPI_Omni/scripts/calibrate_[ri.py](http://ri.py)。**像データは同梱 npz に無い**（data_keys は per_pos_miliq_sums, per_pos_etoh_sums, pos_numbers のみ）。元の delta TIF は E:2604240per_gluc の PosN/output_phase/channels/delta_miliq・delta_etoh の delta_z005.tif。\n## 作り方\n現行9パネルの診断図から該当2枚だけを取り出す構成にする。像は npz に無いので、delta TIF を入力に calibrate_[ri.py](http://ri.py) の切り出し部分（CROP_W=40, TILT_CROP_H=270, OUTPUT_CROP_H=180, MASK_THRESHOLD=−1.0 rad、マスクは差分像でなく 2% 培地グリッドの背景差し引き済み位相から作る）を回して2枚を出し直す。カラーバーは1本共有、パネル内タイトルは落としてキャプションへ。\n## 前提\n屈折率校正の撮り直しデータ。完全 CSV には依存しない\n状態: 素材あり。仕様は 8/4–8/6 に書いたもの。9/16 に体積推定を変えた（0.5 px の縮めをやめ直径 3.12 → 3.47 µm）ので、数値とデータのパスは使う前に確かめる。\n出典: `/Users/kitak/Documents/Obsidian Vault/05_Projects/QPI_methods_paper/paper/.harness/pages/panel_spec.json`（fig 3 panel E）",
+      "page_last_edited_at": "2026-09-18T15:30:34.111Z"
+    },
+    {
+      "id": "3b2eda96-228e-8167-8215-fd75e14a6f27",
+      "title": "Figure 3B グリッドの公称変位 対 実測変位と誤差ベクトル",
+      "url": "https://app.notion.com/p/3b2eda96228e81678215fd75e14a6f27?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "Figure 3B グリッドの公称変位 対 実測変位と誤差ベクトル",
+        "Status": "NextAction",
+        "Tag": [
+          "QPI"
+        ],
+        "date:期限:end": "2026-09-21T14:00:00.000Z",
+        "date:期限:is_datetime": 1,
+        "date:期限:start": "2026-09-21T13:00:00.000Z",
+        "url": "https://app.notion.com/p/3b2eda96228e81678215fd75e14a6f27",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3b2eda96-228e-8167-8215-fd75e14a6f27/amJ1Yw"
+      },
+      "body": "32 bit 経路で作り直した対応表を使う（8 bit の値は載せない）。\n- 満たすべき条件: 公称と実測を同一の等方 µm スケール（アスペクト 1:1）に置き、誤差ベクトルを拡大せず ×1 で描く。9×9・ステップ 0.1 µm が張る ±0.4 µm が軸に収まる\n- 現行 4 パネルの 1（nominal vs actual 散布）と 2（error quiver）を1枚に統合。3・4 は Fig3-S1 へ\n- `grid_nearest_dist_um` は名前が µm だが値は px（QPI_Omni #17）\n## 何の図か（仕様書より・2026-09-19 追記）\n参照グリッド 81 ノードの公称ステージオフセットと、ECC で測った実測変位の対応、および各ノードの誤差ベクトル。\n**完了条件**: 公称と実測を同一の等方 µm スケール（アスペクト 1:1）に置き、誤差ベクトルを拡大せず ×1 で描く。9×9・ステップ 0.1 µm が張る ±0.4 µm の範囲が軸に収まり、公称格子に対する実測格子の歪み（走査の向きが反転する軸に出る行偶奇の交代オフセット）が拡大なしで読める。\n## 入力\nDrive inbox /Users/kitak/Library/CloudStorage/GoogleDrive-.../figure-hub/inbox/2026-04-03/plot_grid_calibration/20260403T054603Z_15d463/ の f001_data.npz（xi, yi, nom_stageX_um, nom_stageY_um, act_stageX_um, act_stageY_um, err_stageX_um, err_stageY_um, residual_um, corr、各 81 点）と f001.json（err_stageX mean +0.0197 µm sd 0.0727、err_stageY mean +0.0704 µm sd 0.0941、pixel_scale_um 0.34567514677103717）。figure-hub `fig_qpi_grid_calibration` v001 = paper/figures/fig_grid_calibration.png。生成 /Users/kitak/QPI_Omni/scripts/plot_grid_[calibration.py](http://calibration.py)（入力 grid_calibration_Pos1.json、E:Acuisitionkitagishi260331grid_2pergluc_60ms_1）。\n## 作り方\n現行4パネル（1 nominal vs actual 散布 / 2 error quiver / 3 stageY error heatmap / 4 ECC correlation）の 1 と 2 を1枚に統合する。3・4 は Fig3-S1 に回す（plot でも Fig3-S1 は済扱い）。npz の 10 配列だけで再描画できるので再計算は不要。ただし同じグリッドに対する対応表が2世代あり、ステージから像へのスケールが3倍食い違う（methods 小節6 未確定）ので、どちらが本番に効いたかを確定してから確定版にする。\n## 前提\n「参照グリッドの対応表を 32 bit 実数で作り直す」（9/21 21:00）のあと\n状態: 作り直す。仕様は 8/4–8/6 に書いたもの。9/16 に体積推定を変えた（0.5 px の縮めをやめ直径 3.12 → 3.47 µm）ので、数値とデータのパスは使う前に確かめる。\n出典: `/Users/kitak/Documents/Obsidian Vault/05_Projects/QPI_methods_paper/paper/.harness/pages/panel_spec.json`（fig 3 panel B）",
+      "page_last_edited_at": "2026-09-18T15:30:27.619Z"
+    },
+    {
+      "id": "3e0eda96-228e-81a1-82ae-dee56b397078",
+      "title": "【修論】Figure 3H のタスクの中身が分からないと指摘 → 本文に何の図か・作り方・前提を書き足す",
+      "url": "https://app.notion.com/p/3e0eda96228e81a182aedee56b397078?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "【修論】Figure 3H のタスクの中身が分からないと指摘 → 本文に何の図か・作り方・前提を書き足す",
+        "Status": "Done",
+        "Tag": [
+          "原稿"
+        ],
+        "date:期限:end": "2026-09-18T07:47:00.000Z",
+        "date:期限:is_datetime": 1,
+        "date:期限:start": "2026-09-18T07:38:00.000Z",
+        "url": "https://app.notion.com/p/3e0eda96228e81a182aedee56b397078",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3e0eda96-228e-81a1-82ae-dee56b397078/amJ1Yw"
+      },
+      "body": "## やっていたこと（16:38–16:47）\n- 本人「zを作る系のタスク、図3Hを作るとか言われてもちょっとわからないな」「作り方もわからないし、なんの図なのかもわからないし」\n- 別の Claude セッションが Figure 3H のページに、何の図か（周期平均密度のヒストグラム 26 系統・1306 周期に、測定誤差を密度へ換算した 1σ の帯を重ねる）、作り方（① ヒストグラムは `mother_cell_cycle_stats.py` の `fig_conc_distribution` を1周期1点に直す、② 測定床は実装なし）、前提（3A・3G が先）を書き足した\n- 図タスクは 9/19 16:00 に本人「タスクを細かく分解して入れといて。図なんて作るのに2hくらいかかるからな普通は」で、別のセッションが分け直している\n*2026-09-19 の復元で記録。*",
+      "page_last_edited_at": "2026-09-19T07:13:50.112Z"
+    },
+    {
+      "id": "3b2eda96-228e-81f0-b190-da1b10825098",
+      "title": "Figure 3A 位相ノイズの分布を本番ランで測り直す",
+      "url": "https://app.notion.com/p/3b2eda96228e81f0b190da1b10825098?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "Figure 3A 位相ノイズの分布を本番ランで測り直す",
+        "Status": "NextAction",
+        "Tag": [
+          "QPI"
+        ],
+        "date:期限:end": "2026-09-22T01:30:00.000Z",
+        "date:期限:is_datetime": 1,
+        "date:期限:start": "2026-09-22T00:00:00.000Z",
+        "url": "https://app.notion.com/p/3b2eda96228e81f0b190da1b10825098",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3b2eda96-228e-81f0-b190-da1b10825098/amJ1Yw"
+      },
+      "body": "既存の panel は別露光（200 ms・間隔 1 s）の別データセット。本番ラン（露光 60 ms・間隔 300 s・13 日）で測り直す。\n- 生成: `paper/figstyle/panels/fig3a_phase_noise.py`（mrad と nm の二重軸を1 panel に収める形は済）\n- 満たすべき条件: 実測の分布とショットノイズ限界が同一の軸上にあり、比が目盛から直接読めること\n- フリンジ可視度（0.71–0.78 に散らばる）も同じランで揃えて測る\n## 何の図か（仕様書より・2026-09-19 追記）\n細胞のない ROI で測ったフレーム間位相差の大きさの分布と、同じ露光でのショットノイズ限界の位置。\n**完了条件**: 実測の分布とショットノイズ限界 6.68 mrad が同一の軸上にあり、実測平均 12.00 mrad との比 1.80 が目盛から直接読める。mrad と nm の二重目盛が同一データの λ=658 nm・2π 換算で付いていて、片方が別データ・別条件にならない。\n## 入力\nfigure-hub `fig_qpi_phase_noise` v001（= paper/figures/fig_phase_noise.png）。数値の元は Drive inbox /Users/kitak/Library/CloudStorage/GoogleDrive-.../figure-hub/inbox/2026-03-18/41_phase_diff_noise/20260317T153624Z_71f9a6/ の f001.json（noise_mean_mrad 11.997, noise_std_mrad 4.884, noise_mean_nm 1.2564, sigma_shot_mrad 6.68, measured_over_shot 1.796, roi_size 80, roi_center \\[255,255\\]）と f001_data.npz（pair_nums, noise_mrad, noise_nm, temporal_std_map_rad）。生成 /Users/kitak/QPI_Omni/scripts/41_phase_diff_[noise.py](http://noise.py)。**ただし DATA_DIR は F:baslerexp200ms_int1000ms_300framePos0（露光 200 ms・間隔 1 s・300 フレーム）で、本番ラン 260517（露光 60 ms・間隔 300 s）ではない。**\n## 作り方\n現行は横軸 time \\[min\\] の2段時系列（上 mrad・下 nm）。本番の再構成位相に対して 41_phase_diff_[noise.py](http://noise.py) を回し直し（DATA_DIR を 260517 の細胞のない観察チャネルまたは背景基準視野、FRAME_INTERVAL_S=300、露光 60 ms）、出力の noise_mrad を1枚の分布に組み替え、上目盛を λ/2π で nm に振る。ショットノイズ限界はフリンジ可視度に依存する（可視度は 0.71–0.78 に散らばり未確定）ので同じランで揃えて測り直す。図中タイトルは落としキャプションへ。\n## 前提\n本番ラン 260517 の再構成位相（細胞のない観察チャネル）。完全 CSV には依存しない\n状態: 作り直す。仕様は 8/4–8/6 に書いたもの。9/16 に体積推定を変えた（0.5 px の縮めをやめ直径 3.12 → 3.47 µm）ので、数値とデータのパスは使う前に確かめる。\n出典: `/Users/kitak/Documents/Obsidian Vault/05_Projects/QPI_methods_paper/paper/.harness/pages/panel_spec.json`（fig 3 panel A）",
+      "page_last_edited_at": "2026-09-18T15:30:20.767Z"
+    },
+    {
+      "id": "3b2eda96-228e-81df-b2df-d019b08c9d29",
+      "title": "Figure 3H 誤差を密度へ伝搬した測定床を周期平均密度の分布に重ねる",
+      "url": "https://app.notion.com/p/3b2eda96228e81dfb2dfd019b08c9d29?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "Figure 3H 誤差を密度へ伝搬した測定床を周期平均密度の分布に重ねる",
+        "Status": "NextAction",
+        "Tag": [
+          "QPI"
+        ],
+        "date:期限:end": "2026-09-18T15:00:00.000Z",
+        "date:期限:is_datetime": 1,
+        "date:期限:start": "2026-09-18T14:15:00.000Z",
+        "url": "https://app.notion.com/p/3b2eda96228e81dfb2dfd019b08c9d29",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3b2eda96-228e-81df-b2df-d019b08c9d29/amJ1Yw"
+      },
+      "body": "**これが「帯域は測定床より広い」を支える唯一の panel。**無いと Figure 4 が読めない。\nFigure 4B と対で作る（横軸範囲とビン幅を共有する）。片方だけ作らない。\n## 何の図か\nFigure 4 は「周期平均の乾燥質量密度は平均 166 mg/mL・変動係数 5.9% の幅に収まる」と主張する。この 5.9% が測定誤差で出た幅ではないことを示すのが 3H。\n- 周期平均の乾燥質量密度のヒストグラム（26 系統・1306 周期）\n- その上に、測定誤差を密度に換算した 1σ（測定床）を、同じ横軸 mg/mL の帯として重ねる\n- 完了条件: ヒストグラムの幅が帯より広いことが図で読める。横軸範囲とビン幅が Figure 4B と同じ\n## 作り方は2つに分かれる\n**① 密度のヒストグラム（4B と共通・既存コードあり）**\n- データ: `/Users/kitak/QPI_Omni/results/260517/phase1_2per_7days/per_cell_data/{revived,dead,phase1_dead}/PosNN_chNN/lineage_data3D.csv`\n- 雛形: `/Users/kitak/QPI_Omni/scripts/mother_cell_cycle_stats.py` の `fig_conc_distribution`（445–477 行）。いまはフレーム単位なので、1周期1点（出生フレームから分裂直前まで平均）に書き換える\n- 周期の取り出し: `/Users/kitak/QPI_Omni/scripts/gold_standard_phase1_homeostasis.py` の `load_mother_cycles_csv`\n**② 測定床（実装なし・計算方法が未決）**\n次の3つを密度の 1σ \\[mg/mL\\] に換算して合成する。\n1. 位相ノイズ 1.26 nm（Figure 3A）を細胞マスク上で面積分 → 乾燥質量の誤差\n2. 培地屈折率 n_2% の校正誤差（Figure 3G）\n3. 体積推定2通りの差\n## 前提\n- Figure 3A（位相ノイズを本番ラン 260517 で測り直す）と Figure 3G（n の校正）が先\n- 9/16 に体積推定を変えた（0.5 px の縮めをやめ、直径 3.12 → 3.47 µm）ので、166 mg/mL・5.9% は再計算で変わる可能性がある\n出典: `/Users/kitak/Documents/Obsidian Vault/05_Projects/QPI_methods_paper/paper/.harness/pages/panel_spec.json`（fig 3 panel H）、Obsidian `01_Daily/近接13本359パネルの実測から本文7図31パネルに決めた_2026-08-04.md`\n*2026-09-18 本人「作り方もわからないし、なんの図なのかもわからない」を受けて追記。*",
+      "page_last_edited_at": "2026-09-18T07:47:08.859Z"
+    },
+    {
+      "id": "3b2eda96-228e-81dd-aa5f-f1150d50f139",
+      "title": "Figure 3F 観察チャネル断面と解いた培地屈折率の 1D プロファイル",
+      "url": "https://app.notion.com/p/3b2eda96228e81ddaa5ff1150d50f139?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "Figure 3F 観察チャネル断面と解いた培地屈折率の 1D プロファイル",
+        "Status": "NextAction",
+        "Tag": [
+          "原稿"
+        ],
+        "date:期限:end": "2026-09-18T13:30:00.000Z",
+        "date:期限:is_datetime": 1,
+        "date:期限:start": "2026-09-18T12:45:00.000Z",
+        "url": "https://app.notion.com/p/3b2eda96228e81ddaa5ff1150d50f139",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3b2eda96-228e-81dd-aa5f-f1150d50f139/amJ1Yw"
+      },
+      "body": "Figure 3E の直下に横軸を揃えて置く（allier2019 Fig.3 の型）。\n- 中央行 mid_y = CROP_W//2 = 20\n- 満たすべき条件: 横軸が E の像の横軸と同じ位置・同じ範囲で縦に揃い、どの行の断面かが E 上で特定できる。マスクの帯が E に重ねた輪郭と同じ区間を指す\n- 解いた n の数値は図中に書かず Figure 3G とキャプションに置く\n## 何の図か（仕様書より・2026-09-19 追記）\npanel E の2枚の差分像の中央行に沿った位相差プロファイルと、積算に入る区間。\n**完了条件**: プロファイルの横軸が panel E の像の横軸と同じ位置・同じ範囲で縦に揃い、どの行の断面かが E の上で特定できる。マスクの帯が E に重ねた輪郭と同じ区間を指し、和 S を取った区間が2つの panel の間で一致して読める。\n## 入力\npanel E と同じ（calibrate_[ri.py](http://ri.py) の gs\\[2,0\\] 「Center profile」、mid_y = CROP_W//2 = 20 行目）。プロファイルの数値も npz に残っていないので、同じ delta TIF から取り直す。\n## 作り方\nE と同じ delta TIF から中央行を取り、E の直下に横軸を揃えて置く。図中の凡例は MilliQ / EtOH / mask の3つだけに絞り、解いた n_2% の数値は図中に書かず panel G とキャプションに置く。\n## 前提\n3E と同じ校正データ。完全 CSV には依存しない\n状態: 素材あり。仕様は 8/4–8/6 に書いたもの。9/16 に体積推定を変えた（0.5 px の縮めをやめ直径 3.12 → 3.47 µm）ので、数値とデータのパスは使う前に確かめる。\n出典: `/Users/kitak/Documents/Obsidian Vault/05_Projects/QPI_methods_paper/paper/.harness/pages/panel_spec.json`（fig 3 panel F）",
+      "page_last_edited_at": "2026-09-18T15:30:39.077Z"
+    },
+    {
+      "id": "3b2eda96-228e-8170-8a87-dc9513e57781",
+      "title": "Figure 3G 解いた n（2%・0%）とその差、含意される深さの表",
+      "url": "https://app.notion.com/p/3b2eda96228e81708a87dc9513e57781?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "Figure 3G 解いた n（2%・0%）とその差、含意される深さの表",
+        "Status": "NextAction",
+        "Tag": [
+          "原稿"
+        ],
+        "date:期限:end": "2026-09-18T14:15:00.000Z",
+        "date:期限:is_datetime": 1,
+        "date:期限:start": "2026-09-18T13:30:00.000Z",
+        "url": "https://app.notion.com/p/3b2eda96228e81708a87dc9513e57781",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3b2eda96-228e-8170-8a87-dc9513e57781/amJ1Yw"
+      },
+      "body": "行 = n_MilliQ, n_EtOH, S_MilliQ, S_EtOH, V_tot, n_2%, n_0%, Δn, d。列 = 量・値・単位・出所（文献値か解いた値か）。\n**単一の数だけ載せない。**全視野の和から出す記録値は視野ごとの推定を光学体積で重み付けした平均に厳密に一致するので、外れ視野の効きが見えなくなる。視野ごとのばらつきも表に入れる（根拠は Fig3-S2）。\nn_2% に付ける不確かさは独立を仮定した標準誤差でなく、ブロック相関を入れた値を使う（視野は POS_SPLIT の両側で 2 群に分かれる）。\n## 何の図か（仕様書より・2026-09-19 追記）\n二点校正で与えた参照値と解いた値の表。培地屈折率、その差、校正体積から出る観察チャネルの平均深さ。\n**完了条件**: 与えた参照値（水 1.3312・エタノール 1.3588、658 nm・25 °C）と解いた値（n_2% = 1.335029、n_0% = 1.332744）が同じ表の中で仮定と結果に見分けられ、Δn = 2.285×10⁻³ がその2つの引き算として表の中で閉じる。深さ d が V_tot と総マスク画素数から出た量であることが行の並びから追える。\n## 入力\nn_2per = 1.3350287239189613、total_miliq = −224961.47 rad·px、total_etoh = 1396711.10 rad·px、V_total = 58756252.60、n_miliq = 1.3312、n_etoh = 1.3588 は Drive inbox 2026-04-26/calibrate_ri/20260426T130154Z_32d7d8 の f001.json params。**同じ JSON の n_0per は null** で、n_0% = 1.332744 はこの実行の出力ではなく /Users/kitak/QPI_Omni/scripts/ri_[calibration.py](http://calibration.py) の docstring 例と最終データへの手入力にしか無い（methods 小節9 未確定と一致）。深さ d と総マスク画素数 N_mask は calibrate_[ri.py](http://ri.py) が GRID_2PER_DIR（D:AquisitionDataKitagishi260423grid_2pergluc_1）に書く ri_calibration_results.json にあり、Mac 上には存在しない＝**未特定**（ri_[calibration.py](http://calibration.py) の docstring には channel_depth_um 4.88 という例が載るがコード内の説明文で一次記録ではない）。\n## 作り方\n取得先から ri_calibration_results.json を回収し、active エントリ（0per_gluc_20260426-130154）の n_0per・channel_depth_um・n_mask_pixels・exclusions を読む。0% 培地のエントリが無ければ 0% 培地のグリッドを GRID_0PER_DIR に指定して calibrate_[ri.py](http://ri.py) を走らせ、和と屈折率をログに残す。値が揃ってから表を組む。この校正が本データセット（260517）自身ではなく約3週間前の別セッション（グリッド 260423、液交換 260424、実行 260426）のものである事実を脚注に書くか測り直すかは未決。\n## 前提\n3E・3F のあと。完全 CSV には依存しない。3H の前提\n状態: 新規。仕様は 8/4–8/6 に書いたもの。9/16 に体積推定を変えた（0.5 px の縮めをやめ直径 3.12 → 3.47 µm）ので、数値とデータのパスは使う前に確かめる。\n出典: `/Users/kitak/Documents/Obsidian Vault/05_Projects/QPI_methods_paper/paper/.harness/pages/panel_spec.json`（fig 3 panel G）",
+      "page_last_edited_at": "2026-09-18T15:30:47.237Z"
+    },
+    {
+      "id": "3d0eda96-228e-8106-8964-c97e4b212c74",
+      "title": "修論④ Figure 3E・3F・3G・3H を作る（9/18 21:00– の Figure 3E〜3H 4件に統合。実体はそちら）",
+      "url": "https://app.notion.com/p/3d0eda96228e81068964c97e4b212c74?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "修論④ Figure 3E・3F・3G・3H を作る（9/18 21:00– の Figure 3E〜3H 4件に統合。実体はそちら）",
+        "Status": "Done",
+        "Tag": [
+          "原稿",
+          "QPI"
+        ],
+        "date:期限:end": "2026-09-13T11:15:00.000Z",
+        "date:期限:is_datetime": 1,
+        "date:期限:start": "2026-09-13T11:00:00.000Z",
+        "url": "https://app.notion.com/p/3d0eda96228e81068964c97e4b212c74",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3d0eda96-228e-8106-8964-c97e4b212c74/amJ1Yw"
+      },
+      "body": "日曜。weight（15:00–17:00）と夕食のあと。\n## 消化する期限切れ\n<table header-row=\"true\">\n<tr>\n<td>図</td>\n<td>中身</td>\n<td>元の期限</td>\n</tr>\n<tr>\n<td>Figure 3E</td>\n<td>参照液（水・エタノール）の差分像</td>\n<td>8/20</td>\n</tr>\n<tr>\n<td>Figure 3F</td>\n<td>観察チャネル断面と解いた培地屈折率の 1D プロファイル</td>\n<td>8/20</td>\n</tr>\n<tr>\n<td>Figure 3G</td>\n<td>解いた n（2%・0%）とその差、含意される深さの表</td>\n<td>8/22</td>\n</tr>\n<tr>\n<td>Figure 3H</td>\n<td>誤差を密度へ伝搬した測定床を周期平均密度の分布に重ねる</td>\n<td>8/23</td>\n</tr>\n</table>\n**Figure 3G は 0% グルコースの RI 較正が変わり得る**（wo_0 = 1.332744・2026-09-02 に分子と分母でチャネル集合が違うことが判明）。先にそこを確かめる。\n**stop 23:00。**\n## 2026-09-14 の組み直しで Done\n同じ4枚の図が 9/18 21:00–24:00 に個別タスクとして置いてあるので、こちらは統合として閉じた。図はまだできていない。\n\\*2026-09-14 の組み直しで記録。終了時刻が推定のものは本文に書いてある。\\*",
+      "page_last_edited_at": "2026-09-14T10:04:21.351Z"
+    },
+    {
+      "id": "3b2eda96-228e-811d-943c-c984ee4fe0fd",
+      "title": "参照グリッドの対応表を 32 bit 実数で作り直す（Figure 3B の前提）",
+      "url": "https://app.notion.com/p/3b2eda96228e811d943cc984ee4fe0fd?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "参照グリッドの対応表を 32 bit 実数で作り直す（Figure 3B の前提）",
+        "Status": "NextAction",
+        "Tag": [
+          "QPI"
+        ],
+        "date:期限:end": "2026-09-21T13:00:00.000Z",
+        "date:期限:is_datetime": 1,
+        "date:期限:start": "2026-09-21T12:00:00.000Z",
+        "url": "https://app.notion.com/p/3b2eda96228e811d943cc984ee4fe0fd",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3b2eda96-228e-811d-943c-c984ee4fe0fd/amJ1Yw"
+      },
+      "body": "現行の対応表は入力を 8 bit へ写して作られている。小節8が量子化を外した理由（画像 X 方向に符号の決まった残差がフレームごとに同じ向きへ積算する）が対応表にも掛かるので、本文には 32 bit 経路の値だけを載せると決めた（QPI_Omni #22）。\n- グリッド: `/Volumes/0p0055/260517/grid_2pergluc_2`（8611 ノード、ステップ 0.1 µm）\n- 8 bit との差はノードごとに出して、作り直しが要った根拠にする\n- 同じグリッドの対応表が2世代あり、ステージ→像のスケールが 3 倍食い違う件もここで確定させる",
+      "page_last_edited_at": "2026-09-09T13:43:20.451Z"
+    },
+    {
+      "id": "3b2eda96-228e-817c-9baa-f4a6a9bcbfb8",
+      "title": "屈折率校正の撮影（BSA 濃度系列・参照グリッドと同一セッション・試料温度を記録）",
+      "url": "https://app.notion.com/p/3b2eda96228e817c9baaf4a6a9bcbfb8?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "屈折率校正の撮影（BSA 濃度系列・参照グリッドと同一セッション・試料温度を記録）",
+        "Status": "NextAction",
+        "Tag": [
+          "実験"
+        ],
+        "date:期限:end": "2026-09-29T03:00:00.000Z",
+        "date:期限:is_datetime": 1,
+        "date:期限:start": "2026-09-29T01:00:00.000Z",
+        "url": "https://app.notion.com/p/3b2eda96228e817c9baaf4a6a9bcbfb8",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3b2eda96-228e-817c-9baa-f4a6a9bcbfb8/amJ1Yw"
+      },
+      "body": "論文で報告する校正は本データセット（260517）の材料で撮り直したものだけにする。いま手元にあるのは約3週間前の別セッション（グリッド 260423、液交換 260424）の値。**別セッションを流用した経緯は本文に書かない**（QPI_Omni #21）。\n撮り直しで同時に取るもの:\n1. 視野ごとの n の分布（既存 2 実行では記録値が Δn の 55% 食い違うのに、同じ視野どうしの差の中央値は −7.9×10⁻⁶）\n2. `POS_SPLIT = 53` の両側の段差（既存 2 実行とも中央値 +5.7〜5.8×10⁻⁴＝Δn の 25%、QPI_Omni #20）\n3. **n_0%**（既存 2 実行の json はどちらも `n_0per: null`）\n出力に残すもの: 視野ごとの n、POS_SPLIT の両側それぞれの n と視野数、総マスク画素数 N_mask、和を取った z 面。\n## 2026-09-14 置き直し\n元の予定は 2026-09-13 10:00。9/11–9/14 は Claude Code の使用制限で作業が止まっていて、終わっていなかったので置き直した（本人に一覧で確認済み）。\n顕微鏡は 9/17 17:00 まで本番タイムラプス、9/18 から実験2（〜9/27 17:00）、9/30 から実験3 で埋まっている。空いているのは 9/27 夕方〜9/30 朝だけなので 9/29 午前に仮置き（本人に確認中）。\n2026-09-14 本人「この時期で良いです」。9/29 10:00–12:00 で確定。",
+      "page_last_edited_at": "2026-09-14T10:56:20.886Z"
+    },
+    {
+      "id": "3b2eda96-228e-81f7-8c3b-c8b328936978",
+      "title": "Figure 3C 記録全長のドリフトと補正の有無での比較",
+      "url": "https://app.notion.com/p/3b2eda96228e81f78c3bc8b328936978?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "Figure 3C 記録全長のドリフトと補正の有無での比較",
+        "Status": "Done",
+        "Tag": [
+          "QPI"
+        ],
+        "date:期限:end": "2026-08-14T09:15:00.000Z",
+        "date:期限:is_datetime": 1,
+        "date:期限:start": "2026-08-14T08:00:00.000Z",
+        "url": "https://app.notion.com/p/3b2eda96228e81f78c3bc8b328936978",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3b2eda96-228e-81f7-8c3b-c8b328936978/amJ1Yw"
+      },
+      "body": "参照グリッドが張る範囲 ±0.4 µm を帯で示し、累積変位がその中に収まっていることが読めるようにする。Figure 3B の軸範囲と同じ値に揃える。\n補正前後の比較で見せるか累積変位の時系列だけにするかは未決（Methods §7 の判断）。",
+      "page_last_edited_at": "2026-08-11T07:44:00.721Z"
+    },
+    {
+      "id": "3b9eda96-228e-8117-a80b-f97e1c3d44f2",
+      "title": "Figure 3C の補正なしドリフトは残差の累積和で復元できる",
+      "url": "https://app.notion.com/p/3b9eda96228e8117a80bf97e1c3d44f2?pvs=204",
+      "properties": {
+        "+1": "<omitted />",
+        "Name": "Figure 3C の補正なしドリフトは残差の累積和で復元できる",
+        "Status": "Done",
+        "Tag": [
+          "原稿"
+        ],
+        "date:期限:end": "2026-08-10T13:44:00.000Z",
+        "date:期限:is_datetime": 1,
+        "date:期限:start": "2026-08-10T13:06:00.000Z",
+        "url": "https://app.notion.com/p/3b9eda96228e8117a80bf97e1c3d44f2",
+        "固定": "__NO__",
+        "完了": "<omitted />",
+        "期限切れを今日に": "<omitted />",
+        "締切まで日数": "formulaResult://7fb3f2db-e277-4883-b686-b364b2be9df7/3b9eda96-228e-8117-a80b-f97e1c3d44f2/amJ1Yw"
+      },
+      "body": "補正後は 13 日を通して中央値 0.11–0.14 µm・グリッド内 98–99.6 %。本番の補正ログは先頭 6 点しか残っていないが、ECC ノイズが 3.8 nm なので残差の累積和で復元してよい。\n参照: \\[\\[Figure3Cの補正なしドリフトは残差の累積和で復元できる_2026-08-10\\]\\]",
+      "page_last_edited_at": "2026-08-11T07:40:29.298Z"
+    }
+  ]
+}

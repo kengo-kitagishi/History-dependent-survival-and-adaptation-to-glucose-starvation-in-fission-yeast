@@ -98,7 +98,7 @@ I_{m,n}^{\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-
 と書ける。$J_{m,n}^{\mathrm{non-int}} = |U_{s,m,n}|^2 + |U_{r,m,n}|^2$、$J_{m,n}^{\mathrm{int}} = U_{s,m,n} \cdot U_{r,m,n}^*$ である。
 
 % 2026-09-09 に plot/2 の 2.4（P1〜P5）と paragraph/2 の T/E/I/B から日本語で書いた。英語の旧本文は git の ebf768f 以前にある。
-% 図は figure-hub fig_qpi_reconstruction_overview v003（figure/qpi_fig_01_panel.pdf）。論文 Figure 1C（8/10 確定）に差し替えるなら figure-hub から取る。
+% 2026-09-19: 論文 Figure 1C の4パネル版（2026-08-10確定）を採用。figure-hub: fig_qpi_reconstruction_chain_quad。
 % 円窓の半径は旧本文の (2πNA/λ)·N·Δp から 2π を外した。D_ap = 2⌊(NA/λ)·FOV⌋+1 = 511 と整合するのはこちら。
 
 ホログラム1枚から位相像を得る手順は5段階である（図~\ref{fig:reconstruction}）\cite{takeda1982fourier}。第1に、ホログラム $I^{\mathrm{DH}}_{m,n}$ を2次元離散 Fourier 変換する。式~\eqref{eq:hologram_DH} より、そのスペクトルは
@@ -126,8 +126,8 @@ r_{\mathrm{aperture}} = \frac{\mathrm{NA}}{\lambda} \cdot N \cdot \Delta p
 残るオフセットは細胞の無い領域の平均で除く。位相を光路長差に直すなら $\mathrm{OPD} = \phi\lambda/2\pi$ であるが、以降では位相 $\phi$（rad）のまま扱う。mother machine では細胞のそばに培地だけの領域が残らないので、参照像をどう取るかが問題になる。参照像の取得は \ref{sec:grid_acq} 節で、各フレームにどの参照像を対応させるかは \ref{sec:bgsub} 節で述べる。
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.95\linewidth]{figure/qpi_fig_01_panel.pdf}
-    \caption{ホログラムから位相像までの再構成。左から、生のホログラム、その Fourier スペクトル、$+1$ 次サイドバンドを円窓で切り出したもの、逆 Fourier 変換して得た位相像。}
+    \includegraphics[width=0.95\linewidth]{figure/qpi_reconstruction_chain_quad.pdf}
+    \caption{ホログラムから位相像までの再構成と照明背景の補正。左から、生のホログラム、Fourier スペクトル、選択したサイドバンドの逆 Fourier 変換と位相接続により得た位相像、流路の無い位置で取得した位相像を差し引いた像。Fourier 面の実線円は半径 $\mathrm{NA}/\lambda$ の選択領域、破線円は半径 $2\mathrm{NA}/\lambda$ の非干渉成分の帯域を示す。右端の像にも流路の位相は残っており、参照グリッドを用いた流路背景の除去は \ref{sec:bgsub} 節で述べる。スケールバーは 30 μm。カラーバーは右端の像の位相（rad）を示す。}
     \label{fig:reconstruction}
 \end{figure}
 
