@@ -240,8 +240,8 @@ mother machine はP. Wang らによって発表されたマイクロ流体デバ
 は大腸菌の計測に用いられていた[94, 97, 99, 100, 101, 102] が、現在では枯草菌(Bacillus Subtilis)[103]、酵母(Schizosaccharomyces Pombe)[104]、培養細胞[105] などにも用いられている。また、mother machine を応用した類似の形状のデバイスも多く作られるなど発展を続けている[106, 107, 108]。
 \begin{figure}[H]
     \centering
-    \includegraphics[width=55mm]{figure/MotherMachine_schematic_2D_cellLoaded.pdf}
-    \caption{mother machine の構造。培地は主流路を矢印の向きに流れる。観察チャネルは主流路に垂直な行き止まりで、細胞が1列に入る。閉端の母細胞はとどまり、娘細胞は主流路へ押し出されて流される。}
+    \includegraphics[width=80mm]{figure/MotherMachine_schematic_2D_motherCell.pdf}
+    \caption{mother machine の構造。培地は主流路を矢印の向きに流れる。観察チャネルは主流路に垂直な行き止まりで、細胞が1列に入る。閉端の母細胞（mother cell）はとどまり、娘細胞は主流路へ押し出されて流される。}
     \label{fig:mm_schematic}
 \end{figure}
 
@@ -323,7 +323,14 @@ Hsp104-GFP 株の記録では、各ホログラムと同時に蛍光像を顕微
 \subsection{体積と乾燥質量の算出}
 \label{sec:drymass}
 
-各マスクの輪郭を楕円 Fourier 記述子で平滑化し、平滑化した輪郭から中心線（medial axis）を取った。中心線に垂直な方向の幅を軸に沿った各点で測り、細胞長は中心線の弧長、細胞幅は両端を除いた中央部の幅の平均とした。体積は中心線の周りの回転対称を仮定し、各断面の体積を足し合わせて求めた。
+各マスクの輪郭を楕円 Fourier 記述子で平滑化し（図~\ref{fig:analysis_pipeline}上）、平滑化した輪郭から中心線（medial axis）を取った。中心線に垂直な方向の幅を軸に沿った各点で測り（図~\ref{fig:analysis_pipeline}下）、細胞長は中心線の弧長、細胞幅は両端を除いた中央部の幅の平均とした。体積は中心線の周りの回転対称を仮定し、各断面の体積を足し合わせて求めた。
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{figure/segmentation_Pos70_ch06_contours_14frames.pdf}\\[2mm]
+    \includegraphics[width=0.315\linewidth]{figure/segmentation_Pos70_ch06_frame350_skeleton.pdf}
+    \caption{細胞の輪郭と形状の計測。上: 1つの細胞の1周期（130 分間）の位相像を 10 分間隔で並べた。水色の線は楕円 Fourier 記述子で平滑化した輪郭である。スケールバー 5 μm。下: 同じ観察チャネルの、上の 60 分の時点の位相像（左）と、各細胞の平滑化した輪郭（水色）、中心線（赤）、中心線に垂直な方向の幅（灰色）（右）。縮尺と位相の色の割り当ては上と同じである。}
+    \label{fig:analysis_pipeline}
+\end{figure}
 
 各細胞の乾燥質量濃度 $C$ は Barer\cite{barer1952interference}に従い、
 \begin{equation}

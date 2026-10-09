@@ -137,7 +137,7 @@
 - 今ある素材: `QPI_Omni/scripts/_measure_offaxis_260405.py`、`qpi_fig_02_visibility.py` の FFT パネル。
 
 ### fig:mm_schematic — mother machine の構造［済］
-- 置く場所: 2.4.1 P1。既存のまま。
+- 置く場所: 2.4.1 P1。2026-10-09 に Figma（`Wi7lA0hALWZsmPYlf7ZEqr` の 10:2）の版に差し替えた: チャネルを主流路の上側だけにし、閉端の細胞に「mother cell」の文字を付けた版。ファイルは `figure/MotherMachine_schematic_2D_motherCell.pdf`。
 
 ### fig:mm_layout — 寸法・断面・実物［改・中］
 - 問い: 観察チャネルと主流路の寸法はいくつで、分裂酵母の径とどう対応しているのか。設計どおりにできたのか。
@@ -177,6 +177,7 @@
 ### fig:analysis_pipeline — 解析の流れ［改・高］
 - 問い: 位相像から細胞1個の体積・乾燥質量・密度をどう出し、分裂をどう見つけているのか。
 - 置く場所: 2.6.3 P4 で (c)、2.6.4 P5–P6 で (a)(b) を引く。図は 2.6.3 の後に置く。
+- 2026-10-09 の状態: Figma（`0k3j26AC0dScYMLCeFvjgM`）で作った2枚を 2.6.4 の第1段落の後に入れた。上は Pos70 ch06 の frame 338–364 を2枚に1枚並べた14枚に楕円 Fourier の輪郭を重ねたもの（42:5、`figure/segmentation_Pos70_ch06_contours_14frames.pdf`）、下は frame 350 の位相像と輪郭・中心線・幅（341:127、`figure/segmentation_Pos70_ch06_frame350_skeleton.pdf`）。Omnipose のマスク、断面の積み上げの体積、(c) の面積の時系列と分裂時刻はまだ入っていない。
 - 先行図: 橋本 図2.15（p.32）・図2.18（p.35）、野添 図4.4（p.94）・図4.5（p.95）、福神 48143 図3.17（p.39）、杉山 2006619 図2.15（p.45）、神野 6241 図2.7（p.38）。
 - パネル: (a) 背景差分後の位相像 → Omnipose のマスク → 楕円 Fourier の輪郭 → 中心線と各点の幅 → 断面の積み上げの体積。(b) 1細胞の1周期の輪郭の並び。(c) 母細胞の面積の時系列と、隣接2マスクの面積和で判定した分裂時刻の縦線。
 - 必要なデータ: 系譜 CSV（`~/QPI_Omni/results/260517/phase1_2per_7days/per_cell_data/<group>/<Pos>_<ch>/lineage_data3D.csv`: area_um2、volume_um3_rod、mass_pg、time_h、birth/death_frame）。(a) 用に1細胞の輪郭と位相像。
