@@ -323,13 +323,13 @@ Hsp104-GFP 株の記録では、各ホログラムと同時に蛍光像を顕微
 \subsection{体積と乾燥質量の算出}
 \label{sec:drymass}
 
-背景差分後の位相像（図~\ref{fig:analysis_pipeline}上）の各マスクの輪郭を楕円 Fourier 記述子で平滑化し、平滑化した輪郭から中心線（medial axis）を取った（図~\ref{fig:analysis_pipeline}中）。中心線に垂直な方向の幅を軸に沿った各点で測り、細胞長は中心線の弧長、細胞幅は両端を除いた中央部の幅の平均とした。体積は中心線の周りの回転対称を仮定し、各断面の体積を足し合わせて求めた（図~\ref{fig:analysis_pipeline}下）。
+背景差分後の位相像（図~\ref{fig:analysis_pipeline}上）の各マスクの輪郭を楕円 Fourier 記述子で平滑化し、平滑化した輪郭から中心線（medial axis）を取った（図~\ref{fig:analysis_pipeline}下の中央）。中心線に垂直な方向の幅を軸に沿った各点で測り、細胞長は中心線の弧長、細胞幅は両端を除いた中央部の幅の平均とした。体積は中心線の周りの回転対称を仮定し、各断面の体積を足し合わせて求めた（図~\ref{fig:analysis_pipeline}下の右）。
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\linewidth]{figure/segmentation_Pos70_ch06_phase_14frames.pdf}\\[2mm]
-    \includegraphics[width=0.334\linewidth]{figure/segmentation_Pos70_ch06_frame350_skeleton.pdf}\\[2mm]
-    \includegraphics[width=0.6\linewidth]{figure/segmentation_Pos70_ch06_frame350_disks3D.pdf}
-    \caption{細胞の輪郭と形状の計測。上: 1つの細胞の1周期（130 分間）の位相像を 10 分間隔で並べた。スケールバー 5 μm。中: 同じ観察チャネルの、上の 60 分の時点の位相像（左）と、各細胞の楕円 Fourier 記述子で平滑化した輪郭（水色）、中心線（赤）、中心線に垂直な方向の幅（灰色）（右）。縮尺と位相の色の割り当ては上と同じである。下: 中の3細胞を、各点の幅を直径とする円板を中心線に沿って重ねた立体として、横に倒した向きで描いた。体積はこれらの円板の体積の和である。縮尺は上、中と異なる。}
+    \includegraphics[width=0.334\linewidth]{figure/segmentation_Pos70_ch06_frame350_skeleton.pdf}\hspace{0.03\linewidth}%
+    \raisebox{0.011\linewidth}{\includegraphics[angle=90,height=0.40\linewidth]{figure/segmentation_Pos70_ch06_frame350_disks3D.pdf}}
+    \caption{細胞の輪郭と形状の計測。上: 1つの細胞の1周期（130 分間）の位相像を 10 分間隔で並べた。スケールバー 5 μm。下: 同じ観察チャネルの、上の 60 分の時点の3細胞。左は位相像で、縮尺と位相の色の割り当ては上と同じである。中央は各細胞の楕円 Fourier 記述子で平滑化した輪郭（水色）、中心線（赤）、中心線に垂直な方向の幅（灰色）。右は同じ3細胞を、各点の幅を直径とする円板を中心線に沿って重ねた立体として、左、中央と同じ向きで描いた。体積はこれらの円板の体積の和である。}
     \label{fig:analysis_pipeline}
 \end{figure}
 
