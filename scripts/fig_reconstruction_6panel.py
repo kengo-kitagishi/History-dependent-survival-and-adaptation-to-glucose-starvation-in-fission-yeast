@@ -53,8 +53,9 @@ corr = arr["phase_background_subtracted"].astype(np.float64)
 corr -= np.median(corr)               # 定数の位相オフセットを除く（表示用）
 
 # ---- 配置（pt） ----
-plt.rcParams.update({"font.family": "Arial", "font.size": 20, "pdf.fonttype": 42, "svg.fonttype": "none"})
-P, GAP, TOP, ROWGAP, M = 133, 64, 27, 56, (26 if args.letters else 14)   # 記号を付けると見出しが長くなるので左右の余白を広げる
+plt.rcParams.update({"font.family": "Arial", "font.size": 20, "pdf.fonttype": 42, "svg.fonttype": "none",
+                     "mathtext.fontset": "custom", "mathtext.bf": "Arial:bold", "mathtext.rm": "Arial"})
+P, GAP, TOP, ROWGAP, M = 133, 64, 27, 56, (32 if args.letters else 14)   # 記号を付けると見出しが長くなるので左右の余白を広げる
 CBG, CBW, CBL, BM = 8, 9, 58, 10              # カラーバー: パネルとの隙間・幅・目盛りの文字の幅（パネルの外に置く）
 W = 2 * M + 3 * P + 2 * GAP + CBG + CBW + CBL
 X0 = M + (CBG + CBW + CBL if args.layout == "snake" else 0)   # snake は Corrected phase が左下なので左に場所を空ける
