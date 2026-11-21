@@ -138,6 +138,13 @@
 % 2026-11-21: 本文が和文なので、図表の番号の前の言葉を Figure / Table から 図 / 表 にした（石金・菅原 修論と同じ）。
 \renewcommand{\figurename}{図}
 \renewcommand{\tablename}{表}
+% 2026-11-21: 章の見出し・目次・参考文献・謝辞も和文にした（Chapter 2 → 第2章）。
+\renewcommand{\contentsname}{目次}
+\renewcommand{\bibname}{参考文献}
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\@makechapterhead}{\@chapapp\space \thechapter}{第\thechapter 章}{}{\PackageWarning{thesis}{chapter head patch failed}}
+\makeatother
 \begin{document}
 	\maketitle
     \clearpage
@@ -157,7 +164,7 @@
 % 2026-11-21 本人: 付録（マイクロ流路デバイス作製の詳細手順、AppendixC.tex）は要らないので外した。ファイルは git の履歴にある。
 	\bibliographystyle{unsrt}
 	\bibliography{bibliography}
-	\addcontentsline{toc}{chapter}{Bibliography}
+	\addcontentsline{toc}{chapter}{参考文献}
     \input{Acknowledgement}
- 	\addcontentsline{toc}{chapter}{Acknowledgement}
+ 	\addcontentsline{toc}{chapter}{謝辞}
 \end{document}
