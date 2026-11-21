@@ -8,7 +8,7 @@ Sideband cropped → Sideband centred を矢印でつなぐ。つなぎ方は2�
 （fftshift(fft2) → 中心 (1638, 439)・直径 511 px の円板で切る → 511×511 を ifftshift → ifft2 → angle → unwrap）。
 単位は pt（1 px = 1 pt）。
 修論の図（2026-11-21 本人が選んだ形）:
-  python scripts/fig_reconstruction_6panel.py --layout elbow --letters --out figure/qpi_reconstruction_chain_6panel
+  python scripts/fig_reconstruction_6panel.py --layout elbow --letters --lang ja --out figure/qpi_reconstruction_chain_6panel
 """
 import argparse
 import pathlib
@@ -27,6 +27,7 @@ ap.add_argument("--zoom-pos", choices=["mirror", "diag", "below", "left"], defau
 ap.add_argument("--zoom-lines", action="store_true", help="橙の小枠と拡大の対応する角を白い線で結ぶ")
 ap.add_argument("--bar-text", action="store_true", help="スケールバーに 30 µm・1 µm の文字を書く（修論では書かずキャプションに書く）")
 ap.add_argument("--letters", action="store_true", help="パネルの見出しの前に太字の a〜f を付ける（修論のキャプションはこの記号で指す）")
+ap.add_argument("--lang", choices=["en", "ja"], default="en", help="見出し・矢印・色の目盛りの言葉（修論は ja）")
 ap.add_argument("--out", required=True, help="拡張子なしの出力先（.png と .pdf を書く）")
 args = ap.parse_args()
 
@@ -53,7 +54,8 @@ corr = arr["phase_background_subtracted"].astype(np.float64)
 corr -= np.median(corr)               # 定数の位相オフセットを除く（表示用）
 
 # ---- 配置（pt） ----
-plt.rcParams.update({"font.family": "Arial", "font.size": 20, "pdf.fonttype": 42, "svg.fonttype": "none",
+# 和文は Arial に無いので、後ろの書体で補う（Mac は Hiragino Sans、Windows は Meiryo）
+plt.rcParams.update({"font.family": ["Arial", "Hiragino Sans", "Meiryo", "Yu Gothic"], "font.size": 20, "pdf.fonttype": 42, "svg.fonttype": "none",
                      "mathtext.fontset": "custom", "mathtext.bf": "Arial:bold", "mathtext.rm": "Arial"})
 P, GAP, TOP, ROWGAP, M = 133, 64, 27, 56, (32 if args.letters else 14)   # 記号を付けると見出しが長くなるので左右の余白を広げる
 CBG, CBW, CBL, BM = 8, 9, 58, 10              # カラーバー: パネルとの隙間・幅・目盛りの文字の幅（パネルの外に置く）
@@ -75,7 +77,12 @@ TF, AF, CF = 20, 20, 15
 cols2 = [2, 1, 0] if args.layout == "snake" else [0, 1, 2]   # 2段目の列の並び
 pos = [(0, 0), (1, 0), (2, 0)] + [(cols2[i], 1) for i in range(3)]
 gray = matplotlib.colormaps["gray"].copy(); gray.set_bad("black")
-titles = ["Hologram", "Fourier transform", "Sideband cropped", "Sideband centred", "Phase", "Corrected phase"]
+JA = args.lang == "ja"
+titles = (["ホログラム", "Fourier 変換", "切り出した成分", "原点へ移した成分", "位相", "背景を引いた位相"] if JA else
+          ["Hologram", "Fourier transform", "Sideband cropped", "Sideband centred", "Phase", "Corrected phase"])
+L_FT, L_CROP, L_SHIFT, L_IFT, L_REF = (("Fourier\n変換", "切り出し", "原点へ移す", "Fourier\n逆変換", "背景を\n引く") if JA else
+                                       ("FT", "crop", "shift", "IFT", "− ref."))
+AFJ = 14 if JA else 20              # 矢印の上の言葉の大きさ（和文は2行になるので小さくする）
 axes = [ax_at(cl, rw) for cl, rw in pos]
 axes[0].imshow(raw, cmap="gray", vmin=40, vmax=1500, interpolation="lanczos")
 for a, img in zip(axes[1:4], [logF, cropped, centred]):
@@ -84,7 +91,17 @@ axes[4].imshow(ph, cmap="viridis", vmin=-60, vmax=2, interpolation="nearest")
 im5 = axes[5].imshow(corr, cmap="viridis", vmin=-3, vmax=1, interpolation="nearest")
 for a, t, k in zip(axes, titles, "abcdef"):
     a.set_xticks([]); a.set_yticks([])
-    a.set_title((r"$\mathbf{%s}$  " % k if args.letters else "") + t, fontsize=TF, pad=4)
+    ti = a.set_title(t, fontsize=TF, pad=4)
+    if args.letters:
+        fig.canvas.draw()
+        bb = ti.get_window_extent()
+        dx = 0.011                                   # 記号の分だけ見出しを右へ寄せる（figure 座標）
+        ti.set_position((0.5 + dx * W / P, 1.0))
+        fig.canvas.draw()
+        bb = ti.get_window_extent()
+        x_fig, _ = fig.transFigure.inverted().transform((bb.x0, bb.y0))
+        y_fig = (fig.transFigure.inverted().transform(a.transAxes.transform((0, 1)))[1]) + 4 / Hh
+        fig.text(x_fig - 0.012, y_fig, k, fontsize=TF, fontweight="bold", ha="right", va="baseline")
 
 # Fourier 面: 選んだ側波帯（実線、半径 NA/λ）と 0 次の範囲（破線、半径 2NA/λ）
 axes[1].add_patch(Circle((CX, CY), AP / 2, fill=False, ec="white", lw=2))
@@ -127,7 +144,7 @@ cb = fig.colorbar(im5, cax=cax, ticks=[-3, -2, -1, 0, 1])
 cb.ax.tick_params(labelsize=CF, length=3)
 side = "left" if args.layout == "snake" else "right"
 cax.yaxis.set_ticks_position(side); cax.yaxis.set_label_position(side)
-cb.set_label("Phase (rad)", fontsize=CF, rotation=90 if side == "left" else 270, labelpad=2 if side == "left" else 16)
+cb.set_label("位相 (rad)" if JA else "Phase (rad)", fontsize=CF, rotation=90 if side == "left" else 270, labelpad=2 if side == "left" else 16)
 
 # ---- 矢印 ----
 def f(p):                              # pt → figure 座標
@@ -144,24 +161,25 @@ def h_arrow(col_from, col_to, y, label):
     else:
         a, b = xs[col_from] - 8, xs[col_to] + P + 8
     arrow_path([(a, y), (b, y)])
-    fig.text((a + b) / 2 / W, (y + 14) / Hh, label, ha="center", va="bottom", fontsize=AF)
+    fig.text((a + b) / 2 / W, (y + 14) / Hh, label, ha="center", va="bottom" if "\n" in label else "baseline",
+             fontsize=AFJ, linespacing=1.05)
 
-h_arrow(0, 1, yc[0], "FT")
-h_arrow(1, 2, yc[0], "crop")
-h_arrow(cols2[0], cols2[1], yc[1], "IFT")
-h_arrow(cols2[1], cols2[2], yc[1], "− ref.")
+h_arrow(0, 1, yc[0], L_FT)
+h_arrow(1, 2, yc[0], L_CROP)
+h_arrow(cols2[0], cols2[1], yc[1], L_IFT)
+h_arrow(cols2[1], cols2[2], yc[1], L_REF)
 
 y_start = y_bot0 - 4                  # Sideband cropped の下端のすぐ下
 y_end = y_top1 + TOP - 2              # Sideband centred の見出しのすぐ上
 xr = xs[2] + P / 2
 if args.layout == "snake":
     arrow_path([(xr, y_start), (xr, y_end)])
-    fig.text((xr + 8) / W, (y_start + y_end) / 2 / Hh, "shift", ha="left", va="center", fontsize=AF)
+    fig.text((xr + 8) / W, (y_start + y_end) / 2 / Hh, L_SHIFT, ha="left", va="center", fontsize=AFJ)
 else:
     ym = y_bot0 - ROWGAP / 2
     xl = xs[0] + P / 2
     arrow_path([(xr, y_start), (xr, ym), (xl, ym), (xl, y_end)])
-    fig.text((xs[1] + P + GAP / 2) / W, (ym + 3) / Hh, "shift", ha="center", va="bottom", fontsize=AF)
+    fig.text((xs[1] + P + GAP / 2) / W, (ym + 6) / Hh, L_SHIFT, ha="center", va="baseline", fontsize=AFJ)
 
 out = pathlib.Path(args.out)
 out.parent.mkdir(parents=True, exist_ok=True)
