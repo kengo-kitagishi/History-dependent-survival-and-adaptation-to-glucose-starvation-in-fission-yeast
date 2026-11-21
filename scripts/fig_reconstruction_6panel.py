@@ -87,8 +87,10 @@ patch = raw[y0:y0 + s, x0:x0 + s]
 ins.imshow(patch, cmap="gray", interpolation="nearest", vmin=np.percentile(patch, 1), vmax=np.percentile(patch, 99))
 ins.set_xticks([]); ins.set_yticks([])
 for sp in ins.spines.values(): sp.set_edgecolor("#ffd166"); sp.set_linewidth(2)
-axes[0].add_patch(Rectangle((90, N - 150), 30 / PX_RAW, 28, color="white"))
-axes[0].text(90, N - 190, "30 µm", color="white", fontsize=10, fontweight="bold")
+# 30 µm のスケールバー: 左端のチャネルと右下の拡大に重ならない右上に置く（実空間の3枚に共通の縮尺）
+bar = 30 / PX_RAW
+axes[0].add_patch(Rectangle((N - 90 - bar, 260), bar, 28, color="white"))
+axes[0].text(N - 90 - bar / 2, 230, "30 µm", color="white", fontsize=10, fontweight="bold", ha="center", va="bottom")
 ins.add_patch(Rectangle((3, s - 6), 1 / PX_RAW, 2.2, color="white"))
 ins.text(3, s - 9, "1 µm", color="white", fontsize=8.5, fontweight="bold")
 
