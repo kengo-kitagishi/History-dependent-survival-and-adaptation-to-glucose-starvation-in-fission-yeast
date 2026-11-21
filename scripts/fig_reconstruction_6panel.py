@@ -8,7 +8,7 @@ Sideband cropped → Sideband centred を矢印でつなぐ。つなぎ方は2�
 （fftshift(fft2) → 中心 (1638, 439)・直径 511 px の円板で切る → 511×511 を ifftshift → ifft2 → angle → unwrap）。
 単位は pt（1 px = 1 pt）。
 修論の図（2026-11-21 本人が選んだ形）:
-  python scripts/fig_reconstruction_6panel.py --layout elbow --out figure/qpi_reconstruction_chain_6panel
+  python scripts/fig_reconstruction_6panel.py --layout elbow --letters --out figure/qpi_reconstruction_chain_6panel
 """
 import argparse
 import pathlib
@@ -26,6 +26,7 @@ ap.add_argument("--zoom-pos", choices=["mirror", "diag", "below", "left"], defau
                 help="橙の小枠の位置: mirror=ポスター（拡大が右下・小枠 (1060, 980)）を上下に反転した位置、diag=拡大の左下、below=拡大の真下、left=拡大の真左")
 ap.add_argument("--zoom-lines", action="store_true", help="橙の小枠と拡大の対応する角を白い線で結ぶ")
 ap.add_argument("--bar-text", action="store_true", help="スケールバーに 30 µm・1 µm の文字を書く（修論では書かずキャプションに書く）")
+ap.add_argument("--letters", action="store_true", help="パネルの見出しの前に太字の a〜f を付ける（修論のキャプションはこの記号で指す）")
 ap.add_argument("--out", required=True, help="拡張子なしの出力先（.png と .pdf を書く）")
 args = ap.parse_args()
 
@@ -53,7 +54,7 @@ corr -= np.median(corr)               # 定数の位相オフセットを除く�
 
 # ---- 配置（pt） ----
 plt.rcParams.update({"font.family": "Arial", "font.size": 20, "pdf.fonttype": 42, "svg.fonttype": "none"})
-P, GAP, TOP, ROWGAP, M = 133, 64, 27, 56, 14
+P, GAP, TOP, ROWGAP, M = 133, 64, 27, 56, (26 if args.letters else 14)   # 記号を付けると見出しが長くなるので左右の余白を広げる
 CBG, CBW, CBL, BM = 8, 9, 58, 10              # カラーバー: パネルとの隙間・幅・目盛りの文字の幅（パネルの外に置く）
 W = 2 * M + 3 * P + 2 * GAP + CBG + CBW + CBL
 X0 = M + (CBG + CBW + CBL if args.layout == "snake" else 0)   # snake は Corrected phase が左下なので左に場所を空ける
@@ -80,9 +81,9 @@ for a, img in zip(axes[1:4], [logF, cropped, centred]):
     a.imshow(img, cmap=gray, vmin=10, vmax=21.5, interpolation="lanczos")
 axes[4].imshow(ph, cmap="viridis", vmin=-60, vmax=2, interpolation="nearest")
 im5 = axes[5].imshow(corr, cmap="viridis", vmin=-3, vmax=1, interpolation="nearest")
-for a, t in zip(axes, titles):
+for a, t, k in zip(axes, titles, "abcdef"):
     a.set_xticks([]); a.set_yticks([])
-    a.set_title(t, fontsize=TF, pad=4)
+    a.set_title((r"$\mathbf{%s}$  " % k if args.letters else "") + t, fontsize=TF, pad=4)
 
 # Fourier 面: 選んだ側波帯（実線、半径 NA/λ）と 0 次の範囲（破線、半径 2NA/λ）
 axes[1].add_patch(Circle((CX, CY), AP / 2, fill=False, ec="white", lw=2))
