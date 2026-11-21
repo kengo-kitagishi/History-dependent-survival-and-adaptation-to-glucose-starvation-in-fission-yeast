@@ -47,10 +47,13 @@ corr -= np.median(corr)               # 定数の位相オフセットを除く�
 
 # ---- 配置（pt） ----
 plt.rcParams.update({"font.family": "Arial", "font.size": 20, "pdf.fonttype": 42, "svg.fonttype": "none"})
-W, P, GAP, TOP, ROWGAP, M = 555, 133, 64, 27, 56, 14
+P, GAP, TOP, ROWGAP, M = 133, 64, 27, 56, 14
+CBG, CBW, CBL = 8, 9, 40               # カラーバー: パネルとの隙間・幅・目盛りの文字の幅（パネルの外に置く）
+W = 2 * M + 3 * P + 2 * GAP + CBG + CBW + CBL
+X0 = M + (CBG + CBW + CBL if args.layout == "snake" else 0)   # snake は Corrected phase が左下なので左に場所を空ける
 Hh = 2 * (TOP + P) + ROWGAP
 fig = plt.figure(figsize=(W / 72, Hh / 72))
-xs = [M, M + P + GAP, M + 2 * (P + GAP)]
+xs = [X0, X0 + P + GAP, X0 + 2 * (P + GAP)]
 y_top0 = Hh - TOP                     # 1段目のパネル上端
 y_bot0 = Hh - TOP - P                 # 1段目のパネル下端
 y_top1 = y_bot0 - ROWGAP - TOP        # 2段目のパネル上端
@@ -79,27 +82,31 @@ for a, t in zip(axes, titles):
 axes[1].add_patch(Circle((CX, CY), AP / 2, fill=False, ec="white", lw=2))
 axes[1].add_patch(Circle((N / 2, N / 2), AP, fill=False, ec="white", lw=2, ls=(0, (4, 2))))
 
-# ホログラム: 縞が見える拡大（48 px ≈ 4 µm 四方）
-x0, y0, s = 1060, 980, 48
+# ホログラム: 縞が見える拡大（48 px ≈ 4 µm 四方）。拡大は右上
+x0, y0, s = 1000, 1400, 48           # 元の位置: 右上の拡大・右下のスケールバーと重ならない所
 axes[0].add_patch(Rectangle((x0, y0), s, s, fill=False, ec="#ffd166", lw=1.6))
-ins = axes[0].inset_axes([0.52, 0.02, 0.46, 0.46])
+ins = axes[0].inset_axes([0.52, 0.52, 0.46, 0.46])   # 拡大は右上
 patch = raw[y0:y0 + s, x0:x0 + s]
 ins.imshow(patch, cmap="gray", interpolation="nearest", vmin=np.percentile(patch, 1), vmax=np.percentile(patch, 99))
 ins.set_xticks([]); ins.set_yticks([])
 for sp in ins.spines.values(): sp.set_edgecolor("#ffd166"); sp.set_linewidth(2)
-# 30 µm のスケールバー: 左端のチャネルと右下の拡大に重ならない右上に置く（実空間の3枚に共通の縮尺）
+# 30 µm のスケールバー: 右下（左端のチャネル・右上の拡大と重ならない）（実空間の3枚に共通の縮尺）
 bar = 30 / PX_RAW
-axes[0].add_patch(Rectangle((N - 90 - bar, 260), bar, 28, color="white"))
-axes[0].text(N - 90 - bar / 2, 230, "30 µm", color="white", fontsize=10, fontweight="bold", ha="center", va="bottom")
+axes[0].add_patch(Rectangle((N - 90 - bar, N - 130), bar, 28, color="white"))
+axes[0].text(N - 90 - bar / 2, N - 160, "30 µm", color="white", fontsize=10, fontweight="bold", ha="center", va="bottom")
 ins.add_patch(Rectangle((3, s - 6), 1 / PX_RAW, 2.2, color="white"))
 ins.text(3, s - 9, "1 µm", color="white", fontsize=8.5, fontweight="bold")
 
 # 色の目盛り（Corrected phase の右下）
-cax = axes[5].inset_axes([0.86, 0.06, 0.07, 0.34])
-cb = fig.colorbar(im5, cax=cax, ticks=[-3, 1]); cb.ax.tick_params(labelsize=CF, colors="white", length=0)
-cb.outline.set_edgecolor("white")
-cax.text(0.5, 1.22, "rad", transform=cax.transAxes, ha="center", va="bottom", fontsize=CF, color="white")
-cax.yaxis.set_ticks_position("left")
+# 色の目盛り: Corrected phase の外側（snake は左、elbow は右）に、パネルと同じ高さで置く
+x5 = xs[cols2[2]]
+cbx = x5 - CBG - CBW if args.layout == "snake" else x5 + P + CBG
+cax = fig.add_axes([cbx / W, (y_top1 - P) / Hh, CBW / W, P / Hh])
+cb = fig.colorbar(im5, cax=cax, ticks=[-3, -2, -1, 0, 1])
+cb.ax.tick_params(labelsize=CF, length=3)
+side = "left" if args.layout == "snake" else "right"
+cax.yaxis.set_ticks_position(side); cax.yaxis.set_label_position(side)
+cax.text(0.5, 1.03, "rad", transform=cax.transAxes, ha="center", va="bottom", fontsize=CF)
 
 # ---- 矢印 ----
 def f(p):                              # pt → figure 座標
