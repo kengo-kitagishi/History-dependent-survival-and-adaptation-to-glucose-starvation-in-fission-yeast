@@ -16,18 +16,18 @@
 
 \subsection{細胞質の乾燥質量密度と既存の計測法}
 
-細胞質の乾燥質量密度、すなわち細胞質の非水成分の濃度は、細胞内の拡散、反応速度、相分離に影響する\cite{ellis2001crowding,delarue2018mtorc1,molines2022cytoplasm}。集団の平均で見ると、密度は増殖速度が数倍変わっても一定に保たれる\cite{kubitschek1984independence,kubitschek1985buoyant}。一方、1細胞の水準では生合成と体積成長が脱共役しうる。G1 期に停止させた出芽酵母は大きく成長して細胞質が希釈され\cite{neurohr2019excessive}、分裂酵母では体積成長を一時的に止めると密度が上がる\cite{knapp2019decoupling}。通常の細胞周期の進行でも密度は変わる\cite{odermatt2021variations,zlotekzlotkiewicz2015optical}。それでも、同じ条件にある細胞どうしの密度の差は数\%にとどまる\cite{oldewurtel2021robust,odermatt2021variations,liu2022uniformity}。第3章で扱うグルコース飢餓下の密度変化を1細胞で捉えるには、この数\%の差を分解する精度で、同じ細胞を数日にわたって測り続ける計測が必要である。
+細胞質の乾燥質量密度、すなわち細胞質の非水成分の濃度は、細胞内の拡散、反応速度、相分離に影響する\cite{ellis2001crowding,delarue2018mtorc1,molines2022cytoplasm}。集団の平均で見ると、密度は増殖速度が数倍変わっても一定に保たれる\cite{kubitschek1984independence,kubitschek1985buoyant}。一方、1細胞の水準では生合成と体積成長が脱共役しうる。G1 期に停止させた出芽酵母は大きく成長して細胞質が希釈され\cite{neurohr2019excessive}、分裂酵母では体積成長を一時的に止めると密度が上がる\cite{knapp2019decoupling}。通常の細胞周期の進行でも密度は変わる\cite{odermatt2021variations,zlotekzlotkiewicz2015optical}。それでも、同じ条件にある細胞どうしの密度の差は数\%にとどまる\cite{oldewurtel2021robust,odermatt2021variations,liu2022uniformity}。第3章で扱うグルコース飢餓下の密度変化を1細胞で測るには、この数\%の差を分解する精度で、同じ細胞を数日にわたって測り続ける計測が必要である。
 
 屈折率は分子濃度の指標である。溶液の屈折率 $n$ は溶質の質量濃度 $C$ に対して $n = n_0 + \alpha C$ と線形に増える。比例係数 $\alpha$（屈折率増分）はタンパク質と核酸でほぼ共通の値 $0.18$〜$0.19~\mathrm{mL/g}$ をとり、細胞内の濃度範囲で線形性が保たれる\cite{barer1952interference,barer1954refractive,zhao2011distribution,zangle2014live}。したがって、細胞と培地の屈折率差を測れば、細胞質の乾燥質量濃度が求まる。
 
-1細胞の密度を測る方法には次のものがある。浮遊密度は Percoll などの密度勾配遠心で測る\cite{woldringh1981variation,kubitschek1985buoyant,bryan2010measurement}。集団を分画する測定なので同じ細胞の時系列は得られず、遠心と勾配媒体が細胞の環境を変える。懸濁マイクロチャネル共振器（SMR）は1細胞の浮遊質量を高い精度で測り、密度の異なる2種類の液中での測定から密度を求める\cite{grover2011measuring,bryan2010measurement}。細胞を流路に流して測るので、同じ細胞を数日追うことには向かない。蛍光排除法は体積を測る方法で、質量の測定と組み合わせて密度を出す\cite{zlotekzlotkiewicz2015optical}が、培地に蛍光色素を加える必要がある。ラマン散乱を用いる方法は分子種ごとの濃度を無標識で与える\cite{oh2022protein}が、装置と取得時間の点で、多数の視野を数分間隔で数日撮る用途には向かない。
+1細胞の密度を測る方法には次のものがある。浮遊密度は Percoll などの密度勾配遠心で測る\cite{woldringh1981variation,kubitschek1985buoyant,bryan2010measurement}。集団を分画する測定なので同じ細胞の時系列は得られず、遠心と勾配媒体が細胞の環境を変える。懸濁マイクロチャネル共振器（SMR）は1細胞の浮遊質量を高い精度で測り、密度の異なる2種類の液中での測定から密度を求める\cite{grover2011measuring,bryan2010measurement}。細胞を流路に流して測るので、同じ細胞を数日測り続けることには向かない。蛍光排除法は体積を測る方法で、質量の測定と組み合わせて密度を求める\cite{zlotekzlotkiewicz2015optical}が、培地に蛍光色素を加える必要がある。ラマン散乱を用いる方法では分子種ごとの濃度が無標識で得られる\cite{oh2022protein}が、装置と取得時間の点で、多数の視野を数分間隔で数日撮る用途には向かない。
 
-定量位相イメージング（QPI）は、細胞を透過した光の位相遅れ $\Delta\phi = (2\pi/\lambda)\int (n_{\mathrm{cell}} - n_0)\,dz$ を定量する\cite{barer1952interference,popescu2006diffraction,park2018quantitative,nguyen2022quantitative}。位相の面積分は乾燥質量に比例し、体積と合わせれば密度になる。標識も固定も要らず、1枚の露光で1視野の位相像が得られるので、長期のタイムラプスに使える。分裂酵母でも、細胞周期内の密度変動が QPI で測られている\cite{rappaz2009noninvasive,odermatt2021variations}。ただし、系譜に沿って密度を追った記録は1〜数周期にとどまり\cite{odermatt2021variations,liu2020computationally}、世代をまたいだ細胞間のばらつきがどう振る舞うかは分かっていない。
+定量位相イメージング（QPI）は、細胞を透過した光の位相遅れ $\Delta\phi = (2\pi/\lambda)\int (n_{\mathrm{cell}} - n_0)\,dz$ を定量する\cite{barer1952interference,popescu2006diffraction,park2018quantitative,nguyen2022quantitative}。位相の面積分は乾燥質量に比例し、体積と合わせれば密度になる。標識も固定も要らず、1枚の露光で1視野の位相像が得られるので、長期のタイムラプスに使える。分裂酵母でも、細胞周期内の密度変動が QPI で測られている\cite{rappaz2009noninvasive,odermatt2021variations}。ただし、系譜に沿って密度を測った記録は1〜数周期にとどまり\cite{odermatt2021variations,liu2020computationally}、世代をまたいで細胞間のばらつきがどう変わるかは分かっていない。
 
 \subsection{長期1細胞密度計測系の必要条件}
 \label{sec:requirements}
 
-前項の方法を、分裂酵母1細胞の密度を飢餓下で数日にわたって追うという目的に照らすと、計測系に必要な条件は次の4つになる。
+分裂酵母1細胞の密度を飢餓下で数日にわたって測り続けるには、計測系が次の4つの条件を満たす必要がある。
 
 \begin{enumerate}
 \item 長期の1細胞追跡。同じ細胞を同じ視野に数日とどめ、指数関数的に増える子孫を系外に除き、培地を一定に保つか任意の時刻に交換できること。細胞を行き止まりの細い流路に1列で閉じ込め、主流路で培地を流す mother machine がこれを満たす\cite{wang2010robust,nakaoka2017aging}。
@@ -36,7 +36,7 @@
 \item 背景の位相を細胞の無い領域から取れること。QPI では照明光の位相分布を試料の無い領域で測って差し引くが、mother machine の観察チャネルは細胞で埋まり、細胞のそばに培地だけの領域が残らない。背景をどこから取るかを別に決める必要がある。
 \end{enumerate}
 
-このほか、数千フレームの位相像から細胞の輪郭、系譜、体積を自動で取り出す解析が必要である。第1・第2の条件は既存の要素（mother machine と common-path off-axis 干渉計）の組み合わせで満たせる。第3の条件は光学系の設計（\ref{sec:optics} 節）と性能評価（\ref{sec:performance} 節）で示す。第4の条件は既存の方法では満たされないので、本研究では計測前にステージ変位のグリッドで参照像を記録する方式を導入した（\ref{sec:grid_acq} 節、\ref{sec:bgsub} 節）。
+このほか、数千フレームの位相像から細胞の輪郭、系譜、体積を自動で取り出す解析が必要である。条件 1 と 2 は既存の要素（mother machine と common-path off-axis 干渉計）の組み合わせで満たせる。条件 3 は光学系の設計（\ref{sec:optics} 節）と性能評価（\ref{sec:performance} 節）で示す。条件 4 は既存の方法では満たされないので、本研究では計測前にステージ変位のグリッドで参照像を記録する方式を導入した（\ref{sec:grid_acq} 節、\ref{sec:bgsub} 節）。
 
 % 旧: なんで他の密度測定方法ではなく、QPIを用いたのかまで書きたかったら、generalな測定方法を挙げていって、この方法が良かったみたいなことを書けばよくて、その際には
 % 旧: \cite{nguyen2022quantitative}
@@ -115,17 +115,17 @@ r_{\mathrm{aperture}} = \frac{\mathrm{NA}}{\lambda} \cdot N \cdot \Delta p
 \begin{equation}
 I_{m,n}^{(c)} = I_{m,n}^{\mathrm{DH}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}
 \end{equation}
-と同じで、キャリアが除かれる。これを2次元逆 Fourier 変換して複素場を得て、その偏角を位相とする:
+と同じで、キャリアが除かれる。これを2次元逆 Fourier 変換して複素場を得て、その偏角
 \begin{equation}
-\phi_{m,n}^{\mathrm{meas}} = \arg[\mathrm{LP}(I_{m,n}^{(c)})].
+\phi_{m,n}^{\mathrm{meas}} = \arg[\mathrm{LP}(I_{m,n}^{(c)})]
 \end{equation}
-ここで $\mathrm{LP}$ は、原点を中心とする円窓を Fourier 空間で適用し、逆 Fourier 変換する低域通過処理を表し、円窓での切り出しから逆 Fourier 変換までをまとめたものに等しい。$\arg$ は $(-\pi, \pi]$ に折り返されているので、最後に、画素を信頼度の順に並べて $2\pi$ の飛びをつなぐ方法\cite{herraez2002fast}で位相接続（unwrapping）を行う（図~\ref{fig:reconstruction}e）。
+を位相とする。$\mathrm{LP}$ は低域通過フィルタで、Fourier 変換して原点を中心とする円窓の中だけを残し、逆 Fourier 変換で実空間に戻す操作を表す。$\arg$ は $(-\pi, \pi]$ に折り返されているので、最後に、画素を信頼度の順に並べて $2\pi$ の飛びをつなぐ方法\cite{herraez2002fast}で位相接続（unwrapping）を行う（図~\ref{fig:reconstruction}e）。
 
-再構成した位相像には、細胞による位相遅れのほかに、照明光の波面と流路の位相が含まれる（図~\ref{fig:reconstruction}e）。照明光の波面は、同じフレームで流路の無い位置から取得した位相像を差し引いて除く（図~\ref{fig:reconstruction}f）。この像にも流路の位相は残る。流路の位相を除くには、同じ視野で細胞の無い状態を撮った位相像（参照像）との差をとる。複素場の比を用いると、この位相差は次式で得られる:
+再構成した位相像には、細胞による位相遅れのほかに、照明光の波面と流路の位相が含まれる（図~\ref{fig:reconstruction}e）。照明光の波面は、同じフレームで流路の無い位置から取得した位相像を差し引いて除く（図~\ref{fig:reconstruction}f）。この像にも流路の位相は残る。流路の位相を除くには、同じ視野で細胞の無い状態を撮った位相像（参照像）との差をとる。複素場の比を用いると、この位相差は
 \begin{equation}
-\phi_{m,n} = \arg\left[\frac{\mathrm{LP}(I_{m,n}^{\mathrm{sample}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}{\mathrm{LP}(I_{m,n}^{\mathrm{ref}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}\right].
+\phi_{m,n} = \arg\left[\frac{\mathrm{LP}(I_{m,n}^{\mathrm{sample}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}{\mathrm{LP}(I_{m,n}^{\mathrm{ref}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}\right]
 \end{equation}
-残るオフセットは細胞の無い領域の平均で除く。位相を光路長差に直すなら $\mathrm{OPD} = \phi\lambda/2\pi$ であるが、以降では位相 $\phi$（rad）のまま扱う。mother machine では細胞のそばに培地だけの領域が残らないので、参照像をどう取るかが問題になる。参照像の取得は \ref{sec:grid_acq} 節で、各フレームにどの参照像を対応させるかは \ref{sec:bgsub} 節で述べる。
+で得られる。残るオフセットは細胞の無い領域の平均で除く。位相を光路長差に直すなら $\mathrm{OPD} = \phi\lambda/2\pi$ であるが、以降では位相 $\phi$（rad）のまま扱う。mother machine では細胞のそばに培地だけの領域が残らないので、参照像をどう取るかが問題になる。参照像の取得は \ref{sec:grid_acq} 節で、各フレームにどの参照像を対応させるかは \ref{sec:bgsub} 節で述べる。
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{figure/qpi_reconstruction_chain_6panel.pdf}
@@ -297,7 +297,7 @@ Hsp104-GFP 株の記録では、各ホログラムと同時に蛍光像を顕微
 \subsection{参照グリッドの取得}
 \label{sec:grid_acq}
 
-位相像から照明光の波面と流路の位相を除くには、同じ視野で細胞の無い状態の参照像が必要である（\ref{sec:reconstruction} 節）。しかし mother machine では観察チャネルが細胞で埋まり、細胞のそばに培地だけの領域が残らない。そこで計測を始める前に、各視野を 0.1 μm 刻みの $9 \times 9$ のステージ変位で撮り、参照像とした。各変位では z スタックを撮り、合焦面だけを残した。流路の無い位置を同じ変位で撮った像を、各参照像から引いた。グリッドの中心の像は、計測中のフィードバックの基準にした。計測中は各時点で、各視野の位相像をこの基準像に並進のみで位置合わせし（方法は \ref{sec:registration} 節）、測った変位でステージ位置を更新してから次にその視野を訪れた。このフィードバックにより、各視野は記録の全長で開始位置から $\pm 0.4$ μm 以内に保たれた。記録後は、各フレームにその変位に最も近いグリッドの像を背景として対応させる（\ref{sec:bgsub} 節）。
+位相像から照明光の波面と流路の位相を除くには、同じ視野で細胞の無い状態の参照像が必要である（\ref{sec:reconstruction} 節）。しかし mother machine では観察チャネルが細胞で埋まり、細胞のそばに培地だけの領域が残らない。そこで計測を始める前に、各視野を 0.1 μm 刻みの $9 \times 9$ のステージ変位で撮り、参照像とした。各変位では z スタックを撮り、合焦面だけを残した。流路の無い位置を同じ変位で撮った像を、各参照像から引いた。グリッドの中心の像は、計測中のフィードバックの基準にした。計測中は各時点で、各視野の位相像をこの基準像に並進のみで位置合わせし（方法は \ref{sec:registration} 節）、測った変位でステージ位置を更新してから、次にその視野を撮った。このフィードバックにより、各視野は記録の全長で開始位置から $\pm 0.4$ μm 以内に保たれた。記録後は、各フレームにその変位に最も近いグリッドの像を背景として対応させる（\ref{sec:bgsub} 節）。
 
 \section{画像解析}
 \label{sec:analysis}
@@ -315,12 +315,12 @@ Hsp104-GFP 株の記録では、各ホログラムと同時に蛍光像を顕微
 \subsection{培地屈折率の校正}
 \label{sec:calibration}
 
-乾燥質量の計算（\ref{sec:drymass} 節）には培地の屈折率が必要である。これを BSA の濃度系列で校正した。BSA を超純水に溶かした 0--5\%（w/v）の溶液を順にデバイスに灌流し、参照グリッドを撮った視野を各溶液で撮った。培地が入った状態のグリッド中心像の位相を引き、チャネルの上で位相を積分した値を BSA 濃度に対して最小二乗で直線に当てはめた。傾きは積分した位相が見ている培地の体積を与え、傾きと切片から培地の屈折率が求まる。BSA の屈折率増分は、アミノ酸配列から計算した値に Zhao ら\cite{zhao2011distribution}の波長と温度の補正を加えた、658 nm、30 °C での値を使った。0\% の溶液は系列の最後にもう一度測り、持ち越しとドリフトの確認にした。
+乾燥質量の計算（\ref{sec:drymass} 節）には培地の屈折率が必要である。これを BSA の濃度系列で校正した。BSA を超純水に溶かした 0--5\%（w/v）の溶液を順にデバイスに灌流し、参照グリッドを撮った視野を各溶液で撮った。培地が入った状態のグリッド中心像の位相を引き、チャネルの上で位相を積分した値を BSA 濃度に対して最小二乗で直線に当てはめた。傾きから位相を積分した範囲にある培地の体積が求まり、傾きと切片から培地の屈折率が求まる。BSA の屈折率増分は、アミノ酸配列から計算した値に Zhao ら\cite{zhao2011distribution}の波長と温度の補正を加えた、658 nm、30 °C での値を使った。0\% の溶液は系列の最後にもう一度測り、持ち越しとドリフトの確認にした。
 
 \subsection{細胞の識別と追跡}
 \label{sec:tracking}
 
-細胞の輪郭は Omnipose\cite{cutler2022omnipose}で得た。本研究の画像から手で注釈した約 3000 細胞でモデルを学習した。 得られたマスクは面積でフレーム間を連結した。各チャネルの閉端に最も近い細胞を母細胞として起点にする。隣接する2つのマスクの面積の和が前のフレームの1細胞の面積と合うとき分裂とし、閉端側のマスクが親の識別子を継ぐ。整合する連結が見つからないフレームには追跡の失敗の印を付けた。1つのチャネルの閉端を占め続ける細胞の連なりを系譜と呼ぶ。
+細胞の輪郭は Omnipose\cite{cutler2022omnipose}で得た。本研究の画像から手で注釈した約 3000 細胞でモデルを学習した。得られたマスクは面積でフレーム間を連結した。各チャネルの閉端に最も近い細胞を母細胞として起点にする。隣接する2つのマスクの面積の和が前のフレームの1細胞の面積と合うとき分裂とし、閉端側のマスクが親の識別子を引き継ぐ。整合する連結が見つからないフレームには追跡の失敗の印を付けた。1つのチャネルの閉端を占め続ける細胞の連なりを系譜と呼ぶ。
 
 \subsection{体積と乾燥質量の算出}
 \label{sec:drymass}
@@ -352,57 +352,57 @@ C = \frac{1}{\alpha}\left(n_{\mathrm{medium}} - n_{\mathrm{water}} + \frac{\lamb
 \subsection{位相ノイズ}
 % 導出は本文に全部載せる（本人 9/9）。理論 → 測り方 → 実測。実測値は別条件のもので、本番条件で測り直す。図 3A。
 
-off-axis デジタルホログラフィで得る位相の精度は、時間方向の位相ノイズで決まる。これを見積もるために、式~\eqref{eq:hologram_DH} のホログラムにノイズ項 $z_{m,n}^{\mathrm{DH}}$ を加える:
+off-axis デジタルホログラフィで得る位相の精度は、時間方向の位相ノイズで決まる。これを見積もるために、式~\eqref{eq:hologram_DH} のホログラムにノイズ項 $z_{m,n}^{\mathrm{DH}}$ を加えると
 \begin{equation}
-I_{m,n}^{'\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + (J_{m,n}^{\mathrm{int}})^* e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + z_{m,n}^{\mathrm{DH}}.
+I_{m,n}^{'\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + (J_{m,n}^{\mathrm{int}})^* e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)} + z_{m,n}^{\mathrm{DH}}
 \end{equation}
-このホログラムを \ref{sec:reconstruction} 節の手順で再構成すると、ノイズを含む位相像は
+になる。このホログラムを \ref{sec:reconstruction} 節の手順で再構成すると、ノイズを含む位相像は
 \begin{align}
 \phi'_{m,n} &= \arg\left[\mathrm{LP}\left(\frac{I_{m,n}^{'\mathrm{DH}} e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}}{|J_{m,n}^{\mathrm{int}}|}\right)\right] \nonumber \\
 &= \arg\left[e^{i\phi_{m,n}}\left(1 + \frac{\mathrm{LP}(z_{m,n}^{\mathrm{DH}} e^{i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}{|J_{m,n}^{\mathrm{int}}| e^{i\phi_{m,n}}}\right)\right] \nonumber \\
-&= \phi_{m,n} + \frac{z_{m,n}^{\mathrm{DH}} \sin(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n}) \ast H_{m,n}}{|J_{m,n}^{\mathrm{int}}|},
+&= \phi_{m,n} + \frac{z_{m,n}^{\mathrm{DH}} \sin(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n}) \ast H_{m,n}}{|J_{m,n}^{\mathrm{int}}|}
 \end{align}
 になる。$H_{m,n}$ は低域通過（LP）フィルタに使う瞳関数 $h_{k,l}$ の逆 Fourier 変換、$\ast$ は畳み込みである。各画素での位相の時間方向の標準偏差 $\sigma_{\phi'}^{\mathrm{DH}}$ は、$\phi'_{m,n}$ の分散の平方根として
 \begin{align}
 \sigma_{\phi'}^{\mathrm{DH}} &= \sqrt{\mathrm{Var}(\phi'_{m,n})} = \frac{1}{|J_{m,n}^{\mathrm{int}}|} \sqrt{[\mathrm{Var}(z_{m,n}^{\mathrm{DH}}) \sin^2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})] \ast H_{m,n}^2} \nonumber \\
-&= \frac{1}{|J_{m,n}^{\mathrm{int}}|} \sqrt{\left[\mathrm{Var}(z_{m,n}^{\mathrm{DH}}) \frac{1 - \cos 2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})}{2}\right] \ast H_{m,n}^2}. \label{eq:sigma_phi_DH}
+&= \frac{1}{|J_{m,n}^{\mathrm{int}}|} \sqrt{\left[\mathrm{Var}(z_{m,n}^{\mathrm{DH}}) \frac{1 - \cos 2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})}{2}\right] \ast H_{m,n}^2} \label{eq:sigma_phi_DH}
 \end{align}
 と書ける。
 
 検出が光のショットノイズで制限されるとき、ノイズの分散は強度の平均に等しく、
 \begin{equation}
 \label{eq:var_shot}
-\mathrm{Var}(z_{m,n}^{\mathrm{DH,shot}}) = \mathrm{Mean}(I_{m,n}^{\mathrm{DH}}) = J_{m,n}^{\mathrm{non-int}} + 2|J_{m,n}^{\mathrm{int}}| \cos(\phi_{m,n} - k_m^{\mathrm{off-axis}}m - k_n^{\mathrm{off-axis}}n).
+\mathrm{Var}(z_{m,n}^{\mathrm{DH,shot}}) = \mathrm{Mean}(I_{m,n}^{\mathrm{DH}}) = J_{m,n}^{\mathrm{non-int}} + 2|J_{m,n}^{\mathrm{int}}| \cos(\phi_{m,n} - k_m^{\mathrm{off-axis}}m - k_n^{\mathrm{off-axis}}n)
 \end{equation}
-である。式~\eqref{eq:sigma_phi_DH} の $\cos 2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})$ や式~\eqref{eq:var_shot} の $\cos(\phi_{m,n} - k_m^{\mathrm{off-axis}}m - k_n^{\mathrm{off-axis}}n)$ のように LP の帯域の外にある項は、畳み込み $\ast H_{m,n}$ で落ちる。$h_{k,l}$ は通過帯域で 1、その外で 0 なので、$H_{m,n}^2$ はデルタ関数 $\delta_{m,n}$ で近似でき、その振幅の全画素にわたる和は
+である。式~\eqref{eq:sigma_phi_DH} の $\cos 2(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n - \phi_{m,n})$ や式~\eqref{eq:var_shot} の $\cos(\phi_{m,n} - k_m^{\mathrm{off-axis}}m - k_n^{\mathrm{off-axis}}n)$ のように LP の帯域の外にある項は、畳み込み $\ast H_{m,n}$ で除かれる。$h_{k,l}$ は通過帯域で 1、その外で 0 なので、$H_{m,n}^2$ はデルタ関数 $\delta_{m,n}$ で近似でき、その振幅の全画素にわたる和は
 \begin{equation}
 \label{eq:H_sum}
-\sum_{m,n} H_{m,n}^2 = \sum_{k,l} h_{k,l}^2 \cdot \frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}},
+\sum_{m,n} H_{m,n}^2 = \sum_{k,l} h_{k,l}^2 \cdot \frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}
 \end{equation}
 である。$A_{\mathrm{sensor}}$ はセンサの全画素数、$A_{\mathrm{aperture}}$ は LP の帯域内の画素数である。式~\eqref{eq:H_sum} を式~\eqref{eq:sigma_phi_DH} に代入すると、ショットノイズで制限された位相の精度
 \begin{equation}
 \label{eq:sigma_shot}
-\sigma_{\phi'}^{\mathrm{DH,shot}} = \frac{\sqrt{|J_{m,n}^{\mathrm{non-int}}| \ast H_{m,n}^2}}{\sqrt{2}|J_{m,n}^{\mathrm{int}}|} = \sqrt{\frac{|J_{m,n}^{\mathrm{non-int}}|}{2|J_{m,n}^{\mathrm{int}}|^2}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}}.
+\sigma_{\phi'}^{\mathrm{DH,shot}} = \frac{\sqrt{|J_{m,n}^{\mathrm{non-int}}| \ast H_{m,n}^2}}{\sqrt{2}|J_{m,n}^{\mathrm{int}}|} = \sqrt{\frac{|J_{m,n}^{\mathrm{non-int}}|}{2|J_{m,n}^{\mathrm{int}}|^2}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}}
 \end{equation}
 を得る。センサの読み出しノイズの分散 $\mathrm{Var}(z_{m,n}^{\mathrm{sensor}})$ を含めるなら
 \begin{equation}
-\sigma_{\phi'}^{\mathrm{DH,shot+sensor}} = \sqrt{\frac{|J_{m,n}^{\mathrm{non-int}}| + \mathrm{Var}(z_{m,n}^{\mathrm{sensor}})}{2|J_{m,n}^{\mathrm{int}}|^2}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}},
+\sigma_{\phi'}^{\mathrm{DH,shot+sensor}} = \sqrt{\frac{|J_{m,n}^{\mathrm{non-int}}| + \mathrm{Var}(z_{m,n}^{\mathrm{sensor}})}{2|J_{m,n}^{\mathrm{int}}|^2}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}}
 \end{equation}
 である。
 
 干渉縞の visibility を $V = 2|J_{m,n}^{\mathrm{int}}|/J_{m,n}^{\mathrm{non-int}}$ とおき、$J_{m,n}^{\mathrm{non-int}} = |U_{s,m,n}|^2 + |U_{r,m,n}|^2$ が電子数を単位とした平均強度であることに注意すると、式~\eqref{eq:sigma_shot} は
 \begin{equation}
 \label{eq:sigma_visibility}
-\sigma_{\phi}^{\mathrm{shot}} = \frac{1}{V} \sqrt{\frac{2}{J_{m,n}^{\mathrm{non-int}}}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}} = \frac{1}{V\sqrt{N_e}} \sqrt{\frac{2A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}},
+\sigma_{\phi}^{\mathrm{shot}} = \frac{1}{V} \sqrt{\frac{2}{J_{m,n}^{\mathrm{non-int}}}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}} = \frac{1}{V\sqrt{N_e}} \sqrt{\frac{2A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}}
 \end{equation}
 と書き直せる。$N_e = J_{m,n}^{\mathrm{non-int}}$ は1画素に入る電子数である。背景差分（\ref{sec:reconstruction} 節）では試料の像と参照像という独立な2つの計測からノイズが伝わるので、差の分散は2倍になり、
 \begin{equation}
 \label{eq:sigma_bgsub}
-\sigma_{\phi}^{\mathrm{bg\ sub}} = \sqrt{2} \times \sigma_{\phi}^{\mathrm{shot}} = \frac{\sqrt{2}}{V\sqrt{N_e}} \sqrt{\frac{2A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}} = \frac{2}{V\sqrt{N_e}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}}.
+\sigma_{\phi}^{\mathrm{bg\ sub}} = \sqrt{2} \times \sigma_{\phi}^{\mathrm{shot}} = \frac{\sqrt{2}}{V\sqrt{N_e}} \sqrt{\frac{2A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}} = \frac{2}{V\sqrt{N_e}} \sqrt{\frac{A_{\mathrm{aperture}}}{A_{\mathrm{sensor}}}}
 \end{equation}
 になる。位相ノイズは visibility に反比例し、電子数の平方根に反比例する。電子数の上限はセンサの full-well 容量（\ref{sec:optics} 節）で決まるので、露光を固定したとき位相ノイズを決めるのは visibility である。
 
-実測では、細胞の無い領域で連続する2フレームの位相像の差をとり、その空間標準偏差を $\sqrt{2}$ で割った値を時間方向の位相ノイズとし、フレーム対で平均した。差をとるのはフレーム間で共通の背景を消して時間変動だけを残すためで、$\sqrt{2}$ で割るのは独立な2フレームの差の分散が2倍になるためである。ショットノイズ限界は、同じホログラムの縞の visibility と強度から式~\eqref{eq:sigma_visibility} で計算した。強度はカメラの変換ゲインで電子数に換算し、読み出しノイズは含めていない。
+実測では、細胞の無い領域で連続する2フレームの位相像の差をとり、その空間標準偏差を $\sqrt{2}$ で割った値を時間方向の位相ノイズとし、フレーム対で平均した。差をとるのはフレーム間で共通の背景を除いて時間変動だけを残すためで、$\sqrt{2}$ で割るのは独立な2フレームの差の分散が2倍になるためである。ショットノイズ限界は、同じホログラムの縞の visibility と強度から式~\eqref{eq:sigma_visibility} で計算した。強度はカメラの変換ゲインで電子数に換算し、読み出しノイズは含めていない。
 
 \mynote{以下の値は露光 200 ms・間隔 1 s の別データによる。本番条件（露光 60 ms、5 分間隔）で測り直して差し替える。図は論文 Figure 3A に対応し、修論の図は未作成}実測の位相ノイズは 12.00 mrad、ショットノイズ限界は 6.68 mrad で、比は 1.80 であった。$\lambda = 658$ nm では 1 mrad が光路長 0.105 nm に対応する。ショットノイズを超える分は読み出しノイズと機械的な揺らぎによるもので、\ref{sec:discussion} 節で扱う。
 
