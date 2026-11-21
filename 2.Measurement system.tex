@@ -91,7 +91,7 @@ U_{r,m,n} = A_r
 \begin{equation}
 U_{s,m,n} = \frac{1}{M^2} A_s \exp[i\phi_{m,n}] \exp[-i(k_m^{\mathrm{off-axis}} m + k_n^{\mathrm{off-axis}} n)]
 \end{equation}
-である。$M$ は倍率、$A_s$ は物体光の振幅、$\phi_{m,n}$ は試料による位相遅れである。画素 $(m,n)$ で記録されるホログラムの強度は
+である。$M$ は倍率、$A_s$ は物体光の振幅、$\phi_{m,n}$ は試料による位相遅れである。センサで記録した物体光と参照光の干渉縞の像を、ホログラムと呼ぶ。画素 $(m,n)$ でのホログラムの強度は
 \begin{equation}
 I_{m,n}^{\mathrm{DH}} = \left|U_{s,m,n} + U_{r,m,n}\right|^2 = |U_{s,m,n}|^2 + |U_{r,m,n}|^2 + U_{s,m,n} \cdot U_{r,m,n}^* + \mathrm{c.c.}
 \end{equation}
@@ -135,7 +135,7 @@ I_{m,n}^{(c)} = I_{m,n}^{\mathrm{DH}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{figure/qpi_reconstruction_chain_6panel.pdf}
-    \caption{ホログラムから位相像までの再構成とバックグラウンド除去。\textbf{a} 測定したホログラム。右上は橙の小さい四角の範囲（約 4~μm 四方）の拡大で、斜めの干渉縞が見える。\textbf{b} a の2次元離散 Fourier 変換（振幅の対数。c、d も同じ）。実線円は半径 $\mathrm{NA}/\lambda$ の円窓、破線円は半径 $2\mathrm{NA}/\lambda$ の非干渉項の帯域。\textbf{c} b から円窓で切り出した $+1$ 次のサイドバンド。\textbf{d} c を、中心が原点に来るように移したもの。\textbf{e} d の2次元逆 Fourier 変換の偏角を位相接続した位相像。\textbf{f} e から、流路の無い位置で取得した位相像を差し引いて、バックグラウンド位相勾配を除いた像。流路の位相は残っており、参照グリッドを用いたその除去は \ref{sec:bgsub} 節で述べる。e と f は a と同じ縮尺である。カラーバーは f の位相（rad）を示す。}
+    \caption{ホログラムから位相像までの再構成とバックグラウンド除去。\textbf{a} 測定したホログラム。左端に観察チャネルが並ぶ。右上は橙の小さい四角の範囲（約 4~μm 四方）の拡大で、斜めの干渉縞が見える。\textbf{b} a の2次元離散 Fourier 変換（振幅の対数。c、d も同じ）。実線円は半径 $\mathrm{NA}/\lambda$ の円窓、破線円は半径 $2\mathrm{NA}/\lambda$ の非干渉項の帯域。\textbf{c} b から円窓で切り出した $+1$ 次のサイドバンド。\textbf{d} c を、中心が原点に来るように移したもの。\textbf{e} d の2次元逆 Fourier 変換の偏角を位相接続した位相像。色は $-60$〜$2$ rad の範囲を示す。\textbf{f} e から、流路の無い位置で取得した位相像を差し引いて、バックグラウンド位相勾配を除いた像。流路の位相は残っており、参照グリッドを用いたその除去は \ref{sec:bgsub} 節で述べる。e と f は a と同じ縮尺である。カラーバーは f の位相（rad）を示す。}
     \label{fig:reconstruction}
 \end{figure}
 
