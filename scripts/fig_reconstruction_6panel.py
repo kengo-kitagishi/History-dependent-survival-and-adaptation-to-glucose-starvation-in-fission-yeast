@@ -79,7 +79,7 @@ cols2 = [2, 1, 0] if args.layout == "snake" else [0, 1, 2]   # 2段目の列の�
 pos = [(0, 0), (1, 0), (2, 0)] + [(cols2[i], 1) for i in range(3)]
 gray = matplotlib.colormaps["gray"].copy(); gray.set_bad("black")
 JA = args.lang == "ja"
-titles = (["ホログラム", "", "", "", "位相像", "波面を引いた位相像"] if JA else
+titles = (["ホログラム", "", "", "", "位相像", "補正後の位相像"] if JA else
           ["Hologram", "Fourier transform", "Sideband cropped", "Sideband centred", "Phase", "Corrected phase"])
 L_FT, L_CROP, L_SHIFT, L_IFT, L_REF = (("Fourier\n変換", "切り出し", "原点へ移す", "Fourier\n逆変換", "波面を\n引く") if JA else
                                        ("FT", "crop", "shift", "IFT", "− ref."))
@@ -137,7 +137,8 @@ if args.bar_text:
     axes[0].text(N - 90 - bar / 2, N - 160, "30 µm", color="white", fontsize=10, fontweight="bold", ha="center", va="bottom")
 ins.add_patch(Rectangle((3, s - 6), 1 / PX_RAW, 2.2, color="white"))
 if args.bar_text:
-    ins.text(3, s - 9, "1 µm", color="white", fontsize=8.5, fontweight="bold")
+    ins.text(3, s - 9, "1 µm", color="white", fontsize=8.5, fontweight="bold",
+             bbox=dict(fc="black", ec="none", alpha=0.65, pad=1.2))   # 縞の上では字が読めないので、字の後ろを暗くする
 
 # 色の目盛り（Corrected phase の右下）
 # 色の目盛り: Corrected phase の外側（snake は左、elbow は右）に、パネルと同じ高さで置く
