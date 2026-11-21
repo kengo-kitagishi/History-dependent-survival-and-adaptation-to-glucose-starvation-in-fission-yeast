@@ -138,9 +138,7 @@ if args.bar_text:
     axes[0].text(N - 90 - bar / 2, N - 160, "30 µm", color="white", fontsize=10, fontweight="bold", ha="center", va="bottom")
 ins.add_patch(Rectangle((3, s - 6), 1 / PX_RAW, 2.2, color="white"))
 if args.bar_text:
-    from matplotlib import patheffects
-    ins.text(3, s - 9, "1 µm", color="white", fontsize=8.5, fontweight="bold",
-             path_effects=[patheffects.withStroke(linewidth=1.6, foreground="black")])   # 縞の上でも読めるように、字を黒で縁取る（後ろに四角は置かない）
+    ins.text(3, s - 9, "1 µm", color="white", fontsize=8.5, fontweight="bold")   # 白い字だけ。縁取りも後ろの四角も付けない（2026-11-21 本人）
 
 # 色の目盛り（Corrected phase の右下）
 # 色の目盛り: Corrected phase の外側（snake は左、elbow は右）に、パネルと同じ高さで置く
