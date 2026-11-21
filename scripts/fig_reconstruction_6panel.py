@@ -73,7 +73,7 @@ def ax_at(col, row):
     y = y_bot0 if row == 0 else y_top1 - P
     return fig.add_axes([xs[col] / W, y / Hh, P / W, P / Hh])
 
-TF, AF, CF = 20, 20, 15
+TF, AF, CF = (17 if args.lang == "ja" else 20), 20, 15   # 和文の見出しは幅が広いので小さくする
 cols2 = [2, 1, 0] if args.layout == "snake" else [0, 1, 2]   # 2段目の列の並び
 pos = [(0, 0), (1, 0), (2, 0)] + [(cols2[i], 1) for i in range(3)]
 gray = matplotlib.colormaps["gray"].copy(); gray.set_bad("black")
@@ -82,7 +82,7 @@ titles = (["ホログラム", "Fourier 変換", "切り出した成分", "原点
           ["Hologram", "Fourier transform", "Sideband cropped", "Sideband centred", "Phase", "Corrected phase"])
 L_FT, L_CROP, L_SHIFT, L_IFT, L_REF = (("Fourier\n変換", "切り出し", "原点へ移す", "Fourier\n逆変換", "背景を\n引く") if JA else
                                        ("FT", "crop", "shift", "IFT", "− ref."))
-AFJ = 14 if JA else 20              # 矢印の上の言葉の大きさ（和文は2行になるので小さくする）
+AFJ = 13 if JA else 20              # 矢印の上の言葉の大きさ（和文は2行になるので小さくする）
 axes = [ax_at(cl, rw) for cl, rw in pos]
 axes[0].imshow(raw, cmap="gray", vmin=40, vmax=1500, interpolation="lanczos")
 for a, img in zip(axes[1:4], [logF, cropped, centred]):
