@@ -8,7 +8,7 @@ Sideband cropped → Sideband centred を矢印でつなぐ。つなぎ方は2�
 （fftshift(fft2) → 中心 (1638, 439)・直径 511 px の円板で切る → 511×511 を ifftshift → ifft2 → angle → unwrap）。
 単位は pt（1 px = 1 pt）。
 修論の図（2026-11-21 本人が選んだ形）:
-  python scripts/fig_reconstruction_6panel.py --layout elbow --letters --lang ja --out figure/qpi_reconstruction_chain_6panel      # 修論に入れる和文版
+  python scripts/fig_reconstruction_6panel.py --layout elbow --letters --lang ja --bar-text --out figure/qpi_reconstruction_chain_6panel      # 修論に入れる和文版
   python scripts/fig_reconstruction_6panel.py --layout elbow --letters --out figure/qpi_reconstruction_chain_6panel_en             # 英語版（修論では使わない。残しておく）
 """
 import argparse
@@ -26,7 +26,7 @@ ap.add_argument("--layout", choices=["snake", "elbow"], required=True)
 ap.add_argument("--zoom-pos", choices=["mirror", "diag", "below", "left"], default="mirror",
                 help="橙の小枠の位置: mirror=ポスター（拡大が右下・小枠 (1060, 980)）を上下に反転した位置、diag=拡大の左下、below=拡大の真下、left=拡大の真左")
 ap.add_argument("--zoom-lines", action="store_true", help="橙の小枠と拡大の対応する角を白い線で結ぶ")
-ap.add_argument("--bar-text", action="store_true", help="スケールバーに 30 µm・1 µm の文字を書く（修論では書かずキャプションに書く）")
+ap.add_argument("--bar-text", action="store_true", help="スケールバーに 30 µm・1 µm の文字を書く（修論の和文版は書く。2026-11-21 本人）")
 ap.add_argument("--letters", action="store_true", help="パネルの見出しの前に太字の a〜f を付ける（修論のキャプションはこの記号で指す）")
 ap.add_argument("--lang", choices=["en", "ja"], default="en", help="見出し・矢印・色の目盛りの言葉（修論は ja）")
 ap.add_argument("--out", required=True, help="拡張子なしの出力先（.png と .pdf を書く）")
@@ -79,9 +79,9 @@ cols2 = [2, 1, 0] if args.layout == "snake" else [0, 1, 2]   # 2段目の列の�
 pos = [(0, 0), (1, 0), (2, 0)] + [(cols2[i], 1) for i in range(3)]
 gray = matplotlib.colormaps["gray"].copy(); gray.set_bad("black")
 JA = args.lang == "ja"
-titles = (["ホログラム", "Fourier 変換", "切り出した成分", "原点へ移した成分", "位相", "背景を引いた位相"] if JA else
+titles = (["ホログラム", "", "", "", "位相像", "波面を引いた位相像"] if JA else
           ["Hologram", "Fourier transform", "Sideband cropped", "Sideband centred", "Phase", "Corrected phase"])
-L_FT, L_CROP, L_SHIFT, L_IFT, L_REF = (("Fourier\n変換", "切り出し", "原点へ移す", "Fourier\n逆変換", "背景を\n引く") if JA else
+L_FT, L_CROP, L_SHIFT, L_IFT, L_REF = (("Fourier\n変換", "切り出し", "原点へ移す", "Fourier\n逆変換", "波面を\n引く") if JA else
                                        ("FT", "crop", "shift", "IFT", "− ref."))
 AFJ = 13 if JA else 20              # 矢印の上の言葉の大きさ（和文は2行になるので小さくする）
 axes = [ax_at(cl, rw) for cl, rw in pos]
@@ -93,10 +93,13 @@ im5 = axes[5].imshow(corr, cmap="viridis", vmin=-3, vmax=1, interpolation="neare
 for a, t, k in zip(axes, titles, "abcdef"):
     a.set_xticks([]); a.set_yticks([])
     ti = a.set_title(t, fontsize=TF, pad=4)
-    if args.letters:
-        fig.canvas.draw()
-        bb = ti.get_window_extent()
-        dx = 0.011                                   # 記号の分だけ見出しを右へ寄せる（figure 座標）
+    if args.letters and JA:
+        # 和文版: 記号はパネルの左上の角の外（見出しと同じ高さ）に置く
+        x_fig, y_fig = fig.transFigure.inverted().transform(a.transAxes.transform((0, 1)))
+        fig.text(x_fig - 2 / W, y_fig + 4 / Hh, k, fontsize=20, fontweight="bold", ha="right", va="baseline")
+    elif args.letters:
+        # 英語版: 見出しのすぐ左に置く。記号の分だけ見出しを右へ寄せる
+        dx = 0.011
         ti.set_position((0.5 + dx * W / P, 1.0))
         fig.canvas.draw()
         bb = ti.get_window_extent()
