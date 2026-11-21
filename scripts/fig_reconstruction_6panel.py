@@ -20,6 +20,8 @@ from skimage.restoration import unwrap_phase
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--layout", choices=["snake", "elbow"], required=True)
+ap.add_argument("--zoom-pos", choices=["diag", "below", "left"], default="diag",
+                help="橙の小枠の位置: diag=拡大の左下、below=拡大の真下、left=拡大の真左")
 ap.add_argument("--zoom-lines", action="store_true", help="橙の小枠と拡大の対応する角を白い線で結ぶ")
 ap.add_argument("--out", required=True, help="拡張子なしの出力先（.png と .pdf を書く）")
 args = ap.parse_args()
@@ -84,7 +86,8 @@ axes[1].add_patch(Circle((CX, CY), AP / 2, fill=False, ec="white", lw=2))
 axes[1].add_patch(Circle((N / 2, N / 2), AP, fill=False, ec="white", lw=2, ls=(0, (4, 2))))
 
 # ホログラム: 縞が見える拡大（48 px ≈ 4 µm 四方）。拡大は右上
-x0, y0, s = 800, 1000, 48            # 元の位置: 拡大の左下のすぐ外（チャネルより右の背景）
+s = 48
+x0, y0 = {"diag": (800, 1000), "below": (1512, 1250), "left": (760, 488)}[args.zoom_pos]   # どれもチャネルより右の背景
 axes[0].add_patch(Rectangle((x0, y0), s, s, fill=False, ec="#ffd166", lw=1.6))
 ins = axes[0].inset_axes([0.52, 0.52, 0.46, 0.46])   # 拡大は右上
 patch = raw[y0:y0 + s, x0:x0 + s]
@@ -93,7 +96,10 @@ ins.set_xticks([]); ins.set_yticks([])
 if args.zoom_lines:
     # 拡大の枠の角（画像の画素座標）: inset_axes [0.52, 0.52, 0.46, 0.46]、画像は上が y=0
     L, R, T, B = 0.52 * N, 0.98 * N, (1 - 0.98) * N, (1 - 0.52) * N
-    for (xa, ya), (xb, yb) in [((x0, y0), (L, T)), ((x0 + s, y0 + s), (R, B))]:   # 左上同士・右下同士
+    pairs = {"diag": [((x0, y0), (L, T)), ((x0 + s, y0 + s), (R, B))],            # 左上同士・右下同士
+             "below": [((x0, y0), (L, B)), ((x0 + s, y0), (R, B))],                # 小枠の上の2角 → 拡大の下の2角
+             "left": [((x0 + s, y0), (L, T)), ((x0 + s, y0 + s), (L, B))]}[args.zoom_pos]   # 小枠の右の2角 → 拡大の左の2角
+    for (xa, ya), (xb, yb) in pairs:
         axes[0].plot([xa, xb], [ya, yb], color="white", lw=1, zorder=3)
     axes[0].set_xlim(-0.5, N - 0.5); axes[0].set_ylim(N - 0.5, -0.5)
 for sp in ins.spines.values(): sp.set_edgecolor("#ffd166"); sp.set_linewidth(2)
