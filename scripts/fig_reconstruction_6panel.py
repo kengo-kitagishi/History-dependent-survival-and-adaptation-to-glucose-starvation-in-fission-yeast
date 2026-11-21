@@ -48,10 +48,10 @@ corr -= np.median(corr)               # 定数の位相オフセットを除く�
 # ---- 配置（pt） ----
 plt.rcParams.update({"font.family": "Arial", "font.size": 20, "pdf.fonttype": 42, "svg.fonttype": "none"})
 P, GAP, TOP, ROWGAP, M = 133, 64, 27, 56, 14
-CBG, CBW, CBL = 8, 9, 40               # カラーバー: パネルとの隙間・幅・目盛りの文字の幅（パネルの外に置く）
+CBG, CBW, CBL, BM = 8, 9, 58, 10              # カラーバー: パネルとの隙間・幅・目盛りの文字の幅（パネルの外に置く）
 W = 2 * M + 3 * P + 2 * GAP + CBG + CBW + CBL
 X0 = M + (CBG + CBW + CBL if args.layout == "snake" else 0)   # snake は Corrected phase が左下なので左に場所を空ける
-Hh = 2 * (TOP + P) + ROWGAP
+Hh = 2 * (TOP + P) + ROWGAP + BM     # BM: 下の余白（目盛りの文字が切れないように）
 fig = plt.figure(figsize=(W / 72, Hh / 72))
 xs = [X0, X0 + P + GAP, X0 + 2 * (P + GAP)]
 y_top0 = Hh - TOP                     # 1段目のパネル上端
@@ -106,7 +106,7 @@ cb = fig.colorbar(im5, cax=cax, ticks=[-3, -2, -1, 0, 1])
 cb.ax.tick_params(labelsize=CF, length=3)
 side = "left" if args.layout == "snake" else "right"
 cax.yaxis.set_ticks_position(side); cax.yaxis.set_label_position(side)
-cax.text(0.5, 1.03, "rad", transform=cax.transAxes, ha="center", va="bottom", fontsize=CF)
+cb.set_label("Phase (rad)", fontsize=CF, rotation=90 if side == "left" else 270, labelpad=2 if side == "left" else 16)
 
 # ---- 矢印 ----
 def f(p):                              # pt → figure 座標
