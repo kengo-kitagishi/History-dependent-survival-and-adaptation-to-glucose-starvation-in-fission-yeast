@@ -107,21 +107,21 @@ I_{m,n}^{\mathrm{DH}} = J_{m,n}^{\mathrm{non-int}} + J_{m,n}^{\mathrm{int}} e^{-
 \begin{equation}
 i_{p,q}^{\mathrm{DH}} = j_{p,q}^{\mathrm{non-int}} + j_{p+k_m^{\mathrm{off-axis}},\, q+k_n^{\mathrm{off-axis}}}^{\mathrm{int}} + j_{p-k_m^{\mathrm{off-axis}},\, q-k_n^{\mathrm{off-axis}}}^{\mathrm{int}*}
 \end{equation}
-の3成分からなる。$(p,q)$ は $(m,n)$ に共役な座標である。非干渉項は原点に、干渉項とその複素共役は原点から離れた2か所に現れる。この分離を利用して、位相情報を含む干渉項を取り出す。第2に、$+1$ 次のサイドバンドの中心 $(p_{\mathrm{off}}, q_{\mathrm{off}})$ を求め、ホログラムに位相因子を掛けてサイドバンドを原点へ移す:
-\begin{equation}
-I_{m,n}^{(c)} = I_{m,n}^{\mathrm{DH}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}.
-\end{equation}
-第3に、原点を中心とする半径
+の3成分からなる。$(p,q)$ は $(m,n)$ に共役な座標である。非干渉項は原点に、干渉項とその複素共役は原点から離れた2か所に現れる。この分離を利用して、位相情報を含む干渉項を取り出す（図~\ref{fig:reconstruction}b）。第2に、$+1$ 次のサイドバンドの中心 $(p_{\mathrm{off}}, q_{\mathrm{off}})$ を求め、そこを中心とする半径
 \begin{equation}
 r_{\mathrm{aperture}} = \frac{\mathrm{NA}}{\lambda} \cdot N \cdot \Delta p
 \end{equation}
-の円窓 $H_{p,q}$ で干渉項だけを切り出す。半径は離散 Fourier 座標の画素単位で、$N$ はホログラムの一辺の画素数、$\Delta p$ は物体面での画素ピッチである。この半径は、対物レンズが通す空間周波数の上限に対応する。第4に、切り出した成分を2次元逆 Fourier 変換して複素場を得て、その偏角を位相とする:
+の円窓 $H_{p,q}$ で干渉項だけを切り出す（図~\ref{fig:reconstruction}c）。半径は離散 Fourier 座標の画素単位で、$N$ はホログラムの一辺の画素数、$\Delta p$ は物体面での画素ピッチである。この半径は、対物レンズが通す空間周波数の上限に対応する。第3に、切り出した成分を、中心が原点に来るように移す（図~\ref{fig:reconstruction}d）。Fourier 空間でのこの移動は、実空間でホログラムに位相因子を掛けること
+\begin{equation}
+I_{m,n}^{(c)} = I_{m,n}^{\mathrm{DH}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)}
+\end{equation}
+と同じで、キャリアが除かれる。第4に、2次元逆 Fourier 変換して複素場を得て、その偏角を位相とする:
 \begin{equation}
 \phi_{m,n}^{\mathrm{meas}} = \arg[\mathrm{LP}(I_{m,n}^{(c)})].
 \end{equation}
-ここで $\mathrm{LP}$ は、Fourier 空間で円窓を適用し、逆 Fourier 変換する低域通過処理を表す。第5に、$\arg$ は $(-\pi, \pi]$ に折り返されているので、画素を信頼度の順に並べて $2\pi$ の飛びをつなぐ方法\cite{herraez2002fast}で位相接続（unwrapping）を行う。
+ここで $\mathrm{LP}$ は、原点を中心とする円窓を Fourier 空間で適用し、逆 Fourier 変換する低域通過処理を表し、第2段階から第4段階の逆変換までをまとめたものに等しい。第5に、$\arg$ は $(-\pi, \pi]$ に折り返されているので、画素を信頼度の順に並べて $2\pi$ の飛びをつなぐ方法\cite{herraez2002fast}で位相接続（unwrapping）を行う（図~\ref{fig:reconstruction}e）。
 
-再構成した位相像には、細胞による位相遅れのほかに、照明光の波面と流路の位相が含まれる。これらに共通する背景成分を除くため、同じ視野で細胞の無い状態を撮った位相像（参照像）との差をとる。複素場の比を用いると、この位相差は次式で得られる:
+再構成した位相像には、細胞による位相遅れのほかに、照明光の波面と流路の位相が含まれる（図~\ref{fig:reconstruction}e）。照明光の波面は、同じフレームで流路の無い位置から取得した位相像を差し引いて除く（図~\ref{fig:reconstruction}f）。この像にも流路の位相は残る。流路の位相を除くには、同じ視野で細胞の無い状態を撮った位相像（参照像）との差をとる。複素場の比を用いると、この位相差は次式で得られる:
 \begin{equation}
 \phi_{m,n} = \arg\left[\frac{\mathrm{LP}(I_{m,n}^{\mathrm{sample}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}{\mathrm{LP}(I_{m,n}^{\mathrm{ref}} \cdot e^{+i(k_m^{\mathrm{off-axis}}m + k_n^{\mathrm{off-axis}}n)})}\right].
 \end{equation}
@@ -142,7 +142,7 @@ f_{\mathrm{cutoff}} = \frac{\mathrm{NA}}{\lambda}
 \label{eq:abbe}
 \Delta x_{\mathrm{Abbe}} = \frac{\lambda}{\mathrm{NA}}
 \end{equation}
-である。ホログラムが $N \times N$ 画素、物体面での画素ピッチが $\Delta p$ なら、視野は $\mathrm{FOV} = N \cdot \Delta p$ である。円窓の直径は画素単位で
+である。ホログラムが $N \times N$ 画素、物体面での画素ピッチが $\Delta p$ なら、視野は $\mathrm{FOV} = N \cdot \Delta p$ である。円窓（図~\ref{fig:reconstruction}b の実線円）の直径は画素単位で
 \begin{equation}
 D_{\mathrm{ap}} = 2 \,\mathrm{round}\!\left( \frac{\mathrm{NA}}{\lambda} \cdot \mathrm{FOV} \right) + 1
 \end{equation}
