@@ -58,7 +58,8 @@ corr -= np.median(corr)               # 定数の位相オフセットを除く�
 # 和文は Arial に無いので、後ろの書体で補う（Mac は Hiragino Sans、Windows は Meiryo）
 plt.rcParams.update({"font.family": ["Arial", "Hiragino Sans", "Meiryo", "Yu Gothic"], "font.size": 20, "pdf.fonttype": 42, "svg.fonttype": "none",
                      "mathtext.fontset": "custom", "mathtext.bf": "Arial:bold", "mathtext.rm": "Arial"})
-P, GAP, TOP, ROWGAP, M = 133, 64, 27, 56, (32 if args.letters else 14)   # 記号を付けると見出しが長くなるので左右の余白を広げる
+P, GAP, TOP, ROWGAP, M = 133, (92 if args.lang == "ja" else 64), 27, 56, (32 if args.letters else 14)   # 和文は「バックグラウンド」が入る幅にする
+#   # 記号を付けると見出しが長くなるので左右の余白を広げる
 CBG, CBW, CBL, BM = 8, 9, 58, 10              # カラーバー: パネルとの隙間・幅・目盛りの文字の幅（パネルの外に置く）
 W = 2 * M + 3 * P + 2 * GAP + CBG + CBW + CBL
 X0 = M + (CBG + CBW + CBL if args.layout == "snake" else 0)   # snake は Corrected phase が左下なので左に場所を空ける
@@ -79,9 +80,9 @@ cols2 = [2, 1, 0] if args.layout == "snake" else [0, 1, 2]   # 2段目の列の�
 pos = [(0, 0), (1, 0), (2, 0)] + [(cols2[i], 1) for i in range(3)]
 gray = matplotlib.colormaps["gray"].copy(); gray.set_bad("black")
 JA = args.lang == "ja"
-titles = (["ホログラム", "", "", "", "位相像", "補正後の位相像"] if JA else
+titles = (["ホログラム", "", "", "", "位相像", "除去後の位相像"] if JA else
           ["Hologram", "Fourier transform", "Sideband cropped", "Sideband centred", "Phase", "Corrected phase"])
-L_FT, L_CROP, L_SHIFT, L_IFT, L_REF = (("Fourier\n変換", "切り出し", "原点へ移す", "Fourier\n逆変換", "波面を\n引く") if JA else
+L_FT, L_CROP, L_SHIFT, L_IFT, L_REF = (("Fourier\n変換", "切り出し", "原点へ移す", "Fourier\n逆変換", "バックグラウンド\n除去") if JA else
                                        ("FT", "crop", "shift", "IFT", "− ref."))
 AFJ = 13 if JA else 20              # 矢印の上の言葉の大きさ（和文は2行になるので小さくする）
 axes = [ax_at(cl, rw) for cl, rw in pos]
@@ -137,8 +138,9 @@ if args.bar_text:
     axes[0].text(N - 90 - bar / 2, N - 160, "30 µm", color="white", fontsize=10, fontweight="bold", ha="center", va="bottom")
 ins.add_patch(Rectangle((3, s - 6), 1 / PX_RAW, 2.2, color="white"))
 if args.bar_text:
+    from matplotlib import patheffects
     ins.text(3, s - 9, "1 µm", color="white", fontsize=8.5, fontweight="bold",
-             bbox=dict(fc="black", ec="none", alpha=0.65, pad=1.2))   # 縞の上では字が読めないので、字の後ろを暗くする
+             path_effects=[patheffects.withStroke(linewidth=1.6, foreground="black")])   # 縞の上でも読めるように、字を黒で縁取る（後ろに四角は置かない）
 
 # 色の目盛り（Corrected phase の右下）
 # 色の目盛り: Corrected phase の外側（snake は左、elbow は右）に、パネルと同じ高さで置く
@@ -167,7 +169,7 @@ def h_arrow(col_from, col_to, y, label):
         a, b = xs[col_from] - 8, xs[col_to] + P + 8
     arrow_path([(a, y), (b, y)])
     fig.text((a + b) / 2 / W, (y + 14) / Hh, label, ha="center", va="bottom" if "\n" in label else "baseline",
-             fontsize=AFJ, linespacing=1.05)
+             fontsize=(9.5 if label.startswith("バックグラウンド") else AFJ), linespacing=1.05)
 
 h_arrow(0, 1, yc[0], L_FT)
 h_arrow(1, 2, yc[0], L_CROP)
