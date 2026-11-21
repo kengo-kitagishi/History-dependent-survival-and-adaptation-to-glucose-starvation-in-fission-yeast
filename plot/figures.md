@@ -116,6 +116,7 @@
 - データ: 260729/ph_zstack_1/Pos94/frame1566、照明背景は同フレームの Pos0。出典は論文側の `figures/data/fig1c_260729_arrays.manifest.json`。
 - 元図: `/Users/kitak/Documents/Obsidian Vault/05_Projects/QPI_methods_paper/paper/figures/qpi-methods.fig1c.reconstruction-chain-quad.pdf`。
 - 管理: figure-hub `fig_qpi_reconstruction_chain_quad`。修論の参照先は `figure/qpi_reconstruction_chain_quad.pdf`。
+- 2026-11-21 改: ICBBS ポスターの6枚版（2段×3列）に差し替えた。Hologram（右上に縞の拡大、拡大元の小枠はその左下の角のすぐ外）→ Fourier transform → Sideband cropped →（shift、直角に2回曲がる矢印）→ Sideband centred → Phase → Corrected phase。カラーバーはパネルの外、30 µm は右下、スケールバーの数字はキャプションに書く。作図 `scripts/fig_reconstruction_6panel.py --layout elbow`、出力 `figure/qpi_reconstruction_chain_6panel.pdf`。
 
 ### fig:qpi_optical_system — 光学系［改・低］
 - 問い: 物体光と参照光はどこで分かれ、どこで重なるのか。

@@ -6,7 +6,9 @@ Sideband cropped → Sideband centred を矢印でつなぐ。つなぎ方は2�
 元データ: figure-hub fig_qpi_reconstruction_chain_quad v001 の npz（260729 Pos94 frame 1566）。
 再構成は build_fig1c_260729_data.py の field() と同じ
 （fftshift(fft2) → 中心 (1638, 439)・直径 511 px の円板で切る → 511×511 を ifftshift → ifft2 → angle → unwrap）。
-単位は pt（1 px = 1 pt）。  python scripts/fig_reconstruction_6panel.py --layout snake --out _view/recon6_snake
+単位は pt（1 px = 1 pt）。
+修論の図（2026-11-21 本人が選んだ形）:
+  python scripts/fig_reconstruction_6panel.py --layout elbow --out figure/qpi_reconstruction_chain_6panel
 """
 import argparse
 import pathlib
@@ -23,6 +25,7 @@ ap.add_argument("--layout", choices=["snake", "elbow"], required=True)
 ap.add_argument("--zoom-pos", choices=["mirror", "diag", "below", "left"], default="mirror",
                 help="橙の小枠の位置: mirror=ポスター（拡大が右下・小枠 (1060, 980)）を上下に反転した位置、diag=拡大の左下、below=拡大の真下、left=拡大の真左")
 ap.add_argument("--zoom-lines", action="store_true", help="橙の小枠と拡大の対応する角を白い線で結ぶ")
+ap.add_argument("--bar-text", action="store_true", help="スケールバーに 30 µm・1 µm の文字を書く（修論では書かずキャプションに書く）")
 ap.add_argument("--out", required=True, help="拡張子なしの出力先（.png と .pdf を書く）")
 args = ap.parse_args()
 
@@ -107,9 +110,11 @@ for sp in ins.spines.values(): sp.set_edgecolor("#ffd166"); sp.set_linewidth(2)
 # 30 µm のスケールバー: 右下（左端のチャネル・右上の拡大と重ならない）（実空間の3枚に共通の縮尺）
 bar = 30 / PX_RAW
 axes[0].add_patch(Rectangle((N - 90 - bar, N - 130), bar, 28, color="white"))
-axes[0].text(N - 90 - bar / 2, N - 160, "30 µm", color="white", fontsize=10, fontweight="bold", ha="center", va="bottom")
+if args.bar_text:
+    axes[0].text(N - 90 - bar / 2, N - 160, "30 µm", color="white", fontsize=10, fontweight="bold", ha="center", va="bottom")
 ins.add_patch(Rectangle((3, s - 6), 1 / PX_RAW, 2.2, color="white"))
-ins.text(3, s - 9, "1 µm", color="white", fontsize=8.5, fontweight="bold")
+if args.bar_text:
+    ins.text(3, s - 9, "1 µm", color="white", fontsize=8.5, fontweight="bold")
 
 # 色の目盛り（Corrected phase の右下）
 # 色の目盛り: Corrected phase の外側（snake は左、elbow は右）に、パネルと同じ高さで置く
@@ -159,5 +164,5 @@ else:
 out = pathlib.Path(args.out)
 out.parent.mkdir(parents=True, exist_ok=True)
 fig.savefig(out.with_suffix(".png"), dpi=72 * 4)
-fig.savefig(out.with_suffix(".pdf"))
+fig.savefig(out.with_suffix(".pdf"), dpi=300)   # 画像の解像度（既定の 72 dpi では粗い）
 print("saved", out.with_suffix(".png"), W, Hh)
