@@ -8,7 +8,8 @@ Sideband cropped → Sideband centred を矢印でつなぐ。つなぎ方は2�
 （fftshift(fft2) → 中心 (1638, 439)・直径 511 px の円板で切る → 511×511 を ifftshift → ifft2 → angle → unwrap）。
 単位は pt（1 px = 1 pt）。
 修論の図（2026-11-21 本人が選んだ形）:
-  python scripts/fig_reconstruction_6panel.py --layout elbow --letters --lang ja --out figure/qpi_reconstruction_chain_6panel
+  python scripts/fig_reconstruction_6panel.py --layout elbow --letters --lang ja --out figure/qpi_reconstruction_chain_6panel      # 修論に入れる和文版
+  python scripts/fig_reconstruction_6panel.py --layout elbow --letters --out figure/qpi_reconstruction_chain_6panel_en             # 英語版（修論では使わない。残しておく）
 """
 import argparse
 import pathlib
